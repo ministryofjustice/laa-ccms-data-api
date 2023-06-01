@@ -1,0 +1,63 @@
+openapi: '3.0.0'
+info:
+  title: 'laa-ccms-data-api'
+  version: '1.0.0'
+paths:
+  /users/{login-id}:
+    get:
+      tags:
+        - users
+      summary: 'Get User'
+      operationId: 'getUser'
+      parameters:
+        - name: 'login-id'
+          in: 'path'
+          required: true
+          schema:
+            type: 'string'
+            example: 'abc123'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userResponse"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
+components:
+  schemas:
+    providerResponse:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+        name:
+          type: 'string'
+    userResponse:
+      type: 'object'
+      properties:
+        user_id:
+          type: 'integer'
+        login_id:
+          type: 'string'
+        username:
+          type: 'string'
+        user_type:
+          type: 'string'
+        provider:
+          $ref: "#/components/schemas/providerResponse"
+        firms:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/providerResponse"
+        functions:
+          type: 'array'
+          items:
+            type: 'string'
