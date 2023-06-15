@@ -1,0 +1,74 @@
+plugins {
+    id 'org.springframework.boot' version '3.1.0'
+    id 'jacoco'
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+        }
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    integrationTestImplementation.extendsFrom(testImplementation)
+    integrationTestRuntimeOnly.extendsFrom(testRuntimeOnly)
+}
+
+dependencies {
+    implementation project(':data-api')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation files('lib/ojdbc8.jar')
+
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+
+    //Used for integration tests
+    implementation platform('org.testcontainers:testcontainers-bom:1.18.3')
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:oracle-xe'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform()
+    description = "Run integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+jacocoTestReport {
+    dependsOn tasks['test']
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80  // You can define your required coverage ratio here.
+            }
+        }
+    }
+
+    dependsOn tasks['test']
+}
+
+

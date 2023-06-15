@@ -1,0 +1,4 @@
+rootProject.name = 'laa-ccms-data-api'
+
+include 'data-api'
+include 'data-service'
