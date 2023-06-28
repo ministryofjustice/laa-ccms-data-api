@@ -1,35 +1,32 @@
 package uk.gov.laa.ccms.data.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.entity.Firm;
+import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
-import uk.gov.laa.ccms.data.model.ProviderResponse;
-import uk.gov.laa.ccms.data.model.UserResponse;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 
 @ExtendWith(SpringExtension.class)
@@ -52,8 +49,8 @@ class UserControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setup() throws Exception {
-        mockMvc = standaloneSetup(userController).build();;
+    public void setup() {
+        mockMvc = standaloneSetup(userController).build();
     }
 
     @Test
@@ -65,9 +62,16 @@ class UserControllerTest {
         user.setLoginId(loginId);
         user.setUsername(loginId);
 
+        List<Office> offices = new ArrayList<>();
+        Office office = new Office();
+        office.setId(1);
+        office.setName("Office 1");
+        offices.add(office);
+
         Provider provider = new Provider();
         provider.setId(12345);
         provider.setName("test provider");
+        provider.setOffices(offices);
         user.setProvider(provider);
 
         List<Firm> firms = new ArrayList<>();
@@ -76,14 +80,14 @@ class UserControllerTest {
         List<String> functions = new ArrayList<>();
         user.setFunctions(functions);
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setUserId(12345);
-        userResponse.setLoginId(loginId);
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserId(12345);
+        userDetails.setLoginId(loginId);
 
 
         when(userService.getUser(loginId)).thenReturn(Optional.of(user));
 
-        when(modelMapper.map(Optional.of(user), UserResponse.class)).thenReturn(userResponse);
+        when(modelMapper.map(Optional.of(user), UserDetails.class)).thenReturn(userDetails);
 
         this.mockMvc.perform(get("/users/{loginId}", loginId))
                 .andDo(print())

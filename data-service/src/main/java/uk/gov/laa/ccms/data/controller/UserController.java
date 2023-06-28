@@ -6,7 +6,7 @@ package uk.gov.laa.ccms.data.controller;
 import org.modelmapper.ModelMapper;
 import uk.gov.laa.ccms.data.api.UsersApi;
 import uk.gov.laa.ccms.data.entity.User;
-import uk.gov.laa.ccms.data.model.UserResponse;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,14 @@ public class UserController implements UsersApi {
      * Retrieves a user by their login ID.
      *
      * @param loginId the login ID of the user
-     * @return ResponseEntity with the UserResponse if found, or ResponseEntity.notFound() if not found
+     * @return ResponseEntity with the UserDetails if found, or ResponseEntity.notFound() if not found
      */
     @Override
-    public ResponseEntity<UserResponse> getUser(String loginId) {
+    public ResponseEntity<UserDetails> getUser(String loginId) {
         Optional<User> user = userService.getUser(loginId);
 
         if (user.isPresent()) {
-            UserResponse response = modelMapper.map(user.get(), UserResponse.class);
+            UserDetails response = modelMapper.map(user.get(), UserDetails.class);
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
