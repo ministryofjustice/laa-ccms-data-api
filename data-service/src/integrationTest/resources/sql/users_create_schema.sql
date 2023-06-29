@@ -26,7 +26,7 @@ CREATE TABLE XXCCMS_USER_ROLES_V (
 
 CREATE TABLE XXCCMS_PROVIDERFIRMS_V (
                                         PROVIDERFIRM_ID NUMBER(15) PRIMARY KEY,
-                                        PROVIDER_NAME VARCHAR2(360)
+                                        PROVIDERFIRM_NAME VARCHAR2(360)
 );
 
 CREATE TABLE XXCCMS_PROVIDER_OFFICES_V (

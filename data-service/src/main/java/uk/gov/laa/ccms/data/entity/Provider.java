@@ -32,7 +32,7 @@ public class Provider {
     /**
      * The name of the provider.
      */
-    @Column(name = "PROVIDER_NAME")
+    @Column(name = "PROVIDERFIRM_NAME")
     private String name;
 
     /**

@@ -29,7 +29,7 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     @Sql(statements = {
-            "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME) " +
+            "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
                     "VALUES (1, 'Firm 1');",
             "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (PROVIDERFIRM_ID, OFFICE_ID, OFFICE_NAME) " +
                     "VALUES (1, 1, 'Main Office');",
