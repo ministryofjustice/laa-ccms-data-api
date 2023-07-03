@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/userResponse"
+                $ref: "#/components/schemas/userDetails"
         '400':
           description: 'Bad request'
         '401':
@@ -33,14 +33,25 @@ paths:
           description: 'Internal server error'
 components:
   schemas:
-    providerResponse:
+    officeDetails:
       type: 'object'
       properties:
         id:
           type: 'integer'
         name:
           type: 'string'
-    userResponse:
+    providerDetails:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+        name:
+          type: 'string'
+        offices:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/officeDetails"
+    userDetails:
       type: 'object'
       properties:
         user_id:
@@ -52,11 +63,11 @@ components:
         user_type:
           type: 'string'
         provider:
-          $ref: "#/components/schemas/providerResponse"
+          $ref: "#/components/schemas/providerDetails"
         firms:
           type: 'array'
           items:
-            $ref: "#/components/schemas/providerResponse"
+            $ref: "#/components/schemas/providerDetails"
         functions:
           type: 'array'
           items:

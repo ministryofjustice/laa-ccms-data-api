@@ -4,42 +4,34 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
+/**
+ * Represents an Office entity.
+ */
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PROVIDERFIRMS_V")
+@Table(name = "XXCCMS_PROVIDER_OFFICES_V")
 @Immutable
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class Provider {
+public class Office {
 
     /**
-     * The unique identifier for the provider firm.
+     * The office ID.
      */
     @Id
-    @Column(name = "PROVIDERFIRM_ID")
+    @Column(name = "OFFICE_ID")
     private Integer id;
 
     /**
-     * The name of the provider.
+     * The name of the office.
      */
-    @Column(name = "PROVIDERFIRM_NAME")
+    @Column(name = "OFFICE_NAME")
     private String name;
-
-    /**
-     * The provider's related offices.
-     */
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PROVIDERFIRM_ID")
-    private List<Office> offices;
 
 }
