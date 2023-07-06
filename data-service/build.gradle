@@ -56,10 +56,24 @@ task integrationTest(type: Test) {
 }
 
 jacocoTestReport {
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/DataApplication.class'])
+        }))
+    }
+
     dependsOn tasks['test']
 }
 
 jacocoTestCoverageVerification {
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/DataApplication.class'])
+        }))
+    }
+
     violationRules {
         rule {
             limit {
