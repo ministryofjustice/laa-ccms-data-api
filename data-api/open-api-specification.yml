@@ -31,12 +31,12 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /common-values:
+  /common-lookup-values:
     get:
       tags:
-        - common values
-      summary: 'Get a list of common values'
-      operationId: 'getCommonValues'
+        - common lookup values
+      summary: 'Get a list of common lookup values'
+      operationId: 'getCommonLookupValues'
       x-spring-paginated: true
       parameters:
         - name: 'type'
@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/commonValueListDetails"
+                $ref: "#/components/schemas/commonLookupValueListDetails"
         '400':
           description: 'Bad request'
         '401':
@@ -105,7 +105,7 @@ components:
           type: 'array'
           items:
             type: 'string'
-    commonValueDetails:
+    commonLookupValueDetails:
       type: 'object'
       properties:
         type:
@@ -124,7 +124,7 @@ components:
           type: 'boolean'
         default_code:
           type: 'string'
-    commonValueListDetails:
+    commonLookupValueListDetails:
       allOf:
         - $ref: "#/components/schemas/page"
         - type: 'object'
@@ -132,7 +132,7 @@ components:
             content:
               type: 'array'
               items:
-                $ref: "#/components/schemas/commonValueDetails"
+                $ref: "#/components/schemas/commonLookupValueDetails"
     page:
       type: 'object'
       properties:

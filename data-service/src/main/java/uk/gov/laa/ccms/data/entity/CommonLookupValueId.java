@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Immutable
-public class CommonValueId implements Serializable {
+public class CommonLookupValueId implements Serializable {
     @Column(name = "LOV_TYPE")
     private String type;
 

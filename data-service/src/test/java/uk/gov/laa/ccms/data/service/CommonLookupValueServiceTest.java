@@ -9,8 +9,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import uk.gov.laa.ccms.data.entity.CommonValue;
-import uk.gov.laa.ccms.data.repository.CommonValueRepository;
+import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 
 import java.util.Collections;
 
@@ -18,23 +18,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CommonValueServiceTest {
+class CommonLookupValueServiceTest {
 
     @Mock
-    private CommonValueRepository commonValueRepository;
+    private CommonLookupValueRepository commonLookupValueRepository;
 
     @InjectMocks
-    private CommonValueService commonValueService;
+    private CommonLookupValueService commonLookupValueService;
 
     @Test
     void getCommonValues_returnsPageOfCommonValues() {
-        Example<CommonValue> example = Example.of(new CommonValue());
+        Example<CommonLookupValue> example = Example.of(new CommonLookupValue());
         Pageable pageable = Pageable.unpaged();
-        Page<CommonValue> expectedPage = new PageImpl<>(Collections.singletonList(new CommonValue()));
+        Page<CommonLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CommonLookupValue()));
 
-        when(commonValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+        when(commonLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
 
-        Page<CommonValue> actualPage = commonValueService.getCommonValues(example, pageable);
+        Page<CommonLookupValue> actualPage = commonLookupValueService.getCommonLookupValues(example, pageable);
 
         assertEquals(expectedPage, actualPage);
     }

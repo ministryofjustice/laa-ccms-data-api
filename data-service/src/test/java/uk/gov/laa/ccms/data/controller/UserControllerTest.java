@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,6 +24,7 @@ import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.mapper.UserMapper;
 import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
 
@@ -38,7 +38,7 @@ class UserControllerTest {
     private UserService userService;
 
     @Mock
-    private ModelMapper modelMapper;
+    private UserMapper userMapper;
 
     @InjectMocks
     private UserController userController;
@@ -87,7 +87,7 @@ class UserControllerTest {
 
         when(userService.getUser(loginId)).thenReturn(Optional.of(user));
 
-        when(modelMapper.map(Optional.of(user), UserDetails.class)).thenReturn(userDetails);
+        when(userMapper.toUserDetails(user)).thenReturn(userDetails);
 
         this.mockMvc.perform(get("/users/{loginId}", loginId))
                 .andDo(print())

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 import java.io.Serializable;
@@ -17,8 +16,8 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @Table(name = "XXCCMS_COMMON_LOV_V")
 @Immutable
-@IdClass(CommonValueId.class)
-public class CommonValue implements Serializable {
+@IdClass(CommonLookupValueId.class)
+public class CommonLookupValue implements Serializable {
 
     @Id
     @Column(name = "LOV_TYPE")
@@ -41,7 +40,7 @@ public class CommonValue implements Serializable {
     private String attribute12;
 
     @Column(name = "ENABLED_FLAG")
-    private String enabledFlag;
+    private String enabled;
 
     @Column(name = "DEFAULT_CODE")
     private String defaultCode;
