@@ -3,14 +3,14 @@
  */
 package uk.gov.laa.ccms.data.controller;
 
-import org.modelmapper.ModelMapper;
-import uk.gov.laa.ccms.data.api.UsersApi;
-import uk.gov.laa.ccms.data.entity.User;
-import uk.gov.laa.ccms.data.model.UserDetails;
-import uk.gov.laa.ccms.data.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import uk.gov.laa.ccms.data.api.UsersApi;
+import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.mapper.UserMapper;
+import uk.gov.laa.ccms.data.model.UserDetails;
+import uk.gov.laa.ccms.data.service.UserService;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UserController implements UsersApi {
 
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
 
     /**
      * Retrieves a user by their login ID.
@@ -32,7 +32,7 @@ public class UserController implements UsersApi {
         Optional<User> user = userService.getUser(loginId);
 
         if (user.isPresent()) {
-            UserDetails response = modelMapper.map(user.get(), UserDetails.class);
+            UserDetails response = userMapper.toUserDetails(user.get());
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();

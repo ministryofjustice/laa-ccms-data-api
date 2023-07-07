@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;

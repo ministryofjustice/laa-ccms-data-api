@@ -27,10 +27,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation files('lib/ojdbc8.jar')
 
-    implementation 'org.modelmapper:modelmapper:3.1.1'
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-core:3.12.4'
@@ -56,10 +57,24 @@ task integrationTest(type: Test) {
 }
 
 jacocoTestReport {
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/DataApplication.class'])
+        }))
+    }
+
     dependsOn tasks['test']
 }
 
 jacocoTestCoverageVerification {
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/DataApplication.class'])
+        }))
+    }
+
     violationRules {
         rule {
             limit {
