@@ -7,9 +7,9 @@ import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
-import uk.gov.laa.ccms.data.model.ProviderDetails;
-import uk.gov.laa.ccms.data.model.OfficeDetails;
-import uk.gov.laa.ccms.data.model.UserDetails;
+import uk.gov.laa.ccms.data.model.ProviderDetail;
+import uk.gov.laa.ccms.data.model.OfficeDetail;
+import uk.gov.laa.ccms.data.model.UserDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +35,16 @@ class UserMapperImplTest {
         return user;
     }
 
-    private UserDetails createUserDetails(User user) {
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(user.getUserId());
-        userDetails.setLoginId(user.getLoginId());
-        userDetails.setUsername(user.getUsername());
-        userDetails.setUserType(user.getUserType());
-        userDetails.setProvider(mapper.providerToProviderDetails(user.getProvider()));
-        userDetails.setFirms(mapper.firmListToProviderDetailsList(user.getFirms()));
-        userDetails.setFunctions(new ArrayList<>(user.getFunctions()));
-        return userDetails;
+    private UserDetail createUserDetails(User user) {
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUserId(user.getUserId());
+        userDetail.setLoginId(user.getLoginId());
+        userDetail.setUsername(user.getUsername());
+        userDetail.setUserType(user.getUserType());
+        userDetail.setProvider(mapper.providerToProviderDetail(user.getProvider()));
+        userDetail.setFirms(mapper.firmListToProviderDetailList(user.getFirms()));
+        userDetail.setFunctions(new ArrayList<>(user.getFunctions()));
+        return userDetail;
     }
 
     // Tests
@@ -52,9 +52,9 @@ class UserMapperImplTest {
     @Test
     void toUserDetails() {
         User user = createUser("");
-        UserDetails expectedDetails = createUserDetails(user);
-        UserDetails actualDetails = mapper.toUserDetails(user);
-        assertEquals(expectedDetails, actualDetails);
+        UserDetail expectedDetail = createUserDetails(user);
+        UserDetail actualDetail = mapper.toUserDetail(user);
+        assertEquals(expectedDetail, actualDetail);
     }
 
     @Test
@@ -63,13 +63,13 @@ class UserMapperImplTest {
         firm.setId(1);
         firm.setName("name");
 
-        ProviderDetails expectedDetails = new ProviderDetails();
-        expectedDetails.setId(firm.getId());
-        expectedDetails.setName(firm.getName());
+        ProviderDetail expectedDetail = new ProviderDetail();
+        expectedDetail.setId(firm.getId());
+        expectedDetail.setName(firm.getName());
 
-        ProviderDetails actualDetails = mapper.toProviderDetails(firm);
+        ProviderDetail actualDetail = mapper.toProviderDetail(firm);
 
-        assertEquals(expectedDetails, actualDetails);
+        assertEquals(expectedDetail, actualDetail);
     }
 
     @Test
@@ -78,13 +78,13 @@ class UserMapperImplTest {
         office.setId(1);
         office.setName("name");
 
-        OfficeDetails expectedDetails = new OfficeDetails();
-        expectedDetails.setId(office.getId());
-        expectedDetails.setName(office.getName());
+        OfficeDetail expectedDetail = new OfficeDetail();
+        expectedDetail.setId(office.getId());
+        expectedDetail.setName(office.getName());
 
-        OfficeDetails actualDetails = mapper.officeToOfficeDetails(office);
+        OfficeDetail actualDetail = mapper.officeToOfficeDetail(office);
 
-        assertEquals(expectedDetails, actualDetails);
+        assertEquals(expectedDetail, actualDetail);
     }
 
     @Test
@@ -92,10 +92,10 @@ class UserMapperImplTest {
         List<Office> offices = new ArrayList<>();
         offices.add(new Office());
 
-        List<OfficeDetails> expectedDetails = new ArrayList<>();
-        expectedDetails.add(mapper.officeToOfficeDetails(offices.get(0)));
+        List<OfficeDetail> expectedDetails = new ArrayList<>();
+        expectedDetails.add(mapper.officeToOfficeDetail(offices.get(0)));
 
-        List<OfficeDetails> actualDetails = mapper.officeListToOfficeDetailsList(offices);
+        List<OfficeDetail> actualDetails = mapper.officeListToOfficeDetailList(offices);
 
         assertEquals(expectedDetails, actualDetails);
     }
@@ -107,14 +107,14 @@ class UserMapperImplTest {
         provider.setName("name");
         provider.setOffices(new ArrayList<>());
 
-        ProviderDetails expectedDetails = new ProviderDetails();
-        expectedDetails.setId(provider.getId());
-        expectedDetails.setName(provider.getName());
-        expectedDetails.setOffices(mapper.officeListToOfficeDetailsList(provider.getOffices()));
+        ProviderDetail expectedDetail = new ProviderDetail();
+        expectedDetail.setId(provider.getId());
+        expectedDetail.setName(provider.getName());
+        expectedDetail.setOffices(mapper.officeListToOfficeDetailList(provider.getOffices()));
 
-        ProviderDetails actualDetails = mapper.providerToProviderDetails(provider);
+        ProviderDetail actualDetail = mapper.providerToProviderDetail(provider);
 
-        assertEquals(expectedDetails, actualDetails);
+        assertEquals(expectedDetail, actualDetail);
     }
 
     @Test
@@ -122,10 +122,10 @@ class UserMapperImplTest {
         List<Firm> firms = new ArrayList<>();
         firms.add(new Firm());
 
-        List<ProviderDetails> expectedDetails = new ArrayList<>();
-        expectedDetails.add(mapper.toProviderDetails(firms.get(0)));
+        List<ProviderDetail> expectedDetails = new ArrayList<>();
+        expectedDetails.add(mapper.toProviderDetail(firms.get(0)));
 
-        List<ProviderDetails> actualDetails = mapper.firmListToProviderDetailsList(firms);
+        List<ProviderDetail> actualDetails = mapper.firmListToProviderDetailList(firms);
 
         assertEquals(expectedDetails, actualDetails);
     }

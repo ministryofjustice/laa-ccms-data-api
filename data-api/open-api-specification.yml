@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/userDetails"
+                $ref: "#/components/schemas/userDetail"
         '400':
           description: 'Bad request'
         '401':
@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/commonLookupValueListDetails"
+                $ref: "#/components/schemas/commonLookupDetail"
         '400':
           description: 'Bad request'
         '401':
@@ -66,14 +66,14 @@ paths:
           description: 'Internal server error'
 components:
   schemas:
-    officeDetails:
+    officeDetail:
       type: 'object'
       properties:
         id:
           type: 'integer'
         name:
           type: 'string'
-    providerDetails:
+    providerDetail:
       type: 'object'
       properties:
         id:
@@ -83,8 +83,8 @@ components:
         offices:
           type: 'array'
           items:
-            $ref: "#/components/schemas/officeDetails"
-    userDetails:
+            $ref: "#/components/schemas/officeDetail"
+    userDetail:
       type: 'object'
       properties:
         user_id:
@@ -96,16 +96,16 @@ components:
         user_type:
           type: 'string'
         provider:
-          $ref: "#/components/schemas/providerDetails"
+          $ref: "#/components/schemas/providerDetail"
         firms:
           type: 'array'
           items:
-            $ref: "#/components/schemas/providerDetails"
+            $ref: "#/components/schemas/providerDetail"
         functions:
           type: 'array'
           items:
             type: 'string'
-    commonLookupValueDetails:
+    commonLookupValueDetail:
       type: 'object'
       properties:
         type:
@@ -124,15 +124,15 @@ components:
           type: 'boolean'
         default_code:
           type: 'string'
-    commonLookupValueListDetails:
+    commonLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"
-        - type: 'object'
-          properties:
-            content:
-              type: 'array'
-              items:
-                $ref: "#/components/schemas/commonLookupValueDetails"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/commonLookupValueDetail"
     page:
       type: 'object'
       properties:

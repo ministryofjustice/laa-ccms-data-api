@@ -6,7 +6,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
-import uk.gov.laa.ccms.data.model.CommonLookupValueDetails;
+import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,17 +35,17 @@ class CommonLookupValueMapperImplTest {
         return commonLookupValue;
     }
 
-    private CommonLookupValueDetails createCommonLookupValueDetails(CommonLookupValue commonLookupValue) {
-        CommonLookupValueDetails details = new CommonLookupValueDetails();
-        details.setType(commonLookupValue.getType());
-        details.setCode(commonLookupValue.getCode());
-        details.setDescription(commonLookupValue.getDescription());
-        details.setStartDateActive(commonLookupValue.getStartDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        details.setAttribute11(commonLookupValue.getAttribute11());
-        details.setAttribute12(commonLookupValue.getAttribute12());
-        details.setEnabled(Boolean.parseBoolean(commonLookupValue.getEnabled()));
-        details.setDefaultCode(commonLookupValue.getDefaultCode());
-        return details;
+    private CommonLookupValueDetail createCommonLookupValueDetails(CommonLookupValue commonLookupValue) {
+        CommonLookupValueDetail detail = new CommonLookupValueDetail();
+        detail.setType(commonLookupValue.getType());
+        detail.setCode(commonLookupValue.getCode());
+        detail.setDescription(commonLookupValue.getDescription());
+        detail.setStartDateActive(commonLookupValue.getStartDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        detail.setAttribute11(commonLookupValue.getAttribute11());
+        detail.setAttribute12(commonLookupValue.getAttribute12());
+        detail.setEnabled(Boolean.parseBoolean(commonLookupValue.getEnabled()));
+        detail.setDefaultCode(commonLookupValue.getDefaultCode());
+        return detail;
     }
 
     // Tests
@@ -58,14 +59,15 @@ class CommonLookupValueMapperImplTest {
 
         Page<CommonLookupValue> commonLookupValuePage = new PageImpl<>(commonLookupValues);
 
-        uk.gov.laa.ccms.data.model.CommonLookupValueListDetails expected = new uk.gov.laa.ccms.data.model.CommonLookupValueListDetails();
+
+        CommonLookupDetail expected = new CommonLookupDetail();
         expected.setTotalPages(commonLookupValuePage.getTotalPages());
         expected.setTotalElements((int) commonLookupValuePage.getTotalElements());
         expected.setNumber(commonLookupValuePage.getNumber());
         expected.setSize(commonLookupValuePage.getSize());
-        expected.setContent(mapper.commonLookupValueListToCommonLookupValueDetailsList(commonLookupValuePage.getContent()));
+        expected.setContent(mapper.commonLookupValueListToCommonLookupValueDetailList(commonLookupValuePage.getContent()));
 
-        uk.gov.laa.ccms.data.model.CommonLookupValueListDetails actual = mapper.toCommonLookupValueListDetails(commonLookupValuePage);
+        CommonLookupDetail actual = mapper.toCommonLookupDetail(commonLookupValuePage);
 
         assertEquals(expected, actual);
     }
@@ -73,8 +75,8 @@ class CommonLookupValueMapperImplTest {
     @Test
     void commonLookupValueToCommonLookupValueDetails() {
         CommonLookupValue commonLookupValue = createCommonLookupValue("");
-        CommonLookupValueDetails expectedDetails = createCommonLookupValueDetails(commonLookupValue);
-        CommonLookupValueDetails actualDetails = mapper.commonLookupValueToCommonLookupValueDetails(commonLookupValue);
+        CommonLookupValueDetail expectedDetails = createCommonLookupValueDetails(commonLookupValue);
+        CommonLookupValueDetail actualDetails = mapper.commonLookupValueToCommonLookupValueDetail(commonLookupValue);
 
         assertEquals(expectedDetails, actualDetails);
     }
@@ -86,12 +88,12 @@ class CommonLookupValueMapperImplTest {
             commonLookupValues.add(createCommonLookupValue(String.valueOf(i)));
         }
 
-        List<CommonLookupValueDetails> expectedDetailsList = new ArrayList<>();
+        List<CommonLookupValueDetail> expectedDetailsList = new ArrayList<>();
         for (CommonLookupValue commonLookupValue : commonLookupValues) {
             expectedDetailsList.add(createCommonLookupValueDetails(commonLookupValue));
         }
 
-        List<CommonLookupValueDetails> actualDetailsList = mapper.commonLookupValueListToCommonLookupValueDetailsList(commonLookupValues);
+        List<CommonLookupValueDetail> actualDetailsList = mapper.commonLookupValueListToCommonLookupValueDetailList(commonLookupValues);
 
         assertEquals(expectedDetailsList, actualDetailsList);
     }
