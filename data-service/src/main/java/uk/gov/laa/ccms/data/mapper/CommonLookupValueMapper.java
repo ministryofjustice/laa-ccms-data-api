@@ -3,10 +3,10 @@ package uk.gov.laa.ccms.data.mapper;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
-import uk.gov.laa.ccms.data.model.CommonLookupValueListDetails;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 
 @Mapper
 public interface CommonLookupValueMapper {
-   CommonLookupValueListDetails toCommonLookupValueListDetails(Page<CommonLookupValue> page);
+   CommonLookupDetail toCommonLookupDetail(Page<CommonLookupValue> page);
 
 }

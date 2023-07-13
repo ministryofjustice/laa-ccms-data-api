@@ -25,7 +25,7 @@ import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.mapper.UserMapper;
-import uk.gov.laa.ccms.data.model.UserDetails;
+import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.service.UserService;
 
 
@@ -80,14 +80,14 @@ class UserControllerTest {
         List<String> functions = new ArrayList<>();
         user.setFunctions(functions);
 
-        UserDetails userDetails = new UserDetails();
-        userDetails.setUserId(12345);
-        userDetails.setLoginId(loginId);
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUserId(12345);
+        userDetail.setLoginId(loginId);
 
 
         when(userService.getUser(loginId)).thenReturn(Optional.of(user));
 
-        when(userMapper.toUserDetails(user)).thenReturn(userDetails);
+        when(userMapper.toUserDetail(user)).thenReturn(userDetail);
 
         this.mockMvc.perform(get("/users/{loginId}", loginId))
                 .andDo(print())

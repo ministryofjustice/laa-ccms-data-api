@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.mapper.CommonLookupValueMapper;
-import uk.gov.laa.ccms.data.model.CommonLookupValueListDetails;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.service.CommonLookupValueService;
 
 import java.util.Collections;
@@ -43,12 +43,12 @@ class CommonLookupValueControllerTest {
         example.setCode(code);
 
         Page<CommonLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CommonLookupValue()));
-        CommonLookupValueListDetails expectedResponse = new CommonLookupValueListDetails();
+        CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
         when(commonLookupValueService.getCommonLookupValues(Example.of(example), pageable)).thenReturn(expectedPage);
-        when(commonLookupValueMapper.toCommonLookupValueListDetails(expectedPage)).thenReturn(expectedResponse);
+        when(commonLookupValueMapper.toCommonLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
-        ResponseEntity<CommonLookupValueListDetails> responseEntity = commonLookupValueController.getCommonLookupValues(type, code, pageable);
+        ResponseEntity<CommonLookupDetail> responseEntity = commonLookupValueController.getCommonLookupValues(type, code, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());

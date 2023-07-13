@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.CommonLookupValuesApi;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.mapper.CommonLookupValueMapper;
-import uk.gov.laa.ccms.data.model.CommonLookupValueListDetails;
-import uk.gov.laa.ccms.data.model.CommonLookupValueDetails;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.service.CommonLookupValueService;
 
 /**
@@ -32,13 +32,13 @@ public class CommonLookupValueController implements CommonLookupValuesApi {
      * @return the ResponseEntity with status 200 (OK) and the list of common values in the body
      */
     @Override
-    public ResponseEntity<CommonLookupValueListDetails> getCommonLookupValues(String type, String code, Pageable pageable) {
+    public ResponseEntity<CommonLookupDetail> getCommonLookupValues(String type, String code, Pageable pageable) {
         CommonLookupValue example = new CommonLookupValue();
         example.setType(type);
         example.setCode(code);
 
         Page<CommonLookupValue> page = commonLookupValueService.getCommonLookupValues(Example.of(example), pageable);
-        CommonLookupValueListDetails response = commonLookupValueMapper.toCommonLookupValueListDetails(page);
+        CommonLookupDetail response = commonLookupValueMapper.toCommonLookupDetail(page);
 
         return ResponseEntity.ok(response);
     }
