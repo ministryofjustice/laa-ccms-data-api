@@ -39,7 +39,7 @@ paths:
       operationId: 'getFeeEarners'
       x-spring-paginated: true
       parameters:
-        - name: 'providerfirm-id'
+        - name: 'provider-id'
           in: 'query'
           required: true
           schema:

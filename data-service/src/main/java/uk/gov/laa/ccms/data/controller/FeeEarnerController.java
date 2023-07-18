@@ -26,15 +26,15 @@ public class FeeEarnerController implements FeeEarnersApi {
     /**
      * GET fee earners by providerFirmId.
      *
-     * @param providerFirmId     the id of the FeeEarner's related ProviderFirm
+     * @param providerId     the id of the FeeEarner's related Provider
      * @param pageable pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of fee earners in the body
      */
     @Override
-    public ResponseEntity<FeeEarnerDetail> getFeeEarners(Integer providerFirmId, Pageable pageable) {
+    public ResponseEntity<FeeEarnerDetail> getFeeEarners(Integer providerId, Pageable pageable) {
         FeeEarner example = new FeeEarner();
         example.setProvider(new Provider());
-        example.getProvider().setId(providerFirmId);
+        example.getProvider().setId(providerId);
 
         Page<FeeEarner> page = feeEarnerService.getFeeEarners(Example.of(example), pageable);
 
