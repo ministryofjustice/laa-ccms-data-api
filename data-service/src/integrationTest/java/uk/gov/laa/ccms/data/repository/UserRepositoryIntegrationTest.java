@@ -20,7 +20,9 @@ import uk.gov.laa.ccms.data.entity.User;
 
 @SpringBootTest
 @SqlMergeMode(MERGE)
+@Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/providers_create_schema.sql" )
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/users_create_schema.sql" )
+@Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/providers_drop_schema.sql")
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/users_drop_schema.sql")
 public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 

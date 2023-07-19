@@ -23,14 +23,3 @@ CREATE TABLE XXCCMS_USER_ROLES_V (
                                      PRIMARY KEY (USER_LOGIN_ID, FUNCTION),
                                      FOREIGN KEY (USER_LOGIN_ID) REFERENCES XXCCMS_USERS_V (USER_LOGIN_ID)
 );
-
-CREATE TABLE XXCCMS_PROVIDERFIRMS_V (
-                                        PROVIDERFIRM_ID NUMBER(15) PRIMARY KEY,
-                                        PROVIDERFIRM_NAME VARCHAR2(360)
-);
-
-CREATE TABLE XXCCMS_PROVIDER_OFFICES_V (
-                                           OFFICE_ID NUMBER(15) PRIMARY KEY,
-                                           OFFICE_NAME VARCHAR2(4000),
-                                           PROVIDERFIRM_ID NUMBER(15)
-);

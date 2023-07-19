@@ -7,7 +7,7 @@ import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 import uk.gov.laa.ccms.data.model.UserDetail;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserDetail toUserDetail(User user);

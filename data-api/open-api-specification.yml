@@ -31,6 +31,35 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /fee-earners:
+    get:
+      tags:
+        - fee earners
+      summary: 'Get Fee Earners'
+      operationId: 'getFeeEarners'
+      x-spring-paginated: true
+      parameters:
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: integer
+            example: 12345
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/feeEarnerDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /common-lookup-values:
     get:
       tags:
@@ -105,6 +134,24 @@ components:
           type: 'array'
           items:
             type: 'string'
+    feeEarnerDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/contactDetail'
+    contactDetail:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+          example: 12345
+        name:
+          type: 'string'
+          example: 'a name'
     commonLookupValueDetail:
       type: 'object'
       properties:
