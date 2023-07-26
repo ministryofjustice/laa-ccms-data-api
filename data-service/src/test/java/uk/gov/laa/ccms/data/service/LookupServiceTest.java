@@ -9,7 +9,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 
 import java.util.Collections;
@@ -18,13 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CommonLookupValueServiceTest {
+class LookupServiceTest {
 
     @Mock
     private CommonLookupValueRepository commonLookupValueRepository;
 
+    @Mock
+    private CaseStatusLookupValueRepository caseStatusLookupValueRepository;
+
     @InjectMocks
-    private CommonLookupValueService commonLookupValueService;
+    private LookupService lookupService;
 
     @Test
     void getCommonValues_returnsPageOfCommonValues() {
@@ -34,7 +39,20 @@ class CommonLookupValueServiceTest {
 
         when(commonLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
 
-        Page<CommonLookupValue> actualPage = commonLookupValueService.getCommonLookupValues(example, pageable);
+        Page<CommonLookupValue> actualPage = lookupService.getCommonLookupValues(example, pageable);
+
+        assertEquals(expectedPage, actualPage);
+    }
+
+    @Test
+    void getCaseStatusValues_returnsPageOfCaseStatusValues() {
+        Example<CaseStatusLookupValue> example = Example.of(new CaseStatusLookupValue());
+        Pageable pageable = Pageable.unpaged();
+        Page<CaseStatusLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CaseStatusLookupValue()));
+
+        when(caseStatusLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+
+        Page<CaseStatusLookupValue> actualPage = lookupService.getCaseStatusLookupValues(example, pageable);
 
         assertEquals(expectedPage, actualPage);
     }
