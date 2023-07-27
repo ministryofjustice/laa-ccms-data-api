@@ -7,7 +7,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 
 /**
@@ -16,9 +18,11 @@ import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CommonLookupValueService {
+public class LookupService {
 
     private final CommonLookupValueRepository commonLookupValueRepository;
+
+    private final CaseStatusLookupValueRepository caseStatusLookupValueRepository;
 
     /**
      * Retrieves a page of common values based on the provided example and pagination information.
@@ -31,4 +35,14 @@ public class CommonLookupValueService {
         return commonLookupValueRepository.findAll(example, pageable);
     }
 
+    /**
+     * Retrieves a page of case status values based on the provided example and pagination information.
+     *
+     * @param example  the example of the common values
+     * @param pageable pagination information
+     * @return a page of case status values
+     */
+    public Page<CaseStatusLookupValue> getCaseStatusLookupValues(Example<CaseStatusLookupValue> example, Pageable pageable){
+        return caseStatusLookupValueRepository.findAll(example, pageable);
+    }
 }

@@ -43,7 +43,7 @@ paths:
           in: 'query'
           required: true
           schema:
-            type: integer
+            type: 'integer'
             example: 12345
       responses:
         '200':
@@ -60,7 +60,40 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /common-lookup-values:
+  /lookup/case-status:
+    get:
+      tags:
+        - case status lookup values
+      summary: 'Get Case Status Lookup Values'
+      operationId: 'getCaseStatusLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'code'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'copy-allowed'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: true
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/caseStatusLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
+  /lookup/common:
     get:
       tags:
         - common lookup values
@@ -152,6 +185,27 @@ components:
         name:
           type: 'string'
           example: 'a name'
+    caseStatusLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/caseStatusLookupValueDetail'
+    caseStatusLookupValueDetail:
+      type: 'object'
+      properties:
+        code:
+          type: 'string'
+          example: 'ABC'
+        description:
+          type: 'string'
+          example: 'a description'
+        copyAllowed:
+          type: 'boolean'
+          example: true
     commonLookupValueDetail:
       type: 'object'
       properties:
