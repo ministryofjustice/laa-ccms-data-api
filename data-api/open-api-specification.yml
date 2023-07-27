@@ -70,13 +70,11 @@ paths:
       parameters:
         - name: 'code'
           in: 'query'
-          required: false
           schema:
             type: 'string'
             example: 'ABC'
         - name: 'copy-allowed'
           in: 'query'
-          required: false
           schema:
             type: 'boolean'
             example: true
