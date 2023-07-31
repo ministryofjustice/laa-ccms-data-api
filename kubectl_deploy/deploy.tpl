@@ -6,15 +6,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: laa-ccms-civil-caab-data-api-dev
+      app: laa-ccms-civil
   template:
     metadata:
       labels:
-        app: laa-ccms-civil-caab-data-api-dev
+        app: laa-ccms-civil
     spec:
       containers:
         - name: laa-ccms-civil-caab-data-api
           image: ${ECR_URL}:${IMAGE_TAG}
           ports:
-            - containerPort: 5000
+            - containerPort: 4000
 
