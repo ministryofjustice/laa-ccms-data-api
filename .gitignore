@@ -32,7 +32,6 @@ hs_err_pid*
 
 **/.dm
 
-*.log
 /.metadata/
 
 /RemoteSystemsTempFiles
@@ -93,3 +92,4 @@ test-results/
 
 .idea
 
+/.java-version
