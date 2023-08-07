@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Table(name = "XXCCMS_USER_ROLES_V")
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @IdClass(UserRole.class)
 public class UserRole implements Serializable {
 

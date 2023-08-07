@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.Immutable;
 @Data
 @Entity
 @NoArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Table(name = "XXCCMS_FEE_EARNERS_V")
 @Immutable
 public class FeeEarner implements Serializable {

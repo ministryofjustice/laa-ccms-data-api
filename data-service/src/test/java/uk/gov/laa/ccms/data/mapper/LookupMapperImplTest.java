@@ -11,6 +11,9 @@ import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -166,4 +169,68 @@ class LookupMapperImplTest {
 
         assertEquals(expectedDetailsList, actualDetailsList);
     }
+
+    @Test
+    void toAmendmentTypeLookupDetailTest() {
+        // Create a list of AmendmentTypeLookupValue
+        List<AmendmentTypeLookupValue> amendmentTypeLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            amendmentTypeLookupValues.add(createAmendmentTypeLookupValue(String.valueOf(i)));
+        }
+
+        // Create a Page object
+        Page<AmendmentTypeLookupValue> amendmentTypeLookupValuePage = new PageImpl<>(amendmentTypeLookupValues);
+
+        // Expected AmendmentTypeLookupDetail
+        AmendmentTypeLookupDetail expectedDetail = new AmendmentTypeLookupDetail();
+        expectedDetail.setTotalPages(amendmentTypeLookupValuePage.getTotalPages());
+        expectedDetail.setTotalElements((int) amendmentTypeLookupValuePage.getTotalElements());
+        expectedDetail.setNumber(amendmentTypeLookupValuePage.getNumber());
+        expectedDetail.setSize(amendmentTypeLookupValuePage.getSize());
+        List<AmendmentTypeLookupValueDetail> expectedContent = new ArrayList<>();
+        for (AmendmentTypeLookupValue value : amendmentTypeLookupValues) {
+            expectedContent.add(createAmendmentTypeLookupValueDetail(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        // Actual AmendmentTypeLookupDetail
+        AmendmentTypeLookupDetail actualDetail = mapper.toAmendmentTypeLookupDetail(amendmentTypeLookupValuePage);
+
+        // Assertion
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toAmendmentTypeLookupValueDetail() {
+        AmendmentTypeLookupValue value = createAmendmentTypeLookupValue("");
+
+        AmendmentTypeLookupValueDetail expectedDetail = createAmendmentTypeLookupValueDetail(value);
+
+        AmendmentTypeLookupValueDetail actualDetail = mapper.toAmendmentTypeLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    private AmendmentTypeLookupValue createAmendmentTypeLookupValue(String suffix) {
+        AmendmentTypeLookupValue value = new AmendmentTypeLookupValue();
+        value.setApplicationTypeCode("code" + suffix);
+        value.setApplicationTypeDescription("description" + suffix);
+        value.setCostLimitCap("costLimit" + suffix);
+        value.setDevolvedPowersInd("devolved" + suffix);
+        value.setDefaultLARScopeFlag("defaultLAR" + suffix);
+        return value;
+    }
+
+    private AmendmentTypeLookupValueDetail createAmendmentTypeLookupValueDetail(AmendmentTypeLookupValue value) {
+        AmendmentTypeLookupValueDetail detail = new AmendmentTypeLookupValueDetail();
+        detail.setApplicationTypeCode(value.getApplicationTypeCode());
+        detail.setApplicationTypeDescription(value.getApplicationTypeDescription());
+        detail.setCostLimitCap(value.getCostLimitCap());
+        detail.setDevolvedPowersIndicator(value.getDevolvedPowersInd());
+        detail.setDefaultLarScopeFlag(value.getDefaultLARScopeFlag());
+        return detail;
+    }
+
+
+
 }

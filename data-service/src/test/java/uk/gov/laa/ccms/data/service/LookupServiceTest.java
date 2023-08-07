@@ -9,8 +9,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 
@@ -27,6 +29,9 @@ class LookupServiceTest {
 
     @Mock
     private CaseStatusLookupValueRepository caseStatusLookupValueRepository;
+
+    @Mock
+    private AmendmentTypeLookupValueRepository amendmentTypeLookupValueRepository;
 
     @InjectMocks
     private LookupService lookupService;
@@ -53,6 +58,19 @@ class LookupServiceTest {
         when(caseStatusLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
 
         Page<CaseStatusLookupValue> actualPage = lookupService.getCaseStatusLookupValues(example, pageable);
+
+        assertEquals(expectedPage, actualPage);
+    }
+
+    @Test
+    void getAmendmentTypesValues_returnsPageOfAmendmentTypeValues() {
+        Example<AmendmentTypeLookupValue> example = Example.of(new AmendmentTypeLookupValue());
+        Pageable pageable = Pageable.unpaged();
+        Page<AmendmentTypeLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new AmendmentTypeLookupValue()));
+
+        when(amendmentTypeLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+
+        Page<AmendmentTypeLookupValue> actualPage = lookupService.getAmendmentTypeLookupValues(example, pageable);
 
         assertEquals(expectedPage, actualPage);
     }

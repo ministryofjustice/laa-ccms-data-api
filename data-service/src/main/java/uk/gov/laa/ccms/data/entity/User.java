@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.CollectionTable;
@@ -26,7 +27,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @Table(name = "XXCCMS_USERS_V")
 @Immutable
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
 
     /**
