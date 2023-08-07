@@ -11,12 +11,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 
 import java.util.Collections;
 
@@ -73,6 +75,27 @@ class LookupControllerTest {
 
         ResponseEntity<CaseStatusLookupDetail> responseEntity =
             lookupController.getCaseStatusLookupValues(code, Boolean.TRUE, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getAmendmentTypeValues_returnAmendmentTypeValuesList(){
+        String code = "code";
+        Pageable pageable = Pageable.unpaged();
+        AmendmentTypeLookupValue example = new AmendmentTypeLookupValue();
+        example.setApplicationTypeCode(code);
+
+        Page<AmendmentTypeLookupValue> expectedPage =
+                new PageImpl<>(Collections.singletonList(new AmendmentTypeLookupValue()));
+        AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
+
+        when(lookupService.getAmendmentTypeLookupValues(Example.of(example), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toAmendmentTypeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        ResponseEntity<AmendmentTypeLookupDetail> responseEntity =
+                lookupController.getAmendmentTypeLookupValues(code, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());

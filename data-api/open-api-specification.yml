@@ -60,10 +60,38 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/amendment-types:
+    get:
+      tags:
+        - lookup
+      summary: 'Get Amendment Type Lookup Values'
+      operationId: 'getAmendmentTypeLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'application-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/amendmentTypeLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/case-status:
     get:
       tags:
-        - case status lookup values
+        - lookup
       summary: 'Get Case Status Lookup Values'
       operationId: 'getCaseStatusLookupValues'
       x-spring-paginated: true
@@ -96,7 +124,7 @@ paths:
   /lookup/common:
     get:
       tags:
-        - common lookup values
+        - lookup
       summary: 'Get a list of common lookup values'
       operationId: 'getCommonLookupValues'
       x-spring-paginated: true
@@ -185,6 +213,33 @@ components:
         name:
           type: 'string'
           example: 'a name'
+    amendmentTypeLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/amendmentTypeLookupValueDetail'
+    amendmentTypeLookupValueDetail:
+      type: 'object'
+      properties:
+        application_type_code:
+          type: 'string'
+          example: 'ABC'
+        application_type_description:
+          type: 'string'
+          example: 'description'
+        cost_limit_cap:
+          type: 'string'
+          example: '1350.00'
+        devolved_powers_indicator:
+          type: 'string'
+          example: 'Y'
+        default_lar_scope_flag:
+          type: 'string'
+          example: 'Y'
     caseStatusLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"

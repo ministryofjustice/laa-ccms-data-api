@@ -57,4 +57,4 @@ public class CommonLookupValueRepositoryIntegrationTest extends AbstractIntegrat
             assertNotNull(result);
             assertEquals(expectedElements, result.getTotalElements());
         }
-    }
+}
