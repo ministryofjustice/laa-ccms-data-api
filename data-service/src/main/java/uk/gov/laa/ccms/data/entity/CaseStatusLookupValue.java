@@ -10,6 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Immutable;
 
+/**
+ * Represents a lookup value for case statuses.
+ *
+ * <p>This entity corresponds to the "XXCCMS_APP_CASE_STATUS_V" table in the database.
+ * The JSON representation of this entity uses the snake case naming strategy.</p>
+ *
+ * <p>It's an immutable entity, meaning its state cannot be changed once it's created. The primary
+ * attributes of this entity include a status code, its corresponding description, and an indicator
+ * whether copying is allowed for this particular status.</p>
+ *
+ * @see PropertyNamingStrategies.SnakeCaseStrategy
+ */
 @Data
 @Entity
 @NoArgsConstructor

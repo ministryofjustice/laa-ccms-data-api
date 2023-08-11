@@ -217,7 +217,7 @@ class LookupMapperImplTest {
         value.setApplicationTypeDescription("description" + suffix);
         value.setCostLimitCap("costLimit" + suffix);
         value.setDevolvedPowersInd("devolved" + suffix);
-        value.setDefaultLARScopeFlag("defaultLAR" + suffix);
+        value.setDefaultLarScopeFlag("defaultLAR" + suffix);
         return value;
     }
 
@@ -227,7 +227,7 @@ class LookupMapperImplTest {
         detail.setApplicationTypeDescription(value.getApplicationTypeDescription());
         detail.setCostLimitCap(value.getCostLimitCap());
         detail.setDevolvedPowersIndicator(value.getDevolvedPowersInd());
-        detail.setDefaultLarScopeFlag(value.getDefaultLARScopeFlag());
+        detail.setDefaultLarScopeFlag(value.getDefaultLarScopeFlag());
         return detail;
     }
 
