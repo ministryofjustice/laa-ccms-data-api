@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laa-ccms-civil-caab-data-api
+  name: caab-ebs-api
+  labels:
+    app.kubernetes.io/name: caab-ebs-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: laa-ccms-civil
+      app.kubernetes.io/name: caab-ebs-api
   template:
     metadata:
       labels:
-        app: laa-ccms-civil
+        app.kubernetes.io/name: caab-ebs-api
     spec:
       containers:
-        - name: laa-ccms-civil-caab-data-api
+        - name: caab-ebs-api
           image: ${ECR_URL}:${IMAGE_TAG}
           ports:
-            - containerPort: 4000
+            - containerPort: 8009
 
