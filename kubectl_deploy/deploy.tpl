@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: caab-ebs-api
+  namespace: laa-ccms-civil
   labels:
     app.kubernetes.io/name: caab-ebs-api
 spec:

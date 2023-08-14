@@ -90,6 +90,11 @@ jobs:
             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             REPOSITORY: ${{ vars.ECR_REPOSITORY }}
             IMAGE_TAG: ${{ github.sha }}
+        - name: delete artifact
+          uses: geekyeggo/delete-artifact@v2
+          with:
+            name: data-api-jar
+
 
     deploy-dev:
       runs-on: ubuntu-latest
