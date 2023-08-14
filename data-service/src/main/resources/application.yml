@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:CCMSPUI
+    url: jdbc:oracle:thin:@ccms-ebs-db.laa-development.modernisation-platform.service.justice.gov.uk:1521:EBSDB
     driver-class-name: oracle.jdbc.OracleDriver
     username: XXCCMS_PUI
     password: XXCCMS_PUI
@@ -12,3 +12,4 @@ spring:
 
 server:
   port: 8009
+
