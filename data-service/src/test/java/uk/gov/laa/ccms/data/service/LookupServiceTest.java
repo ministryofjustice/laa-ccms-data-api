@@ -12,11 +12,13 @@ import org.springframework.data.domain.Pageable;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 
 import java.util.Collections;
+import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -32,6 +34,9 @@ class LookupServiceTest {
 
     @Mock
     private AmendmentTypeLookupValueRepository amendmentTypeLookupValueRepository;
+
+    @Mock
+    private CountryLookupValueRepository countryLookupValueRepository;
 
     @InjectMocks
     private LookupService lookupService;
@@ -71,6 +76,19 @@ class LookupServiceTest {
         when(amendmentTypeLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
 
         Page<AmendmentTypeLookupValue> actualPage = lookupService.getAmendmentTypeLookupValues(example, pageable);
+
+        assertEquals(expectedPage, actualPage);
+    }
+
+    @Test
+    void getCountryValues_returnsPageOfCountryValues() {
+        Example<CountryLookupValue> example = Example.of(new CountryLookupValue());
+        Pageable pageable = Pageable.unpaged();
+        Page<CountryLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CountryLookupValue()));
+
+        when(countryLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+
+        Page<CountryLookupValue> actualPage = lookupService.getCountryLookupValues(example, pageable);
 
         assertEquals(expectedPage, actualPage);
     }
