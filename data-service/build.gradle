@@ -1,6 +1,11 @@
 plugins {
     id 'org.springframework.boot' version '3.1.2'
     id 'jacoco'
+    id 'checkstyle'
+}
+
+ext {
+    checkstyleVersion = '10.12.2'
 }
 
 sourceSets {
@@ -42,6 +47,8 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:oracle-xe'
+
+    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
 }
 
 test {
@@ -84,6 +91,13 @@ jacocoTestCoverageVerification {
     }
 
     dependsOn tasks['test']
+}
+
+checkstyle {
+    maxWarnings = 0
+    toolVersion = "${checkstyleVersion}"
+    sourceSets = [sourceSets.main]
+    showViolations = true
 }
 
 

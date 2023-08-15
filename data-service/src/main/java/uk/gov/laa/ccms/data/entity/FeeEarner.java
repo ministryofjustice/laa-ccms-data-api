@@ -1,7 +1,6 @@
 package uk.gov.laa.ccms.data.entity;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,8 +13,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-/*
- * Represents a Fee Earner entity
+/**
+ * Represents a Fee Earner entity within the system.
+ *
+ * <p>This entity corresponds to the "XXCCMS_FEE_EARNERS_V" table in the database. It captures
+ * details of individuals or entities that earn fees for the services they provide, such as legal
+ * professionals.</p>
+ *
+ * <p>The JSON representation of this entity uses the snake case naming strategy. A Fee Earner is
+ * uniquely identified by its ID, and it also contains a reference to the {@link Provider}
+ * entity.</p>
+ *
+ * <p>This entity is marked as immutable, meaning its state cannot be changed once it's created.</p>
+ *
+ * @see PropertyNamingStrategies.SnakeCaseStrategy
+ * @see Provider
  */
 @Data
 @Entity
@@ -25,21 +37,21 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 public class FeeEarner implements Serializable {
   /**
-   * The unique identifier for the FeeEarner
+   * The unique identifier for the FeeEarner.
    */
   @Id
   @Column(name = "CONTACT_ID")
   private Integer id;
 
   /**
-   * The name for the Fee Earner
+   * The name for the Fee Earner.
    */
   @Column(name = "CONTACT_NAME")
   private String name;
 
 
   /**
-   * The Fee Earner's related ProviderFirm
+   * The Fee Earner's related ProviderFirm.
    */
   @ManyToOne
   @JoinColumn(name = "PROVIDERFIRM_ID")

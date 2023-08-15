@@ -22,17 +22,17 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Office {
 
-    /**
-     * The office ID.
-     */
-    @Id
-    @Column(name = "OFFICE_ID")
-    private Integer id;
+  /**
+   * The office ID.
+   */
+  @Id
+  @Column(name = "OFFICE_ID")
+  private Integer id;
 
-    /**
-     * The name of the office.
-     */
-    @Column(name = "OFFICE_NAME")
-    private String name;
+  /**
+   * The name of the office.
+   */
+  @Column(name = "OFFICE_NAME")
+  private String name;
 
 }

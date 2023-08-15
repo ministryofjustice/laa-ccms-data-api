@@ -20,24 +20,24 @@ import uk.gov.laa.ccms.data.service.FeeEarnerService;
 @RequiredArgsConstructor
 public class FeeEarnerController implements FeeEarnersApi {
 
-    private final FeeEarnerService feeEarnerService;
-    private final FeeEarnerMapper feeEarnerMapper;
+  private final FeeEarnerService feeEarnerService;
+  private final FeeEarnerMapper feeEarnerMapper;
 
-    /**
-     * GET fee earners by providerFirmId.
-     *
-     * @param providerId     the id of the FeeEarner's related Provider
-     * @param pageable pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of fee earners in the body
-     */
-    @Override
-    public ResponseEntity<FeeEarnerDetail> getFeeEarners(Integer providerId, Pageable pageable) {
-        FeeEarner example = new FeeEarner();
-        example.setProvider(new Provider());
-        example.getProvider().setId(providerId);
+  /**
+   * GET fee earners by providerFirmId.
+   *
+   * @param providerId     the id of the FeeEarner's related Provider
+   * @param pageable pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of fee earners in the body
+   */
+  @Override
+  public ResponseEntity<FeeEarnerDetail> getFeeEarners(Integer providerId, Pageable pageable) {
+    FeeEarner example = new FeeEarner();
+    example.setProvider(new Provider());
+    example.getProvider().setId(providerId);
 
-        Page<FeeEarner> page = feeEarnerService.getFeeEarners(Example.of(example), pageable);
+    Page<FeeEarner> page = feeEarnerService.getFeeEarners(Example.of(example), pageable);
 
-        return ResponseEntity.ok(feeEarnerMapper.toFeeEarnerDetail(page));
-    }
+    return ResponseEntity.ok(feeEarnerMapper.toFeeEarnerDetail(page));
+  }
 }
