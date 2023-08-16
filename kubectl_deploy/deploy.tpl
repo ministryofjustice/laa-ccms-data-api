@@ -20,4 +20,19 @@ spec:
           image: ${ECR_URL}:${IMAGE_TAG}
           ports:
             - containerPort: 8009
-
+          env:
+            - name: CAAB_DATA_API_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: saml-metadata-uri
+                  key: caab-data-api-datasource-url
+            - name: CAAB_DATA_API_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: saml-metadata-uri
+                  key: caab-datasource-username
+            - name: CAAB_DATA_API_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: saml-metadata-uri
+                  key: caab-datasource-password

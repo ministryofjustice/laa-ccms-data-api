@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@ccms-ebs-db.laa-development.modernisation-platform.service.justice.gov.uk:1521:EBSDB
+    url: ${CAAB_DATA_API_DATASOURCE_URL}
     driver-class-name: oracle.jdbc.OracleDriver
-    username: XXCCMS_PUI
-    password: XXCCMS_PUI
+    username: ${CAAB_DATA_API_DATASOURCE_USERNAME}
+    password: ${CAAB_DATA_API_DATASOURCE_PASSWORD}
 
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
