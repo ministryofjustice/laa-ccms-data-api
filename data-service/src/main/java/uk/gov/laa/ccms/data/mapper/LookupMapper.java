@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 
 /**
  * Mapper interface for converting between various lookup entities and their corresponding DTO
@@ -27,6 +29,16 @@ import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 public interface LookupMapper {
   CommonLookupDetail toCommonLookupDetail(Page<CommonLookupValue> page);
 
+  CommonLookupDetail toCommonLookupDetailFromCountries(Page<CountryLookupValue> page);
+
+  @Mapping(target = "type", ignore = true)
+  @Mapping(target = "startDateActive", ignore = true)
+  @Mapping(target = "attribute11", ignore = true)
+  @Mapping(target = "attribute12", ignore = true)
+  @Mapping(target = "enabled", ignore = true)
+  @Mapping(target = "defaultCode", ignore = true)
+  CommonLookupValueDetail toCommonLookupValueDetail(CountryLookupValue lookupValue);
+
   CaseStatusLookupDetail toCaseStatusLookupDetail(Page<CaseStatusLookupValue> page);
 
   AmendmentTypeLookupDetail toAmendmentTypeLookupDetail(Page<AmendmentTypeLookupValue> page);
@@ -34,6 +46,8 @@ public interface LookupMapper {
   @Mapping(target = "devolvedPowersIndicator", source = "devolvedPowersInd")
   AmendmentTypeLookupValueDetail toAmendmentTypeLookupValueDetail(
           AmendmentTypeLookupValue lookupValue);
+
+
 
 
 }

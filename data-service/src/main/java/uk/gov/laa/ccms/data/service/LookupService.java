@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 
 /**
  * Service class for managing common values.
@@ -27,6 +29,8 @@ public class LookupService {
   private final CaseStatusLookupValueRepository caseStatusLookupValueRepository;
 
   private final AmendmentTypeLookupValueRepository amendmentTypeLookupValueRepository;
+
+  private final CountryLookupValueRepository countryLookupValueRepository;
 
   /**
    * Retrieves a page of common values based on the provided example and pagination information.
@@ -64,6 +68,19 @@ public class LookupService {
   public Page<AmendmentTypeLookupValue> getAmendmentTypeLookupValues(
           Example<AmendmentTypeLookupValue> example, Pageable pageable) {
     return amendmentTypeLookupValueRepository.findAll(example, pageable);
+  }
+
+  /**
+   * Retrieves a page of country values based on the provided example and pagination
+   * information.
+   *
+   * @param example  the example of the amendment type values
+   * @param pageable pagination information
+   * @return a page of country values
+   */
+  public Page<CountryLookupValue> getCountryLookupValues(
+          Example<CountryLookupValue> example, Pageable pageable) {
+    return countryLookupValueRepository.findAll(example, pageable);
   }
 
 }

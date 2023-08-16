@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
@@ -209,6 +210,48 @@ class LookupMapperImplTest {
         AmendmentTypeLookupValueDetail actualDetail = mapper.toAmendmentTypeLookupValueDetail(value);
 
         assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toCommonLookupDetailFromCountriesTest() {
+        List<CountryLookupValue> countryLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            countryLookupValues.add(createCountryLookupValue(String.valueOf(i)));
+        }
+
+        Page<CountryLookupValue> countryLookupValuePage = new PageImpl<>(countryLookupValues);
+
+        CommonLookupDetail expectedDetail = new CommonLookupDetail();
+        expectedDetail.setTotalPages(countryLookupValuePage.getTotalPages());
+        expectedDetail.setTotalElements((int) countryLookupValuePage.getTotalElements());
+        expectedDetail.setNumber(countryLookupValuePage.getNumber());
+        expectedDetail.setSize(countryLookupValuePage.getSize());
+        List<CommonLookupValueDetail> expectedContent = new ArrayList<>();
+        for (CountryLookupValue value : countryLookupValues) {
+            expectedContent.add(mapper.toCommonLookupValueDetail(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        CommonLookupDetail actualDetail = mapper.toCommonLookupDetailFromCountries(countryLookupValuePage);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toCommonLookupValueDetailTest() {
+        CountryLookupValue value = createCountryLookupValue("");
+
+        CommonLookupValueDetail expectedDetail = mapper.toCommonLookupValueDetail(value);
+        CommonLookupValueDetail actualDetail = mapper.toCommonLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    private CountryLookupValue createCountryLookupValue(String suffix) {
+        CountryLookupValue value = new CountryLookupValue();
+        value.setCode("code" + suffix);
+        value.setDescription("description" + suffix);
+        return value;
     }
 
     private AmendmentTypeLookupValue createAmendmentTypeLookupValue(String suffix) {

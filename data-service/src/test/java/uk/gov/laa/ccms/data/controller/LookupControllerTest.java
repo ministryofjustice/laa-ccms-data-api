@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
@@ -96,6 +97,25 @@ class LookupControllerTest {
 
         ResponseEntity<AmendmentTypeLookupDetail> responseEntity =
                 lookupController.getAmendmentTypeLookupValues(code, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getCountriesValues_returnsCommonValuesList() {
+        String code = "country_code";
+        Pageable pageable = Pageable.unpaged();
+        CountryLookupValue example = new CountryLookupValue();
+        example.setCode(code);
+
+        Page<CountryLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CountryLookupValue()));
+        CommonLookupDetail expectedResponse = new CommonLookupDetail();
+
+        when(lookupService.getCountryLookupValues(Example.of(example), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toCommonLookupDetailFromCountries(expectedPage)).thenReturn(expectedResponse);
+
+        ResponseEntity<CommonLookupDetail> responseEntity = lookupController.getCountriesLookupValues(code, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
