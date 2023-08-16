@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laa-ccms-caab-ebs-api
+  namespace: laa-ccms-civil
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: laa-ccms-caab-ebs-api-laa-ccms-civil-green
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+spec:
+  ingressClassName: default
+  tls:
+    - hosts:
+        - laa-ccms-caab-ebs-api.live.cloud-platform.service.justice.gov.uk
+  rules:
+    - host: laa-ccms-caab-ebs-api.live.cloud-platform.service.justice.gov.uk
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: laa-ccms-civil-caab-ebs-api-service
+                port:
+                  number: 4000
+
+
+
+
+
