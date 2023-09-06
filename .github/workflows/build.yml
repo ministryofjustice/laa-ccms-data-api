@@ -57,14 +57,6 @@ jobs:
           with:
             arguments: integrationTest
 
-        - name: Update git credentials for release
-          run: |
-            git config --global user.email "github@justice.gov.uk"
-            git config --global user.name "GitHub Actions Bot"
-
-        - name: Read version from gradle.properties
-          run: echo "APP_VERSION=$(grep 'version=' gradle.properties | sed -n 's/^version=//p')" >> $GITHUB_ENV
-
         - name: Update snapshot version
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
           with:
@@ -81,7 +73,7 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: data-api-jar
-            path: data-service/build/libs/data-service-${{ env.APP_VERSION }}.jar
+            path: data-service/build/libs/data-service-0.0.1-SNAPSHOT.jar
 
     ecr:
 #      if: github.ref == 'main'
