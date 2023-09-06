@@ -109,6 +109,13 @@ jobs:
             REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
             IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
 
+    delete-artifact:
+      needs: [ build-test-publish, ecr ]
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write
+        contents: read
+      steps:
         - name: delete artifact
           uses: geekyeggo/delete-artifact@v2
           with:
