@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
 
-    group = 'uk.gov.laa.ccms.caab'
+    group = 'uk.gov.laa.ccms.data'
 
     sourceCompatibility = '17'
 
@@ -20,13 +20,6 @@ subprojects {
 
     release {
         tagTemplate = '$name-$version'
-    }
-}
-
-release {
-    failOnCommitNeeded = false
-    git{
-        requireBranch.set('task/ccls_1759_consolidate_pipelines')
     }
 }
 
