@@ -51,6 +51,11 @@ jobs:
             arguments: jacocoTestCoverageVerification
 
         - name: Integration Test
+          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+          with:
+            arguments: integrationTest
+
+        - name: Update git credentials for release
           run: |
             git config --global user.email "github@justice.gov.uk"
             git config --global user.name "GitHub Actions Bot"
@@ -58,11 +63,11 @@ jobs:
         - name: Read version from gradle.properties
           run: echo "APP_VERSION=$(grep 'version=' gradle.properties | sed -n 's/^version=//p')" >> $GITHUB_ENV
 
-        - name: Update git credentials for release
-#          if: github.ref == 'main'
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        - name: upload jarfile
+          uses: actions/upload-artifact@v3
           with:
-            arguments: release -Prelease.useAutomaticVersion=true
+            name: data-api-jar
+            path: data-service/build/libs/data-service-${{ env.APP_VERSION }}.jar
 
         - name: Update release version
 #          if: github.ref == 'main'
@@ -82,12 +87,6 @@ jobs:
             arguments: publish
           env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        - name: upload jarfile
-          uses: actions/upload-artifact@v3
-          with:
-            name: data-api-jar
-            path: data-service/build/libs/data-service-${{ env.APP_VERSION }}.jar
 
     ecr:
 #      if: github.ref == 'main'
