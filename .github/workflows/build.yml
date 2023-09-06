@@ -109,9 +109,14 @@ jobs:
             REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
             IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
 
+        - name: delete artifact
+          uses: geekyeggo/delete-artifact@v2
+          with:
+            name: data-api-jar
+
     delete-artifact:
-      if: (needs.ecr.result == 'success' || needs.ecr.result == 'skipped' || needs.ecr.result == 'failure')
-      needs: [ build-test-publish, ecr ]
+      if: github.ref != 'main'
+      needs: [ build-test-publish ]
       runs-on: ubuntu-latest
       permissions:
         id-token: write
