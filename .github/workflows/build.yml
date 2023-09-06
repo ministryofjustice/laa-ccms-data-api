@@ -47,15 +47,15 @@ jobs:
           with:
             arguments: build
 
-#        - name: Test
-#          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-#          with:
-#            arguments: jacocoTestCoverageVerification
-#
-#        - name: Integration Test
-#          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-#          with:
-#            arguments: integrationTest
+        - name: Test
+          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+          with:
+            arguments: jacocoTestCoverageVerification
+
+        - name: Integration Test
+          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+          with:
+            arguments: integrationTest
 
         - name: Update git credentials for release
           run: |
@@ -71,17 +71,10 @@ jobs:
             name: data-api-jar
             path: data-service/build/libs/data-service-${{ env.APP_VERSION }}.jar
 
-        - name: Update release version
-#          if: github.ref == 'main'
+        - name: Update snapshot version
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
           with:
-            arguments: release -Prelease.useAutomaticVersion=true
-
-#        - name: Update snapshot version
-#          if: github.ref != 'main'
-#          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-#          with:
-#            arguments: updateSnapshotVersion
+            arguments: updateSnapshotVersion
 
         - name: Publish package
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
