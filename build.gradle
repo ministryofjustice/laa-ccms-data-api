@@ -23,6 +23,13 @@ subprojects {
     }
 }
 
+release {
+    failOnCommitNeeded = false
+    git{
+        requireBranch.set('task/ccls_1759_consolidate_pipelines')
+    }
+}
+
 //used for deploying snapshot packages
 task updateSnapshotVersion {
     doLast {

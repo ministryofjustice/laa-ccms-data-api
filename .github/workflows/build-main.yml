@@ -9,7 +9,7 @@ name: CI caab-data-api
 
 on:
   push:
-    branches-ignore:
+    branches:
       - main
 
 permissions:
@@ -63,10 +63,10 @@ jobs:
           with:
             arguments: integrationTest
 
-        - name: Update snapshot version
+        - name: Update release version
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
           with:
-            arguments: updateSnapshotVersion
+            arguments: release
 
         - name: Publish package
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
@@ -74,4 +74,69 @@ jobs:
             arguments: publish
           env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    ecr:
+      needs: [build-test-publish, define-image-tag]
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write # for requesting jwt
+        contents: read  # for actions/checkout
+      steps:
+        # Checkout github repo
+        - uses: actions/checkout@v3
+        # Assume role in cloud platform
+        - name: download jar
+          uses: actions/download-artifact@v3
+          with:
+            name: data-api-jar
+
+        - name: Configure aws credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            role-to-assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
+            aws-region: ${{ vars.DEV_ECR_REGION }}
+
+        - name: Login ecr
+          uses: aws-actions/amazon-ecr-login@v1
+          id: login-ecr
+
+        # Build and push docker image to container repo
+        - name: Build and push image
+          run: |
+            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
+            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+
+        - name: delete artifact
+          uses: geekyeggo/delete-artifact@v2
+          with:
+            name: data-api-jar
+
+    update-helm-chart:
+      needs: [ecr, define-image-tag]
+      runs-on: ubuntu-latest
+      environment: development
+      steps:
+        - name: Checkout charts repo
+          uses: actions/checkout@v3
+          with:
+            repository: ministryofjustice/laa-ccms-caab-helm-charts
+            ref: development
+            path: laa-ccms-caab-helm-charts
+            token: ${{ secrets.REPO_TOKEN }}
+        - name: update helm chart
+          env:
+            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+          run: |
+            echo "$IMAGE_TAG"
+            cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/laa-ccms-caab-ebs-api/
+            yq eval-all "( .appVersion = \"${{ env.IMAGE_TAG }}\" )" -i Chart.yaml
+            git config --global user.email "github@justice.gov.uk"
+            git config --global user.name "GitHub Actions Bot"
+            git add .
+            git commit -m "update appVersion to ${{ env.IMAGE_TAG }}"
+            git push origin
 
