@@ -110,6 +110,7 @@ jobs:
             IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
 
     delete-artifact:
+      if: (needs.ecr.result == 'success' || needs.ecr.result == 'skipped' || needs.ecr.result == 'failure')
       needs: [ build-test-publish, ecr ]
       runs-on: ubuntu-latest
       permissions:
