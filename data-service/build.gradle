@@ -39,11 +39,11 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.mockito:mockito-core:5.5.0'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 
     //Used for integration tests
-    implementation platform('org.testcontainers:testcontainers-bom:1.18.3')
+    implementation platform('org.testcontainers:testcontainers-bom:1.19.0')
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:oracle-xe'
