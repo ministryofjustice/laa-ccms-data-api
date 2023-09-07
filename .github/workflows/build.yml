@@ -74,7 +74,7 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     ecr:
-      if: github.ref == 'main'
+      if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
       needs: [build-test-publish, define-image-tag]
       runs-on: ubuntu-latest
       permissions:
@@ -128,7 +128,6 @@ jobs:
             name: data-api-jar
 
     update-helm-chart:
-      if: github.ref == 'main'
       needs: [ecr, define-image-tag]
       runs-on: ubuntu-latest
       environment: development
