@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.service;
 
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import uk.gov.laa.ccms.data.repository.ProviderRepository;
  * @see ProviderRepository
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class ProviderService {

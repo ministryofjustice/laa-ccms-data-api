@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.repository;
+package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,17 +14,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
-import uk.gov.laa.ccms.data.entity.Provider;
+import uk.gov.laa.ccms.data.model.ProviderDetail;
 
 
 @SpringBootTest
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/providers_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/providers_drop_schema.sql")
-public class ProviderRepositoryIntegrationTest extends AbstractIntegrationTest {
+public class ProviderServiceIntegrationTest extends AbstractIntegrationTest {
 
   @Autowired
-  private ProviderRepository providerRepository;
+  private ProviderService providerService;
 
   @Test
   @Sql(statements = {
@@ -54,16 +54,16 @@ public class ProviderRepositoryIntegrationTest extends AbstractIntegrationTest {
           "OFFICE_ID, OFFICE_NAME) " +
           "VALUES (3, 'Fee Earner 3 in Provider 2 Office 1', 1001, 102, 'Office 1 for Provider 2')"
   })
-  public void testFindById() {
+  public void testGetProvider() {
     Integer providerId = 1000;
 
     // Call the repository method
-    Optional<Provider> result = providerRepository.findById(providerId);
+    Optional<ProviderDetail> result = providerService.getProvider(providerId);
 
     // Assert the result
     assertTrue(result.isPresent());
 
-    Provider provider = result.get();
+    ProviderDetail provider = result.get();
     assertEquals(providerId, provider.getId());
     assertNotNull(provider.getOffices());
     assertEquals(2, provider.getOffices().size());

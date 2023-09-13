@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.repository;
+package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,6 +8,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlMergeMode.MergeMode.MERGE;
 
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
-import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.model.UserDetail;
 
 
 @SpringBootTest
@@ -24,12 +25,13 @@ import uk.gov.laa.ccms.data.entity.User;
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/users_create_schema.sql" )
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/providers_drop_schema.sql")
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/users_drop_schema.sql")
-public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
+public class UserServiceIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Test
+    @Transactional
     @Sql(statements = {
             "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
                     "VALUES (1, 'Firm 1');",
@@ -42,8 +44,8 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
             "INSERT INTO XXCCMS_USER_ROLES_V (USER_LOGIN_ID, FUNCTION) " +
                     "VALUES ('user1', 'Role 1');"
     })
-    public void testFindById_returnsData(){
-        Optional<User> expectedUser = userRepository.findById("user1");
+    public void testGetUser_returnsData(){
+        Optional<UserDetail> expectedUser = userService.getUser("user1");
         assertTrue(expectedUser.isPresent());
         assertEquals(1, expectedUser.get().getFirms().size());
         assertEquals(1, expectedUser.get().getFunctions().size());
@@ -52,8 +54,8 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testFindById_noData(){
-        Optional<User> user = userRepository.findById("user1");
+    public void testGetUser_noData(){
+        Optional<UserDetail> user = userService.getUser("user1");
         assertFalse(user.isPresent());
     }
 }

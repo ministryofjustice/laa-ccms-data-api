@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -37,7 +36,7 @@ public class Office {
   @Column(name = "OFFICE_NAME")
   private String name;
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "office")
+  @OneToMany(mappedBy = "office")
   private List<FeeEarner> feeEarners;
 
 }

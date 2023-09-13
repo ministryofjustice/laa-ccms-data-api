@@ -1,10 +1,13 @@
 package uk.gov.laa.ccms.data.service;
 
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.mapper.UserMapper;
+import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.UserRepository;
 
 
@@ -18,14 +21,18 @@ import uk.gov.laa.ccms.data.repository.UserRepository;
  * @see UserRepository
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
 
   private final UserRepository userRepository;
 
-  public Optional<User> getUser(String id) {
-    return userRepository.findById(id);
+  private final UserMapper userMapper;
+
+  public Optional<UserDetail> getUser(String id) {
+    return userRepository.findById(id)
+        .map(userMapper::toUserDetail);
   }
 
 }
