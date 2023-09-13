@@ -49,7 +49,7 @@ class ProviderControllerTest {
 
         when(providerService.getProvider(providerId)).thenReturn(Optional.of(new ProviderDetail()));
 
-        this.mockMvc.perform(get("/provider/{providerId}", providerId))
+        this.mockMvc.perform(get("/providers/{providerId}", providerId))
             .andDo(print())
             .andExpect(status().isOk());
 
@@ -62,7 +62,7 @@ class ProviderControllerTest {
 
         when(providerService.getProvider(providerId)).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/provider/{providerId}", providerId))
+        this.mockMvc.perform(get("/providers/{providerId}", providerId))
             .andDo(print())
             .andExpect(status().isNotFound());
 

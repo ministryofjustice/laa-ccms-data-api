@@ -31,7 +31,7 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /provider/{provider-id}:
+  /providers/{provider-id}:
     get:
       tags:
         - providers
