@@ -31,16 +31,16 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /fee-earners:
+  /provider/{provider-id}:
     get:
       tags:
-        - fee earners
-      summary: 'Get Fee Earners'
-      operationId: 'getFeeEarners'
-      x-spring-paginated: true
+        - providers
+      summary: 'Get Provider'
+      operationId: 'getProvider'
+      x-spring-paginated: false
       parameters:
         - name: 'provider-id'
-          in: 'query'
+          in: 'path'
           required: true
           schema:
             type: 'integer'
@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/feeEarnerDetail"
+                $ref: "#/components/schemas/providerDetail"
         '400':
           description: 'Bad request'
         '401':
@@ -191,6 +191,10 @@ components:
           type: 'integer'
         name:
           type: 'string'
+        fee_earners:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/contactDetail'
     providerDetail:
       type: 'object'
       properties:
@@ -223,15 +227,6 @@ components:
           type: 'array'
           items:
             type: 'string'
-    feeEarnerDetail:
-      allOf:
-        - $ref: "#/components/schemas/page"
-      type: 'object'
-      properties:
-        content:
-          type: 'array'
-          items:
-            $ref: '#/components/schemas/contactDetail'
     contactDetail:
       type: 'object'
       properties:

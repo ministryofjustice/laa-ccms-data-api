@@ -47,6 +47,8 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:oracle-xe'
+    testImplementation 'org.hibernate:hibernate-core:6.1.7.Final'
+    testImplementation 'com.h2database:h2:2.2.222'
 
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
 }

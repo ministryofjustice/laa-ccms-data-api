@@ -8,3 +8,17 @@ CREATE TABLE XXCCMS_PROVIDER_OFFICES_V (
                                            OFFICE_NAME VARCHAR2(4000),
                                            PROVIDERFIRM_ID NUMBER(15)
 );
+
+CREATE TABLE XXCCMS_FEE_EARNERS_V (
+                                      CONTACT_ID NUMBER(15) PRIMARY KEY,
+                                      CONTACT_NAME VARCHAR2(255) NOT NULL,
+                                      PROVIDERFIRM_ID NUMBER(15)
+);
+
+CREATE TABLE XXCCMS_FEE_EARNER_OFFICES_V (
+                                      CONTACT_ID NUMBER(15) PRIMARY KEY,
+                                      CONTACT_NAME VARCHAR2(255) NOT NULL,
+                                      PROVIDERFIRM_ID NUMBER(15) NOT NULL,
+                                      OFFICE_ID NUMBER(15) NOT NULL,
+                                      OFFICE_NAME VARCHAR2(255) NOT NULL
+);
