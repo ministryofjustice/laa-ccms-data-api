@@ -195,13 +195,18 @@ components:
           type: 'array'
           items:
             $ref: '#/components/schemas/contactDetail'
-    providerDetail:
+    baseProvider:
       type: 'object'
       properties:
         id:
           type: 'integer'
         name:
           type: 'string'
+    providerDetail:
+      allOf:
+        - $ref: "#/components/schemas/baseProvider"
+      type: 'object'
+      properties:
         offices:
           type: 'array'
           items:
@@ -218,11 +223,11 @@ components:
         user_type:
           type: 'string'
         provider:
-          $ref: "#/components/schemas/providerDetail"
+          $ref: "#/components/schemas/baseProvider"
         firms:
           type: 'array'
           items:
-            $ref: "#/components/schemas/providerDetail"
+            $ref: "#/components/schemas/baseProvider"
         functions:
           type: 'array'
           items:

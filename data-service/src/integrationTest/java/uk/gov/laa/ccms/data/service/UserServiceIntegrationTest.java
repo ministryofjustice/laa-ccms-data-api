@@ -50,7 +50,6 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
         assertEquals(1, expectedUser.get().getFirms().size());
         assertEquals(1, expectedUser.get().getFunctions().size());
         assertNotNull(expectedUser.get().getProvider());
-        assertEquals(1, expectedUser.get().getProvider().getOffices().size());
     }
 
     @Test
