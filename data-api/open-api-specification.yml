@@ -184,13 +184,18 @@ paths:
           description: 'Internal server error'
 components:
   schemas:
-    officeDetail:
+    baseOffice:
       type: 'object'
       properties:
         id:
           type: 'integer'
         name:
           type: 'string'
+    officeDetail:
+      allOf:
+        - $ref: "#/components/schemas/baseOffice"
+      type: 'object'
+      properties:
         fee_earners:
           type: 'array'
           items:
@@ -202,6 +207,10 @@ components:
           type: 'integer'
         name:
           type: 'string'
+        offices:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/baseOffice"
     providerDetail:
       allOf:
         - $ref: "#/components/schemas/baseProvider"
