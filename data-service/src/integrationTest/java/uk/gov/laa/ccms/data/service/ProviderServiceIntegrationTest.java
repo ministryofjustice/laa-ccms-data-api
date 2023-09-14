@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
+import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 
 
@@ -27,33 +28,7 @@ public class ProviderServiceIntegrationTest extends AbstractIntegrationTest {
   private ProviderService providerService;
 
   @Test
-  @Sql(statements = {
-      "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
-          "VALUES (1000, 'Provider 1');",
-      "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
-          "VALUES (1001, 'Provider 2');",
-      "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (OFFICE_ID, OFFICE_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (100, 'Office 1 for Provider 1', 1000);",
-      "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (OFFICE_ID, OFFICE_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (101, 'Office 2 for Provider 1', 1000);",
-      "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (OFFICE_ID, OFFICE_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (102, 'Office 1 for Provider 2', 1001);",
-      "INSERT INTO XXCCMS_FEE_EARNERS_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (1, 'Fee Earner 1 in Provider 1 Office 1', 1000)",
-      "INSERT INTO XXCCMS_FEE_EARNER_OFFICES_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID, " +
-          "OFFICE_ID, OFFICE_NAME) " +
-          "VALUES (1, 'Fee Earner 1 in Provider 1 Office 1', 1000, 100, 'Office 1 for Provider 1')",
-      "INSERT INTO XXCCMS_FEE_EARNERS_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (2, 'Fee Earner 2 in Provider 1 Office 1', 1000)",
-      "INSERT INTO XXCCMS_FEE_EARNER_OFFICES_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID, " +
-          "OFFICE_ID, OFFICE_NAME) " +
-          "VALUES (2, 'Fee Earner 2 in Provider 1 Office 1', 1000, 100, 'Office 1 for Provider 1')",
-      "INSERT INTO XXCCMS_FEE_EARNERS_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID) " +
-          "VALUES (3, 'Fee Earner 3 in Provider 2 Office 1', 1001)",
-      "INSERT INTO XXCCMS_FEE_EARNER_OFFICES_V (CONTACT_ID, CONTACT_NAME, PROVIDERFIRM_ID, " +
-          "OFFICE_ID, OFFICE_NAME) " +
-          "VALUES (3, 'Fee Earner 3 in Provider 2 Office 1', 1001, 102, 'Office 1 for Provider 2')"
-  })
+  @Sql(scripts = "/sql/providers_data.sql")
   public void testGetProvider() {
     Integer providerId = 1000;
 
@@ -65,14 +40,21 @@ public class ProviderServiceIntegrationTest extends AbstractIntegrationTest {
 
     ProviderDetail provider = result.get();
     assertEquals(providerId, provider.getId());
+
+    // Check Offices
     assertNotNull(provider.getOffices());
     assertEquals(2, provider.getOffices().size());
-    assertEquals(100, provider.getOffices().get(0).getId());
-    assertEquals(101, provider.getOffices().get(1).getId());
-    assertNotNull(provider.getOffices().get(0).getFeeEarners());
-    assertEquals(2, provider.getOffices().get(0).getFeeEarners().size());
-    assertEquals(1, provider.getOffices().get(0).getFeeEarners().get(0).getId());
-    assertEquals(2, provider.getOffices().get(0).getFeeEarners().get(1).getId());
-    assertTrue(provider.getOffices().get(1).getFeeEarners().isEmpty());
+    OfficeDetail office1 = provider.getOffices().get(0);
+    OfficeDetail office2 = provider.getOffices().get(1);
+    assertEquals(100, office1.getId());
+    assertEquals(101, office2.getId());
+
+    // Check FeeEarners
+    assertNotNull(office1.getFeeEarners());
+    assertEquals(2, office1.getFeeEarners().size());
+    assertEquals(1, office1.getFeeEarners().get(0).getId());
+    assertEquals(2, office1.getFeeEarners().get(1).getId());
+
+    assertTrue(office2.getFeeEarners().isEmpty());
   }
 }
