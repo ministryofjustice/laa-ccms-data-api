@@ -1,17 +1,10 @@
 package uk.gov.laa.ccms.data.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
-import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
-import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
-import uk.gov.laa.ccms.data.entity.CommonLookupValue;
-import uk.gov.laa.ccms.data.entity.CountryLookupValue;
-import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
@@ -33,7 +26,6 @@ import uk.gov.laa.ccms.data.service.LookupService;
 public class LookupController implements LookupApi {
 
   private final LookupService lookupService;
-  private final LookupMapper lookupMapper;
 
   /**
    * GET common lookup values by type and code.
@@ -49,15 +41,7 @@ public class LookupController implements LookupApi {
   @Override
   public ResponseEntity<CommonLookupDetail> getCommonLookupValues(
           String type, String code, Pageable pageable) {
-    CommonLookupValue example = new CommonLookupValue();
-    example.setType(type);
-    example.setCode(code);
-
-    Page<CommonLookupValue> page = lookupService.getCommonLookupValues(
-            Example.of(example), pageable);
-    CommonLookupDetail response = lookupMapper.toCommonLookupDetail(page);
-
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(lookupService.getCommonLookupValues(type, code, pageable));
   }
 
   /**
@@ -72,14 +56,7 @@ public class LookupController implements LookupApi {
   @Override
   public ResponseEntity<CommonLookupDetail> getCountriesLookupValues(
           String code, Pageable pageable) {
-    CountryLookupValue example = new CountryLookupValue();
-    example.setCode(code);
-
-    Page<CountryLookupValue> page = lookupService.getCountryLookupValues(
-            Example.of(example), pageable);
-    CommonLookupDetail response = lookupMapper.toCommonLookupDetailFromCountries(page);
-
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(lookupService.getCountryLookupValues(code, pageable));
   }
 
   /**
@@ -96,14 +73,7 @@ public class LookupController implements LookupApi {
   @Override
   public ResponseEntity<AmendmentTypeLookupDetail> getAmendmentTypeLookupValues(
           String applicationType, Pageable pageable) {
-    AmendmentTypeLookupValue example = new AmendmentTypeLookupValue();
-    example.setApplicationTypeCode(applicationType);
-
-    Page<AmendmentTypeLookupValue> page = lookupService.getAmendmentTypeLookupValues(
-            Example.of(example), pageable);
-    AmendmentTypeLookupDetail response = lookupMapper.toAmendmentTypeLookupDetail(page);
-
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(lookupService.getAmendmentTypeLookupValues(applicationType, pageable));
   }
 
   /**
@@ -120,14 +90,6 @@ public class LookupController implements LookupApi {
   @Override
   public ResponseEntity<CaseStatusLookupDetail> getCaseStatusLookupValues(
           String code, Boolean copyAllowed, Pageable pageable) {
-    CaseStatusLookupValue example = new CaseStatusLookupValue();
-    example.setCode(code);
-    example.setCopyAllowed(copyAllowed);
-
-    Page<CaseStatusLookupValue> page = lookupService.getCaseStatusLookupValues(
-            Example.of(example), pageable);
-    CaseStatusLookupDetail response = lookupMapper.toCaseStatusLookupDetail(page);
-
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(lookupService.getCaseStatusLookupValues(code, copyAllowed, pageable));
   }
 }

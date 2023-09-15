@@ -31,16 +31,16 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /fee-earners:
+  /providers/{provider-id}:
     get:
       tags:
-        - fee earners
-      summary: 'Get Fee Earners'
-      operationId: 'getFeeEarners'
-      x-spring-paginated: true
+        - providers
+      summary: 'Get Provider'
+      operationId: 'getProvider'
+      x-spring-paginated: false
       parameters:
         - name: 'provider-id'
-          in: 'query'
+          in: 'path'
           required: true
           schema:
             type: 'integer'
@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/feeEarnerDetail"
+                $ref: "#/components/schemas/providerDetail"
         '400':
           description: 'Bad request'
         '401':
@@ -184,20 +184,38 @@ paths:
           description: 'Internal server error'
 components:
   schemas:
+    baseOffice:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+        name:
+          type: 'string'
     officeDetail:
+      allOf:
+        - $ref: "#/components/schemas/baseOffice"
+      type: 'object'
+      properties:
+        fee_earners:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/contactDetail'
+    baseProvider:
       type: 'object'
       properties:
         id:
           type: 'integer'
         name:
           type: 'string'
+        offices:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/baseOffice"
     providerDetail:
+      allOf:
+        - $ref: "#/components/schemas/baseProvider"
       type: 'object'
       properties:
-        id:
-          type: 'integer'
-        name:
-          type: 'string'
         offices:
           type: 'array'
           items:
@@ -214,24 +232,15 @@ components:
         user_type:
           type: 'string'
         provider:
-          $ref: "#/components/schemas/providerDetail"
+          $ref: "#/components/schemas/baseProvider"
         firms:
           type: 'array'
           items:
-            $ref: "#/components/schemas/providerDetail"
+            $ref: "#/components/schemas/baseProvider"
         functions:
           type: 'array'
           items:
             type: 'string'
-    feeEarnerDetail:
-      allOf:
-        - $ref: "#/components/schemas/page"
-      type: 'object'
-      properties:
-        content:
-          type: 'array'
-          items:
-            $ref: '#/components/schemas/contactDetail'
     contactDetail:
       type: 'object'
       properties:

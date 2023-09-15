@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import lombok.Data;
@@ -16,7 +17,8 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a Fee Earner entity within the system.
  *
- * <p>This entity corresponds to the "XXCCMS_FEE_EARNERS_V" table in the database. It captures
+ * <p>This entity corresponds to a join between "XXCCMS_FEE_EARNERS_V"
+ * and "XXCCMS_FEE_EARNER_OFFICES_V" table in the database. It captures
  * details of individuals or entities that earn fees for the services they provide, such as legal
  * professionals.</p>
  *
@@ -33,7 +35,8 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_FEE_EARNERS_V")
+@Table(name = "XXCCMS_FEE_EARNER_OFFICES_V")
+@SecondaryTable(name = "XXCCMS_FEE_EARNERS_V")
 @Immutable
 public class FeeEarner implements Serializable {
   /**
@@ -46,15 +49,13 @@ public class FeeEarner implements Serializable {
   /**
    * The name for the Fee Earner.
    */
-  @Column(name = "CONTACT_NAME")
+  @Column(name = "CONTACT_NAME", table = "XXCCMS_FEE_EARNERS_V")
   private String name;
 
-
   /**
-   * The Fee Earner's related ProviderFirm.
+   * The Fee Earner's related Office.
    */
   @ManyToOne
-  @JoinColumn(name = "PROVIDERFIRM_ID")
-  private Provider provider;
-
+  @JoinColumn(name = "OFFICE_ID")
+  private Office office;
 }

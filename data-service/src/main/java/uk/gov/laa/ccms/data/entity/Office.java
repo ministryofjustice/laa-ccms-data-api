@@ -1,12 +1,13 @@
 package uk.gov.laa.ccms.data.entity;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -34,5 +35,8 @@ public class Office {
    */
   @Column(name = "OFFICE_NAME")
   private String name;
+
+  @OneToMany(mappedBy = "office")
+  private List<FeeEarner> feeEarners;
 
 }

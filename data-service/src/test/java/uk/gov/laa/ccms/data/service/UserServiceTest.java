@@ -1,23 +1,27 @@
 package uk.gov.laa.ccms.data.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.mapper.UserMapper;
+import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.UserRepository;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private UserMapper userMapper;
 
     @InjectMocks
     private UserService userService;
@@ -30,11 +34,14 @@ class UserServiceTest {
         expectedUser.setLoginId(userId);
         expectedUser.setUsername(userId);
 
+        UserDetail expectedResponse = new UserDetail();
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
+        when(userMapper.toUserDetail(expectedUser)).thenReturn(expectedResponse);
 
-        Optional<User> actualUser = userService.getUser(userId);
+        Optional<UserDetail> actualResponse = userService.getUser(userId);
 
-        assertEquals(Optional.of(expectedUser), actualUser);
+        assertEquals(Optional.of(expectedResponse), actualResponse);
     }
 
     @Test
@@ -43,7 +50,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        Optional<User> actualUser = userService.getUser(userId);
+        Optional<UserDetail> actualUser = userService.getUser(userId);
 
         assertEquals(Optional.empty(), actualUser);
     }

@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.model.BaseProvider;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 import uk.gov.laa.ccms.data.model.UserDetail;
 
@@ -21,6 +22,5 @@ public interface UserMapper {
   UserDetail toUserDetail(User user);
 
   @Mapping(target = "offices", ignore = true)
-  ProviderDetail toProviderDetail(Firm firm);
-
+  BaseProvider toBaseProvider(Firm firm);
 }

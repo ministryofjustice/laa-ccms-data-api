@@ -13,9 +13,13 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import  uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 
 import java.util.Collections;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
@@ -38,58 +42,89 @@ class LookupServiceTest {
     @Mock
     private CountryLookupValueRepository countryLookupValueRepository;
 
+    @Mock
+    private LookupMapper lookupMapper;
+
     @InjectMocks
     private LookupService lookupService;
 
     @Test
     void getCommonValues_returnsPageOfCommonValues() {
-        Example<CommonLookupValue> example = Example.of(new CommonLookupValue());
+        CommonLookupValue commonLookupValue = new CommonLookupValue();
+        commonLookupValue.setCode("code");
+        commonLookupValue.setType("type");
+        Example<CommonLookupValue> example = Example.of(commonLookupValue);
         Pageable pageable = Pageable.unpaged();
-        Page<CommonLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CommonLookupValue()));
+        Page<CommonLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(commonLookupValue));
+        CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
         when(commonLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toCommonLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
-        Page<CommonLookupValue> actualPage = lookupService.getCommonLookupValues(example, pageable);
+        CommonLookupDetail actualResponse = lookupService.getCommonLookupValues(
+            commonLookupValue.getType(), commonLookupValue.getCode(), pageable);
 
-        assertEquals(expectedPage, actualPage);
+        assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void getCaseStatusValues_returnsPageOfCaseStatusValues() {
-        Example<CaseStatusLookupValue> example = Example.of(new CaseStatusLookupValue());
+        CaseStatusLookupValue caseStatusLookupValue = new CaseStatusLookupValue();
+        caseStatusLookupValue.setCode("code");
+        caseStatusLookupValue.setCopyAllowed(Boolean.TRUE);
+        Example<CaseStatusLookupValue> example = Example.of(caseStatusLookupValue);
         Pageable pageable = Pageable.unpaged();
-        Page<CaseStatusLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CaseStatusLookupValue()));
+        Page<CaseStatusLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(caseStatusLookupValue));
+        CaseStatusLookupDetail expectedResponse = new CaseStatusLookupDetail();
 
         when(caseStatusLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toCaseStatusLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
-        Page<CaseStatusLookupValue> actualPage = lookupService.getCaseStatusLookupValues(example, pageable);
+        CaseStatusLookupDetail actualResponse = lookupService.getCaseStatusLookupValues(
+            caseStatusLookupValue.getCode(), caseStatusLookupValue.getCopyAllowed(), pageable);
 
-        assertEquals(expectedPage, actualPage);
+        assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void getAmendmentTypesValues_returnsPageOfAmendmentTypeValues() {
-        Example<AmendmentTypeLookupValue> example = Example.of(new AmendmentTypeLookupValue());
+        AmendmentTypeLookupValue amendmentTypeLookupValue = new AmendmentTypeLookupValue();
+        amendmentTypeLookupValue.setApplicationTypeCode("apptype");
+
+        Example<AmendmentTypeLookupValue> example = Example.of(amendmentTypeLookupValue);
         Pageable pageable = Pageable.unpaged();
-        Page<AmendmentTypeLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new AmendmentTypeLookupValue()));
+        Page<AmendmentTypeLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(
+            amendmentTypeLookupValue));
+        AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
 
-        when(amendmentTypeLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+        when(amendmentTypeLookupValueRepository.findAll(example, pageable)).thenReturn(
+            expectedPage);
+        when(lookupMapper.toAmendmentTypeLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
-        Page<AmendmentTypeLookupValue> actualPage = lookupService.getAmendmentTypeLookupValues(example, pageable);
+        AmendmentTypeLookupDetail actualResponse = lookupService.getAmendmentTypeLookupValues(
+            amendmentTypeLookupValue.getApplicationTypeCode(), pageable);
 
-        assertEquals(expectedPage, actualPage);
+        assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void getCountryValues_returnsPageOfCountryValues() {
-        Example<CountryLookupValue> example = Example.of(new CountryLookupValue());
+        CountryLookupValue countryLookupValue = new CountryLookupValue();
+        countryLookupValue.setCode("code");
+        Example<CountryLookupValue> example = Example.of(countryLookupValue);
         Pageable pageable = Pageable.unpaged();
-        Page<CountryLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(new CountryLookupValue()));
+        Page<CountryLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(countryLookupValue));
+        CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
         when(countryLookupValueRepository.findAll(example, pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toCommonLookupDetailFromCountries(expectedPage)).thenReturn(
+            expectedResponse);
 
-        Page<CountryLookupValue> actualPage = lookupService.getCountryLookupValues(example, pageable);
+        CommonLookupDetail actualResponse = lookupService.getCountryLookupValues(
+            countryLookupValue.getCode(), pageable);
 
-        assertEquals(expectedPage, actualPage);
+        assertEquals(expectedResponse, actualResponse);
     }
 }
