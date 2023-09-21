@@ -60,6 +60,78 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /proceedings:
+    get:
+      tags:
+        - proceedings
+      summary: 'Get Proceedings'
+      operationId: 'getProceedings'
+      x-spring-paginated: true
+      parameters:
+        - name: 'category-of-law'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'CAT1'
+        - name: 'matter-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'amendment-only'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        - name: 'enabled'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/proceedingDetails"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
+  /proceedings/{proceeding-code}:
+    get:
+      tags:
+        - proceedings
+      summary: 'Get Proceeding'
+      operationId: 'getProceeding'
+      x-spring-paginated: false
+      parameters:
+        - name: 'proceeding-code'
+          in: 'path'
+          required: true
+          schema:
+            type: 'string'
+            example: "TAA01"
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/proceedingDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/amendment-types:
     get:
       tags:
@@ -220,6 +292,40 @@ components:
           type: 'array'
           items:
             $ref: "#/components/schemas/officeDetail"
+    proceedingDetails:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/proceedingDetail'
+    proceedingDetail:
+      type: 'object'
+      properties:
+        code:
+          type: 'string'
+        name:
+          type: 'string'
+        description:
+          type: 'string'
+        category_of_law_code:
+          type: 'string'
+        stage_end_lov:
+          type: 'string'
+        outcome_result_lov:
+          type: 'string'
+        matter_type:
+          type: 'string'
+        amendment_only:
+          type: 'boolean'
+        enabled:
+          type: 'boolean'
+        order_type_required:
+          type: 'boolean'
+        lar_scope:
+          type: 'string'
     userDetail:
       type: 'object'
       properties:
