@@ -32,7 +32,7 @@ public class ProviderServiceIntegrationTest extends AbstractIntegrationTest {
   public void testGetProvider() {
     Integer providerId = 1000;
 
-    // Call the repository method
+    // Call the service method
     Optional<ProviderDetail> result = providerService.getProvider(providerId);
 
     // Assert the result
