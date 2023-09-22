@@ -14,12 +14,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.ProceedingDetail;
+import uk.gov.laa.ccms.data.model.ProceedingDetails;
 import uk.gov.laa.ccms.data.service.ProceedingService;
 
 @ExtendWith(SpringExtension.class)
@@ -40,7 +43,9 @@ class ProceedingControllerTest {
 
     @BeforeEach
     public void setup() {
-        mockMvc = standaloneSetup(proceedingController).build();
+        mockMvc = standaloneSetup(proceedingController)
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+            .build();
     }
 
     @Test
@@ -67,5 +72,28 @@ class ProceedingControllerTest {
             .andExpect(status().isNotFound());
 
         verify(proceedingService).getProceeding(code);
+    }
+
+    @Test
+    void getProceedings_returnsData() throws Exception {
+        String categoryOfLawCode = "cat1";
+        String matterType = "mat1";
+        Boolean amendOnly = true;
+        Boolean enabled = true;
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(proceedingService.getProceedings(categoryOfLawCode, matterType, amendOnly,
+            enabled, pageable)).thenReturn(new ProceedingDetails());
+
+        this.mockMvc.perform(get("/proceedings")
+                .param("category-of-law", categoryOfLawCode)
+                .param("matter-type", matterType)
+                .param("amendment-only", amendOnly.toString())
+                .param("enabled", enabled.toString()))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(proceedingService).getProceedings(
+            categoryOfLawCode, matterType, amendOnly, enabled, pageable);
     }
 }
