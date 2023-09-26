@@ -132,6 +132,99 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /scope-limitations:
+    get:
+      tags:
+        - scopelimitations
+      summary: 'Get Scope Limitations'
+      operationId: 'getScopeLimitations'
+      x-spring-paginated: true
+      parameters:
+        - name: 'scope-limitations'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'category-of-law'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'matter-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'proceeding-code'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'level-of-service'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'default-wording'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'stage'
+          in: 'query'
+          schema:
+            type: 'integer'
+            example: '1'
+        - name: 'cost-limitation'
+          in: 'query'
+          schema:
+            type: 'number'
+            example: '53.50'
+        - name: 'emergency-cost-limitation'
+          in: 'query'
+          schema:
+            type: 'number'
+            example: '53.50'
+        - name: 'non-standard-wording'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        - name: 'emergency-scope-default'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        - name: 'emergency'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        - name: 'default-code'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        - name: 'scope-default'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            example: 'true'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/scopeLimitationDetails"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/amendment-types:
     get:
       tags:
@@ -404,6 +497,48 @@ components:
         copyAllowed:
           type: 'boolean'
           example: true
+    scopeLimitationDetails:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/scopeLimitationDetail'
+    scopeLimitationDetail:
+      type: 'object'
+      properties:
+        scope_limitations:
+          type: 'string'
+        category_of_law:
+          type: 'string'
+        matter_type:
+          type: 'string'
+        proceeding_code:
+          type: 'string'
+        level_of_service:
+          type: 'string'
+        description:
+          type: 'string'
+        default_wording:
+          type: 'string'
+        stage:
+          type: 'integer'
+        cost_limitation:
+          type: 'number'
+        emergency_cost_limitation:
+          type: 'number'
+        non_standard_wording_required:
+          type: 'boolean'
+        emergency_scope_default:
+          type: 'boolean'
+        emergency:
+          type: 'boolean'
+        default_code:
+          type: 'boolean'
+        scope_default:
+          type: 'boolean'
     commonLookupValueDetail:
       type: 'object'
       properties:

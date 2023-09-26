@@ -62,7 +62,7 @@ class ProceedingControllerTest {
     }
 
     @Test
-    void getProvider_notFound() throws Exception{
+    void getProceeding_notFound() throws Exception{
         String code = "proc1";
 
         when(proceedingService.getProceeding(code)).thenReturn(Optional.empty());
