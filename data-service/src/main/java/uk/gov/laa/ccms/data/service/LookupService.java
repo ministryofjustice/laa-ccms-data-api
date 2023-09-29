@@ -67,8 +67,8 @@ public class LookupService {
     example.setDescription(description);
 
     Example<CommonLookupValue> commonLookupValueExample =
-        Boolean.TRUE.equals(wildcard) ?
-            Example.of(example, WILDCARD_EXAMPLE_MATCHER) : Example.of(example);
+        Boolean.TRUE.equals(wildcard)
+            ? Example.of(example, WILDCARD_EXAMPLE_MATCHER) : Example.of(example);
 
     return lookupMapper.toCommonLookupDetail(
         commonLookupValueRepository.findAll(commonLookupValueExample, pageable));
