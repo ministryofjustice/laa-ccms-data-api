@@ -1,5 +1,9 @@
 package uk.gov.laa.ccms.data.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,18 +18,13 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
-import uk.gov.laa.ccms.data.model.CommonLookupDetail;
-import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
-import  uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
-
-import java.util.Collections;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class LookupServiceTest {
@@ -53,6 +52,7 @@ class LookupServiceTest {
         CommonLookupValue commonLookupValue = new CommonLookupValue();
         commonLookupValue.setCode("code");
         commonLookupValue.setType("type");
+        commonLookupValue.setDescription("desc");
         Example<CommonLookupValue> example = Example.of(commonLookupValue);
         Pageable pageable = Pageable.unpaged();
         Page<CommonLookupValue> expectedPage = new PageImpl<>(
@@ -63,7 +63,37 @@ class LookupServiceTest {
         when(lookupMapper.toCommonLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
         CommonLookupDetail actualResponse = lookupService.getCommonLookupValues(
-            commonLookupValue.getType(), commonLookupValue.getCode(), pageable);
+            commonLookupValue.getType(),
+            commonLookupValue.getCode(),
+            commonLookupValue.getDescription(),
+            Boolean.FALSE,
+            pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getCommonValuesWildcard_returnsPageOfCommonValues() {
+        CommonLookupValue commonLookupValue = new CommonLookupValue();
+        commonLookupValue.setCode("code");
+        commonLookupValue.setType("type");
+        commonLookupValue.setDescription("desc");
+        Example<CommonLookupValue> wildcardExample = Example.of(commonLookupValue,
+            LookupService.WILDCARD_EXAMPLE_MATCHER);
+        Pageable pageable = Pageable.unpaged();
+        Page<CommonLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(commonLookupValue));
+        CommonLookupDetail expectedResponse = new CommonLookupDetail();
+
+        when(commonLookupValueRepository.findAll(wildcardExample, pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toCommonLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        CommonLookupDetail actualResponse = lookupService.getCommonLookupValues(
+            commonLookupValue.getType(),
+            commonLookupValue.getCode(),
+            commonLookupValue.getDescription(),
+            Boolean.TRUE,
+            pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }

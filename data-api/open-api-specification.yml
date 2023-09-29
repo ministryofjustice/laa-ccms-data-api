@@ -332,6 +332,17 @@ paths:
           schema:
             type: 'string'
             example: 'D'
+        - name: 'description'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'abc'
+        - name: 'wildcard'
+          in: 'query'
+          schema:
+            type: 'boolean'
+            default: false
+            example: 'true'
       responses:
         '200':
           description: 'Successful operation'

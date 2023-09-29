@@ -40,8 +40,9 @@ public class LookupController implements LookupApi {
    */
   @Override
   public ResponseEntity<CommonLookupDetail> getCommonLookupValues(
-          String type, String code, Pageable pageable) {
-    return ResponseEntity.ok(lookupService.getCommonLookupValues(type, code, pageable));
+          String type, String code, String description, Boolean wildcard, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getCommonLookupValues(
+        type, code, description, wildcard, pageable));
   }
 
   /**

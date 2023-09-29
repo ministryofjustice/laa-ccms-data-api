@@ -92,16 +92,22 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
         // Add more INSERT statements as needed
     })
     @CsvSource(value= {
-        "type1, null, 2",
-        "type2, null, 0",
-        "null, code1, 1"},
-        nullValues={"null"})
-    public void testGetCommonValues(String type, String code, Integer expectedElements) {
+        "type1, null, null, false, 2",
+        "type2, null, null, false, 0",
+        "null, code1, null, false, 1",
+        "null, code1, null, false, 1",
+        "type1, ode, null, true, 2",
+        "type1, ode, , true, 2",
+        "type1, code1, , true, 1",
+    }, nullValues={"null"})
+    public void testGetCommonValues(String type, String code, String desc, Boolean wildcard,
+        Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
         // Call the repository method
-        CommonLookupDetail result = lookupService.getCommonLookupValues(type, code, pageable);
+        CommonLookupDetail result = lookupService.getCommonLookupValues(
+            type, code, desc, wildcard, pageable);
 
         // Assert the result
         assertNotNull(result);
