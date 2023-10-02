@@ -47,7 +47,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 
     //Used for integration tests
-    implementation platform('org.testcontainers:testcontainers-bom:1.19.0')
+    implementation platform('org.testcontainers:testcontainers-bom:1.19.1')
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:oracle-xe'
