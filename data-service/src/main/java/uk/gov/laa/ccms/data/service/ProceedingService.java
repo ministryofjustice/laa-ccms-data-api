@@ -25,7 +25,7 @@ import uk.gov.laa.ccms.data.repository.ProceedingRepository;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProceedingService {
+public class ProceedingService extends AbstractEbsDataService {
 
   private final ProceedingRepository proceedingRepository;
 

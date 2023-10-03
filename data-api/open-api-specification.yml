@@ -319,6 +319,10 @@ paths:
       tags:
         - lookup
       summary: 'Get a list of common lookup values'
+      description: Get a list of common lookup values which match the provided type, code and 
+                   description. 
+                   Include a '*' at the beginning and/or end of query params to perform a wildcard 
+                   search.
       operationId: 'getCommonLookupValues'
       x-spring-paginated: true
       parameters:
@@ -337,12 +341,6 @@ paths:
           schema:
             type: 'string'
             example: 'abc'
-        - name: 'wildcard'
-          in: 'query'
-          schema:
-            type: 'boolean'
-            default: false
-            example: 'true'
       responses:
         '200':
           description: 'Successful operation'

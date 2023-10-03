@@ -24,7 +24,7 @@ import uk.gov.laa.ccms.data.repository.UserRepository;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class UserService extends AbstractEbsDataService {
 
   private final UserRepository userRepository;
 

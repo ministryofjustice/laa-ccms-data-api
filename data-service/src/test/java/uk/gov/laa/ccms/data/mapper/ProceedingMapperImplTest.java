@@ -3,11 +3,15 @@ package uk.gov.laa.ccms.data.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.Proceeding;
 import uk.gov.laa.ccms.data.model.ProceedingDetail;
+import uk.gov.laa.ccms.data.model.ProceedingDetails;
 
 @ExtendWith(MockitoExtension.class)
 class ProceedingMapperImplTest {
@@ -15,6 +19,21 @@ class ProceedingMapperImplTest {
     ProceedingMapperImpl mapper = new ProceedingMapperImpl();
 
     // Tests
+    @Test
+    void proceedingPageToProceedingDetails() {
+        Proceeding proceeding = buildProceeding();
+        Page<Proceeding> proceedings = new PageImpl<>(Collections.singletonList(proceeding));
+
+        ProceedingDetails result = mapper.toProceedingDetails(proceedings);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals(1, result.getTotalPages());
+        assertNotNull(result.getContent());
+        assertEquals(1, result.getContent().size());
+        assertEquals(proceeding.getCode(), result.getContent().get(0).getCode());
+    }
+
     @Test
     void proceedingToProceedingDetail() {
         Proceeding proceeding = buildProceeding();

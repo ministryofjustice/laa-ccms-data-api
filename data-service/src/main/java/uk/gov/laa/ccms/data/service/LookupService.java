@@ -4,8 +4,6 @@ package uk.gov.laa.ccms.data.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
@@ -27,15 +25,8 @@ import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class LookupService {
+public class LookupService extends AbstractEbsDataService {
 
-  public static final String TYPE_PROPERTY = "type";
-  public static final String CODE_PROPERTY = "code";
-  public static final String DESCRIPTION_PROPERTY = "description";
-  protected static final ExampleMatcher WILDCARD_EXAMPLE_MATCHER = ExampleMatcher.matchingAll()
-      .withMatcher(TYPE_PROPERTY, GenericPropertyMatchers.contains().ignoreCase())
-      .withMatcher(CODE_PROPERTY, GenericPropertyMatchers.contains().ignoreCase())
-      .withMatcher(DESCRIPTION_PROPERTY, GenericPropertyMatchers.contains().ignoreCase());
   private final CommonLookupValueRepository commonLookupValueRepository;
 
   private final CaseStatusLookupValueRepository caseStatusLookupValueRepository;
@@ -55,23 +46,19 @@ public class LookupService {
    * @param type  the type of common value
    * @param code  the code of common value
    * @param description the description of the common value
-   * @param wildcard whether a wildcard search should be performed
    * @param pageable pagination information
    * @return a CommonLookupDetail containing a page of common values
    */
   public CommonLookupDetail getCommonLookupValues(
-          String type, String code, String description, Boolean wildcard, Pageable pageable) {
+          String type, String code, String description, Pageable pageable) {
     CommonLookupValue example = new CommonLookupValue();
     example.setType(type);
     example.setCode(code);
     example.setDescription(description);
 
-    Example<CommonLookupValue> commonLookupValueExample =
-        Boolean.TRUE.equals(wildcard)
-            ? Example.of(example, WILDCARD_EXAMPLE_MATCHER) : Example.of(example);
-
     return lookupMapper.toCommonLookupDetail(
-        commonLookupValueRepository.findAll(commonLookupValueExample, pageable));
+        commonLookupValueRepository.findAll(Example.of(example,
+            getWildcardMatcher(example)), pageable));
   }
 
   /**

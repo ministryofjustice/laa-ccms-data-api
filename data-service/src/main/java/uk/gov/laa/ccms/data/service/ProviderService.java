@@ -24,7 +24,7 @@ import uk.gov.laa.ccms.data.repository.ProviderRepository;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ProviderService {
+public class ProviderService extends AbstractEbsDataService {
 
   private final ProviderRepository providerRepository;
 

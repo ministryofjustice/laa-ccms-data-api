@@ -34,11 +34,11 @@ class LookupControllerTest {
 
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
-        when(lookupService.getCommonLookupValues(type, code, desc, Boolean.FALSE, pageable))
+        when(lookupService.getCommonLookupValues(type, code, desc, pageable))
             .thenReturn(expectedResponse);
 
         ResponseEntity<CommonLookupDetail> responseEntity =
-            lookupController.getCommonLookupValues(type, code, desc, Boolean.FALSE, pageable);
+            lookupController.getCommonLookupValues(type, code, desc, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());

@@ -33,16 +33,17 @@ public class LookupController implements LookupApi {
    * <p>This endpoint retrieves a paginated list of common lookup values based on the given type
    * and code.</p>
    *
-   * @param type     the type of the common lookup values
-   * @param code     the code of the common lookup values
-   * @param pageable pagination information
+   * @param type        the type of the common lookup values
+   * @param code        the code of the common lookup values
+   * @param description the description of the common lookup values
+   * @param pageable    pagination information
    * @return the ResponseEntity with status 200 (OK) and the list of common values in the body
    */
   @Override
   public ResponseEntity<CommonLookupDetail> getCommonLookupValues(
-          String type, String code, String description, Boolean wildcard, Pageable pageable) {
+          String type, String code, String description, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getCommonLookupValues(
-        type, code, description, wildcard, pageable));
+        type, code, description, pageable));
   }
 
   /**
