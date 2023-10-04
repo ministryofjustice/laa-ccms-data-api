@@ -10,14 +10,18 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 
 /**
  * Service class for managing common values.
@@ -34,6 +38,8 @@ public class LookupService extends AbstractEbsDataService {
   private final AmendmentTypeLookupValueRepository amendmentTypeLookupValueRepository;
 
   private final CountryLookupValueRepository countryLookupValueRepository;
+
+  private final OutcomeResultLookupValueRepository outcomeResultLookupValueRepository;
 
   private final LookupMapper lookupMapper;
 
@@ -114,5 +120,26 @@ public class LookupService extends AbstractEbsDataService {
     return lookupMapper.toCommonLookupDetailFromCountries(
         countryLookupValueRepository.findAll(Example.of(example), pageable));
   }
+
+  /**
+   * Retrieves a page of outcome result values based on the provided search criteria.
+   *
+   * @param proceedingCode  the proceeding code
+   * @param outcomeResult the outcome result
+   * @param pageable pagination information
+   * @return a OutcomeResultLookupDetail containing a page of outcome result values
+   */
+  public OutcomeResultLookupDetail getOutcomeResultLookupValues(
+      String proceedingCode, String outcomeResult, Pageable pageable) {
+    OutcomeResultLookupValue example = new OutcomeResultLookupValue();
+    example.setId(new OutcomeResultLookupValueId());
+    example.getId().setProceedingCode(proceedingCode);
+    example.getId().setOutcomeResult(outcomeResult);
+
+    return lookupMapper.toOutcomeResultLookupDetail(
+        outcomeResultLookupValueRepository.findAll(Example.of(example), pageable));
+  }
+
+
 
 }

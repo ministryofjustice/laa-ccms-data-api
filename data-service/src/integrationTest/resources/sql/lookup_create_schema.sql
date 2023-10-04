@@ -29,3 +29,11 @@ CREATE TABLE XXCCMS_COUNTRY_V (
                                   DESCRIPTION VARCHAR2(255),
                                   PRIMARY KEY (CODE, DESCRIPTION)
 );
+
+CREATE TABLE XXCCMS_OUTCOME_RESULTS_V (
+                                OUTCOME_RESULT	VARCHAR2(30),
+                                OUTCOME_RESULT_DESCRIPTION	VARCHAR2(240),
+                                ENABLED_FLAG	VARCHAR2(1),
+                                PROCEEDING_CODE	VARCHAR2(30) NOT NULL,
+                                OUTCOME_RESULT_LOV	VARCHAR2(150)
+);

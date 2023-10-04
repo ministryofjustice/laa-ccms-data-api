@@ -18,6 +18,8 @@ import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+
 
 
 @SpringBootTest
@@ -133,6 +135,33 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
 
         // Call the repository method
         CommonLookupDetail result = lookupService.getCountryLookupValues(code, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
+            + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
+            "VALUES ('code1', 'Result 1', 'Desc 1', 'Lov 1', 'Y')",
+        "INSERT INTO XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
+            + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
+            "VALUES ('code1', 'Result 2', 'Desc 2', 'Lov 2', 'N')",
+    })
+    @CsvSource(value= {
+        "code1, null, 2",
+        "code1, Result 2, 1",
+        "null, null, 2"},
+        nullValues={"null"})
+    public void testGetOutcomeResults(String code, String results, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the repository method
+        OutcomeResultLookupDetail result = lookupService.getOutcomeResultLookupValues(
+            code, results, pageable);
 
         // Assert the result
         assertNotNull(result);

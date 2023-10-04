@@ -314,6 +314,39 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/outcome-results:
+    get:
+      tags:
+        - lookup
+      summary: 'Get Outcome Result Lookup Values'
+      operationId: 'getOutcomeResultLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'proceeding-code'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'outcome-result'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/outcomeResultLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/common:
     get:
       tags:
@@ -506,6 +539,28 @@ components:
         copyAllowed:
           type: 'boolean'
           example: true
+    outcomeResultLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/outcomeResultLookupValueDetail'
+    outcomeResultLookupValueDetail:
+      type: 'object'
+      properties:
+        proceeding_code:
+          type: 'string'
+        outcome_result:
+          type: 'string'
+        outcome_result_description:
+          type: 'string'
+        outcome_result_lov:
+          type: 'string'
+        enabled:
+          type: 'boolean'
     scopeLimitationDetails:
       allOf:
         - $ref: "#/components/schemas/page"

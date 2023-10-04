@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
 @ExtendWith(MockitoExtension.class)
@@ -90,6 +91,24 @@ class LookupControllerTest {
 
         ResponseEntity<CommonLookupDetail> responseEntity =
             lookupController.getCountriesLookupValues(code, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getOutcomeResultValues_returnsOutcomeResultValuesList() {
+        String code = "code";
+        String result = "result";
+        Pageable pageable = Pageable.unpaged();
+
+        OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
+
+        when(lookupService.getOutcomeResultLookupValues(code, result, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<OutcomeResultLookupDetail> responseEntity =
+            lookupController.getOutcomeResultLookupValues(code, result, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
