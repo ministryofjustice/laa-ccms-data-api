@@ -25,7 +25,7 @@ import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class LookupService {
+public class LookupService extends AbstractEbsDataService {
 
   private final CommonLookupValueRepository commonLookupValueRepository;
 
@@ -38,21 +38,27 @@ public class LookupService {
   private final LookupMapper lookupMapper;
 
   /**
-   * Retrieves a page of common values based on the provided type, code and pagination information.
+   * Retrieves a page of common values based on the provided
+   * type, code, description and pagination information.
+   * If wildcard is true, a 'like' query will be performed
+   * for all three attributes.
    *
    * @param type  the type of common value
    * @param code  the code of common value
+   * @param description the description of the common value
    * @param pageable pagination information
    * @return a CommonLookupDetail containing a page of common values
    */
   public CommonLookupDetail getCommonLookupValues(
-          String type, String code, Pageable pageable) {
+          String type, String code, String description, Pageable pageable) {
     CommonLookupValue example = new CommonLookupValue();
     example.setType(type);
     example.setCode(code);
+    example.setDescription(description);
 
     return lookupMapper.toCommonLookupDetail(
-        commonLookupValueRepository.findAll(Example.of(example), pageable));
+        commonLookupValueRepository.findAll(Example.of(example,
+            getWildcardMatcher(example)), pageable));
   }
 
   /**

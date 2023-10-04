@@ -26,7 +26,7 @@ import uk.gov.laa.ccms.data.repository.ScopeLimitationRepository;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ScopeLimitationService {
+public class ScopeLimitationService extends AbstractEbsDataService {
 
   private final ScopeLimitationRepository scopeLimitationRepository;
 

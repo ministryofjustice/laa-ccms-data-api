@@ -19,6 +19,7 @@ import uk.gov.laa.ccms.data.AbstractIntegrationTest;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 
+
 @SpringBootTest
 @SqlMergeMode(MERGE)
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/lookup_create_schema.sql" )
@@ -92,16 +93,22 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
         // Add more INSERT statements as needed
     })
     @CsvSource(value= {
-        "type1, null, 2",
-        "type2, null, 0",
-        "null, code1, 1"},
-        nullValues={"null"})
-    public void testGetCommonValues(String type, String code, Integer expectedElements) {
+        "type1, null, null, 2",
+        "type2, null, null, 0",
+        "null, code1, null, 1",
+        "null, null, Description 1, 1",
+        "type1, *ode*, null, 2",
+        "type*, *ode*, , 2",
+        "null, null, Desc*, 2",
+    }, nullValues={"null"})
+    public void testGetCommonValues(String type, String code, String desc,
+        Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
         // Call the repository method
-        CommonLookupDetail result = lookupService.getCommonLookupValues(type, code, pageable);
+        CommonLookupDetail result = lookupService.getCommonLookupValues(
+            type, code, desc, pageable);
 
         // Assert the result
         assertNotNull(result);

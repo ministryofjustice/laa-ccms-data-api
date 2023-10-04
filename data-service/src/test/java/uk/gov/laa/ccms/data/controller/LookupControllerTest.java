@@ -29,15 +29,16 @@ class LookupControllerTest {
     void getCommonValues_returnsCommonValuesList() {
         String type = "type";
         String code = "code";
+        String desc = "desc";
         Pageable pageable = Pageable.unpaged();
 
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
-        when(lookupService.getCommonLookupValues(type, code, pageable)).thenReturn(
-            expectedResponse);
+        when(lookupService.getCommonLookupValues(type, code, desc, pageable))
+            .thenReturn(expectedResponse);
 
         ResponseEntity<CommonLookupDetail> responseEntity =
-            lookupController.getCommonLookupValues(type, code, pageable);
+            lookupController.getCommonLookupValues(type, code, desc, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
