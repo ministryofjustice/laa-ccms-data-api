@@ -19,14 +19,18 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 
 @ExtendWith(MockitoExtension.class)
 class LookupServiceTest {
@@ -42,6 +46,9 @@ class LookupServiceTest {
 
     @Mock
     private CountryLookupValueRepository countryLookupValueRepository;
+
+    @Mock
+    private OutcomeResultLookupValueRepository outcomeResultLookupValueRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -236,6 +243,31 @@ class LookupServiceTest {
 
         CommonLookupDetail actualResponse = lookupService.getCountryLookupValues(
             countryLookupValue.getCode(), pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getOutcomeResultValues_returnsPageOfValues() {
+        OutcomeResultLookupValue outcomeResultLookupValue = new OutcomeResultLookupValue();
+        outcomeResultLookupValue.setId(new OutcomeResultLookupValueId());
+        outcomeResultLookupValue.getId().setProceedingCode("code");
+        outcomeResultLookupValue.getId().setOutcomeResult("result");
+        Example<OutcomeResultLookupValue> example = Example.of(outcomeResultLookupValue);
+        Pageable pageable = Pageable.unpaged();
+        Page<OutcomeResultLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(outcomeResultLookupValue));
+        OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
+
+        when(outcomeResultLookupValueRepository.findAll(example, pageable))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toOutcomeResultLookupDetail(expectedPage)).thenReturn(
+            expectedResponse);
+
+        OutcomeResultLookupDetail actualResponse = lookupService.getOutcomeResultLookupValues(
+            outcomeResultLookupValue.getId().getProceedingCode(),
+            outcomeResultLookupValue.getId().getOutcomeResult(),
+            pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }

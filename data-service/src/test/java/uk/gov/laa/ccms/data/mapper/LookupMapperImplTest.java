@@ -1,27 +1,29 @@
 package uk.gov.laa.ccms.data.mapper;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
-import uk.gov.laa.ccms.data.entity.CommonLookupValue;
-import uk.gov.laa.ccms.data.entity.CountryLookupValue;
-import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
-import uk.gov.laa.ccms.data.model.CommonLookupDetail;
-import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
-import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
-import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
-import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
-import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
+import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
 
 @ExtendWith(MockitoExtension.class)
 class LookupMapperImplTest {
@@ -245,6 +247,58 @@ class LookupMapperImplTest {
         CommonLookupValueDetail actualDetail = mapper.toCommonLookupValueDetail(value);
 
         assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toOutcomeResultLookupValueDetailTest() {
+        OutcomeResultLookupValue value = createOutcomeResultLookupValue("1");
+
+        OutcomeResultLookupValueDetail expectedDetail = createOutcomeResultLookupValueDetail(value);
+        OutcomeResultLookupValueDetail actualDetail =
+            mapper.toOutcomeResultLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toOutcomeResultLookupDetailTest() {
+        List<OutcomeResultLookupValue> outcomeResultLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            outcomeResultLookupValues.add(createOutcomeResultLookupValue(String.valueOf(i)));
+        }
+
+        List<OutcomeResultLookupValueDetail> expectedDetailsList = new ArrayList<>();
+        for (OutcomeResultLookupValue commonLookupValue : outcomeResultLookupValues) {
+            expectedDetailsList.add(createOutcomeResultLookupValueDetail(commonLookupValue));
+        }
+
+        List<OutcomeResultLookupValueDetail> actualDetailsList =
+            mapper.outcomeResultLookupValueListToOutcomeResultLookupValueDetailList(
+                outcomeResultLookupValues);
+
+        assertEquals(expectedDetailsList, actualDetailsList);
+    }
+
+    private OutcomeResultLookupValue createOutcomeResultLookupValue(String suffix) {
+        OutcomeResultLookupValue outcomeResultLookupValue = new OutcomeResultLookupValue();
+        outcomeResultLookupValue.setId(new OutcomeResultLookupValueId());
+        outcomeResultLookupValue.getId().setProceedingCode("code" + suffix);
+        outcomeResultLookupValue.getId().setOutcomeResult("result" + suffix);
+        outcomeResultLookupValue.setOutcomeResultDescription("description" + suffix);
+        outcomeResultLookupValue.setOutcomeResultLov("lov" + suffix);
+        outcomeResultLookupValue.setEnabled(Boolean.TRUE);
+        return outcomeResultLookupValue;
+    }
+
+    private OutcomeResultLookupValueDetail createOutcomeResultLookupValueDetail(
+        OutcomeResultLookupValue outcomeResultLookupValue) {
+        OutcomeResultLookupValueDetail detail = new OutcomeResultLookupValueDetail();
+        detail.setProceedingCode(outcomeResultLookupValue.getId().getProceedingCode());
+        detail.setOutcomeResult(outcomeResultLookupValue.getId().getOutcomeResult());
+        detail.setOutcomeResultDescription(outcomeResultLookupValue.getOutcomeResultDescription());
+        detail.setOutcomeResultLov(outcomeResultLookupValue.getOutcomeResultLov());
+        detail.setEnabled(outcomeResultLookupValue.getEnabled());
+        return detail;
     }
 
     private CountryLookupValue createCountryLookupValue(String suffix) {

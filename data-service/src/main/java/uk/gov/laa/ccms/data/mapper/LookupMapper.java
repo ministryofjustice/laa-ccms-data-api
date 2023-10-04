@@ -7,11 +7,14 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
 
 /**
  * Mapper interface for converting between various lookup entities and their corresponding DTO
@@ -47,7 +50,11 @@ public interface LookupMapper {
   AmendmentTypeLookupValueDetail toAmendmentTypeLookupValueDetail(
           AmendmentTypeLookupValue lookupValue);
 
+  OutcomeResultLookupDetail toOutcomeResultLookupDetail(
+      Page<OutcomeResultLookupValue> lookupValues);
 
-
-
+  @Mapping(target = "proceedingCode", source = "id.proceedingCode")
+  @Mapping(target = "outcomeResult", source = "id.outcomeResult")
+  OutcomeResultLookupValueDetail toOutcomeResultLookupValueDetail(
+      OutcomeResultLookupValue outcomeResultLookupValue);
 }
