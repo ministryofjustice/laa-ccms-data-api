@@ -21,6 +21,7 @@ import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 
 
+
 @SpringBootTest
 @SqlMergeMode(MERGE)
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/lookup_create_schema.sql" )
