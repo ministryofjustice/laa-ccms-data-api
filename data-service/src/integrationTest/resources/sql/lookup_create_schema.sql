@@ -37,3 +37,11 @@ CREATE TABLE XXCCMS_OUTCOME_RESULTS_V (
                                 PROCEEDING_CODE	VARCHAR2(30) NOT NULL,
                                 OUTCOME_RESULT_LOV	VARCHAR2(150)
 );
+
+CREATE TABLE XXCCMS_STAGE_END_V (
+                                STAGE_END	VARCHAR2(30),
+                                STAGE_END_DESCRIPTION	VARCHAR2(240),
+                                ENABLED_FLAG	VARCHAR2(1),
+                                PROCEEDING_CODE	VARCHAR2(30),
+                                STAGE_END_LOV	VARCHAR2(150)
+);

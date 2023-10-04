@@ -19,7 +19,7 @@ import uk.gov.laa.ccms.data.AbstractIntegrationTest;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
-
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 
 
 @SpringBootTest
@@ -162,6 +162,33 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
         // Call the repository method
         OutcomeResultLookupDetail result = lookupService.getOutcomeResultLookupValues(
             code, results, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
+            + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
+            "VALUES ('code1', 'StageEnd 1', 'Desc 1', 'Lov 1', 'Y')",
+        "INSERT INTO XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
+            + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
+            "VALUES ('code1', 'StageEnd 2', 'Desc 2', 'Lov 2', 'N')",
+    })
+    @CsvSource(value= {
+        "code1, null, 2",
+        "code1, StageEnd 2, 1",
+        "null, null, 2"},
+        nullValues={"null"})
+    public void testGetStageEnds(String code, String stageEnd, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the repository method
+        StageEndLookupDetail result = lookupService.getStageEndLookupValues(
+            code, stageEnd, pageable);
 
         // Assert the result
         assertNotNull(result);
