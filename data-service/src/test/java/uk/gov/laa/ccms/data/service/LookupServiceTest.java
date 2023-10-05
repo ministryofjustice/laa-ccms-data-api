@@ -21,16 +21,20 @@ import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 @ExtendWith(MockitoExtension.class)
 class LookupServiceTest {
@@ -49,6 +53,9 @@ class LookupServiceTest {
 
     @Mock
     private OutcomeResultLookupValueRepository outcomeResultLookupValueRepository;
+
+    @Mock
+    private StageEndLookupValueRepository stageEndLookupValueRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -267,6 +274,31 @@ class LookupServiceTest {
         OutcomeResultLookupDetail actualResponse = lookupService.getOutcomeResultLookupValues(
             outcomeResultLookupValue.getId().getProceedingCode(),
             outcomeResultLookupValue.getId().getOutcomeResult(),
+            pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getStageEndValues_returnsPageOfValues() {
+        StageEndLookupValue stageEndLookupValue = new StageEndLookupValue();
+        stageEndLookupValue.setId(new StageEndLookupValueId());
+        stageEndLookupValue.getId().setProceedingCode("code");
+        stageEndLookupValue.getId().setStageEnd("stageEnd");
+        Example<StageEndLookupValue> example = Example.of(stageEndLookupValue);
+        Pageable pageable = Pageable.unpaged();
+        Page<StageEndLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(stageEndLookupValue));
+        StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
+
+        when(stageEndLookupValueRepository.findAll(example, pageable))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toStageEndLookupDetail(expectedPage)).thenReturn(
+            expectedResponse);
+
+        StageEndLookupDetail actualResponse = lookupService.getStageEndLookupValues(
+            stageEndLookupValue.getId().getProceedingCode(),
+            stageEndLookupValue.getId().getStageEnd(),
             pageable);
 
         assertEquals(expectedResponse, actualResponse);

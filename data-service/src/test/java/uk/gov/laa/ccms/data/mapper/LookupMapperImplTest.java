@@ -17,6 +17,8 @@ import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
@@ -24,57 +26,14 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupValueDetail;
 
 @ExtendWith(MockitoExtension.class)
 class LookupMapperImplTest {
 
     LookupMapperImpl mapper = new LookupMapperImpl();
-
-    // Helper methods to create objects
-    private CommonLookupValue createCommonLookupValue(String suffix) {
-        CommonLookupValue commonLookupValue = new CommonLookupValue();
-        commonLookupValue.setType("type" + suffix);
-        commonLookupValue.setCode("code" + suffix);
-        commonLookupValue.setDescription("description" + suffix);
-        commonLookupValue.setStartDateActive(LocalDateTime.now());
-        commonLookupValue.setAttribute11("attribute11" + suffix);
-        commonLookupValue.setAttribute12("attribute12" + suffix);
-        commonLookupValue.setEnabled("true");
-        commonLookupValue.setDefaultCode("defaultCode" + suffix);
-        return commonLookupValue;
-    }
-
-    private CommonLookupValueDetail createCommonLookupValueDetails(CommonLookupValue commonLookupValue) {
-        CommonLookupValueDetail detail = new CommonLookupValueDetail();
-        detail.setType(commonLookupValue.getType());
-        detail.setCode(commonLookupValue.getCode());
-        detail.setDescription(commonLookupValue.getDescription());
-        detail.setStartDateActive(commonLookupValue.getStartDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        detail.setAttribute11(commonLookupValue.getAttribute11());
-        detail.setAttribute12(commonLookupValue.getAttribute12());
-        detail.setEnabled(Boolean.parseBoolean(commonLookupValue.getEnabled()));
-        detail.setDefaultCode(commonLookupValue.getDefaultCode());
-        return detail;
-    }
-
-    private CaseStatusLookupValue createCaseStatusLookupValue(String suffix, Boolean copyAllowed) {
-        CaseStatusLookupValue caseStatusLookupValue = new CaseStatusLookupValue();
-        caseStatusLookupValue.setCode("code" + suffix);
-        caseStatusLookupValue.setDescription("description" + suffix);
-        caseStatusLookupValue.setCopyAllowed(copyAllowed);
-        return caseStatusLookupValue;
-    }
-
-    private CaseStatusLookupValueDetail createCaseStatusLookupValueDetail(CaseStatusLookupValue caseStatusLookupValue) {
-        CaseStatusLookupValueDetail detail = new CaseStatusLookupValueDetail();
-        detail.setCode(caseStatusLookupValue.getCode());
-        detail.setDescription(caseStatusLookupValue.getDescription());
-        detail.setCopyAllowed(caseStatusLookupValue.getCopyAllowed());
-        return detail;
-    }
-
+    
     // Tests
-
     @Test
     void toCommonLookupValueListDetails() {
         List<CommonLookupValue> commonLookupValues = new ArrayList<>();
@@ -279,6 +238,59 @@ class LookupMapperImplTest {
         assertEquals(expectedDetailsList, actualDetailsList);
     }
 
+    @Test
+    void toStageEndLookupValueDetailTest() {
+        StageEndLookupValue value = createStageEndLookupValue("1");
+
+        StageEndLookupValueDetail expectedDetail = createStageEndLookupValueDetail(value);
+        StageEndLookupValueDetail actualDetail =
+            mapper.toStageEndLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toStageEndLookupDetailTest() {
+        List<StageEndLookupValue> stageEndLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            stageEndLookupValues.add(createStageEndLookupValue(String.valueOf(i)));
+        }
+
+        List<StageEndLookupValueDetail> expectedDetailsList = new ArrayList<>();
+        for (StageEndLookupValue commonLookupValue : stageEndLookupValues) {
+            expectedDetailsList.add(createStageEndLookupValueDetail(commonLookupValue));
+        }
+
+        List<StageEndLookupValueDetail> actualDetailsList =
+            mapper.stageEndLookupValueListToStageEndLookupValueDetailList(
+                stageEndLookupValues);
+
+        assertEquals(expectedDetailsList, actualDetailsList);
+    }
+
+    // Helper methods to create objects
+    private StageEndLookupValue createStageEndLookupValue(String suffix) {
+        StageEndLookupValue stageEndLookupValue = new StageEndLookupValue();
+        stageEndLookupValue.setId(new StageEndLookupValueId());
+        stageEndLookupValue.getId().setProceedingCode("code" + suffix);
+        stageEndLookupValue.getId().setStageEnd("stageEnd" + suffix);
+        stageEndLookupValue.setDescription("description" + suffix);
+        stageEndLookupValue.setStageEndLov("lov" + suffix);
+        stageEndLookupValue.setEnabled(Boolean.TRUE);
+        return stageEndLookupValue;
+    }
+
+    private StageEndLookupValueDetail createStageEndLookupValueDetail(
+        StageEndLookupValue stageEndLookupValue) {
+        StageEndLookupValueDetail detail = new StageEndLookupValueDetail();
+        detail.setProceedingCode(stageEndLookupValue.getId().getProceedingCode());
+        detail.setStageEnd(stageEndLookupValue.getId().getStageEnd());
+        detail.setDescription(stageEndLookupValue.getDescription());
+        detail.setStageEndLov(stageEndLookupValue.getStageEndLov());
+        detail.setEnabled(stageEndLookupValue.getEnabled());
+        return detail;
+    }
+
     private OutcomeResultLookupValue createOutcomeResultLookupValue(String suffix) {
         OutcomeResultLookupValue outcomeResultLookupValue = new OutcomeResultLookupValue();
         outcomeResultLookupValue.setId(new OutcomeResultLookupValueId());
@@ -328,6 +340,47 @@ class LookupMapperImplTest {
         return detail;
     }
 
+    private CommonLookupValue createCommonLookupValue(String suffix) {
+        CommonLookupValue commonLookupValue = new CommonLookupValue();
+        commonLookupValue.setType("type" + suffix);
+        commonLookupValue.setCode("code" + suffix);
+        commonLookupValue.setDescription("description" + suffix);
+        commonLookupValue.setStartDateActive(LocalDateTime.now());
+        commonLookupValue.setAttribute11("attribute11" + suffix);
+        commonLookupValue.setAttribute12("attribute12" + suffix);
+        commonLookupValue.setEnabled("true");
+        commonLookupValue.setDefaultCode("defaultCode" + suffix);
+        return commonLookupValue;
+    }
+
+    private CommonLookupValueDetail createCommonLookupValueDetails(CommonLookupValue commonLookupValue) {
+        CommonLookupValueDetail detail = new CommonLookupValueDetail();
+        detail.setType(commonLookupValue.getType());
+        detail.setCode(commonLookupValue.getCode());
+        detail.setDescription(commonLookupValue.getDescription());
+        detail.setStartDateActive(commonLookupValue.getStartDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        detail.setAttribute11(commonLookupValue.getAttribute11());
+        detail.setAttribute12(commonLookupValue.getAttribute12());
+        detail.setEnabled(Boolean.parseBoolean(commonLookupValue.getEnabled()));
+        detail.setDefaultCode(commonLookupValue.getDefaultCode());
+        return detail;
+    }
+
+    private CaseStatusLookupValue createCaseStatusLookupValue(String suffix, Boolean copyAllowed) {
+        CaseStatusLookupValue caseStatusLookupValue = new CaseStatusLookupValue();
+        caseStatusLookupValue.setCode("code" + suffix);
+        caseStatusLookupValue.setDescription("description" + suffix);
+        caseStatusLookupValue.setCopyAllowed(copyAllowed);
+        return caseStatusLookupValue;
+    }
+
+    private CaseStatusLookupValueDetail createCaseStatusLookupValueDetail(CaseStatusLookupValue caseStatusLookupValue) {
+        CaseStatusLookupValueDetail detail = new CaseStatusLookupValueDetail();
+        detail.setCode(caseStatusLookupValue.getCode());
+        detail.setDescription(caseStatusLookupValue.getDescription());
+        detail.setCopyAllowed(caseStatusLookupValue.getCopyAllowed());
+        return detail;
+    }
 
 
 }

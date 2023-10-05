@@ -15,6 +15,7 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
 @ExtendWith(MockitoExtension.class)
@@ -109,6 +110,24 @@ class LookupControllerTest {
 
         ResponseEntity<OutcomeResultLookupDetail> responseEntity =
             lookupController.getOutcomeResultLookupValues(code, result, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getStageEndValues_returnsStageEndValuesList() {
+        String code = "code";
+        String stageEnd = "stageEnd";
+        Pageable pageable = Pageable.unpaged();
+
+        StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
+
+        when(lookupService.getStageEndLookupValues(code, stageEnd, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<StageEndLookupDetail> responseEntity =
+            lookupController.getStageEndLookupValues(code, stageEnd, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());

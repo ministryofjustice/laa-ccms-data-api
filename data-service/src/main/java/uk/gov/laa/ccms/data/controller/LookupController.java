@@ -9,6 +9,7 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
 /**
@@ -110,5 +111,20 @@ public class LookupController implements LookupApi {
       String proceedingCode, String outcomeResult, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getOutcomeResultLookupValues(
         proceedingCode, outcomeResult, pageable));
+  }
+
+  /**
+   * GET stage end lookup values by proceeding code and stage end value.
+   *
+   * @param proceedingCode the proceeding code
+   * @param stageEnd  the stage end value
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of stage end values in the body
+   */
+  @Override
+  public ResponseEntity<StageEndLookupDetail> getStageEndLookupValues(
+      String proceedingCode, String stageEnd, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getStageEndLookupValues(
+        proceedingCode, stageEnd, pageable));
   }
 }

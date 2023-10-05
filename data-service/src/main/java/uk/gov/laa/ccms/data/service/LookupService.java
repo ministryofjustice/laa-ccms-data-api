@@ -12,16 +12,20 @@ import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
+import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 /**
  * Service class for managing common values.
@@ -40,6 +44,8 @@ public class LookupService extends AbstractEbsDataService {
   private final CountryLookupValueRepository countryLookupValueRepository;
 
   private final OutcomeResultLookupValueRepository outcomeResultLookupValueRepository;
+
+  private final StageEndLookupValueRepository stageEndLookupValueRepository;
 
   private final LookupMapper lookupMapper;
 
@@ -140,6 +146,23 @@ public class LookupService extends AbstractEbsDataService {
         outcomeResultLookupValueRepository.findAll(Example.of(example), pageable));
   }
 
+  /**
+   * Retrieves a page of stage end values based on the provided search criteria.
+   *
+   * @param proceedingCode  the proceeding code
+   * @param stageEnd the stage end value
+   * @param pageable pagination information
+   * @return a StageEndLookupDetail containing a page of stage end values
+   */
+  public StageEndLookupDetail getStageEndLookupValues(
+      String proceedingCode, String stageEnd, Pageable pageable) {
+    StageEndLookupValue example = new StageEndLookupValue();
+    example.setId(new StageEndLookupValueId());
+    example.getId().setProceedingCode(proceedingCode);
+    example.getId().setStageEnd(stageEnd);
 
+    return lookupMapper.toStageEndLookupDetail(
+        stageEndLookupValueRepository.findAll(Example.of(example), pageable));
+  }
 
 }
