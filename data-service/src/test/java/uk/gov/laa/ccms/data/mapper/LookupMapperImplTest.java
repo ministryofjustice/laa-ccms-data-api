@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
@@ -22,6 +23,7 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
@@ -316,6 +318,38 @@ class LookupMapperImplTest {
 
 
 
+
+
+    @Test
+    void toAwardTypeLookupValueDetailTest() {
+        AwardTypeLookupValue value = createAwardTypeLookupValue("1");
+
+        AwardTypeLookupValueDetail expectedDetail = createAwardTypeLookupValueDetail(value);
+        AwardTypeLookupValueDetail actualDetail =
+            mapper.toAwardTypeLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toAwardTypeLookupDetailTest() {
+        List<AwardTypeLookupValue> awardTypeLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            awardTypeLookupValues.add(createAwardTypeLookupValue(String.valueOf(i)));
+        }
+
+        List<AwardTypeLookupValueDetail> expectedDetailsList = new ArrayList<>();
+        for (AwardTypeLookupValue awardTypeLookupValue : awardTypeLookupValues) {
+            expectedDetailsList.add(createAwardTypeLookupValueDetail(awardTypeLookupValue));
+        }
+
+        List<AwardTypeLookupValueDetail> actualDetailsList =
+            mapper.awardTypeLookupValueListToAwardTypeLookupValueDetailList(
+                awardTypeLookupValues);
+
+        assertEquals(expectedDetailsList, actualDetailsList);
+    }
+
     // Helper methods to create objects
     private PersonRelationshipToCaseLookupValue createPersonRelationshipToCaseLookupvalue(String suffix) {
         PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue = new PersonRelationshipToCaseLookupValue();
@@ -352,6 +386,32 @@ class LookupMapperImplTest {
         detail.setEnabled(stageEndLookupValue.getEnabled());
         return detail;
     }
+
+    private AwardTypeLookupValue createAwardTypeLookupValue(String suffix) {
+        AwardTypeLookupValue awardTypeLookupValue = new AwardTypeLookupValue();
+        awardTypeLookupValue.setCode("code" + suffix);
+        awardTypeLookupValue.setAwardType("awardType" + suffix);
+        awardTypeLookupValue.setDescription("description" + suffix);
+        awardTypeLookupValue.setStartDateActive(LocalDateTime.now());
+        awardTypeLookupValue.setEndDateActive(LocalDateTime.now());
+        awardTypeLookupValue.setEnabled(Boolean.TRUE);
+        return awardTypeLookupValue;
+    }
+
+    private AwardTypeLookupValueDetail createAwardTypeLookupValueDetail(
+        AwardTypeLookupValue awardTypeLookupValue) {
+        AwardTypeLookupValueDetail detail = new AwardTypeLookupValueDetail();
+        detail.setCode(awardTypeLookupValue.getCode());
+        detail.setAwardType(awardTypeLookupValue.getAwardType());
+        detail.setDescription(awardTypeLookupValue.getDescription());
+        detail.setStartDateActive(awardTypeLookupValue.getStartDateActive().format(
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        detail.setEndDateActive(awardTypeLookupValue.getEndDateActive().format(
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        detail.setEnabled(awardTypeLookupValue.getEnabled());
+        return detail;
+    }
+
 
     private OutcomeResultLookupValue createOutcomeResultLookupValue(String suffix) {
         OutcomeResultLookupValue outcomeResultLookupValue = new OutcomeResultLookupValue();

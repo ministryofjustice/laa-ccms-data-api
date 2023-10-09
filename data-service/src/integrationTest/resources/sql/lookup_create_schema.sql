@@ -54,3 +54,12 @@ CREATE TABLE XXCCMS_PER_RELTOCASE_V (
                                     DOB_MANDATORY	VARCHAR2(1),
                                     COPY_PARTY	    VARCHAR2(1)
 );
+
+CREATE TABLE XXCCMS_AWARD_TYPE_V (
+                                CODE	VARCHAR2(30),
+                                DESCRIPTION	VARCHAR2(240),
+                                AWARD_TYPE	VARCHAR2(150),
+                                START_DATE_ACTIVE	DATE,
+                                END_DATE_ACTIVE	DATE,
+                                ENABLED_FLAG	VARCHAR2(1)
+);
