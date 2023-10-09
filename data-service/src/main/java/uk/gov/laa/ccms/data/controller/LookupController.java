@@ -9,6 +9,7 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
@@ -111,6 +112,22 @@ public class LookupController implements LookupApi {
       String proceedingCode, String outcomeResult, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getOutcomeResultLookupValues(
         proceedingCode, outcomeResult, pageable));
+  }
+
+  /**
+   * GET person to case relationship lookup values.
+   *
+   * @param code the relationship code
+   * @param description  the relationship description
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of relationships to case
+   *         result values in the body
+   */
+  @Override
+  public ResponseEntity<RelationshipToCaseLookupDetail> getPersonToCaseRelationshipLookupValues(
+      String code, String description, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getPersonToCaseRelationshipLookupValues(
+        code, description, pageable));
   }
 
   /**
