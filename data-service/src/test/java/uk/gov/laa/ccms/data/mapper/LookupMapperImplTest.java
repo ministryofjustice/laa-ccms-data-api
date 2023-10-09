@@ -17,6 +17,7 @@ import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
+import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
@@ -26,6 +27,8 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupValueDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupValueDetail;
 
 @ExtendWith(MockitoExtension.class)
@@ -268,7 +271,66 @@ class LookupMapperImplTest {
         assertEquals(expectedDetailsList, actualDetailsList);
     }
 
+
+    @Test
+    void toRelationshipToCaseLookupValueDetail() {
+        PersonRelationshipToCaseLookupValue value = createPersonRelationshipToCaseLookupvalue("1");
+
+        RelationshipToCaseLookupValueDetail expectedDetail = createRelationshipToCaseLookupValueDetail(value);
+        RelationshipToCaseLookupValueDetail actualDetail =
+            mapper.toRelationshipToCaseLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toRelationshipToCaseLookupDetailTest() {
+        List<PersonRelationshipToCaseLookupValue> values = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            values.add(createPersonRelationshipToCaseLookupvalue(String.valueOf(i)));
+        }
+
+        // Create a Page object
+        Page<PersonRelationshipToCaseLookupValue> page = new PageImpl<>(values);
+        RelationshipToCaseLookupDetail expectedDetail = new RelationshipToCaseLookupDetail();
+
+        expectedDetail.setTotalPages(page.getTotalPages());
+        expectedDetail.setTotalElements((int) page.getTotalElements());
+        expectedDetail.setNumber(page.getNumber());
+        expectedDetail.setSize(page.getSize());
+        List<RelationshipToCaseLookupValueDetail> expectedContent = new ArrayList<>();
+        for (PersonRelationshipToCaseLookupValue value : page) {
+            expectedContent.add(createRelationshipToCaseLookupValueDetail(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        List<RelationshipToCaseLookupValueDetail> actualDetailsList =
+            mapper.personRelationshipToCaseLookupValueListToRelationshipToCaseLookupValueDetailList(values);
+
+        // Actual AmendmentTypeLookupDetail
+        RelationshipToCaseLookupDetail actualDetail = mapper.toRelationshipToCaseLookupDetail(page);
+
+        // Assertion
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+
+
     // Helper methods to create objects
+    private PersonRelationshipToCaseLookupValue createPersonRelationshipToCaseLookupvalue(String suffix) {
+        PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue = new PersonRelationshipToCaseLookupValue();
+        personRelationshipToCaseLookupValue.setCode("code" + suffix);
+        personRelationshipToCaseLookupValue.setDescription("description" + suffix);
+        return personRelationshipToCaseLookupValue;
+    }
+    private RelationshipToCaseLookupValueDetail createRelationshipToCaseLookupValueDetail(
+        PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue) {
+        RelationshipToCaseLookupValueDetail detail = new RelationshipToCaseLookupValueDetail();
+        detail.setCode(personRelationshipToCaseLookupValue.getCode());
+        detail.setDescription(personRelationshipToCaseLookupValue.getDescription());
+        return detail;
+    }
+
     private StageEndLookupValue createStageEndLookupValue(String suffix) {
         StageEndLookupValue stageEndLookupValue = new StageEndLookupValue();
         stageEndLookupValue.setId(new StageEndLookupValueId());

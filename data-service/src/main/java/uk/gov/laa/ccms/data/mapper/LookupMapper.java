@@ -8,6 +8,7 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
+import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
@@ -16,6 +17,8 @@ import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupValueDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupValueDetail;
 
@@ -68,4 +71,10 @@ public interface LookupMapper {
   @Mapping(target = "stageEnd", source = "id.stageEnd")
   StageEndLookupValueDetail toStageEndLookupValueDetail(
       StageEndLookupValue stageEndLookupValue);
+
+  RelationshipToCaseLookupDetail toRelationshipToCaseLookupDetail(
+      Page<PersonRelationshipToCaseLookupValue> lookupValues);
+
+  RelationshipToCaseLookupValueDetail toRelationshipToCaseLookupValueDetail(
+      PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue);
 }
