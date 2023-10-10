@@ -23,6 +23,7 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
@@ -316,10 +317,6 @@ class LookupMapperImplTest {
         assertEquals(expectedDetail, actualDetail);
     }
 
-
-
-
-
     @Test
     void toAwardTypeLookupValueDetailTest() {
         AwardTypeLookupValue value = createAwardTypeLookupValue("1");
@@ -338,16 +335,25 @@ class LookupMapperImplTest {
             awardTypeLookupValues.add(createAwardTypeLookupValue(String.valueOf(i)));
         }
 
-        List<AwardTypeLookupValueDetail> expectedDetailsList = new ArrayList<>();
-        for (AwardTypeLookupValue awardTypeLookupValue : awardTypeLookupValues) {
-            expectedDetailsList.add(createAwardTypeLookupValueDetail(awardTypeLookupValue));
+        // Create a Page object
+        Page<AwardTypeLookupValue> page = new PageImpl<>(awardTypeLookupValues);
+        AwardTypeLookupDetail expectedDetail = new AwardTypeLookupDetail();
+
+        expectedDetail.setTotalPages(page.getTotalPages());
+        expectedDetail.setTotalElements((int) page.getTotalElements());
+        expectedDetail.setNumber(page.getNumber());
+        expectedDetail.setSize(page.getSize());
+        List<AwardTypeLookupValueDetail> expectedContent = new ArrayList<>();
+        for (AwardTypeLookupValue value : page) {
+            expectedContent.add(createAwardTypeLookupValueDetail(value));
         }
+        expectedDetail.setContent(expectedContent);
 
-        List<AwardTypeLookupValueDetail> actualDetailsList =
-            mapper.awardTypeLookupValueListToAwardTypeLookupValueDetailList(
-                awardTypeLookupValues);
+        AwardTypeLookupDetail actualDetail =
+            mapper.toAwardTypeLookupDetail(
+                page);
 
-        assertEquals(expectedDetailsList, actualDetailsList);
+        assertEquals(expectedDetail, actualDetail);
     }
 
     // Helper methods to create objects

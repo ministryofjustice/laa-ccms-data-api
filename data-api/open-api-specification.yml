@@ -413,7 +413,7 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /lookup/award_types:
+  /lookup/award-types:
     get:
       tags:
         - lookup
