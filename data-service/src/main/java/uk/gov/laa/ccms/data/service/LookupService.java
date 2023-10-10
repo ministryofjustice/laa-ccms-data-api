@@ -10,6 +10,7 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
@@ -26,6 +27,7 @@ import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
@@ -52,6 +54,9 @@ public class LookupService extends AbstractEbsDataService {
 
   private final PersonRelationshipToCaseLookupValueRepository
       personRelationshipToCaseLookupValueRepository;
+
+  private final OrganisationRelationshipToCaseLookupValueRepository
+      organisationRelationshipToCaseLookupValueRepository;
 
   private final LookupMapper lookupMapper;
 
@@ -188,6 +193,28 @@ public class LookupService extends AbstractEbsDataService {
 
     return lookupMapper.toRelationshipToCaseLookupDetail(
         personRelationshipToCaseLookupValueRepository.findAll(Example.of(example), pageable));
+
+  }
+
+  /**
+   * Retrieves a page of organisation to case relationship lookup values.
+   *
+   * @param code the relationship code
+   * @param description  the relationship description
+   * @param pageable    pagination information
+   * @return a RelationshipToCaseLookupDetail containing a page of organisation to case
+   *         relationships
+   */
+  public RelationshipToCaseLookupDetail getOrganisationToCaseRelationshipLookupValues(
+      String code, String description, Pageable pageable
+  ) {
+    OrganisationRelationshipToCaseLookupValue example
+        = new OrganisationRelationshipToCaseLookupValue();
+    example.setCode(code);
+    example.setDescription(description);
+
+    return lookupMapper.toOrgRelationshipToCaseLookupDetail(
+        organisationRelationshipToCaseLookupValueRepository.findAll(Example.of(example), pageable));
 
   }
 
