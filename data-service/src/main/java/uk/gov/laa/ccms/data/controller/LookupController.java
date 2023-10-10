@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -143,5 +144,20 @@ public class LookupController implements LookupApi {
       String proceedingCode, String stageEnd, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getStageEndLookupValues(
         proceedingCode, stageEnd, pageable));
+  }
+
+  /**
+   * GET award type lookup values by code and award type value.
+   *
+   * @param code the award type code
+   * @param awardType  the award type value
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of award type values in the body
+   */
+  @Override
+  public ResponseEntity<AwardTypeLookupDetail> getAwardTypeLookupValues(
+      String code, String awardType, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getAwardTypeLookupValues(
+        code, awardType, pageable));
   }
 }

@@ -413,6 +413,39 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/award-types:
+    get:
+      tags:
+        - lookup
+      summary: 'Get Award Type Lookup Values'
+      operationId: 'getAwardTypeLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'code'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'award-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/awardTypeLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/common:
     get:
       tags:
@@ -679,6 +712,30 @@ components:
         description:
           type: 'string'
         stage_end_lov:
+          type: 'string'
+        enabled:
+          type: 'boolean'
+    awardTypeLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/awardTypeLookupValueDetail'
+    awardTypeLookupValueDetail:
+      type: 'object'
+      properties:
+        code:
+          type: 'string'
+        description:
+          type: 'string'
+        award_type:
+          type: 'string'
+        start_date_active:
+          type: 'string'
+        end_date_active:
           type: 'string'
         enabled:
           type: 'boolean'

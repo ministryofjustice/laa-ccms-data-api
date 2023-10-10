@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
@@ -12,6 +13,8 @@ import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
@@ -77,4 +80,10 @@ public interface LookupMapper {
 
   RelationshipToCaseLookupValueDetail toRelationshipToCaseLookupValueDetail(
       PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue);
+
+  AwardTypeLookupDetail toAwardTypeLookupDetail(
+      Page<AwardTypeLookupValue> awardTypeLookupValues);
+
+  AwardTypeLookupValueDetail toAwardTypeLookupValueDetail(
+      AwardTypeLookupValue awardTypeLookupValue);
 }
