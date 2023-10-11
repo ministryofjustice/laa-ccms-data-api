@@ -5,9 +5,10 @@ import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 
 /**
- * This is a Spring repository for PersonRelationshipToCase entity operations. It extends
- * ReadOnlyRepository interface for providing basic read-only operations on PersonRelationshipToCase
- * entities.
+ * This is a Spring repository for OrganisationRelationshipToCase entity operations. It extends
+ * ReadOnlyRepository interface for providing basic read-only operations on
+ * OrganisationRelationshipToCase entities.
+ *
  */
 @Repository
 public interface OrganisationRelationshipToCaseLookupValueRepository extends

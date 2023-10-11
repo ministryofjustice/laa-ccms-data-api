@@ -305,9 +305,6 @@ class LookupMapperImplTest {
         }
         expectedDetail.setContent(expectedContent);
 
-        List<RelationshipToCaseLookupValueDetail> actualDetailsList =
-            mapper.personRelationshipToCaseLookupValueListToRelationshipToCaseLookupValueDetailList(values);
-
         // Actual AmendmentTypeLookupDetail
         RelationshipToCaseLookupDetail actualDetail = mapper.toRelationshipToCaseLookupDetail(page);
 
@@ -346,9 +343,6 @@ class LookupMapperImplTest {
             expectedContent.add(createRelationshipToCaseLookupValueDetail(value));
         }
         expectedDetail.setContent(expectedContent);
-
-        List<RelationshipToCaseLookupValueDetail> actualDetailsList =
-            mapper.organisationRelationshipToCaseLookupValueListToRelationshipToCaseLookupValueDetailList(values);
 
         // Actual AmendmentTypeLookupDetail
         RelationshipToCaseLookupDetail actualDetail = mapper.toOrgRelationshipToCaseLookupDetail(page);
