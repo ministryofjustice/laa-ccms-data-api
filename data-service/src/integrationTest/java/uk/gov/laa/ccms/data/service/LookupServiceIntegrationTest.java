@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -248,6 +249,37 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
         // Call the repository method
         RelationshipToCaseLookupDetail result = lookupService.getOrganisationToCaseRelationshipLookupValues(
             code, description, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+            "VALUES ('COST', 'AwardType 1', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+        "INSERT INTO XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+            "VALUES ('COST_AGR', 'AwardType 2', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+        "INSERT INTO XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+            "VALUES ('DAMAGE', 'AwardType 3', 'AWARD2', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+    })
+    @CsvSource(value= {
+        "COST, null, 1",
+        "null, AWARD1, 2",
+        "null, null, 3"},
+        nullValues={"null"})
+    public void testGetAwardTypes(String code, String awardType, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the repository method
+        AwardTypeLookupDetail result = lookupService.getAwardTypeLookupValues(
+            code, awardType, pageable);
 
         // Assert the result
         assertNotNull(result);

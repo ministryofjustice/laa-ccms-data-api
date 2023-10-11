@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -147,6 +148,24 @@ class LookupControllerTest {
 
         ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
             lookupController.getPersonToCaseRelationshipLookupValues(code, description, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getAwardTypeValues_returnsAwardTypeValuesList() {
+        String code = "code";
+        String awardType = "awardType";
+        Pageable pageable = Pageable.unpaged();
+
+        AwardTypeLookupDetail expectedResponse = new AwardTypeLookupDetail();
+
+        when(lookupService.getAwardTypeLookupValues(code, awardType, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<AwardTypeLookupDetail> responseEntity =
+            lookupController.getAwardTypeLookupValues(code, awardType, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
