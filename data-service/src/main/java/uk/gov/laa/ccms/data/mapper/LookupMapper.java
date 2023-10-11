@@ -8,6 +8,7 @@ import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
@@ -81,9 +82,17 @@ public interface LookupMapper {
   RelationshipToCaseLookupValueDetail toRelationshipToCaseLookupValueDetail(
       PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue);
 
+
+  RelationshipToCaseLookupDetail toOrgRelationshipToCaseLookupDetail(
+      Page<OrganisationRelationshipToCaseLookupValue> lookupValues);
+
+  RelationshipToCaseLookupValueDetail toOrgRelationshipToCaseLookupValueDetail(
+      OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue);
+
   AwardTypeLookupDetail toAwardTypeLookupDetail(
       Page<AwardTypeLookupValue> awardTypeLookupValues);
 
   AwardTypeLookupValueDetail toAwardTypeLookupValueDetail(
       AwardTypeLookupValue awardTypeLookupValue);
+
 }

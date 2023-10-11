@@ -16,6 +16,7 @@ import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
@@ -307,11 +308,47 @@ class LookupMapperImplTest {
         }
         expectedDetail.setContent(expectedContent);
 
-        List<RelationshipToCaseLookupValueDetail> actualDetailsList =
-            mapper.personRelationshipToCaseLookupValueListToRelationshipToCaseLookupValueDetailList(values);
-
         // Actual AmendmentTypeLookupDetail
         RelationshipToCaseLookupDetail actualDetail = mapper.toRelationshipToCaseLookupDetail(page);
+
+        // Assertion
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toOrgRelationshipToCaseLookupValueDetail() {
+        OrganisationRelationshipToCaseLookupValue value = createOrganisationRelationshipToCaseLookupvalue("1");
+
+        RelationshipToCaseLookupValueDetail expectedDetail = createRelationshipToCaseLookupValueDetail(value);
+        RelationshipToCaseLookupValueDetail actualDetail =
+            mapper.toOrgRelationshipToCaseLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toOrgRelationshipToCaseLookupDetailTest() {
+        List<OrganisationRelationshipToCaseLookupValue> values = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            values.add(createOrganisationRelationshipToCaseLookupvalue(String.valueOf(i)));
+        }
+
+        // Create a Page object
+        Page<OrganisationRelationshipToCaseLookupValue> page = new PageImpl<>(values);
+        RelationshipToCaseLookupDetail expectedDetail = new RelationshipToCaseLookupDetail();
+
+        expectedDetail.setTotalPages(page.getTotalPages());
+        expectedDetail.setTotalElements((int) page.getTotalElements());
+        expectedDetail.setNumber(page.getNumber());
+        expectedDetail.setSize(page.getSize());
+        List<RelationshipToCaseLookupValueDetail> expectedContent = new ArrayList<>();
+        for (OrganisationRelationshipToCaseLookupValue value : page) {
+            expectedContent.add(createRelationshipToCaseLookupValueDetail(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        // Actual AmendmentTypeLookupDetail
+        RelationshipToCaseLookupDetail actualDetail = mapper.toOrgRelationshipToCaseLookupDetail(page);
 
         // Assertion
         assertEquals(expectedDetail, actualDetail);
@@ -357,6 +394,21 @@ class LookupMapperImplTest {
     }
 
     // Helper methods to create objects
+    private OrganisationRelationshipToCaseLookupValue createOrganisationRelationshipToCaseLookupvalue(String suffix) {
+        OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue = new OrganisationRelationshipToCaseLookupValue();
+        organisationRelationshipToCaseLookupValue.setCode("code" + suffix);
+        organisationRelationshipToCaseLookupValue.setDescription("description" + suffix);
+        return organisationRelationshipToCaseLookupValue;
+    }
+
+    private RelationshipToCaseLookupValueDetail createRelationshipToCaseLookupValueDetail(
+        OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue) {
+        RelationshipToCaseLookupValueDetail detail = new RelationshipToCaseLookupValueDetail();
+        detail.setCode(organisationRelationshipToCaseLookupValue.getCode());
+        detail.setDescription(organisationRelationshipToCaseLookupValue.getDescription());
+        return detail;
+    }
+
     private PersonRelationshipToCaseLookupValue createPersonRelationshipToCaseLookupvalue(String suffix) {
         PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue = new PersonRelationshipToCaseLookupValue();
         personRelationshipToCaseLookupValue.setCode("code" + suffix);

@@ -19,10 +19,10 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PER_RELTOCASE_V")
+@Table(name = "XXCCMS_ORG_RELTOCASE_V")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class PersonRelationshipToCaseLookupValue {
+public class OrganisationRelationshipToCaseLookupValue {
 
   @Id
   @Column(name = "CODE")

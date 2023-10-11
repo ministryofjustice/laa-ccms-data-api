@@ -16,6 +16,7 @@ import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
@@ -135,6 +136,24 @@ class LookupControllerTest {
     }
 
     @Test
+    void getPersonToCaseRelationshipLookupValues() {
+        String code = "code";
+        String description = "description";
+        Pageable pageable = Pageable.unpaged();
+
+        RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
+
+        when(lookupService.getPersonToCaseRelationshipLookupValues(code, description, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
+            lookupController.getPersonToCaseRelationshipLookupValues(code, description, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
     void getAwardTypeValues_returnsAwardTypeValuesList() {
         String code = "code";
         String awardType = "awardType";
@@ -151,4 +170,24 @@ class LookupControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
     }
+
+    @Test
+    void getOrganisationToCaseRelationshipLookupValues() {
+        String code = "code";
+        String description = "description";
+        Pageable pageable = Pageable.unpaged();
+
+        RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
+
+        when(lookupService.getOrganisationToCaseRelationshipLookupValues(code, description, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
+            lookupController.getOrganisationToCaseRelationshipLookupValues(code, description, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+
 }

@@ -20,6 +20,7 @@ import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
@@ -38,6 +39,7 @@ import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
@@ -66,6 +68,10 @@ class LookupServiceTest {
     @Mock
     private PersonRelationshipToCaseLookupValueRepository
         personRelationshipToCaseLookupValueRepository;
+
+    @Mock
+    private OrganisationRelationshipToCaseLookupValueRepository
+        organisationRelationshipToCaseLookupValueRepository;
 
     @Mock
     private AwardTypeLookupValueRepository awardTypeLookupValueRepository;
@@ -339,6 +345,31 @@ class LookupServiceTest {
             pageable);
 
         assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getOrganisationToCaseRelationshipValues_returnsPageOfValues() {
+        OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue = new OrganisationRelationshipToCaseLookupValue();
+        organisationRelationshipToCaseLookupValue.setCode("code");
+        organisationRelationshipToCaseLookupValue.setDescription("description");
+        Example<OrganisationRelationshipToCaseLookupValue> example = Example.of(organisationRelationshipToCaseLookupValue);
+        Pageable pageable = Pageable.unpaged();
+        Page<OrganisationRelationshipToCaseLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(organisationRelationshipToCaseLookupValue));
+        RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
+
+        when(organisationRelationshipToCaseLookupValueRepository.findAll(example, pageable))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toOrgRelationshipToCaseLookupDetail(expectedPage))
+            .thenReturn(expectedResponse);
+
+        RelationshipToCaseLookupDetail actualResponse = lookupService.getOrganisationToCaseRelationshipLookupValues(
+            organisationRelationshipToCaseLookupValue.getCode(),
+            organisationRelationshipToCaseLookupValue.getDescription(),
+            pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+
     }
 
     @Test

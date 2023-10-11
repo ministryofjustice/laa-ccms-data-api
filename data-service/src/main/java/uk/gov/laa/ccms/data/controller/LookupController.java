@@ -65,6 +65,8 @@ public class LookupController implements LookupApi {
     return ResponseEntity.ok(lookupService.getCountryLookupValues(code, pageable));
   }
 
+
+
   /**
    * GET amendment type lookup values by application type.
    *
@@ -128,6 +130,23 @@ public class LookupController implements LookupApi {
   public ResponseEntity<RelationshipToCaseLookupDetail> getPersonToCaseRelationshipLookupValues(
       String code, String description, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getPersonToCaseRelationshipLookupValues(
+        code, description, pageable));
+  }
+
+  /**
+   * GET organisation to case relationship lookup values.
+   *
+   * @param code the relationship code
+   * @param description  the relationship description
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of relationships to case
+   *         result values in the body
+   */
+  @Override
+  public ResponseEntity<RelationshipToCaseLookupDetail>
+      getOrganisationToCaseRelationshipLookupValues(
+      String code, String description, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getOrganisationToCaseRelationshipLookupValues(
         code, description, pageable));
   }
 

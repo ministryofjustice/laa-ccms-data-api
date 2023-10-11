@@ -228,6 +228,36 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
 
     @ParameterizedTest
     @Sql(statements = {
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+            "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'N', 'Y');",
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+            "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'Y', 'N');",
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+            "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N', 'N');"
+    })
+    @CsvSource(value = {
+        "REL1, Relationship 1, 1",
+        "REL2, Relationship 2, 1",
+        "REL3, Relationship 3, 1",
+        "REL4, null, 0",
+        "null, null, 3"},
+        nullValues={"null"})
+    public void testGetOrganisationRelationshipsToCase(String code, String description, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the repository method
+        RelationshipToCaseLookupDetail result = lookupService.getOrganisationToCaseRelationshipLookupValues(
+            code, description, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+
+    @ParameterizedTest
+    @Sql(statements = {
         "INSERT INTO XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
             + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
             "VALUES ('COST', 'AwardType 1', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
