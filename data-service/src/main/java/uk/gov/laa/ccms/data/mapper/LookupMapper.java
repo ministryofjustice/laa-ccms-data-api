@@ -86,6 +86,7 @@ public interface LookupMapper {
   RelationshipToCaseLookupDetail toOrgRelationshipToCaseLookupDetail(
       Page<OrganisationRelationshipToCaseLookupValue> lookupValues);
 
+  @Mapping(target = "dateOfBirthMandatory", ignore = true)
   RelationshipToCaseLookupValueDetail toOrgRelationshipToCaseLookupValueDetail(
       OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue);
 

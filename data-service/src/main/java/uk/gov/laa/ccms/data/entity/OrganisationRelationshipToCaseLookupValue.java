@@ -37,9 +37,6 @@ public class OrganisationRelationshipToCaseLookupValue {
   @Column(name = "OPPONENT_IND")
   private Boolean opponentInd;
 
-  @Column(name = "DOB_MANDATORY")
-  private Boolean dateOfBirthMandatory;
-
   @Column(name = "COPY_PARTY")
   private Boolean copyParty;
 

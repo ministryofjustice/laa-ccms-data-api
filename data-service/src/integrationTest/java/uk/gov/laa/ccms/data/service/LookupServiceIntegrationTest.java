@@ -228,12 +228,12 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
 
     @ParameterizedTest
     @Sql(statements = {
-        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'N', 'Y');",
-        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'Y', 'N');",
-        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N', 'N');"
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+            "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'Y');",
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+            "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'N');",
+        "INSERT INTO XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+            "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N');"
     })
     @CsvSource(value = {
         "REL1, Relationship 1, 1",
