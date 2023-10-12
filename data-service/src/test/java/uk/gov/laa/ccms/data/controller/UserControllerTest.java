@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -13,12 +14,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.UserDetail;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
 
 
@@ -69,6 +74,23 @@ class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
 
+    }
+
+    @Test
+    void getUsers_returnsData() {
+        Integer providerId = 123;
+        Pageable pageable = Pageable.unpaged();
+
+        UserDetails expectedResponse = new UserDetails();
+
+        when(userService.getUsers(providerId, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<UserDetails> responseEntity =
+            userController.getUsers(providerId, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
     }
 
 }

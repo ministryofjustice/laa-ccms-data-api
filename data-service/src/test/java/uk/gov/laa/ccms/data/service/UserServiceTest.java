@@ -3,15 +3,22 @@ package uk.gov.laa.ccms.data.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.mapper.UserMapper;
 import uk.gov.laa.ccms.data.model.UserDetail;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,5 +60,31 @@ class UserServiceTest {
         Optional<UserDetail> actualUser = userService.getUser(userId);
 
         assertEquals(Optional.empty(), actualUser);
+    }
+
+    @Test
+    void getUsers_returnsPageOfValues() {
+        Firm firm = new Firm();
+        firm.setId(1);
+
+        User user = new User();
+        user.setFirms(new ArrayList<>());
+        user.getFirms().add(firm);
+
+        Pageable pageable = Pageable.unpaged();
+        Page<User> expectedPage = new PageImpl<>(
+            Collections.singletonList(user));
+        UserDetails expectedResponse = new UserDetails();
+
+        when(userRepository.findByFirmsId(firm.getId(), pageable))
+            .thenReturn(expectedPage);
+        when(userMapper.toUserDetails(expectedPage)).thenReturn(
+            expectedResponse);
+
+        UserDetails actualResponse = userService.getUsers(
+            firm.getId(),
+            pageable);
+
+        assertEquals(expectedResponse, actualResponse);
     }
 }

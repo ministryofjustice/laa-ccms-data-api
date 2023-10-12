@@ -1,13 +1,16 @@
 package uk.gov.laa.ccms.data.service;
 
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.mapper.UserMapper;
 import uk.gov.laa.ccms.data.model.UserDetail;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.repository.UserRepository;
 
 
@@ -21,7 +24,6 @@ import uk.gov.laa.ccms.data.repository.UserRepository;
  * @see UserRepository
  */
 @Service
-@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class UserService extends AbstractEbsDataService {
@@ -30,9 +32,29 @@ public class UserService extends AbstractEbsDataService {
 
   private final UserMapper userMapper;
 
+  /**
+   * Get a single User based on its id.
+   *
+   * @param id = the id of the User.
+   * @return Optional UserDetail.
+   */
+
+  @Transactional
   public Optional<UserDetail> getUser(String id) {
     return userRepository.findById(id)
         .map(userMapper::toUserDetail);
   }
 
+  /**
+   * Get a UserDetails containing a page of BaseUser objects, based on the supplied
+   * search criteria.
+   *
+   * @param providerId - the related providerId for the User.
+   * @param pageable - the pageable settings.
+   * @return UserDetails containing a page of BaseUser.
+   */
+  public UserDetails getUsers(Integer providerId, Pageable pageable) {
+    Page<User> users = userRepository.findByFirmsId(providerId, pageable);
+    return userMapper.toUserDetails(users);
+  }
 }

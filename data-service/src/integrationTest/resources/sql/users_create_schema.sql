@@ -1,8 +1,9 @@
 CREATE TABLE XXCCMS_USER_FIRMS_V (
                                      USER_LOGIN_ID VARCHAR2(100),
-                                     PROVIDERFIRM_ID NUMBER(15) PRIMARY KEY,
+                                     PROVIDERFIRM_ID NUMBER(15),
                                      PROVIDER_NAME VARCHAR2(360),
-                                     USER_END_DATE TIMESTAMP
+                                     USER_END_DATE TIMESTAMP,
+                                     CONSTRAINT XXCCMS_USER_FIRMS_PK PRIMARY KEY (USER_LOGIN_ID, PROVIDERFIRM_ID)
 );
 
 
@@ -14,7 +15,7 @@ CREATE TABLE XXCCMS_USERS_V (
                                 USER_TYPE VARCHAR2(8),
                                 PROVIDER_NAME VARCHAR2(360),
                                 PROVIDERFIRM_ID NUMBER(15),
-                                FOREIGN KEY (PROVIDERFIRM_ID) REFERENCES XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID)
+                                FOREIGN KEY (USER_LOGIN_ID, PROVIDERFIRM_ID) REFERENCES XXCCMS_USER_FIRMS_V (USER_LOGIN_ID, PROVIDERFIRM_ID)
 );
 
 CREATE TABLE XXCCMS_USER_ROLES_V (

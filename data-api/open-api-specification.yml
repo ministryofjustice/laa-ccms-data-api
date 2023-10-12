@@ -31,6 +31,35 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /users:
+    get:
+      tags:
+        - users
+      summary: 'Get Users'
+      operationId: 'getUsers'
+      x-spring-paginated: true
+      parameters:
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'integer'
+            example: '123'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userDetails"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /providers/{provider-id}:
     get:
       tags:
@@ -626,7 +655,7 @@ components:
           type: 'boolean'
         lar_scope:
           type: 'string'
-    userDetail:
+    baseUser:
       type: 'object'
       properties:
         user_id:
@@ -637,6 +666,20 @@ components:
           type: 'string'
         user_type:
           type: 'string'
+    userDetails:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/baseUser'
+    userDetail:
+      allOf:
+        - $ref: "#/components/schemas/baseUser"
+      type: 'object'
+      properties:
         provider:
           $ref: "#/components/schemas/baseProvider"
         firms:

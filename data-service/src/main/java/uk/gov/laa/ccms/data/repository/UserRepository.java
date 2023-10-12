@@ -1,5 +1,7 @@
 package uk.gov.laa.ccms.data.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.User;
 
@@ -14,5 +16,7 @@ import uk.gov.laa.ccms.data.entity.User;
  */
 @Repository
 public interface UserRepository extends ReadOnlyRepository<User, String> {
+
+  Page<User> findByFirmsId(Integer providerId, Pageable pageable);
 
 }

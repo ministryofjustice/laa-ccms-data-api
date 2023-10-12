@@ -7,11 +7,15 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.model.BaseProvider;
+import uk.gov.laa.ccms.data.model.BaseUser;
 import uk.gov.laa.ccms.data.model.UserDetail;
+import uk.gov.laa.ccms.data.model.UserDetails;
 
 @ExtendWith(MockitoExtension.class)
 class UserMapperImplTest {
@@ -32,7 +36,16 @@ class UserMapperImplTest {
         return user;
     }
 
-    private UserDetail createUserDetails(User user) {
+    private BaseUser createBaseUser(User user) {
+        BaseUser baseUser = new BaseUser();
+        baseUser.setUserId(user.getUserId());
+        baseUser.setLoginId(user.getLoginId());
+        baseUser.setUsername(user.getUsername());
+        baseUser.setUserType(user.getUserType());
+        return baseUser;
+    }
+
+    private UserDetail createUserDetail(User user) {
         UserDetail userDetail = new UserDetail();
         userDetail.setUserId(user.getUserId());
         userDetail.setLoginId(user.getLoginId());
@@ -47,9 +60,9 @@ class UserMapperImplTest {
     // Tests
 
     @Test
-    void toUserDetails() {
+    void toUserDetail() {
         User user = createUser("");
-        UserDetail expectedDetail = createUserDetails(user);
+        UserDetail expectedDetail = createUserDetail(user);
         UserDetail actualDetail = mapper.toUserDetail(user);
         assertEquals(expectedDetail, actualDetail);
     }
@@ -80,5 +93,32 @@ class UserMapperImplTest {
         List<BaseProvider> actualDetails = mapper.firmListToBaseProviderList(firms);
 
         assertEquals(expectedDetails, actualDetails);
+    }
+
+    @Test
+    void toUserDetails() {
+        List<User> values = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            values.add(createUser(String.valueOf(i)));
+        }
+
+        // Create a Page object
+        Page<User> page = new PageImpl<>(values);
+        UserDetails expectedDetail = new UserDetails();
+
+        expectedDetail.setTotalPages(page.getTotalPages());
+        expectedDetail.setTotalElements((int) page.getTotalElements());
+        expectedDetail.setNumber(page.getNumber());
+        expectedDetail.setSize(page.getSize());
+        List<BaseUser> expectedContent = new ArrayList<>();
+        for (User value : page) {
+            expectedContent.add(createBaseUser(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        UserDetails actualDetail = mapper.toUserDetails(page);
+
+        // Assertion
+        assertEquals(expectedDetail, actualDetail);
     }
 }
