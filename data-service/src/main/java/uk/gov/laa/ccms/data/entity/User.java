@@ -6,6 +6,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -62,7 +63,7 @@ public class User {
   /**
    * The firms associated with the user.
    */
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_LOGIN_ID")
   @Where(clause = "user_end_date IS NULL OR user_end_date > TRUNC(SYSDATE)")
   private List<Firm> firms;
@@ -70,7 +71,7 @@ public class User {
   /**
    * The functions assigned to the user.
    */
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.LAZY)
   @CollectionTable(name = "XXCCMS_USER_ROLES_V", joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
   @Column(name = "FUNCTION")
   private List<String> functions;
@@ -78,7 +79,7 @@ public class User {
   /**
    * The provider of the user.
    */
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDERFIRM_ID", referencedColumnName = "PROVIDERFIRM_ID")
   private Provider provider;
 }

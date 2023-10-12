@@ -1,10 +1,12 @@
 package uk.gov.laa.ccms.data.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.UsersApi;
 import uk.gov.laa.ccms.data.model.UserDetail;
+import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
 
 /**
@@ -35,5 +37,16 @@ public class UserController implements UsersApi {
     return userService.getUser(loginId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrieves a Page of Users by their related providerId.
+   *
+   * @param providerId the related provider ID of the user
+   * @return ResponseEntity containing a UserDetails.
+   */
+  @Override
+  public ResponseEntity<UserDetails> getUsers(Integer providerId, Pageable pageable) {
+    return ResponseEntity.ok(userService.getUsers(providerId, pageable));
   }
 }
