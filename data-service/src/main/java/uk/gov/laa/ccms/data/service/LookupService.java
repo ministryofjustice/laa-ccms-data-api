@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
+import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
@@ -21,6 +22,7 @@ import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -28,6 +30,7 @@ import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
@@ -62,6 +65,8 @@ public class LookupService extends AbstractEbsDataService {
       organisationRelationshipToCaseLookupValueRepository;
 
   private final AwardTypeLookupValueRepository awardTypeLookupValueRepository;
+
+  private final CategoryOfLawLookupValueRepository categoryOfLawLookupValueRepository;
 
   private final LookupMapper lookupMapper;
 
@@ -238,6 +243,26 @@ public class LookupService extends AbstractEbsDataService {
 
     return lookupMapper.toAwardTypeLookupDetail(
         awardTypeLookupValueRepository.findAll(Example.of(example), pageable));
+  }
+
+  /**
+   * Retrieves a page of category of law lookup values based on the provided search criteria.
+   *
+   * @param code  the category of law code
+   * @param matterTypeDescription the matter type description
+   * @param copyCostLimit the copy cost limit value
+   * @param pageable pagination information
+   * @return a CategoryOfLawLookupDetail containing a page of category of law values
+   */
+  public CategoryOfLawLookupDetail getCategoryOfLawLookupValues(
+      String code, String matterTypeDescription, Boolean copyCostLimit, Pageable pageable) {
+    CategoryOfLawLookupValue example = new CategoryOfLawLookupValue();
+    example.setCode(code);
+    example.setMatterTypeDescription(matterTypeDescription);
+    example.setCopyCostLimit(copyCostLimit);
+
+    return lookupMapper.toCategoryOfLawLookupDetail(
+        categoryOfLawLookupValueRepository.findAll(Example.of(example), pageable));
   }
 
 }

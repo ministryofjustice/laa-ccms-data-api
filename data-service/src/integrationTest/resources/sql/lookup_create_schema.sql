@@ -72,3 +72,9 @@ CREATE TABLE XXCCMS_AWARD_TYPE_V (
                                     END_DATE_ACTIVE	DATE,
                                     ENABLED_FLAG	VARCHAR2(1)
 );
+
+CREATE TABLE XXCCMS_CATEGORY_OF_LAW_V (
+                                    CATEGORY_OF_LAW_CODE	VARCHAR2(30),
+                                    MATTER_TYPE_DESCRIPTION	VARCHAR2(80),
+                                    COPY_COST_LIMIT_IND	VARCHAR2(150)
+);

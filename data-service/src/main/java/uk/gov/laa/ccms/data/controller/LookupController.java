@@ -8,6 +8,7 @@ import uk.gov.laa.ccms.data.api.LookupApi;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -178,5 +179,23 @@ public class LookupController implements LookupApi {
       String code, String awardType, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getAwardTypeLookupValues(
         code, awardType, pageable));
+  }
+
+  /**
+   * GET category of law lookup values by code, matter type description, and
+   * copy cost limit value.
+   *
+   * @param code the category of law code
+   * @param matterTypeDescription  the matter type description
+   * @param copyCostLimit  the copy cost limit value
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of category of law
+   *     values in the body
+   */
+  @Override
+  public ResponseEntity<CategoryOfLawLookupDetail> getCategoryOfLawLookupValues(
+      String code, String matterTypeDescription, Boolean copyCostLimit, Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getCategoryOfLawLookupValues(
+        code, matterTypeDescription, copyCostLimit, pageable));
   }
 }
