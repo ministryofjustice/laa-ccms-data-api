@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -189,5 +190,23 @@ class LookupControllerTest {
         assertEquals(expectedResponse, responseEntity.getBody());
     }
 
+    @Test
+    void getCategoryOfLawValues_returnsCategoryOfLawValuesList() {
+        String code = "code";
+        String desc = "desc";
+        Boolean copyCostLimit = Boolean.TRUE;
 
+        Pageable pageable = Pageable.unpaged();
+
+        CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
+
+        when(lookupService.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<CategoryOfLawLookupDetail> responseEntity =
+            lookupController.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
 }

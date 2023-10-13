@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
+import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
@@ -28,6 +29,8 @@ import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
@@ -393,6 +396,46 @@ class LookupMapperImplTest {
         assertEquals(expectedDetail, actualDetail);
     }
 
+    @Test
+    void toCategoryOfLawLookupValueDetailTest() {
+        CategoryOfLawLookupValue value = createCategoryOfLawLookupValue("1");
+
+        CategoryOfLawLookupValueDetail expectedDetail = createCategoryOfLawLookupValueDetail(value);
+        CategoryOfLawLookupValueDetail actualDetail =
+            mapper.toCategoryOfLawLookupValueDetail(value);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toCategoryOfLawLookupDetailTest() {
+        List<CategoryOfLawLookupValue> awardTypeLookupValues = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            awardTypeLookupValues.add(createCategoryOfLawLookupValue(String.valueOf(i)));
+        }
+
+        // Create a Page object
+        Page<CategoryOfLawLookupValue> page = new PageImpl<>(awardTypeLookupValues);
+        CategoryOfLawLookupDetail expectedDetail = new CategoryOfLawLookupDetail();
+
+        expectedDetail.setTotalPages(page.getTotalPages());
+        expectedDetail.setTotalElements((int) page.getTotalElements());
+        expectedDetail.setNumber(page.getNumber());
+        expectedDetail.setSize(page.getSize());
+        List<CategoryOfLawLookupValueDetail> expectedContent = new ArrayList<>();
+        for (CategoryOfLawLookupValue value : page) {
+            expectedContent.add(createCategoryOfLawLookupValueDetail(value));
+        }
+        expectedDetail.setContent(expectedContent);
+
+        CategoryOfLawLookupDetail actualDetail =
+            mapper.toCategoryOfLawLookupDetail(
+                page);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+
     // Helper methods to create objects
     private OrganisationRelationshipToCaseLookupValue createOrganisationRelationshipToCaseLookupvalue(String suffix) {
         OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue = new OrganisationRelationshipToCaseLookupValue();
@@ -470,6 +513,22 @@ class LookupMapperImplTest {
         return detail;
     }
 
+    private CategoryOfLawLookupValue createCategoryOfLawLookupValue(String suffix) {
+        CategoryOfLawLookupValue awardTypeLookupValue = new CategoryOfLawLookupValue();
+        awardTypeLookupValue.setCode("code" + suffix);
+        awardTypeLookupValue.setMatterTypeDescription("desc" + suffix);
+        awardTypeLookupValue.setCopyCostLimit(Boolean.TRUE);
+        return awardTypeLookupValue;
+    }
+
+    private CategoryOfLawLookupValueDetail createCategoryOfLawLookupValueDetail(
+        CategoryOfLawLookupValue categoryOfLawLookupValue) {
+        CategoryOfLawLookupValueDetail detail = new CategoryOfLawLookupValueDetail();
+        detail.setCode(categoryOfLawLookupValue.getCode());
+        detail.setMatterTypeDescription(categoryOfLawLookupValue.getMatterTypeDescription());
+        detail.setCopyCostLimit(categoryOfLawLookupValue.getCopyCostLimit());
+        return detail;
+    }
 
     private OutcomeResultLookupValue createOutcomeResultLookupValue(String suffix) {
         OutcomeResultLookupValue outcomeResultLookupValue = new OutcomeResultLookupValue();

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
+import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
@@ -30,6 +31,7 @@ import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -37,6 +39,7 @@ import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
@@ -75,6 +78,9 @@ class LookupServiceTest {
 
     @Mock
     private AwardTypeLookupValueRepository awardTypeLookupValueRepository;
+
+    @Mock
+    private CategoryOfLawLookupValueRepository categoryOfLawLookupValueRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -391,6 +397,33 @@ class LookupServiceTest {
         AwardTypeLookupDetail actualResponse = lookupService.getAwardTypeLookupValues(
             awardTypeLookupValue.getCode(),
             awardTypeLookupValue.getAwardType(),
+            pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getCategoryOfLawValues_returnsPageOfValues() {
+        CategoryOfLawLookupValue categoryOfLawLookupValue = new CategoryOfLawLookupValue();
+        categoryOfLawLookupValue.setCode("code");
+        categoryOfLawLookupValue.setMatterTypeDescription("desc");
+        categoryOfLawLookupValue.setCopyCostLimit(Boolean.TRUE);
+
+        Example<CategoryOfLawLookupValue> example = Example.of(categoryOfLawLookupValue);
+        Pageable pageable = Pageable.unpaged();
+        Page<CategoryOfLawLookupValue> expectedPage = new PageImpl<>(
+            Collections.singletonList(categoryOfLawLookupValue));
+        CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
+
+        when(categoryOfLawLookupValueRepository.findAll(example, pageable))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toCategoryOfLawLookupDetail(expectedPage)).thenReturn(
+            expectedResponse);
+
+        CategoryOfLawLookupDetail actualResponse = lookupService.getCategoryOfLawLookupValues(
+            categoryOfLawLookupValue.getCode(),
+            categoryOfLawLookupValue.getMatterTypeDescription(),
+            categoryOfLawLookupValue.getCopyCostLimit(),
             pageable);
 
         assertEquals(expectedResponse, actualResponse);

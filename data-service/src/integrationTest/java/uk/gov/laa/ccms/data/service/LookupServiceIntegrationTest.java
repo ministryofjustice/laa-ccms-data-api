@@ -18,6 +18,7 @@ import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
+import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -280,6 +281,33 @@ public class LookupServiceIntegrationTest extends AbstractIntegrationTest {
         // Call the repository method
         AwardTypeLookupDetail result = lookupService.getAwardTypeLookupValues(
             code, awardType, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+            "VALUES ('CAT1', 'Mat 1', 'Y')",
+        "INSERT INTO XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+            "VALUES ('CAT2', 'Mat 1', 'N')",
+        "INSERT INTO XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+            "VALUES ('CAT3', 'Mat 2', 'Y')",
+    })
+    @CsvSource(value= {
+        "CAT1, null, null, 1",
+        "null, Mat 1, null, 2",
+        "null, null, false, 1"},
+        nullValues={"null"})
+    public void testGetCategoriesOfLaw(String code, String desc, Boolean copyCostLimit, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the repository method
+        CategoryOfLawLookupDetail result = lookupService.getCategoryOfLawLookupValues(
+            code, desc, copyCostLimit, pageable);
 
         // Assert the result
         assertNotNull(result);
