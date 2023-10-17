@@ -35,7 +35,7 @@ jobs:
     build-test-publish:
       runs-on: ubuntu-latest
       outputs:
-        app_version:${{ steps.capture-version.outputs.app_version }}
+        app_version: ${{ steps.capture_version.outputs.app_version }}
       steps:
         - uses: actions/checkout@v3
         - name: Set up JDK 17
@@ -55,7 +55,7 @@ jobs:
             arguments: release -Prelease.useAutomaticVersion=true
 
         - name: Capture version
-          id: capture-version
+          id: capture_version
           run: |
             VERSION=$(grep "version=" gradle.properties | cut -d'=' -f2)
             echo "Captured version: $VERSION"
