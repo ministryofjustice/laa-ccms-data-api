@@ -33,122 +33,122 @@ jobs:
         run: echo "tag_name=${{ steps.extract_repo_name.outputs.repo_name }}-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
         id: extract_tag_name
 
-    build-test-publish:
-      runs-on: ubuntu-latest
-      outputs:
-        app_version: ${{ steps.capture_version.outputs.app_version }}
-      steps:
-        - uses: actions/checkout@v3
-        - name: Set up JDK 17
-          uses: actions/setup-java@v3
-          with:
-            java-version: '17'
-            distribution: 'temurin'
-        - name: Build with Gradle
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-          with:
-            arguments: build
+  build-test-publish:
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.capture_version.outputs.app_version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: build
 
-        - name: Test
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-          with:
-            arguments: jacocoTestCoverageVerification
+      - name: Test
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: jacocoTestCoverageVerification
 
-        - name: Integration Test
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-          with:
-            arguments: integrationTest
+      - name: Integration Test
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: integrationTest
 
-        - name: Publish package
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-          with:
-            arguments: publish
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish package
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: publish
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Capture version
-          id: capture_version
-          run: |
-            VERSION=$(grep "version=" gradle.properties | cut -d'=' -f2)
-            echo "Captured version: $VERSION"
-            echo "::set-output name=version::$VERSION"
-            echo "app_version=${VERSION}" >> $GITHUB_OUTPUT
+      - name: Capture version
+        id: capture_version
+        run: |
+          VERSION=$(grep "version=" gradle.properties | cut -d'=' -f2)
+          echo "Captured version: $VERSION"
+          echo "::set-output name=version::$VERSION"
+          echo "app_version=${VERSION}" >> $GITHUB_OUTPUT
 
-        - name: Upload jarfile
-          uses: actions/upload-artifact@v3
-          with:
-            name: data-api-jar
-            path: data-service/build/libs/data-service-${{ steps.capture-version.outputs.app_version }}.jar
+      - name: Upload jarfile
+        uses: actions/upload-artifact@v3
+        with:
+          name: data-api-jar
+          path: data-service/build/libs/data-service-${{ steps.capture-version.outputs.app_version }}.jar
 
-    ecr:
-      if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
-      needs: [ build-test-publish, define-image-tag ]
-      runs-on: ubuntu-latest
-      permissions:
-        id-token: write # for requesting jwt
-        contents: read  # for actions/checkout
-      steps:
-        # Checkout github repo
-        - uses: actions/checkout@v3
-        # Assume role in cloud platform
-        - name: download jar
-          uses: actions/download-artifact@v3
-          with:
-            name: data-api-jar
+  ecr:
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+    needs: [ build-test-publish, define-image-tag ]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # for requesting jwt
+      contents: read  # for actions/checkout
+    steps:
+      # Checkout github repo
+      - uses: actions/checkout@v3
+      # Assume role in cloud platform
+      - name: download jar
+        uses: actions/download-artifact@v3
+        with:
+          name: data-api-jar
 
-        - name: Configure aws credentials
-          uses: aws-actions/configure-aws-credentials@v2
-          with:
-            role-to-assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
-            aws-region: ${{ vars.DEV_ECR_REGION }}
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.DEV_ECR_REGION }}
 
-        - name: Login ecr
-          uses: aws-actions/amazon-ecr-login@v1
-          id: login-ecr
+      - name: Login ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
 
-        # Build and push docker image to container repo
-        - name: Build and push image
-          env:
-            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
-            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
-            APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
-          run: |
-            docker build --build-arg VERSION=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }} .
-            docker push $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }}
+      # Build and push docker image to container repo
+      - name: Build and push image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          docker build --build-arg VERSION=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }} .
+          docker push $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }}
 
-        - name: delete artifact
-          uses: geekyeggo/delete-artifact@v2
-          with:
-            name: data-api-jar
+      - name: delete artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: data-api-jar
 
-        - name: delete artifact
-          uses: geekyeggo/delete-artifact@v2
-          with:
-            name: data-api-jar
+      - name: delete artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: data-api-jar
 
-    update-helm-chart:
-      needs: [ ecr, define-image-tag ]
-      runs-on: ubuntu-latest
-      environment: development
-      steps:
-        - name: Checkout charts repo
-          uses: actions/checkout@v3
-          with:
-            repository: ministryofjustice/laa-ccms-caab-helm-charts
-            ref: development
-            path: laa-ccms-caab-helm-charts
-            token: ${{ secrets.REPO_TOKEN }}
-        - name: update helm chart
-          env:
-            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
-          run: |
-            echo "$IMAGE_TAG"
-            cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/laa-ccms-caab-ebs-api/
-            yq eval-all "( .appVersion = \"${{ env.IMAGE_TAG }}\" )" -i Chart.yaml
-            git config --global user.email "github@justice.gov.uk"
-            git config --global user.name "GitHub Actions Bot"
-            git add .
-            git commit -m "update appVersion to ${{ env.IMAGE_TAG }}"
-            git push origin
+  update-helm-chart:
+    needs: [ ecr, define-image-tag ]
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout charts repo
+        uses: actions/checkout@v3
+        with:
+          repository: ministryofjustice/laa-ccms-caab-helm-charts
+          ref: test
+          path: laa-ccms-caab-helm-charts
+          token: ${{ secrets.REPO_TOKEN }}
+      - name: update helm chart
+        env:
+          IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+        run: |
+          echo "$IMAGE_TAG"
+          cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/laa-ccms-caab-ebs-api/
+          yq eval-all "( .appVersion = \"${{ env.IMAGE_TAG }}\" )" -i Chart.yaml
+          git config --global user.email "github@justice.gov.uk"
+          git config --global user.name "GitHub Actions Bot"
+          git add .
+          git commit -m "update appVersion to ${{ env.IMAGE_TAG }}"
+          git push origin
 
