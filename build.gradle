@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
 
-    group = 'uk.gov.laa.ccms.data'
+    group = 'uk.gov.laa.ccms.caab'
 
     sourceCompatibility = '17'
 
