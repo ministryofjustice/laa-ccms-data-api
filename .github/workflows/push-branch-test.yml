@@ -18,7 +18,6 @@ permissions:
 
 jobs:
   define-image-tag:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     # map a step output to job output
     outputs:
@@ -81,7 +80,6 @@ jobs:
           path: data-service/build/libs/data-service-${{ steps.capture-version.outputs.app_version }}.jar
 
   ecr:
-    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     needs: [ build-test-publish, define-image-tag ]
     runs-on: ubuntu-latest
     permissions:
