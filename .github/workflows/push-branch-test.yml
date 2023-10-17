@@ -66,12 +66,12 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Capture version
+        shell: bash
         id: capture_version
         run: |
           VERSION=$(grep "version=" gradle.properties | cut -d'=' -f2)
-          echo "Captured version: $VERSION"
-          echo "::set-output name=version::$VERSION"
           echo "app_version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Captured version: $VERSION"
 
       - name: Upload jarfile
         uses: actions/upload-artifact@v3
@@ -112,6 +112,7 @@ jobs:
           IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
           APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
+          echo "Captured version: ${{ env.APP_VERSION }}"
           docker build --build-arg VERSION=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }} .
           docker push $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }}
 
