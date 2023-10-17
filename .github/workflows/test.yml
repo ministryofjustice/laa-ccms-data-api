@@ -8,8 +8,9 @@
 name: CI caab-data-api
 
 on:
-  branches:
-    - task/ccls-1880_amend_package_versions
+  push:
+    branches:
+      - task/ccls-1880_amend_package_versions
 
 permissions:
   contents: read
