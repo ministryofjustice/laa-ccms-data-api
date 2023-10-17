@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: data-api-jar
-          path: data-service/build/libs/data-service-${{ steps.capture-version.outputs.app_version }}.jar
+          path: data-service/build/libs/data-service-${{ steps.capture_version.outputs.app_version }}.jar
 
   ecr:
     needs: [ build-test-publish, define-image-tag ]
