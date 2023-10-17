@@ -1,0 +1,145 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: CI caab-data-api
+
+on:
+  push:
+    branches:
+      - task/ccls-1880_amend_package_versions
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+    define-image-tag:
+      runs-on: ubuntu-latest
+      # map a step output to job output
+      outputs:
+        tag_name: ${{ steps.extract_tag_name.outputs.tag_name }}
+      steps:
+        - name: Extract short repo name
+          shell: bash
+          run: echo "repo_name=caab-ebs${GITHUB_REPOSITORY#*\/laa-ccms-data}" >> $GITHUB_OUTPUT
+          id: extract_repo_name
+        - name: derive tag name
+          shell: bash
+          run: echo "tag_name=${{ steps.extract_repo_name.outputs.repo_name }}-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+          id: extract_tag_name
+
+    build-test-publish:
+      runs-on: ubuntu-latest
+      outputs:
+        app_version: ${{ steps.capture_version.outputs.app_version }}
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.REPO_TOKEN }}
+        - name: Set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+
+        - name: Set to github user
+          run: |
+            git config --global user.email "github@justice.gov.uk"
+            git config --global user.name "GitHub Actions Bot"
+
+        - name: Update version
+          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+          with:
+            arguments: release -Prelease.useAutomaticVersion=true
+
+        - name: Capture version
+          id: capture_version
+          run: |
+            VERSION=$(grep "version=" gradle.properties | cut -d'=' -f2)
+            echo "Captured version: $VERSION"
+            echo "::set-output name=version::$VERSION"
+            echo "app_version=${VERSION}" >> $GITHUB_OUTPUT
+
+        - name: Upload jarfile
+          uses: actions/upload-artifact@v3
+          with:
+            name: data-api-jar
+            path: data-service/build/libs/data-service-${{ steps.capture-version.outputs.version }}.jar
+
+        - name: Publish package
+          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+          with:
+            arguments: publish
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    ecr:
+      needs: [build-test-publish, define-image-tag]
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write # for requesting jwt
+        contents: read  # for actions/checkout
+      steps:
+        # Checkout github repo
+        - uses: actions/checkout@v3
+        # Assume role in cloud platform
+        - name: download jar
+          uses: actions/download-artifact@v3
+          with:
+            name: data-api-jar
+
+        - name: Configure aws credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            role-to-assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
+            aws-region: ${{ vars.DEV_ECR_REGION }}
+
+        - name: Login ecr
+          uses: aws-actions/amazon-ecr-login@v1
+          id: login-ecr
+
+        # Build and push docker image to container repo
+        - name: Build and push image
+          env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
+            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+            APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+          run: |
+            docker build --build-arg VERSION=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }} .
+            docker push $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }}
+
+        - name: delete artifact
+          uses: geekyeggo/delete-artifact@v2
+          with:
+            name: data-api-jar
+
+#    update-helm-chart:
+#      needs: [ecr, define-image-tag]
+#      runs-on: ubuntu-latest
+#      environment: development
+#      steps:
+#        - name: Checkout charts repo
+#          uses: actions/checkout@v3
+#          with:
+#            repository: ministryofjustice/laa-ccms-caab-helm-charts
+#            ref: development
+#            path: laa-ccms-caab-helm-charts
+#            token: ${{ secrets.REPO_TOKEN }}
+#        - name: update helm chart
+#          env:
+#            IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+#          run: |
+#            echo "$IMAGE_TAG"
+#            cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/laa-ccms-caab-ebs-api/
+#            yq eval-all "( .appVersion = \"${{ env.IMAGE_TAG }}\" )" -i Chart.yaml
+#            git config --global user.email "github@justice.gov.uk"
+#            git config --global user.name "GitHub Actions Bot"
+#            git add .
+#            git commit -m "update appVersion to ${{ env.IMAGE_TAG }}"
+#            git push origin
+

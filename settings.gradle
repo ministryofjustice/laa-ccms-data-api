@@ -1,4 +1,4 @@
-rootProject.name = 'laa-ccms-data-api'
+rootProject.name = 'laa-ccms-caab-ebs-api'
 
 include 'data-api'
 include 'data-service'
