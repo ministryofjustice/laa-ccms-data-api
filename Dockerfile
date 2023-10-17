@@ -4,6 +4,7 @@ ARG VERSION=0.0.1-SNAPSHOT
 FROM eclipse-temurin:17
 VOLUME /tmp
 
+RUN echo ${VERSION}
 COPY data-service-${VERSION}.jar laa-ccms-caab-ebs-api.jar
 
 EXPOSE 8080
