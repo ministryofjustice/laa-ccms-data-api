@@ -127,8 +127,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ministryofjustice/laa-ccms-caab-helm-charts
-          #todo change to development
-          ref: test
+          ref: development
           path: laa-ccms-caab-helm-charts
           token: ${{ secrets.REPO_TOKEN }}
       - name: update helm chart
@@ -179,5 +178,5 @@ jobs:
           git commit -m "Update data-api version to ${APP_VERSION}"
           git push origin dependency/update-data-api-version-${APP_VERSION}
           
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh auth login --with-token <<< "${{ secrets.REPO_TOKEN }}"
           gh pr create --base main --head dependency/update-data-api-version-${APP_VERSION} --title "Update data-api version to ${APP_VERSION}" --body "Automatic PR raised by GitHub Actions to update data-api version to ${APP_VERSION}"
