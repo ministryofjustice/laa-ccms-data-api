@@ -20,12 +20,6 @@ subprojects {
 
     release {
         tagTemplate = '$name-$version'
-        failOnCommitNeeded = false
-
-        //TODO remove
-        git {
-            requireBranch.set('task/ccls-1880_amend_package_versions')
-        }
     }
 }
 
