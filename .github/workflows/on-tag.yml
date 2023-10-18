@@ -9,8 +9,8 @@ name: CI caab-data-api
 
 on:
   push:
-    branches:
-      - task/ccls-1880_amend_package_versions
+    tags:
+      - '*'
 
 permissions:
   contents: read
@@ -45,15 +45,15 @@ jobs:
         with:
           arguments: build
 
-#      - name: Test
-#        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-#        with:
-#          arguments: jacocoTestCoverageVerification
-#
-#      - name: Integration Test
-#        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-#        with:
-#          arguments: integrationTest
+      - name: Test
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: jacocoTestCoverageVerification
+
+      - name: Integration Test
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: integrationTest
 
       - name: Publish package
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
