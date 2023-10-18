@@ -9,6 +9,7 @@ name: CI caab-data-api
 
 on:
   pull_request:
+    #TODO rename to main
     branches: [ task/ccls-1880_amend_package_versions ]
     types: [ closed ]
 
@@ -17,24 +18,7 @@ permissions:
   packages: write
 
 jobs:
-    define-image-tag:
-      if: github.event.pull_request.merged == true
-      runs-on: ubuntu-latest
-      # map a step output to job output
-      outputs:
-        tag_name: ${{ steps.extract_tag_name.outputs.tag_name }}
-      steps:
-        - name: Extract short repo name
-          shell: bash
-          run: echo "repo_name=caab-ebs${GITHUB_REPOSITORY#*\/laa-ccms-data}" >> $GITHUB_OUTPUT
-          id: extract_repo_name
-        - name: derive tag name
-          shell: bash
-          run: echo "tag_name=${{ steps.extract_repo_name.outputs.repo_name }}-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
-          id: extract_tag_name
-
-
-    build-test-publish:
+    build-test-release:
       if: github.event.pull_request.merged == true
       runs-on: ubuntu-latest
       steps:
