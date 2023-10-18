@@ -145,3 +145,36 @@ jobs:
           git commit -m "update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
           git push origin
 
+  update-laa-ccms-caab-ui:
+    needs: [ build-test-publish, ecr, define-image-tag ]
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout caab-ui repo
+        uses: actions/checkout@v3
+        with:
+          repository: ministryofjustice/laa-ccms-caab
+          ref: main
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Create a new branch
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          git checkout -b dependency/update-data-api-version-${APP_VERSION}
+
+      - name: Update gradle build file
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          sed -i "s/uk.gov.laa.ccms.data:data-api:[^']*/uk.gov.laa.ccms.data:data-api:${APP_VERSION}/g" build.gradle
+
+      - name: Commit and push changes
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          git config --global user.email "github@justice.gov.uk"
+          git config --global user.name "GitHub Actions Bot"
+          git add build.gradle
+          git commit -m "Update data-api version to ${APP_VERSION}"
+          git push origin dependency/update-data-api-version--${APP_VERSION}

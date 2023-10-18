@@ -12,7 +12,6 @@ on:
     branches-ignore:
       - main
       - task/ccls-1880_amend_package_versions
-      - test
 
 permissions:
   contents: read

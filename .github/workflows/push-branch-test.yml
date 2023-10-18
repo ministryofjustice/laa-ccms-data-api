@@ -1,0 +1,56 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: CI caab-data-api
+
+on:
+  push:
+    branches:
+      - [ task/ccls-1880_amend_package_versions ]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  update-laa-ccms-caab-ui:
+    needs: [ build-test-publish, ecr, define-image-tag ]
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Checkout caab-ui repo
+        uses: actions/checkout@v3
+        with:
+          repository: ministryofjustice/laa-ccms-caab
+          ref: main
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Create a new branch
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          git checkout -b dependency/update-data-api-version-TEST
+
+      - name: Update gradle build file
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          sed -i "s/uk.gov.laa.ccms.data:data-api:[^']*/uk.gov.laa.ccms.data:data-api:TEST/g" build.gradle
+
+      - name: Commit and push changes
+        env:
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
+        run: |
+          git config --global user.email "github@justice.gov.uk"
+          git config --global user.name "GitHub Actions Bot"
+          git add build.gradle
+          git commit -m "Update data-api version to TEST"
+          git push origin dependency/update-data-api-version-TEST
+          
+          gh auth login --with-token <<< "${{ secrets.REPO_TOKEN }}"
+          gh pr create --base main --head dependency/update-data-api-version-TEST --title "Update data-api version to TEST" --body "Automatic PR raised by GitHub Actions to update data-api version to TEST"
+
