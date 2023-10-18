@@ -1,11 +1,11 @@
-# Use a build argument for version
-ARG VERSION=0.0.1-SNAPSHOT
-
 FROM eclipse-temurin:17
+
+# Use a build argument for version
+ARG app_version=0.0.1-SNAPSHOT
+
 VOLUME /tmp
 
-RUN echo ${VERSION}
-COPY data-service-${VERSION}.jar laa-ccms-caab-ebs-api.jar
+COPY data-service-${app_version}.jar laa-ccms-caab-ebs-api.jar
 
 EXPOSE 8080
 RUN addgroup --system --gid 800 customgroup \
