@@ -119,7 +119,7 @@ jobs:
           name: data-api-jar
 
   update-helm-chart:
-    needs: [ ecr, define-image-tag ]
+    needs: [ build-test-publish, ecr, define-image-tag ]
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -132,7 +132,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
       - name: update helm chart
         env:
-          REPO_NAME: ${{ steps.define-image-tag.outputs.repo_name }}
+          REPO_NAME: ${{ needs.define-image-tag.outputs.repo_name }}
           APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           echo "${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
