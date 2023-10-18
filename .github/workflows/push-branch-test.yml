@@ -18,7 +18,6 @@ permissions:
 
 jobs:
   update-laa-ccms-caab-ui:
-    needs: [ build-test-publish, ecr, define-image-tag ]
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -30,20 +29,14 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
 
       - name: Create a new branch
-        env:
-          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           git checkout -b dependency/update-data-api-version-TEST
 
       - name: Update gradle build file
-        env:
-          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           sed -i "s/uk.gov.laa.ccms.data:data-api:[^']*/uk.gov.laa.ccms.data:data-api:TEST/g" build.gradle
 
       - name: Commit and push changes
-        env:
-          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           git config --global user.email "github@justice.gov.uk"
           git config --global user.name "GitHub Actions Bot"
