@@ -22,15 +22,12 @@ jobs:
     # map a step output to job output
     outputs:
       tag_name: ${{ steps.extract_tag_name.outputs.tag_name }}
+      repo_name: ${{ steps.extract_repo_name.outputs.repo_name }}
     steps:
       - name: Extract short repo name
         shell: bash
         run: echo "repo_name=caab-ebs${GITHUB_REPOSITORY#*\/laa-ccms-data}" >> $GITHUB_OUTPUT
         id: extract_repo_name
-      - name: derive tag name
-        shell: bash
-        run: echo "tag_name=${{ steps.extract_repo_name.outputs.repo_name }}-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
-        id: extract_tag_name
 
   build-test-publish:
     runs-on: ubuntu-latest
@@ -109,12 +106,12 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+          REPO_NAME: ${{ steps.define-image-tag.outputs.repo_name }}
           APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           echo "Captured version: ${{ env.APP_VERSION }}"
-          docker build --build-arg app_version=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }} .
-          docker push $REGISTRY/$REPOSITORY:${{ env.IMAGE_TAG }}
+          docker build --build-arg app_version=${{ env.APP_VERSION }} -t $REGISTRY/$REPOSITORY:${{ env.REPO_NAME }}-${{ env.APP_VERSION }} .
+          docker push $REGISTRY/$REPOSITORY:${{ env.REPO_NAME }}-${{ env.APP_VERSION }}
 
       - name: delete artifact
         uses: geekyeggo/delete-artifact@v2
@@ -135,14 +132,15 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
       - name: update helm chart
         env:
-          IMAGE_TAG: ${{ needs.define-image-tag.outputs.tag_name }}
+          REPO_NAME: ${{ steps.define-image-tag.outputs.repo_name }}
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
-          echo "$IMAGE_TAG"
+          echo "${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
           cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/laa-ccms-caab-ebs-api/
-          yq eval-all "( .appVersion = \"${{ env.IMAGE_TAG }}\" )" -i Chart.yaml
+          yq eval-all "( .appVersion = \"${{ env.REPO_NAME }}-${{ env.APP_VERSION }}\" )" -i Chart.yaml
           git config --global user.email "github@justice.gov.uk"
           git config --global user.name "GitHub Actions Bot"
           git add .
-          git commit -m "update appVersion to ${{ env.IMAGE_TAG }}"
+          git commit -m "update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
           git push origin
 
