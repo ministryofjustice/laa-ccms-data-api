@@ -106,7 +106,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.DEV_ECR_REPOSITORY }}
-          REPO_NAME: ${{ steps.define-image-tag.outputs.repo_name }}
+          REPO_NAME: ${{ needs.define-image-tag.outputs.repo_name }}
           APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           echo "Captured version: ${{ env.APP_VERSION }}"
