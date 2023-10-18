@@ -5,22 +5,26 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: CI caab-data-api push to branch
+name: CI caab-data-api pr to main
 
 on:
-  push:
-    branches-ignore:
-      - main
+  pull_request:
+    branches: [ main ]
+    types: [ closed ]
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-    build-test-publish:
+    build-test-release:
+      if: github.event.pull_request.merged == true
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
+          with:
+            ref: main
+            token: ${{ secrets.REPO_TOKEN }}
         - name: Set up JDK 17
           uses: actions/setup-java@v3
           with:
@@ -41,15 +45,13 @@ jobs:
           with:
             arguments: integrationTest
 
-        - name: Update snapshot version
-          uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
-          with:
-            arguments: updateSnapshotVersion
+        - name: Set to github user
+          run: |
+            git config --global user.email "github@justice.gov.uk"
+            git config --global user.name "GitHub Actions Bot"
 
-        - name: Publish package
+        - name: Update version
           uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
           with:
-            arguments: publish
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            arguments: release -Prelease.useAutomaticVersion=true
 
