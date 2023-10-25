@@ -21,36 +21,23 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PROVIDERFIRMS_V")
+@Table(name = "XXCCMS_PROVIDERCONTACTS_V")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Provider {
+public class ProviderContact {
 
   /**
    * The unique identifier for the provider firm.
    */
   @Id
-  @Column(name = "PROVIDERFIRM_ID")
+  @Column(name = "CONTACT_ID")
   private Integer id;
 
   /**
    * The name of the provider.
    */
-  @Column(name = "PROVIDERFIRM_NAME")
+  @Column(name = "CONTACT_NAME")
   private String name;
 
-  /**
-   * The provider's related offices.
-   */
-  @OneToMany
-  @JoinColumn(name = "PROVIDERFIRM_ID")
-  private List<Office> offices;
-
-  /**
-   * The provider's related contact names.
-   */
-  @OneToMany
-  @JoinColumn(name = "PROVIDERFIRM_ID")
-  private List<ProviderContact> contactNames;
 
 }

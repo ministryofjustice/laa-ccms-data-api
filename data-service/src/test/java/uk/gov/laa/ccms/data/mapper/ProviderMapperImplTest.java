@@ -10,6 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccms.data.entity.FeeEarner;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
+import uk.gov.laa.ccms.data.entity.ProviderContact;
+import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +37,8 @@ class ProviderMapperImplTest {
         assertEquals(1, provider.getOffices().get(0).getFeeEarners().size());
         assertEquals(provider.getOffices().get(0).getFeeEarners().get(0).getId(), provider.getOffices().get(0).getFeeEarners().get(0).getId());
         assertEquals(provider.getOffices().get(0).getFeeEarners().get(0).getName(), provider.getOffices().get(0).getFeeEarners().get(0).getName());
+        assertEquals(provider.getContactNames().get(0).getId(), result.getContactNames().get(0).getId());
+        assertEquals(provider.getContactNames().get(0).getName(), result.getContactNames().get(0).getName());
     }
 
     // Helper methods to create objects
@@ -51,6 +55,8 @@ class ProviderMapperImplTest {
         provider.setName("provname");
         provider.setOffices(new ArrayList<>());
         provider.getOffices().add(buildOffice());
+        provider.setContactNames(new ArrayList<>());
+        provider.getContactNames().add(buildProviderContact());
         return provider;
     }
 
@@ -62,6 +68,13 @@ class ProviderMapperImplTest {
         office.getFeeEarners().add(buildFeeEarner());
 
         return office;
+    }
+
+    private ProviderContact buildProviderContact(){
+        ProviderContact providerContact = new ProviderContact();
+        providerContact.setId(76);
+        providerContact.setName("providercontact");
+        return  providerContact;
     }
 
 }

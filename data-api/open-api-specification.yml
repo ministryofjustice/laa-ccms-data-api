@@ -659,6 +659,10 @@ components:
           type: 'array'
           items:
             $ref: "#/components/schemas/officeDetail"
+        contact_names:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/contactDetail"
     proceedingDetails:
       allOf:
         - $ref: "#/components/schemas/page"

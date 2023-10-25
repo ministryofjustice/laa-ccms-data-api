@@ -22,3 +22,10 @@ CREATE TABLE XXCCMS_FEE_EARNER_OFFICES_V (
                                       OFFICE_ID NUMBER(15) NOT NULL,
                                       OFFICE_NAME VARCHAR2(255) NOT NULL
 );
+
+CREATE TABLE XXCCMS_PROVIDERCONTACTS_V (
+                                      CONTACT_ID NUMBER(15) PRIMARY KEY,
+                                      CONTACT_NAME VARCHAR2(255) NOT NULL,
+                                      PROVIDERFIRM_ID NUMBER(15),
+                                      PROVIDER_FIRM_NAME VARCHAR2(360)
+);
