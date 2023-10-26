@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.AbstractIntegrationTest;
+import uk.gov.laa.ccms.data.entity.ProviderContact;
+import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 
@@ -54,6 +56,14 @@ public class ProviderServiceIntegrationTest extends AbstractIntegrationTest {
     assertEquals(2, office1.getFeeEarners().size());
     assertEquals(1, office1.getFeeEarners().get(0).getId());
     assertEquals(2, office1.getFeeEarners().get(1).getId());
+
+    // Check ContactNames
+    assertNotNull(provider.getContactNames());
+    assertEquals(2, provider.getContactNames().size());
+    ContactDetail providerContact1 = provider.getContactNames().get(0);
+    ContactDetail providerContact2 = provider.getContactNames().get(1);
+    assertEquals(128, providerContact1.getId());
+    assertEquals(256, providerContact2.getId());
 
     assertTrue(office2.getFeeEarners().isEmpty());
   }

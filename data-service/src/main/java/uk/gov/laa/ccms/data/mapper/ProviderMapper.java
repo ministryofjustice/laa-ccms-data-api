@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import uk.gov.laa.ccms.data.entity.FeeEarner;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
+import uk.gov.laa.ccms.data.entity.ProviderContact;
 import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
@@ -28,4 +29,6 @@ public interface ProviderMapper {
   OfficeDetail toOfficeDetail(Office office);
 
   ContactDetail toContactDetail(FeeEarner feeEarner);
+
+  ContactDetail toContactDetail(ProviderContact providerContact);
 }
