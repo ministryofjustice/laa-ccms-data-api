@@ -960,6 +960,8 @@ components:
           type: 'string'
         lov_code:
           type: 'string'
+        mandatory_flag:
+          type: 'boolean'
     commonLookupValueDetail:
       type: 'object'
       properties:
