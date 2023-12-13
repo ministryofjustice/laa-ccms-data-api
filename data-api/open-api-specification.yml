@@ -670,6 +670,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/proceedingDetail'
     proceedingDetail:
@@ -715,6 +716,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/baseUser'
     userDetail:
@@ -748,6 +750,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/amendmentTypeLookupValueDetail'
     amendmentTypeLookupValueDetail:
@@ -775,6 +778,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/caseStatusLookupValueDetail'
     caseStatusLookupValueDetail:
@@ -796,6 +800,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/outcomeResultLookupValueDetail'
     outcomeResultLookupValueDetail:
@@ -818,6 +823,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/stageEndLookupValueDetail'
     stageEndLookupValueDetail:
@@ -840,6 +846,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/awardTypeLookupValueDetail'
     awardTypeLookupValueDetail:
@@ -864,6 +871,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/categoryOfLawLookupValueDetail'
     categoryOfLawLookupValueDetail:
@@ -882,6 +890,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/scopeLimitationDetail'
     scopeLimitationDetail:
@@ -924,6 +933,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: '#/components/schemas/priorAuthorityTypeDetail'
     priorAuthorityTypeDetail:
@@ -976,6 +986,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: "#/components/schemas/commonLookupValueDetail"
     relationshipToCaseLookupValueDetail:
@@ -1000,6 +1011,7 @@ components:
       properties:
         content:
           type: 'array'
+          default: []
           items:
             $ref: "#/components/schemas/relationshipToCaseLookupValueDetail"
     page:
