@@ -50,6 +50,15 @@ public class PriorAuthority {
   @Column(name = "LOV_CODE")
   private String lovCode;
 
+  /**
+   * The mandatory flag.
+   */
+  @Column(name = "MANDATORY_FLAG")
+  private Boolean mandatoryFlag;
+
+  /**
+   * Many to one back reference to PriorAuthorityType.
+   */
   @ManyToOne
   @JoinColumn(name = "PRIOR_AUTHORITY_TYPE_CODE")
   private PriorAuthorityType type;
