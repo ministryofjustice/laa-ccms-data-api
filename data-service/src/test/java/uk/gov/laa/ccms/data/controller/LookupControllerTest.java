@@ -1,21 +1,34 @@
 package uk.gov.laa.ccms.data.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -29,6 +42,18 @@ class LookupControllerTest {
 
     @InjectMocks
     private LookupController lookupController;
+
+    private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @BeforeEach
+    public void setup() {
+        mockMvc = standaloneSetup(lookupController)
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+            .build();
+    }
 
     @Test
     void getCommonValues_returnsCommonValuesList() {
@@ -208,5 +233,63 @@ class LookupControllerTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void getLevelOfServiceLookupValues_returnsData() throws Exception {
+        String proceedingCode = "proc1";
+        String matterType = "mat1";
+        String categoryOfLaw = "cat1";
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(lookupService.getLevelOfServiceLookupValues(proceedingCode, matterType, categoryOfLaw, pageable))
+            .thenReturn(new LevelOfServiceLookupDetail());
+
+        this.mockMvc.perform(get("/lookup/level-of-service")
+                .param("proceeding-code", proceedingCode)
+                .param("matter-type", matterType)
+                .param("category-of-law", categoryOfLaw))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getLevelOfServiceLookupValues(proceedingCode, matterType, categoryOfLaw, pageable);
+    }
+
+    @Test
+    void getMatterTypeLookupValues_returnsData() throws Exception {
+        String description = "desc1";
+        String matterType = "mat1";
+        String categoryOfLaw = "cat1";
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(lookupService.getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable))
+            .thenReturn(new MatterTypeLookupDetail());
+
+        mockMvc.perform(get("/lookup/matter-types")
+                .param("description", description)
+                .param("matter-type", matterType)
+                .param("category-of-law", categoryOfLaw))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable);
+    }
+
+    @Test
+    void getProceedingClientInvolvementTypeLookupValues_returnsData() throws Exception {
+        String proceedingCode = "proc1";
+        String clientInvolvementType = "client1";
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(lookupService.getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable))
+            .thenReturn(new ClientInvolvementTypeLookupDetail());
+
+        mockMvc.perform(get("/lookup/proceeding-client-involvement-types")
+                .param("proceeding-code", proceedingCode)
+                .param("client-involvement-type", clientInvolvementType))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable);
     }
 }

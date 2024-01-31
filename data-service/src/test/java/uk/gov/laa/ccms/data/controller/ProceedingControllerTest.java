@@ -80,6 +80,7 @@ class ProceedingControllerTest {
         String matterType = "mat1";
         Boolean amendOnly = true;
         Boolean enabled = true;
+        Boolean larScope = true;
         Pageable pageable = Pageable.ofSize(20);
 
         when(proceedingService.getProceedings(categoryOfLawCode, matterType, amendOnly,
@@ -89,11 +90,41 @@ class ProceedingControllerTest {
                 .param("category-of-law", categoryOfLawCode)
                 .param("matter-type", matterType)
                 .param("amendment-only", amendOnly.toString())
-                .param("enabled", enabled.toString()))
+                .param("enabled", enabled.toString())
+                .param("lar-scope", larScope.toString()))
             .andDo(print())
             .andExpect(status().isOk());
 
         verify(proceedingService).getProceedings(
             categoryOfLawCode, matterType, amendOnly, enabled, pageable);
+    }
+
+    @Test
+    void getProceedings_leadProceedings_returnsData() throws Exception {
+        String categoryOfLaw = "cat1";
+        String matterType = "mat1";
+        Boolean amendOnly = true;
+        Boolean enabled = true;
+        String applicationType = "app1";
+        Boolean larScope = true;
+        Boolean lead = true;
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(proceedingService.getLeadProceedings(categoryOfLaw, matterType, amendOnly,
+            enabled, applicationType, larScope, pageable)).thenReturn(new ProceedingDetails());
+
+        this.mockMvc.perform(get("/proceedings")
+                .param("category-of-law", categoryOfLaw)
+                .param("matter-type", matterType)
+                .param("amendment-only", amendOnly.toString())
+                .param("enabled", enabled.toString())
+                .param("application-type", applicationType)
+                .param("lar-scope-flag", larScope.toString())
+                .param("lead", lead.toString()))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(proceedingService).getLeadProceedings(
+            categoryOfLaw, matterType, amendOnly, enabled, applicationType, larScope, pageable);
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +18,15 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.LevelOfService;
+import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
+import uk.gov.laa.ccms.data.entity.MatterType;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
@@ -31,11 +37,19 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupValueDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupValueDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupValueDetail;
+import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupValueDetail;
 
 @ExtendWith(MockitoExtension.class)
@@ -435,8 +449,218 @@ class LookupMapperImplTest {
         assertEquals(expectedDetail, actualDetail);
     }
 
+    @Test
+    void matterTypeToMatterTypeLookupValueDetail_returnsCorrectDetail() {
+        MatterType matterType = createMatterType("MAT1", "desc", "CAT1");
+        MatterTypeLookupValueDetail expected = createMatterTypeLookupValueDetail("MAT1", "desc", "CAT1");
+
+        MatterTypeLookupValueDetail actual = mapper.matterTypeToMatterTypeLookupValueDetail(matterType);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void matterTypeListToMatterTypeLookupValueDetailList_returnsCorrectList() {
+        MatterType matterType1 = createMatterType("MAT1", "desc1", "CAT1");
+        MatterType matterType2 = createMatterType("MAT2", "desc2", "CAT2");
+
+        List<MatterType> matterTypes = Arrays.asList(matterType1, matterType2);
+
+        MatterTypeLookupValueDetail expected1 = createMatterTypeLookupValueDetail("MAT1", "desc1", "CAT1");
+        MatterTypeLookupValueDetail expected2 = createMatterTypeLookupValueDetail("MAT2", "desc2", "CAT2");
+
+        List<MatterTypeLookupValueDetail> expected = Arrays.asList(expected1, expected2);
+
+        List<MatterTypeLookupValueDetail> actual = mapper.matterTypeListToMatterTypeLookupValueDetailList(matterTypes);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toMatterTypeLookupDetail_returnsCorrectDetail() {
+        MatterType matterType1 = createMatterType("MAT1", "desc1", "CAT1");
+        MatterType matterType2 = createMatterType("MAT2", "desc2", "CAT2");
+
+        List<MatterType> matterTypes = Arrays.asList(matterType1, matterType2);
+        Page<MatterType> page = new PageImpl<>(matterTypes);
+
+        MatterTypeLookupDetail expected = new MatterTypeLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.matterTypeListToMatterTypeLookupValueDetailList(page.getContent()));
+
+        MatterTypeLookupDetail actual = mapper.toMatterTypeLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void levelOfServiceListToLevelOfServiceLookupValueDetailList_returnsCorrectList() {
+        LevelOfService levelOfService1 = createLevelOfService("MAT1", "PRO1", "CAT1");
+        LevelOfService levelOfService2 = createLevelOfService("MAT2", "PRO2", "CAT2");
+
+        List<LevelOfService> levelOfServices = Arrays.asList(levelOfService1, levelOfService2);
+
+        LevelOfServiceLookupValueDetail expected1 = createLevelOfServiceLookupValueDetail("MAT1", "PRO1", "CAT1");
+        LevelOfServiceLookupValueDetail expected2 = createLevelOfServiceLookupValueDetail("MAT2", "PRO2", "CAT2");
+
+        List<LevelOfServiceLookupValueDetail> expected = Arrays.asList(expected1, expected2);
+
+        List<LevelOfServiceLookupValueDetail> actual = mapper.levelOfServiceListToLevelOfServiceLookupValueDetailList(levelOfServices);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toLevelOfServicePage_returnsCorrectDetail() {
+        LevelOfService levelOfService1 = createLevelOfService("MAT1", "PRO1", "CAT1");
+        LevelOfService levelOfService2 = createLevelOfService("MAT2", "PRO2", "CAT2");
+
+        List<LevelOfService> levelOfServices = Arrays.asList(levelOfService1, levelOfService2);
+        Page<LevelOfService> page = new PageImpl<>(levelOfServices);
+
+        LevelOfServiceLookupDetail expected = new LevelOfServiceLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.levelOfServiceListToLevelOfServiceLookupValueDetailList(page.getContent()));
+
+        LevelOfServiceLookupDetail actual = mapper.toLevelOfServicePage(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void proceedingClientInvolvementTypeListToClientInvolvementTypeLookupValueDetailList_returnsCorrectList() {
+        ProceedingClientInvolvementType proceedingClientInvolvementType1 = createProceedingClientInvolvementType("PRO1", "INV1");
+        ProceedingClientInvolvementType proceedingClientInvolvementType2 = createProceedingClientInvolvementType("PRO2", "INV2");
+
+        List<ProceedingClientInvolvementType> proceedingClientInvolvementTypes = Arrays.asList(proceedingClientInvolvementType1, proceedingClientInvolvementType2);
+
+        ClientInvolvementTypeLookupValueDetail expected1 = createClientInvolvementTypeLookupValueDetail("PRO1", "INV1");
+        ClientInvolvementTypeLookupValueDetail expected2 = createClientInvolvementTypeLookupValueDetail("PRO2", "INV2");
+
+        List<ClientInvolvementTypeLookupValueDetail> expected = Arrays.asList(expected1, expected2);
+
+        List<ClientInvolvementTypeLookupValueDetail> actual = mapper.proceedingClientInvolvementTypeListToClientInvolvementTypeLookupValueDetailList(proceedingClientInvolvementTypes);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toClientInvolvementTypeLookupDetail_returnsCorrectDetail() {
+        ProceedingClientInvolvementType proceedingClientInvolvementType1 = createProceedingClientInvolvementType("PRO1", "INV1");
+        ProceedingClientInvolvementType proceedingClientInvolvementType2 = createProceedingClientInvolvementType("PRO2", "INV2");
+
+        List<ProceedingClientInvolvementType> proceedingClientInvolvementTypes = Arrays.asList(proceedingClientInvolvementType1, proceedingClientInvolvementType2);
+        Page<ProceedingClientInvolvementType> page = new PageImpl<>(proceedingClientInvolvementTypes);
+
+        ClientInvolvementTypeLookupDetail expected = new ClientInvolvementTypeLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.proceedingClientInvolvementTypeListToClientInvolvementTypeLookupValueDetailList(page.getContent()));
+
+        ClientInvolvementTypeLookupDetail actual = mapper.toClientInvolvementTypeLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toOutcomeResultLookupDetail_returnsCorrectDetail() {
+        OutcomeResultLookupValue value1 = createOutcomeResultLookupValue("1");
+        OutcomeResultLookupValue value2 = createOutcomeResultLookupValue("1");
+
+        List<OutcomeResultLookupValue> values = Arrays.asList(value1, value2);
+        Page<OutcomeResultLookupValue> page = new PageImpl<>(values);
+
+        OutcomeResultLookupDetail expected = new OutcomeResultLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.outcomeResultLookupValueListToOutcomeResultLookupValueDetailList(page.getContent()));
+
+        OutcomeResultLookupDetail actual = mapper.toOutcomeResultLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toStageEndLookupDetail_returnsCorrectDetail() {
+        StageEndLookupValue value1 = createStageEndLookupValue("1");
+        StageEndLookupValue value2 = createStageEndLookupValue("1");
+
+        List<StageEndLookupValue> values = Arrays.asList(value1, value2);
+        Page<StageEndLookupValue> page = new PageImpl<>(values);
+
+        StageEndLookupDetail expected = new StageEndLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.stageEndLookupValueListToStageEndLookupValueDetailList(page.getContent()));
+
+        StageEndLookupDetail actual = mapper.toStageEndLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
 
     // Helper methods to create objects
+    private LevelOfService createLevelOfService(String matterType, String proceedingCode, String categoryOfLawCode) {
+        LevelOfService levelOfService = new LevelOfService();
+        LevelOfServiceId id = new LevelOfServiceId();
+        id.setMatterType(matterType);
+        id.setProceedingCode(proceedingCode);
+        id.setCategoryOfLawCode(categoryOfLawCode);
+        levelOfService.setId(id);
+        return levelOfService;
+    }
+
+    private LevelOfServiceLookupValueDetail createLevelOfServiceLookupValueDetail(String matterType, String proceedingCode, String categoryOfLawCode) {
+        LevelOfServiceLookupValueDetail detail = new LevelOfServiceLookupValueDetail();
+        detail.setMatterType(matterType);
+        detail.setProceedingCode(proceedingCode);
+        detail.setCategoryOfLawCode(categoryOfLawCode);
+        return detail;
+    }
+
+    private MatterType createMatterType(String matterTypeCode, String description, String categoryOfLawCode) {
+        MatterType matterType = new MatterType();
+        matterType.setMatterType(matterTypeCode);
+        matterType.setDescription(description);
+        matterType.setCategoryOfLawCode(categoryOfLawCode);
+        return matterType;
+    }
+
+    private MatterTypeLookupValueDetail createMatterTypeLookupValueDetail(String matterTypeCode, String description, String categoryOfLawCode) {
+        MatterTypeLookupValueDetail detail = new MatterTypeLookupValueDetail();
+        detail.setMatterType(matterTypeCode);
+        detail.setDescription(description);
+        detail.setCategoryOfLawCode(categoryOfLawCode);
+        return detail;
+    }
+
+    private ProceedingClientInvolvementType createProceedingClientInvolvementType(String proceedingCode, String clientInvolvementType) {
+        ProceedingClientInvolvementType proceedingClientInvolvementType = new ProceedingClientInvolvementType();
+        ProceedingClientInvolvementTypeId id = new ProceedingClientInvolvementTypeId();
+        id.setProceedingCode(proceedingCode);
+        id.setClientInvolvementType(clientInvolvementType);
+        proceedingClientInvolvementType.setId(id);
+        return proceedingClientInvolvementType;
+    }
+
+    private ClientInvolvementTypeLookupValueDetail createClientInvolvementTypeLookupValueDetail(String proceedingCode, String clientInvolvementType) {
+        ClientInvolvementTypeLookupValueDetail detail = new ClientInvolvementTypeLookupValueDetail();
+        detail.setProceedingCode(proceedingCode);
+        detail.setClientInvolvementType(clientInvolvementType);
+        return detail;
+    }
+
     private OrganisationRelationshipToCaseLookupValue createOrganisationRelationshipToCaseLookupvalue(String suffix) {
         OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue = new OrganisationRelationshipToCaseLookupValue();
         organisationRelationshipToCaseLookupValue.setCode("code" + suffix);

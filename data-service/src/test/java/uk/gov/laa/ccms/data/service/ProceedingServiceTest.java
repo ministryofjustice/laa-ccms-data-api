@@ -8,10 +8,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -84,6 +87,56 @@ class ProceedingServiceTest {
         ProceedingDetails actualResponse = proceedingService.getProceedings(
             proceeding.getCategoryOfLawCode(), proceeding.getMatterType(),
             proceeding.getAmendmentOnly(), proceeding.getEnabled(), pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+        "true, Y, true, Y, true, Y",
+        "true, Y, false, N, true, Y",
+        "false, N, true, Y, false, N",
+        "false, N, false, N, false, N",
+        "null, null, true, Y, null, null",
+        "null, null, false, N, null, null",
+        "true, Y, null, null, true, Y",
+        "false, N, null, null, false, N",
+        "null, null, null, null, null, null"
+    }, nullValues = "null")
+    void getLeadProceedings_returnsPageOfLeadProceeding(
+        Boolean amendmentOnly,
+        String expectedAmendmentOnlyString,
+        Boolean enabled,
+        String expectedEnabledString,
+        Boolean larScope,
+        String expectedLarScopeString) {
+        String categoryOfLaw = "CAT1";
+        String matterType = "MAT1";
+        String appOrCertType = "APP1";
+        Pageable pageable = Pageable.unpaged();
+
+        Proceeding proceeding = new Proceeding();
+        proceeding.setCategoryOfLawCode(categoryOfLaw);
+        proceeding.setMatterType(matterType);
+        proceeding.setEnabled(enabled);
+        proceeding.setAmendmentOnly(amendmentOnly);
+
+        Page<Proceeding> expectedPage = new PageImpl<>(
+            Collections.singletonList(proceeding));
+        ProceedingDetails expectedResponse = new ProceedingDetails();
+
+        when(proceedingRepository.findAllLeadProceedings(
+            categoryOfLaw,
+            matterType,
+            expectedAmendmentOnlyString,
+            expectedEnabledString,
+            expectedLarScopeString,
+            appOrCertType,
+            pageable)).thenReturn(expectedPage);
+        when(proceedingMapper.toProceedingDetails(expectedPage)).thenReturn(expectedResponse);
+
+        ProceedingDetails actualResponse = proceedingService.getLeadProceedings(
+            categoryOfLaw, matterType, amendmentOnly, enabled, appOrCertType, larScope, pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }
