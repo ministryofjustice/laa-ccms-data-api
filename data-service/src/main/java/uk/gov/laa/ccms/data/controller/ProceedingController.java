@@ -48,7 +48,8 @@ public class ProceedingController implements ProceedingsApi {
       final Boolean larScopeFlag,
       final Pageable pageable) {
 
-    if (lead != null && lead) {
+
+    if (Boolean.TRUE.equals(lead)) {
       return ResponseEntity.ok(proceedingService.getLeadProceedings(
           categoryOfLaw,
           matterType,

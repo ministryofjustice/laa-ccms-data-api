@@ -22,7 +22,7 @@ public class ProceedingClientInvolvementTypeId implements Serializable {
   private String proceedingCode;
 
   /**
-   * The stage end value.
+   * The client involvement type.
    */
   @Column(name = "CLIENT_INVOLVEMENT_TYPE")
   private String clientInvolvementType;

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.entity.BooleanConverter;
 import uk.gov.laa.ccms.data.entity.Proceeding;
 import uk.gov.laa.ccms.data.mapper.ProceedingMapper;
 import uk.gov.laa.ccms.data.model.ProceedingDetail;
@@ -30,6 +31,7 @@ public class ProceedingService extends AbstractEbsDataService {
   private final ProceedingRepository proceedingRepository;
 
   private final ProceedingMapper proceedingMapper;
+
 
   /**
    * Get Proceedings which match the provided category of law, matter type,
@@ -78,17 +80,15 @@ public class ProceedingService extends AbstractEbsDataService {
       Boolean larScopeFlag,
       Pageable pageable) {
 
-    String amendmentOnlyString = (amendmentOnly != null) ? (amendmentOnly ? "Y" : "N") : null;
-    String enabledString = (enabled != null) ? (enabled ? "Y" : "N") : null;
-    String larScopeFlagString = (larScopeFlag != null) ? (larScopeFlag ? "Y" : "N") : null;
+    BooleanConverter booleanConverter = new BooleanConverter();
 
     return proceedingMapper.toProceedingDetails(
         proceedingRepository.findAllLeadProceedings(
             categoryOfLaw,
             matterType,
-            amendmentOnlyString,
-            enabledString,
-            larScopeFlagString,
+            booleanConverter.convertToDatabaseColumn(amendmentOnly),
+            booleanConverter.convertToDatabaseColumn(enabled),
+            booleanConverter.convertToDatabaseColumn(larScopeFlag),
             applicationType,
             pageable));
   }

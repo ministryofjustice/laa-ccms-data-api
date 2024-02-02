@@ -22,13 +22,22 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MatterType {
 
+  /**
+   * The unique identifier for the matter type.
+   */
   @Id
   @Column(name = "MATTER_TYPE")
   private String matterType;
 
+  /**
+   * The matter type's description.
+   */
   @Column(name = "DESCRIPTION")
   private String description;
 
+  /**
+   * The category of law code.
+   */
   @Column(name = "CATEGORY_OF_LAW_CODE")
   private String categoryOfLawCode;
 }

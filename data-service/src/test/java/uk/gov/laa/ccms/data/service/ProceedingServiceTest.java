@@ -105,11 +105,11 @@ class ProceedingServiceTest {
     }, nullValues = "null")
     void getLeadProceedings_returnsPageOfLeadProceeding(
         Boolean amendmentOnly,
-        String expectedAmendmentOnlyString,
+        Character expectedAmendmentOnlyString,
         Boolean enabled,
-        String expectedEnabledString,
+        Character expectedEnabledString,
         Boolean larScope,
-        String expectedLarScopeString) {
+        Character expectedLarScopeString) {
         String categoryOfLaw = "CAT1";
         String matterType = "MAT1";
         String appOrCertType = "APP1";

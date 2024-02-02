@@ -33,6 +33,9 @@ public class LevelOfServiceId implements Serializable {
   @Column(name = "PROCEEDING_CODE")
   private String proceedingCode;
 
+  /**
+   * The level of service code.
+   */
   @Column(name = "LEVEL_OF_SERVICE_CODE")
   private String levelOfServiceCode;
 

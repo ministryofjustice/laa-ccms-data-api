@@ -42,9 +42,9 @@ public interface ProceedingRepository extends ReadOnlyRepository<Proceeding, Str
   Page<Proceeding> findAllLeadProceedings(
       @Param("categoryOfLaw") String categoryOfLaw,
       @Param("matterType") String matterType,
-      @Param("amendmentOnly") String amendmentOnly,
-      @Param("enabled") String enabled,
-      @Param("larScopeFlag") String larScopeFlag,
+      @Param("amendmentOnly") Character amendmentOnly,
+      @Param("enabled") Character enabled,
+      @Param("larScopeFlag") Character larScopeFlag,
       @Param("appOrCertType") String appOrCertType,
       Pageable pageable);
 
