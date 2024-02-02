@@ -15,7 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.AbstractIntegrationTest;
+import uk.gov.laa.ccms.data.IntegrationTestInterface;
 import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 
 
@@ -23,7 +23,7 @@ import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/prior_authority_create_schema.sql" )
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/prior_authority_drop_schema.sql")
-public class PriorAuthorityServiceIntegrationTest extends AbstractIntegrationTest {
+public class PriorAuthorityServiceIntegrationTest implements IntegrationTestInterface {
 
     @Autowired
     private PriorAuthorityService priorAuthorityService;

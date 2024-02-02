@@ -30,7 +30,7 @@ public class ProceedingController implements ProceedingsApi {
    * GET Proceedings by category of law, matter type, whether they are enabled,
    * and whether they are amendment-only proceedings.
    *
-   * @param categoryOfLawCode - the category of law code
+   * @param categoryOfLaw - the category of law code
    * @param matterType - the matter type
    * @param enabled - whether the proceeding is enabled
    * @param amendmentOnly - whether the proceeding is amendment-only
@@ -38,15 +38,36 @@ public class ProceedingController implements ProceedingsApi {
    * @return ResponseEntity with the results of the search
    */
   @Override
-  public ResponseEntity<ProceedingDetails> getProceedings(String categoryOfLawCode,
-      String matterType, Boolean amendmentOnly, Boolean enabled, Pageable pageable) {
-    return ResponseEntity.ok(proceedingService.getProceedings(
-            categoryOfLawCode,
-            matterType,
-            enabled,
-            amendmentOnly,
-            pageable));
+  public ResponseEntity<ProceedingDetails> getProceedings(
+      final String categoryOfLaw,
+      final String matterType,
+      final Boolean amendmentOnly,
+      final Boolean enabled,
+      final Boolean lead,
+      final String applicationType,
+      final Boolean larScopeFlag,
+      final Pageable pageable) {
+
+
+    if (Boolean.TRUE.equals(lead)) {
+      return ResponseEntity.ok(proceedingService.getLeadProceedings(
+          categoryOfLaw,
+          matterType,
+          amendmentOnly,
+          enabled,
+          applicationType,
+          larScopeFlag,
+          pageable));
+    } else {
+      return ResponseEntity.ok(proceedingService.getProceedings(
+          categoryOfLaw,
+          matterType,
+          amendmentOnly,
+          enabled,
+          pageable));
+    }
   }
+
 
   /**
    * Retrieves a proceeding by its code.
@@ -61,4 +82,5 @@ public class ProceedingController implements ProceedingsApi {
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
+
 }

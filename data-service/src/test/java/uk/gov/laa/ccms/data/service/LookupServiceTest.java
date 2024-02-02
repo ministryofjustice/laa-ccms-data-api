@@ -1,6 +1,9 @@
 package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -21,10 +25,15 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.LevelOfService;
+import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
+import uk.gov.laa.ccms.data.entity.MatterType;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
@@ -32,7 +41,10 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -42,9 +54,12 @@ import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.LevelOfServiceRepository;
+import uk.gov.laa.ccms.data.repository.MatterTypeRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.ProceedingClientInvolvementTypeRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,6 +96,15 @@ class LookupServiceTest {
 
     @Mock
     private CategoryOfLawLookupValueRepository categoryOfLawLookupValueRepository;
+
+    @Mock
+    private MatterTypeRepository matterTypeRepository;
+
+    @Mock
+    private ProceedingClientInvolvementTypeRepository proceedingClientInvolvementTypeRepository;
+
+    @Mock
+    private LevelOfServiceRepository levelOfServiceRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -425,6 +449,83 @@ class LookupServiceTest {
             categoryOfLawLookupValue.getMatterTypeDescription(),
             categoryOfLawLookupValue.getCopyCostLimit(),
             pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getMatterTypeLookupValues_returnsPageOfMatterTypeValues() {
+        String description = "desc";
+        String matterType = "MAT1";
+        String categoryOfLaw = "CAT1";
+        Pageable pageable = Pageable.unpaged();
+
+        MatterType matterTypeEntity = new MatterType();
+        matterTypeEntity.setDescription(description);
+        matterTypeEntity.setMatterType(matterType);
+        matterTypeEntity.setCategoryOfLawCode(categoryOfLaw);
+
+        Page<MatterType> expectedPage = new PageImpl<>(
+            Collections.singletonList(matterTypeEntity));
+        MatterTypeLookupDetail expectedResponse = new MatterTypeLookupDetail();
+
+        when(matterTypeRepository.findAll(Example.of(matterTypeEntity), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toMatterTypeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        MatterTypeLookupDetail actualResponse = lookupService.getMatterTypeLookupValues(
+            description, matterType, categoryOfLaw, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getClientInvolvementTypeLookupValues_returnsPageOfClientInvolvementTypeValues() {
+        String proceedingCode = "PRO1";
+        String clientInvolvementType = "INV1";
+        Pageable pageable = Pageable.unpaged();
+
+        ProceedingClientInvolvementType proceedingClientInvolvementTypeEntity = new ProceedingClientInvolvementType();
+        proceedingClientInvolvementTypeEntity.setId(new ProceedingClientInvolvementTypeId());
+        proceedingClientInvolvementTypeEntity.getId().setProceedingCode(proceedingCode);
+        proceedingClientInvolvementTypeEntity.getId().setClientInvolvementType(clientInvolvementType);
+
+        Page<ProceedingClientInvolvementType> expectedPage = new PageImpl<>(
+            Collections.singletonList(proceedingClientInvolvementTypeEntity));
+        ClientInvolvementTypeLookupDetail expectedResponse = new ClientInvolvementTypeLookupDetail();
+
+        when(proceedingClientInvolvementTypeRepository.findAll(Example.of(proceedingClientInvolvementTypeEntity), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toClientInvolvementTypeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        ClientInvolvementTypeLookupDetail actualResponse = lookupService.getClientInvolvementTypeLookupValues(
+            proceedingCode, clientInvolvementType, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getLevelOfServiceLookupValues_returnsPageOfLevelOfServiceValues() {
+        String proceedingCode = "PRO1";
+        String matterType = "MAT1";
+        String categoryOfLaw = "CAT1";
+        Pageable pageable = Pageable.unpaged();
+
+        LevelOfServiceId levelOfServiceId = new LevelOfServiceId();
+        levelOfServiceId.setMatterType(matterType);
+        levelOfServiceId.setProceedingCode(proceedingCode);
+        levelOfServiceId.setCategoryOfLawCode(categoryOfLaw);
+
+        LevelOfService levelOfServiceEntity = new LevelOfService();
+        levelOfServiceEntity.setId(levelOfServiceId);
+
+        Page<LevelOfService> expectedPage = new PageImpl<>(
+            Collections.singletonList(levelOfServiceEntity));
+        LevelOfServiceLookupDetail expectedResponse = new LevelOfServiceLookupDetail();
+
+        when(levelOfServiceRepository.findAll(Example.of(levelOfServiceEntity), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toLevelOfServicePage(expectedPage)).thenReturn(expectedResponse);
+
+        LevelOfServiceLookupDetail actualResponse = lookupService.getLevelOfServiceLookupValues(
+            proceedingCode, matterType, categoryOfLaw, pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }

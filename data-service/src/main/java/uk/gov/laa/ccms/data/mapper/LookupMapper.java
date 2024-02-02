@@ -9,9 +9,12 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.LevelOfService;
+import uk.gov.laa.ccms.data.entity.MatterType;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
@@ -20,8 +23,13 @@ import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupValueDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupValueDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -46,6 +54,24 @@ public interface LookupMapper {
   CommonLookupDetail toCommonLookupDetail(Page<CommonLookupValue> page);
 
   CommonLookupDetail toCommonLookupDetailFromCountries(Page<CountryLookupValue> page);
+
+  MatterTypeLookupDetail toMatterTypeLookupDetail(Page<MatterType> page);
+
+  LevelOfServiceLookupDetail toLevelOfServicePage(Page<LevelOfService> page);
+
+  @Mapping(target = "proceedingCode", source = "id.proceedingCode")
+  @Mapping(target = "matterType", source = "id.matterType")
+  @Mapping(target = "categoryOfLawCode", source = "id.categoryOfLawCode")
+  @Mapping(target = "levelOfServiceCode", source = "id.levelOfServiceCode")
+  LevelOfServiceLookupValueDetail toLevelOfServiceLookupValueDetail(LevelOfService levelOfService);
+
+  ClientInvolvementTypeLookupDetail toClientInvolvementTypeLookupDetail(
+      Page<ProceedingClientInvolvementType> page);
+
+  @Mapping(target = "proceedingCode", source = "id.proceedingCode")
+  @Mapping(target = "clientInvolvementType", source = "id.clientInvolvementType")
+  ClientInvolvementTypeLookupValueDetail toClientInvolvementTypeLookupValueDetail(
+      ProceedingClientInvolvementType proceedingClientInvolvementType);
 
   @Mapping(target = "type", ignore = true)
   @Mapping(target = "startDateActive", ignore = true)

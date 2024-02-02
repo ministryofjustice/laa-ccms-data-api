@@ -12,10 +12,15 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.LevelOfService;
+import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
+import uk.gov.laa.ccms.data.entity.MatterType;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
+import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
@@ -23,7 +28,10 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -33,9 +41,12 @@ import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.LevelOfServiceRepository;
+import uk.gov.laa.ccms.data.repository.MatterTypeRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.ProceedingClientInvolvementTypeRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 /**
@@ -69,6 +80,12 @@ public class LookupService extends AbstractEbsDataService {
   private final CategoryOfLawLookupValueRepository categoryOfLawLookupValueRepository;
 
   private final LookupMapper lookupMapper;
+
+  private final MatterTypeRepository matterTypeRepository;
+
+  private final LevelOfServiceRepository levelOfServiceRepository;
+
+  private final ProceedingClientInvolvementTypeRepository proceedingClientInvolvementTypeRepository;
 
   /**
    * Retrieves a page of common values based on the provided
@@ -146,6 +163,87 @@ public class LookupService extends AbstractEbsDataService {
 
     return lookupMapper.toCommonLookupDetailFromCountries(
         countryLookupValueRepository.findAll(Example.of(example), pageable));
+  }
+
+  /**
+   * Retrieves a page of MatterType values based on the provided description, matter type, category
+   * of law, and pagination information.
+   *
+   * @param description The description of the MatterType.
+   * @param matterType The type of matter.
+   * @param categoryOfLaw The category of law.
+   * @param pageable The pagination information.
+   * @return A {@link MatterTypeLookupDetail} object containing a page of {@link MatterType}
+   *         entities that match the criteria.
+   */
+  public MatterTypeLookupDetail getMatterTypeLookupValues(
+      final String description,
+      final String matterType,
+      final String categoryOfLaw,
+      final Pageable pageable) {
+    MatterType example = new MatterType();
+    example.setMatterType(matterType);
+    example.setDescription(description);
+    example.setCategoryOfLawCode(categoryOfLaw);
+
+    return lookupMapper.toMatterTypeLookupDetail(
+        matterTypeRepository.findAll(Example.of(example), pageable));
+  }
+
+  /**
+   * Retrieves a page of ProceedingClientInvolvementType values based on the provided proceeding
+   * code, client involvement type, and pagination information.
+   *
+   * @param proceedingCode The code of the proceeding.
+   * @param clientInvolvementType The type of client involvement.
+   * @param pageable The pagination information.
+   * @return A {@link ClientInvolvementTypeLookupDetail} object containing a page of
+   *         {@link ProceedingClientInvolvementType} entities that match the criteria.
+   */
+  public ClientInvolvementTypeLookupDetail getClientInvolvementTypeLookupValues(
+      final String proceedingCode,
+      final String clientInvolvementType,
+      final Pageable pageable) {
+    ProceedingClientInvolvementType example = new ProceedingClientInvolvementType();
+    example.setId(new ProceedingClientInvolvementTypeId());
+    example.getId().setProceedingCode(proceedingCode);
+    example.getId().setClientInvolvementType(clientInvolvementType);
+
+    return lookupMapper.toClientInvolvementTypeLookupDetail(
+        proceedingClientInvolvementTypeRepository.findAll(Example.of(example), pageable));
+  }
+
+
+  /**
+   * Retrieves a page of LevelOfService values based on the provided proceeding code, matter type,
+   * category of law, and pagination information.
+   *
+   * @param proceedingCode The code of the proceeding.
+   * @param matterType The type of matter.
+   * @param categoryOfLaw The category of law.
+   * @param pageable The pagination information.
+   * @return A {@link LevelOfServiceLookupDetail} object containing a page of
+   *         {@link LevelOfService} entities that match the criteria.
+   */
+  public LevelOfServiceLookupDetail getLevelOfServiceLookupValues(
+      final String proceedingCode,
+      final String matterType,
+      final String categoryOfLaw,
+      final Pageable pageable) {
+
+    LevelOfServiceId exampleId = new LevelOfServiceId();
+    exampleId.setMatterType(matterType);
+    exampleId.setProceedingCode(proceedingCode);
+    exampleId.setCategoryOfLawCode(categoryOfLaw);
+
+    LevelOfService example = new LevelOfService();
+    example.setId(exampleId);
+
+    levelOfServiceRepository.findAll(Example.of(example), pageable);
+
+    return lookupMapper.toLevelOfServicePage(
+        levelOfServiceRepository.findAll(Example.of(example), pageable));
+
   }
 
   /**

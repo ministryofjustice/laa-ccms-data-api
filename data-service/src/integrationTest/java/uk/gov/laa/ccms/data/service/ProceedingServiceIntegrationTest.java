@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.AbstractIntegrationTest;
+import uk.gov.laa.ccms.data.IntegrationTestInterface;
 import uk.gov.laa.ccms.data.model.ProceedingDetail;
 import uk.gov.laa.ccms.data.model.ProceedingDetails;
 
@@ -22,7 +22,7 @@ import uk.gov.laa.ccms.data.model.ProceedingDetails;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/proceedings_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/proceedings_drop_schema.sql")
-public class ProceedingServiceIntegrationTest extends AbstractIntegrationTest {
+public class ProceedingServiceIntegrationTest implements IntegrationTestInterface {
 
   @Autowired
   private ProceedingService proceedingService;

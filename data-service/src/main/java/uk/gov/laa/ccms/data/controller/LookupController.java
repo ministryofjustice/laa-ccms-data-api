@@ -9,7 +9,10 @@ import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
+import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
+import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -66,6 +69,84 @@ public class LookupController implements LookupApi {
     return ResponseEntity.ok(lookupService.getCountryLookupValues(code, pageable));
   }
 
+  /**
+   * GET level of service lookup values.
+   *
+   * <p>This endpoint retrieves a paginated list of level of service lookup values based on the
+   * given proceeding code, matter type, category of law, and pageable.</p>
+   *
+   * @param proceedingCode the proceeding code
+   * @param matterType the matter type
+   * @param categoryOfLaw the category of law
+   * @param pageable pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of level of service lookup values
+   *         in the body
+   */
+  @Override
+  public ResponseEntity<LevelOfServiceLookupDetail> getLevelOfServiceLookupValues(
+      final String proceedingCode,
+      final String matterType,
+      final String categoryOfLaw,
+      final Pageable pageable) {
+
+    return ResponseEntity.ok(lookupService.getLevelOfServiceLookupValues(
+        proceedingCode,
+        matterType,
+        categoryOfLaw,
+        pageable));
+  }
+
+  /**
+   * GET matter type lookup values.
+   *
+   * <p>This endpoint retrieves a paginated list of matter type lookup values based on the given
+   * description, matter type, category of law, and pageable.</p>
+   *
+   * @param description the description
+   * @param matterType the matter type
+   * @param categoryOfLaw the category of law
+   * @param pageable pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of matter type lookup values in
+   *         the body
+   */
+  @Override
+  public ResponseEntity<MatterTypeLookupDetail> getMatterTypeLookupValues(
+      final String description,
+      final String matterType,
+      final String categoryOfLaw,
+      final Pageable pageable) {
+
+    return ResponseEntity.ok(lookupService.getMatterTypeLookupValues(
+        description,
+        matterType,
+        categoryOfLaw,
+        pageable));
+  }
+
+  /**
+   * GET proceeding client involvement type lookup values.
+   *
+   * <p>This endpoint retrieves a paginated list of proceeding client involvement type lookup values
+   * based on the given proceeding code, client involvement type, and pageable.</p>
+   *
+   * @param proceedingCode the proceeding code
+   * @param clientInvolvementType the client involvement type
+   * @param pageable pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of proceeding client involvement
+   *         type lookup values in the body
+   */
+  @Override
+  public ResponseEntity<ClientInvolvementTypeLookupDetail>
+      getProceedingClientInvolvementTypeLookupValues(
+      final String proceedingCode,
+      final String clientInvolvementType,
+      final Pageable pageable) {
+
+    return ResponseEntity.ok(lookupService.getClientInvolvementTypeLookupValues(
+        proceedingCode,
+        clientInvolvementType,
+        pageable));
+  }
 
 
   /**
@@ -133,6 +214,8 @@ public class LookupController implements LookupApi {
     return ResponseEntity.ok(lookupService.getPersonToCaseRelationshipLookupValues(
         code, description, pageable));
   }
+
+
 
   /**
    * GET organisation to case relationship lookup values.
