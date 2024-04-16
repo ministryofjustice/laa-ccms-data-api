@@ -11,6 +11,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -280,5 +281,23 @@ public class LookupController implements LookupApi {
       String code, String matterTypeDescription, Boolean copyCostLimit, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getCategoryOfLawLookupValues(
         code, matterTypeDescription, copyCostLimit, pageable));
+  }
+
+  /**
+   * GET evidence document type lookup values by type and code.
+   *
+   * @param type the type of lookup value
+   * @param code the evidence document type code
+   * @param pageable    pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of evidence document type
+   *     values in the body.
+   */
+  @Override
+  public ResponseEntity<EvidenceDocumentTypeLookupDetail> getEvidenceDocumentTypeLookupValues(
+      String type,
+      String code,
+      Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getEvidenceDocumentTypeLookupValues(
+        type, code, pageable));
   }
 }
