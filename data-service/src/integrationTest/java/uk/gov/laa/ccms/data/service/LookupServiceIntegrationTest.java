@@ -20,6 +20,7 @@ import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -308,6 +309,33 @@ public class LookupServiceIntegrationTest implements IntegrationTestInterface {
         // Call the repository method
         CategoryOfLawLookupDetail result = lookupService.getCategoryOfLawLookupValues(
             code, desc, copyCostLimit, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+            "VALUES ('TYPE1', 'CODE1', 'description 1')",
+        "INSERT INTO XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+            "VALUES ('TYPE1', 'CODE2', 'description 2')",
+        "INSERT INTO XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+            "VALUES ('TYPE2', 'CODE2', 'description 3')",
+    })
+    @CsvSource(value= {
+        "TYPE1, null, 2",
+        "TYPE1, CODE2, 1",
+        "null, CODE2, 2"},
+        nullValues={"null"})
+    public void testGetEvidenceDocumentTypes(String type, String code, Integer expectedElements) {
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the service method
+        EvidenceDocumentTypeLookupDetail result = lookupService.getEvidenceDocumentTypeLookupValues(
+            type, code, pageable);
 
         // Assert the result
         assertNotNull(result);

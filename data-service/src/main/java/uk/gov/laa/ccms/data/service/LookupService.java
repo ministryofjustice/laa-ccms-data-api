@@ -12,6 +12,8 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValueId;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
 import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
 import uk.gov.laa.ccms.data.entity.MatterType;
@@ -30,6 +32,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -41,6 +44,7 @@ import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.EvidenceDocumentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.LevelOfServiceRepository;
 import uk.gov.laa.ccms.data.repository.MatterTypeRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
@@ -87,6 +91,8 @@ public class LookupService extends AbstractEbsDataService {
 
   private final ProceedingClientInvolvementTypeRepository proceedingClientInvolvementTypeRepository;
 
+  private final EvidenceDocumentTypeLookupValueRepository evidenceDocumentTypeLookupValueRepository;
+
   /**
    * Retrieves a page of common values based on the provided
    * type, code, description and pagination information.
@@ -100,7 +106,10 @@ public class LookupService extends AbstractEbsDataService {
    * @return a CommonLookupDetail containing a page of common values
    */
   public CommonLookupDetail getCommonLookupValues(
-          String type, String code, String description, Pageable pageable) {
+      final String type,
+      final String code,
+      final String description,
+      final Pageable pageable) {
     CommonLookupValue example = new CommonLookupValue();
     example.setType(type);
     example.setCode(code);
@@ -122,7 +131,9 @@ public class LookupService extends AbstractEbsDataService {
    * @return a CaseStatusLookupDetail containing a page of case status values
    */
   public CaseStatusLookupDetail getCaseStatusLookupValues(
-          String code, Boolean copyAllowed, Pageable pageable) {
+      final String code,
+      final Boolean copyAllowed,
+      final Pageable pageable) {
     CaseStatusLookupValue example = new CaseStatusLookupValue();
     example.setCode(code);
     example.setCopyAllowed(copyAllowed);
@@ -140,7 +151,8 @@ public class LookupService extends AbstractEbsDataService {
    * @return an AmendmentTypeLookupDetail containing a page of amendment type values
    */
   public AmendmentTypeLookupDetail getAmendmentTypeLookupValues(
-          String applicationType, Pageable pageable) {
+      final String applicationType,
+      final Pageable pageable) {
     AmendmentTypeLookupValue example = new AmendmentTypeLookupValue();
     example.setApplicationTypeCode(applicationType);
 
@@ -157,7 +169,8 @@ public class LookupService extends AbstractEbsDataService {
    * @return a CommonLookupDetail containing a page of country values
    */
   public CommonLookupDetail getCountryLookupValues(
-          String code, Pageable pageable) {
+      final String code,
+      final Pageable pageable) {
     CountryLookupValue example = new CountryLookupValue();
     example.setCode(code);
 
@@ -255,7 +268,9 @@ public class LookupService extends AbstractEbsDataService {
    * @return a OutcomeResultLookupDetail containing a page of outcome result values
    */
   public OutcomeResultLookupDetail getOutcomeResultLookupValues(
-      String proceedingCode, String outcomeResult, Pageable pageable) {
+      final String proceedingCode,
+      final String outcomeResult,
+      final Pageable pageable) {
     OutcomeResultLookupValue example = new OutcomeResultLookupValue();
     example.setId(new OutcomeResultLookupValueId());
     example.getId().setProceedingCode(proceedingCode);
@@ -274,7 +289,9 @@ public class LookupService extends AbstractEbsDataService {
    * @return a StageEndLookupDetail containing a page of stage end values
    */
   public StageEndLookupDetail getStageEndLookupValues(
-      String proceedingCode, String stageEnd, Pageable pageable) {
+      final String proceedingCode,
+      final String stageEnd,
+      final Pageable pageable) {
     StageEndLookupValue example = new StageEndLookupValue();
     example.setId(new StageEndLookupValueId());
     example.getId().setProceedingCode(proceedingCode);
@@ -293,8 +310,9 @@ public class LookupService extends AbstractEbsDataService {
    * @return a RelationshipToCaseLookupDetail containing a page of person to case relationships
    */
   public RelationshipToCaseLookupDetail getPersonToCaseRelationshipLookupValues(
-      String code, String description, Pageable pageable
-  ) {
+      final String code,
+      final String description,
+      final Pageable pageable) {
     PersonRelationshipToCaseLookupValue example = new PersonRelationshipToCaseLookupValue();
     example.setCode(code);
     example.setDescription(description);
@@ -314,8 +332,9 @@ public class LookupService extends AbstractEbsDataService {
    *         relationships
    */
   public RelationshipToCaseLookupDetail getOrganisationToCaseRelationshipLookupValues(
-      String code, String description, Pageable pageable
-  ) {
+      final String code,
+      final String description,
+      final Pageable pageable) {
     OrganisationRelationshipToCaseLookupValue example
         = new OrganisationRelationshipToCaseLookupValue();
     example.setCode(code);
@@ -334,7 +353,9 @@ public class LookupService extends AbstractEbsDataService {
    * @return a AwardTypeLookupDetail containing a page of award type values
    */
   public AwardTypeLookupDetail getAwardTypeLookupValues(
-      String code, String awardType, Pageable pageable) {
+      final String code,
+      final String awardType,
+      final Pageable pageable) {
     AwardTypeLookupValue example = new AwardTypeLookupValue();
     example.setCode(code);
     example.setAwardType(awardType);
@@ -353,7 +374,10 @@ public class LookupService extends AbstractEbsDataService {
    * @return a CategoryOfLawLookupDetail containing a page of category of law values
    */
   public CategoryOfLawLookupDetail getCategoryOfLawLookupValues(
-      String code, String matterTypeDescription, Boolean copyCostLimit, Pageable pageable) {
+      final String code,
+      final String matterTypeDescription,
+      final Boolean copyCostLimit,
+      final Pageable pageable) {
     CategoryOfLawLookupValue example = new CategoryOfLawLookupValue();
     example.setCode(code);
     example.setMatterTypeDescription(matterTypeDescription);
@@ -363,4 +387,22 @@ public class LookupService extends AbstractEbsDataService {
         categoryOfLawLookupValueRepository.findAll(Example.of(example), pageable));
   }
 
+  /**
+   * Retrieves a page of evidence document type lookup values based on the provided search criteria.
+   *
+   * @param type  the lookup type
+   * @param code the evidence document type code
+   * @param pageable pagination information
+   * @return a EvidenceDocumentTypeLookupDetail containing a page of evidence document type values.
+   */
+  public EvidenceDocumentTypeLookupDetail getEvidenceDocumentTypeLookupValues(
+      final String type,
+      final String code,
+      final Pageable pageable) {
+    EvidenceDocumentTypeLookupValue example = new EvidenceDocumentTypeLookupValue();
+    example.setId(new EvidenceDocumentTypeLookupValueId(type, code));
+
+    return lookupMapper.toEvidenceDocumentTypeLookupDetail(
+        evidenceDocumentTypeLookupValueRepository.findAll(Example.of(example), pageable));
+  }
 }

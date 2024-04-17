@@ -1,17 +1,14 @@
 package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -25,6 +22,8 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValueId;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
 import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
 import uk.gov.laa.ccms.data.entity.MatterType;
@@ -43,6 +42,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -54,6 +54,7 @@ import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.EvidenceDocumentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.LevelOfServiceRepository;
 import uk.gov.laa.ccms.data.repository.MatterTypeRepository;
 import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValueRepository;
@@ -105,6 +106,9 @@ class LookupServiceTest {
 
     @Mock
     private LevelOfServiceRepository levelOfServiceRepository;
+
+    @Mock
+    private EvidenceDocumentTypeLookupValueRepository evidenceDocumentTypeLookupValueRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -526,6 +530,34 @@ class LookupServiceTest {
 
         LevelOfServiceLookupDetail actualResponse = lookupService.getLevelOfServiceLookupValues(
             proceedingCode, matterType, categoryOfLaw, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getEvidenceDocumentTypeLookupValues_returnsPageOEvidenceDocumentTypeValues() {
+        String type = "atype";
+        String code = "code1";
+        Pageable pageable = Pageable.unpaged();
+
+        EvidenceDocumentTypeLookupValueId lookupValueId =
+            new EvidenceDocumentTypeLookupValueId();
+        lookupValueId.setType(type);
+        lookupValueId.setCode(code);
+
+        EvidenceDocumentTypeLookupValue lookupValue = new EvidenceDocumentTypeLookupValue();
+        lookupValue.setId(lookupValueId);
+
+        Page<EvidenceDocumentTypeLookupValue> expectedPage = new PageImpl<>(List.of(lookupValue));
+        EvidenceDocumentTypeLookupDetail expectedResponse = new EvidenceDocumentTypeLookupDetail();
+
+        when(evidenceDocumentTypeLookupValueRepository.findAll(
+            Example.of(lookupValue), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toEvidenceDocumentTypeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        EvidenceDocumentTypeLookupDetail actualResponse =
+            lookupService.getEvidenceDocumentTypeLookupValues(
+                type, code, pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }

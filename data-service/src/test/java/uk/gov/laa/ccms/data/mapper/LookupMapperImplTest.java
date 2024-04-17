@@ -18,6 +18,8 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValueId;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
 import uk.gov.laa.ccms.data.entity.LevelOfServiceId;
 import uk.gov.laa.ccms.data.entity.MatterType;
@@ -41,6 +43,8 @@ import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupValueDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
@@ -610,6 +614,28 @@ class LookupMapperImplTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void toEvidenceDocumentTypeLookupDetail_returnsCorrectDetail() {
+        EvidenceDocumentTypeLookupValue value1 = createEvidenceDocumentTypeLookupValue("1");
+        EvidenceDocumentTypeLookupValue value2 = createEvidenceDocumentTypeLookupValue("2");
+
+        List<EvidenceDocumentTypeLookupValue> values = Arrays.asList(value1, value2);
+        Page<EvidenceDocumentTypeLookupValue> page = new PageImpl<>(values);
+
+        EvidenceDocumentTypeLookupDetail expected = new EvidenceDocumentTypeLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(List.of(
+            creatEvidenceDocumentTypeLookupValueDetail(value1),
+            creatEvidenceDocumentTypeLookupValueDetail(value2)));
+
+        EvidenceDocumentTypeLookupDetail actual = mapper.toEvidenceDocumentTypeLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
     // Helper methods to create objects
     private LevelOfService createLevelOfService(String matterType, String proceedingCode, String categoryOfLawCode) {
         LevelOfService levelOfService = new LevelOfService();
@@ -842,6 +868,29 @@ class LookupMapperImplTest {
         detail.setCode(caseStatusLookupValue.getCode());
         detail.setDescription(caseStatusLookupValue.getDescription());
         detail.setCopyAllowed(caseStatusLookupValue.getCopyAllowed());
+        return detail;
+    }
+
+    private EvidenceDocumentTypeLookupValue createEvidenceDocumentTypeLookupValue(String suffix) {
+        EvidenceDocumentTypeLookupValue lookupValue =
+            new EvidenceDocumentTypeLookupValue();
+        lookupValue.setId(new EvidenceDocumentTypeLookupValueId(
+            "type" + suffix, "code" + suffix));
+        lookupValue.setDescription("description" + suffix);
+        lookupValue.setStartDateActive(LocalDateTime.now());
+        lookupValue.setEndDateActive(LocalDateTime.now());
+        return lookupValue;
+    }
+
+    private EvidenceDocumentTypeLookupValueDetail creatEvidenceDocumentTypeLookupValueDetail(
+        EvidenceDocumentTypeLookupValue lookupValue) {
+        EvidenceDocumentTypeLookupValueDetail detail = new EvidenceDocumentTypeLookupValueDetail();
+        detail.setType(lookupValue.getId().getType());
+        detail.setCode(lookupValue.getId().getCode());
+        detail.setDescription(lookupValue.getDescription());
+        detail.setStartDateActive(lookupValue.getStartDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        detail.setEndDateActive(lookupValue.getEndDateActive().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
         return detail;
     }
 

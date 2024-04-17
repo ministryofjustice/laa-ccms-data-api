@@ -27,6 +27,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
@@ -291,5 +292,23 @@ class LookupControllerTest {
             .andExpect(status().isOk());
 
         verify(lookupService).getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable);
+    }
+
+    @Test
+    void getEvidenceDocumentTypeLookupValues_returnsData() throws Exception {
+        String type = "type1";
+        String code = "code1";
+        Pageable pageable = Pageable.ofSize(20);
+
+        when(lookupService.getEvidenceDocumentTypeLookupValues(type, code, pageable))
+            .thenReturn(new EvidenceDocumentTypeLookupDetail());
+
+        mockMvc.perform(get("/lookup/evidence-document-types")
+                .param("type", type)
+                .param("code", code))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getEvidenceDocumentTypeLookupValues(type, code, pageable);
     }
 }

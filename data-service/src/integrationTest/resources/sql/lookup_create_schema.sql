@@ -77,3 +77,11 @@ CREATE TABLE XXCCMS_CATEGORY_OF_LAW_V (
                                     MATTER_TYPE_DESCRIPTION	VARCHAR2(80),
                                     COPY_COST_LIMIT_IND	VARCHAR2(150)
 );
+
+CREATE TABLE XXCCMS_EVIDENCE_DOC_TYPE_V (
+                                          LOV_TYPE	VARCHAR2(30),
+                                          CODE VARCHAR2(30),
+                                          DESCRIPTION	VARCHAR2(80),
+                                          START_DATE_ACTIVE	DATE,
+                                          END_DATE_ACTIVE	DATE
+);

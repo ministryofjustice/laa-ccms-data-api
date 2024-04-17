@@ -703,6 +703,41 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/evidence-document-types:
+    get:
+      tags:
+        - lookup
+      summary: 'Get a list of evidence document type lookup values'
+      description: Get a list of evidence document type lookup values which match the provided type 
+        and code.
+      operationId: 'getEvidenceDocumentTypeLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'type'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'XXCCMS_OPA_EVIDENCE_ITEMS'
+        - name: 'code'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'D'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/evidenceDocumentTypeLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/common:
     get:
       tags:
@@ -1149,6 +1184,29 @@ components:
           type: 'string'
         mandatory_flag:
           type: 'boolean'
+    evidenceDocumentTypeLookupValueDetail:
+      type: 'object'
+      properties:
+        type:
+          type: 'string'
+        code:
+          type: 'string'
+        description:
+          type: 'string'
+        start_date_active:
+          type: 'string'
+        end_date_active:
+          type: 'string'
+    evidenceDocumentTypeLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          default: []
+          items:
+            $ref: "#/components/schemas/evidenceDocumentTypeLookupValueDetail"
     commonLookupValueDetail:
       type: 'object'
       properties:
@@ -1175,7 +1233,7 @@ components:
       properties:
         content:
           type: 'array'
-          default: []
+          default: [ ]
           items:
             $ref: "#/components/schemas/commonLookupValueDetail"
     relationshipToCaseLookupValueDetail:

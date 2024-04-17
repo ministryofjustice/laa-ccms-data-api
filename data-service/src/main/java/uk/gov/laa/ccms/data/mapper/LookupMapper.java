@@ -9,6 +9,7 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
 import uk.gov.laa.ccms.data.entity.MatterType;
 import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
@@ -27,6 +28,8 @@ import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupValueDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
@@ -130,5 +133,13 @@ public interface LookupMapper {
 
   CategoryOfLawLookupValueDetail toCategoryOfLawLookupValueDetail(
       CategoryOfLawLookupValue categoryOfLawLookupValue);
+
+  EvidenceDocumentTypeLookupDetail toEvidenceDocumentTypeLookupDetail(
+      Page<EvidenceDocumentTypeLookupValue> evidenceDocumentTypeLookupValues);
+
+  @Mapping(target = "type", source = "id.type")
+  @Mapping(target = "code", source = "id.code")
+  EvidenceDocumentTypeLookupValueDetail toEvidenceDocumentTypeLookupValueDetail(
+      EvidenceDocumentTypeLookupValue evidenceDocumentTypeLookupValue);
 
 }
