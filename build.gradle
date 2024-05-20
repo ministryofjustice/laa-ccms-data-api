@@ -3,5 +3,5 @@ plugins {
 }
 
 subprojects {
-    group = 'uk.gov.laa.ccms.caab'
+    group = 'uk.gov.laa.ccms.data'
 }
