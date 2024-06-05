@@ -27,6 +27,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -56,6 +58,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -85,6 +89,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -143,6 +149,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -172,6 +180,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -265,6 +275,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -298,6 +310,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -326,6 +340,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -354,6 +370,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -387,6 +405,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -420,6 +440,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -453,6 +475,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -486,6 +510,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -519,6 +545,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -552,6 +580,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -590,6 +620,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -628,6 +660,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -666,6 +700,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -699,6 +735,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -734,6 +772,8 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
@@ -776,11 +816,18 @@ paths:
           description: 'Bad request'
         '401':
           description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
         '404':
           description: 'Not found'
         '500':
           description: 'Internal server error'
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
   schemas:
     baseOffice:
       type: 'object'
@@ -1273,3 +1320,5 @@ components:
         size:
           type: 'integer'
 
+security:
+  - ApiKeyAuth: []
