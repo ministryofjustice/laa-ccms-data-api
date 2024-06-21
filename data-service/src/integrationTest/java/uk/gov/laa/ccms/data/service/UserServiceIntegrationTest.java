@@ -35,16 +35,16 @@ public class UserServiceIntegrationTest implements IntegrationTestInterface {
 
     @Test
     @Sql(statements = {
-            "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
-                    "VALUES (1, 'Firm 1');",
-            "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (PROVIDERFIRM_ID, OFFICE_ID, OFFICE_NAME) " +
-                    "VALUES (1, 1, 'Main Office');",
-            "INSERT INTO XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME, USER_LOGIN_ID, USER_END_DATE) " +
-                    "VALUES (1, 'Firm 1', 'user1', TO_TIMESTAMP('2024-06-08 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));",
-            "INSERT INTO XXCCMS_USERS_V (USER_ID, USER_LOGIN_ID, USER_PARTY_ID, USER_NAME, USER_TYPE, PROVIDER_NAME, PROVIDERFIRM_ID) " +
-                    "VALUES (1, 'user1', 1001, 'John Doe', 'Admin', 'Firm 1', 1);",
-            "INSERT INTO XXCCMS_USER_ROLES_V (USER_LOGIN_ID, FUNCTION) " +
-                    "VALUES ('user1', 'Role 1');"
+        "INSERT INTO XXCCMS_PROVIDERFIRMS_V (PROVIDERFIRM_ID, PROVIDERFIRM_NAME) " +
+            "VALUES (1, 'Firm 1');",
+        "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (PROVIDERFIRM_ID, OFFICE_ID, OFFICE_NAME) " +
+            "VALUES (1, 1, 'Main Office');",
+        "INSERT INTO XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME, USER_LOGIN_ID, USER_END_DATE) " +
+            "VALUES (1, 'Firm 1', 'user1', CURRENT_TIMESTAMP + INTERVAL '1' DAY);",
+        "INSERT INTO XXCCMS_USERS_V (USER_ID, USER_LOGIN_ID, USER_PARTY_ID, USER_NAME, USER_TYPE, PROVIDER_NAME, PROVIDERFIRM_ID) " +
+            "VALUES (1, 'user1', 1001, 'John Doe', 'Admin', 'Firm 1', 1);",
+        "INSERT INTO XXCCMS_USER_ROLES_V (USER_LOGIN_ID, FUNCTION) " +
+            "VALUES ('user1', 'Role 1');"
     })
     public void testGetUser_returnsData(){
         Optional<UserDetail> expectedUser = userService.getUser("user1");
@@ -69,11 +69,11 @@ public class UserServiceIntegrationTest implements IntegrationTestInterface {
         "INSERT INTO XXCCMS_PROVIDER_OFFICES_V (PROVIDERFIRM_ID, OFFICE_ID, OFFICE_NAME) " +
             "VALUES (10, 100, 'Main Office');",
         "INSERT INTO XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME, USER_LOGIN_ID, USER_END_DATE) " +
-            "VALUES (10, 'UserFirm 1', 'user1', TO_TIMESTAMP('2024-06-08 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));",
+            "VALUES (10, 'UserFirm 1', 'user1', CURRENT_TIMESTAMP + INTERVAL '1' DAY);",
         "INSERT INTO XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME, USER_LOGIN_ID, USER_END_DATE) " +
-            "VALUES (11, 'UserFirm 2', 'user1', TO_TIMESTAMP('2024-06-08 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));",
+            "VALUES (11, 'UserFirm 2', 'user1', CURRENT_TIMESTAMP + INTERVAL '1' DAY);",
         "INSERT INTO XXCCMS_USER_FIRMS_V (PROVIDERFIRM_ID, PROVIDER_NAME, USER_LOGIN_ID, USER_END_DATE) " +
-            "VALUES (10, 'UserFirm 1', 'user2', TO_TIMESTAMP('2024-06-08 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));",
+            "VALUES (10, 'UserFirm 1', 'user2', CURRENT_TIMESTAMP + INTERVAL '1' DAY);",
         "INSERT INTO XXCCMS_USERS_V (USER_ID, USER_LOGIN_ID, USER_PARTY_ID, USER_NAME, USER_TYPE, PROVIDER_NAME, PROVIDERFIRM_ID) " +
             "VALUES (1, 'user1', 1001, 'John Doe', 'Admin', 'ProviderFirm 1', 10);",
         "INSERT INTO XXCCMS_USERS_V (USER_ID, USER_LOGIN_ID, USER_PARTY_ID, USER_NAME, USER_TYPE, PROVIDER_NAME, PROVIDERFIRM_ID) " +
