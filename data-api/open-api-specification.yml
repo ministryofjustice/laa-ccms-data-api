@@ -822,6 +822,39 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/assessment-summary-attributes:
+    get:
+      tags:
+        - lookup
+      summary: 'Get a list of assessment summary attributes'
+      description: get a list of assessment summary attributes
+      operationId: 'getAssessmentSummaryAttributes'
+      x-spring-paginated: true
+      parameters:
+        - name: 'summary-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            enum:
+              - 'parent'
+              - 'child'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/assessmentSummaryAttributeLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1308,6 +1341,29 @@ components:
           default: []
           items:
             $ref: "#/components/schemas/relationshipToCaseLookupValueDetail"
+    assessmentSummaryAttributeLookupValueDetail:
+      type: 'object'
+      properties:
+        entity_name:
+          type: 'string'
+        entity_display_name:
+          type: 'string'
+        attribute_name:
+          type: 'string'
+        attribute_display_name:
+          type: 'string'
+        entity_level:
+          type: 'integer'
+    assessmentSummaryAttributeLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          default: []
+          items:
+            $ref: "#/components/schemas/assessmentSummaryAttributeLookupValueDetail"
     page:
       type: 'object'
       properties:

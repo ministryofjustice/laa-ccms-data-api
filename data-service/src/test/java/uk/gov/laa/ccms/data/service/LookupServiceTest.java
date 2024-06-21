@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryAttribute;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
@@ -37,6 +38,7 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -49,6 +51,7 @@ import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.AssessmentSummaryAttributesRepository;
 import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
@@ -109,6 +112,9 @@ class LookupServiceTest {
 
     @Mock
     private EvidenceDocumentTypeLookupValueRepository evidenceDocumentTypeLookupValueRepository;
+
+    @Mock
+    private AssessmentSummaryAttributesRepository assessmentSummaryAttributesRepository;
 
     @Mock
     private LookupMapper lookupMapper;
@@ -561,4 +567,21 @@ class LookupServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
+
+    @Test
+    void getAssessmentSummaryAttributes_returnsPageOfAssessmentSummaryAttributes() {
+        String summaryType = "summaryType";
+        Pageable pageable = Pageable.unpaged();
+
+        AssessmentSummaryAttributeLookupDetail expectedResponse = new AssessmentSummaryAttributeLookupDetail();
+        Page<AssessmentSummaryAttribute> expectedPage = new PageImpl<>(Collections.singletonList(new AssessmentSummaryAttribute()));
+
+        when(assessmentSummaryAttributesRepository.findAllSummaryAttributes(summaryType.toUpperCase(), pageable)).thenReturn(expectedPage);
+        when(lookupMapper.toAssessmentSummaryAttributeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+
+        AssessmentSummaryAttributeLookupDetail actualResponse = lookupService.getAssessmentSummaryAttributes(summaryType, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
 }
