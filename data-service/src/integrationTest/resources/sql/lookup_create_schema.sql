@@ -85,3 +85,27 @@ CREATE TABLE XXCCMS_EVIDENCE_DOC_TYPE_V (
                                           START_DATE_ACTIVE	DATE,
                                           END_DATE_ACTIVE	DATE
 );
+
+CREATE TABLE XXCCMS_PUI_OPA_ENTITIES_V (
+                                           OPA_ENTITY_NAME      		VARCHAR(150),
+                                           OPA_ENTITY_DISPLAY_NAME	VARCHAR(80),
+                                           RELATIONSHIP_TEXT		VARCHAR(150),
+                                           REV_RELATIONSHIP_TEXT	VARCHAR(150),
+                                           INSTANCE_NAME_COLUMN		VARCHAR(150),
+                                           PRIMARY_KEY 		VARCHAR(150),
+                                           ENTITY_LEVEL      VARCHAR(1),
+                                           PARENT_ENTITY_CODE    VARCHAR(150),
+                                           ENTITY_DISPLAY_SEQUENCE  VARCHAR(50)
+
+);
+
+CREATE TABLE XXCCMS_PUI_OPA_ATTRIBUTE_V (
+                                            OPA_ENTITY_NAME      		VARCHAR2(50),
+                                            OPA_ENTITY_DISPLAY_NAME	VARCHAR2(150),
+                                            OPA_ATTRIBUTE_NAME		VARCHAR2(50),
+                                            OPA_ATTRIBUTE_DISPLAY_NAME	VARCHAR2(150),
+                                            DISPLAY_SEQUENCE		VARCHAR(50),
+                                            ENTITY_DISPLAY_SEQUENCE    VARCHAR2(50),
+                                            SUMMARY_DISPLAY_FLAG 		VARCHAR(1)
+);
+

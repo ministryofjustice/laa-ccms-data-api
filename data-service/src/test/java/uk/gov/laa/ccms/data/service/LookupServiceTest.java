@@ -1,8 +1,13 @@
 package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -15,9 +20,12 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
-import uk.gov.laa.ccms.data.entity.AssessmentSummaryAttribute;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryEntity;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
@@ -38,7 +46,7 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
-import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -118,6 +126,15 @@ class LookupServiceTest {
 
     @Mock
     private LookupMapper lookupMapper;
+
+    @Mock
+    private Root<AssessmentSummaryEntity> root;
+
+    @Mock
+    private CriteriaQuery<?> query;
+
+    @Mock
+    private CriteriaBuilder builder;
 
     @InjectMocks
     private LookupService lookupService;
@@ -569,19 +586,76 @@ class LookupServiceTest {
     }
 
     @Test
-    void getAssessmentSummaryAttributes_returnsPageOfAssessmentSummaryAttributes() {
-        String summaryType = "summaryType";
-        Pageable pageable = Pageable.unpaged();
+    void getAssessmentSummaryAttributes_withParentSummaryType_returnsFilteredResults() {
+        String summaryType = "PARENT";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("entityDisplaySequence").ascending());
 
-        AssessmentSummaryAttributeLookupDetail expectedResponse = new AssessmentSummaryAttributeLookupDetail();
-        Page<AssessmentSummaryAttribute> expectedPage = new PageImpl<>(Collections.singletonList(new AssessmentSummaryAttribute()));
+        List<AssessmentSummaryEntity> entities = new ArrayList<>();
+        entities.add(createAssessmentSummaryEntity(1));
+        Page<AssessmentSummaryEntity> expectedPage = new PageImpl<>(entities);
 
-        when(assessmentSummaryAttributesRepository.findAllSummaryAttributes(summaryType.toUpperCase(), pageable)).thenReturn(expectedPage);
-        when(lookupMapper.toAssessmentSummaryAttributeLookupDetail(expectedPage)).thenReturn(expectedResponse);
+        AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
 
-        AssessmentSummaryAttributeLookupDetail actualResponse = lookupService.getAssessmentSummaryAttributes(summaryType, pageable);
+        when(assessmentSummaryAttributesRepository.findAll(any(Specification.class), any(PageRequest.class)))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toAssessmentSummaryEntityLookupDetail(expectedPage))
+            .thenReturn(expectedResponse);
+
+        AssessmentSummaryEntityLookupDetail actualResponse = lookupService.getAssessmentSummaryAttributes(summaryType, pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }
 
+    @Test
+    void getAssessmentSummaryAttributes_withChildSummaryType_returnsFilteredResults() {
+        String summaryType = "CHILD";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("entityDisplaySequence").ascending());
+
+        List<AssessmentSummaryEntity> entities = new ArrayList<>();
+        entities.add(createAssessmentSummaryEntity(3));
+        Page<AssessmentSummaryEntity> expectedPage = new PageImpl<>(entities);
+
+        AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
+
+        when(assessmentSummaryAttributesRepository.findAll(any(Specification.class), any(PageRequest.class)))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toAssessmentSummaryEntityLookupDetail(expectedPage))
+            .thenReturn(expectedResponse);
+
+        AssessmentSummaryEntityLookupDetail actualResponse = lookupService.getAssessmentSummaryAttributes(summaryType, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void getAssessmentSummaryAttributes_withNullSummaryType_returnsAllResults() {
+        String summaryType = null;
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("entityDisplaySequence").ascending());
+
+        List<AssessmentSummaryEntity> entities = new ArrayList<>();
+        entities.add(createAssessmentSummaryEntity(1));
+        entities.add(createAssessmentSummaryEntity(3));
+        Page<AssessmentSummaryEntity> expectedPage = new PageImpl<>(entities);
+
+        AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
+
+        when(assessmentSummaryAttributesRepository.findAll(any(Specification.class), any(PageRequest.class)))
+            .thenReturn(expectedPage);
+        when(lookupMapper.toAssessmentSummaryEntityLookupDetail(expectedPage))
+            .thenReturn(expectedResponse);
+
+        AssessmentSummaryEntityLookupDetail actualResponse = lookupService.getAssessmentSummaryAttributes(summaryType, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    // Helper methods to create objects
+    private AssessmentSummaryEntity createAssessmentSummaryEntity(int entityLevel) {
+        AssessmentSummaryEntity entity = new AssessmentSummaryEntity();
+        entity.setEntityLevel(entityLevel);
+        entity.setOpaEntityName("entityName" + entityLevel);
+        entity.setOpaEntityDisplayName("entityDisplayName" + entityLevel);
+        entity.setEntityDisplaySequence(String.valueOf(entityLevel));
+        return entity;
+    }
 }

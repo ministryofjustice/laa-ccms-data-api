@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.IntegrationTestInterface;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -341,4 +342,30 @@ public class LookupServiceIntegrationTest implements IntegrationTestInterface {
         assertNotNull(result);
         assertEquals(expectedElements, result.getTotalElements());
     }
+
+    @ParameterizedTest
+    @Sql(scripts = {"/sql/insert_opa_lookup_data.sql"})
+    @CsvSource(value= {
+        "PARENT, 1",
+        "CHILD, 2",
+        "UNKNOWN, 3",
+        "null, 3"},
+        nullValues={"null"})
+    public void testGetAssessmentSummaryAttributes(String summaryType, Integer expectedElements) {
+
+        // Create a pageable object
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // Call the service method
+        AssessmentSummaryEntityLookupDetail result = lookupService.getAssessmentSummaryAttributes(
+            summaryType, pageable);
+
+        // Assert the result
+        assertNotNull(result);
+        assertEquals(expectedElements, result.getTotalElements());
+    }
+
+
+
+
 }

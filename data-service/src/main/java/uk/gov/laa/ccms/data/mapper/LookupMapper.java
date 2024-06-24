@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.AssessmentSummaryAttribute;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryEntity;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
@@ -20,8 +21,9 @@ import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
-import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupDetail;
 import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupValueDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
@@ -145,13 +147,16 @@ public interface LookupMapper {
   EvidenceDocumentTypeLookupValueDetail toEvidenceDocumentTypeLookupValueDetail(
       EvidenceDocumentTypeLookupValue evidenceDocumentTypeLookupValue);
 
-  AssessmentSummaryAttributeLookupDetail toAssessmentSummaryAttributeLookupDetail(
-      Page<AssessmentSummaryAttribute> assessmentSummaryAttributes);
+  AssessmentSummaryEntityLookupDetail toAssessmentSummaryEntityLookupDetail(
+      Page<AssessmentSummaryEntity> assessmentSummaryEntities);
 
-  @Mapping(target = "entityName", source = "opaEntityName")
-  @Mapping(target = "entityDisplayName", source = "opaEntityDisplayName")
-  @Mapping(target = "attributeName", source = "opaAttributeName")
-  @Mapping(target = "attributeDisplayName", source = "opaAttributeDisplayName")
+  @Mapping(target = "name", source = "opaEntityName")
+  @Mapping(target = "displayName", source = "opaEntityDisplayName")
+  AssessmentSummaryEntityLookupValueDetail toAssessmentSummaryEntityLookupValueDetail(
+      AssessmentSummaryEntity assessmentSummaryEntity);
+
+  @Mapping(target = "name", source = "opaAttributeName")
+  @Mapping(target = "displayName", source = "opaAttributeDisplayName")
   AssessmentSummaryAttributeLookupValueDetail toAssessmentSummaryAttributeLookupValueDetail(
       AssessmentSummaryAttribute assessmentSummaryAttribute);
 

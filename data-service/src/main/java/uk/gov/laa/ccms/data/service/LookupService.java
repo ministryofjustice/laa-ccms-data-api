@@ -1,12 +1,19 @@
 package uk.gov.laa.ccms.data.service;
 
-import java.util.Optional;
+import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.convert.QueryByExamplePredicateBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryEntity;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
@@ -27,7 +34,7 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
-import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -419,15 +426,51 @@ public class LookupService extends AbstractEbsDataService {
    * @param pageable    the pagination information
    * @return the detailed summary attributes lookup
    */
-  public AssessmentSummaryAttributeLookupDetail getAssessmentSummaryAttributes(
+  public AssessmentSummaryEntityLookupDetail getAssessmentSummaryAttributes(
       String summaryType,
       final Pageable pageable) {
 
-    return lookupMapper.toAssessmentSummaryAttributeLookupDetail(
-        assessmentSummaryAttributesRepository.findAllSummaryAttributes(
-            Optional.ofNullable(summaryType)
-                .map(String::toUpperCase)
-                .orElse(null), pageable));
+    return lookupMapper.toAssessmentSummaryEntityLookupDetail(
+        assessmentSummaryAttributesRepository.findAll(
+            buildQuerySpecification(
+                Example.of(new AssessmentSummaryEntity()),
+                summaryType),
+            PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by("entityDisplaySequence").ascending())));
+  }
+
+  protected Specification<AssessmentSummaryEntity> buildQuerySpecification(
+      final Example<AssessmentSummaryEntity> summaryEntity,
+      final String summaryType) {
+
+    return (root, query, builder) -> {
+      final List<Predicate> predicates = new ArrayList<>();
+
+      if (summaryType != null) {
+        if ("PARENT".equalsIgnoreCase(summaryType)) {
+          predicates.add(builder.lessThan(root.get("entityLevel"), 2));
+        } else if ("CHILD".equalsIgnoreCase(summaryType)) {
+          predicates.add(builder.greaterThanOrEqualTo(root.get("entityLevel"), 2));
+        }
+      }
+
+      Predicate examplePredicate = QueryByExamplePredicateBuilder.getPredicate(
+          root,
+          builder,
+          summaryEntity);
+
+      if (examplePredicate != null) {
+        predicates.add(examplePredicate);
+      }
+
+      if (predicates.isEmpty()) {
+        return builder.conjunction();
+      } else {
+        return builder.and(predicates.toArray(new Predicate[0]));
+      }
+    };
   }
 
 }
