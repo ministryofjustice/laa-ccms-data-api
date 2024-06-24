@@ -844,7 +844,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/assessmentSummaryAttributeLookupDetail"
+                $ref: "#/components/schemas/assessmentSummaryEntityLookupDetail"
         '400':
           description: 'Bad request'
         '401':
@@ -1341,20 +1341,27 @@ components:
           default: []
           items:
             $ref: "#/components/schemas/relationshipToCaseLookupValueDetail"
-    assessmentSummaryAttributeLookupValueDetail:
+    assessmentSummaryEntityLookupValueDetail:
       type: 'object'
       properties:
-        entity_name:
+        name:
           type: 'string'
-        entity_display_name:
-          type: 'string'
-        attribute_name:
-          type: 'string'
-        attribute_display_name:
+        display_name:
           type: 'string'
         entity_level:
           type: 'integer'
-    assessmentSummaryAttributeLookupDetail:
+        attributes:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/assessmentSummaryAttributeLookupValueDetail"
+    assessmentSummaryAttributeLookupValueDetail:
+      type: 'object'
+      properties:
+        name:
+          type: 'string'
+        display_name:
+          type: 'string'
+    assessmentSummaryEntityLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"
       type: 'object'
@@ -1363,7 +1370,7 @@ components:
           type: 'array'
           default: []
           items:
-            $ref: "#/components/schemas/assessmentSummaryAttributeLookupValueDetail"
+            $ref: "#/components/schemas/assessmentSummaryEntityLookupValueDetail"
     page:
       type: 'object'
       properties:

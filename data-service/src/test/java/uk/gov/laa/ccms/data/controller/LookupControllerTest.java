@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
-import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -318,12 +318,12 @@ class LookupControllerTest {
         String summaryType = "summaryType";
         Pageable pageable = Pageable.unpaged();
 
-        AssessmentSummaryAttributeLookupDetail expectedResponse = new AssessmentSummaryAttributeLookupDetail();
+        AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
 
         when(lookupService.getAssessmentSummaryAttributes(summaryType, pageable))
             .thenReturn(expectedResponse);
 
-        ResponseEntity<AssessmentSummaryAttributeLookupDetail> responseEntity =
+        ResponseEntity<AssessmentSummaryEntityLookupDetail> responseEntity =
             lookupController.getAssessmentSummaryAttributes(summaryType, pageable);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
