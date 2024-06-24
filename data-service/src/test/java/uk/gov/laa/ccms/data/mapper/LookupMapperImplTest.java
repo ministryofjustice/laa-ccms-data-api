@@ -894,5 +894,4 @@ class LookupMapperImplTest {
         return detail;
     }
 
-
 }

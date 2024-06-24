@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
@@ -165,6 +166,23 @@ public class LookupController implements LookupApi {
   public ResponseEntity<AmendmentTypeLookupDetail> getAmendmentTypeLookupValues(
           String applicationType, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getAmendmentTypeLookupValues(applicationType, pageable));
+  }
+
+
+
+  /**
+   * Retrieves assessment summary attributes based on the given summary type and pageable.
+   *
+   * @param summaryType the type of summary to retrieve attributes for
+   * @param pageable the pagination information
+   * @return a ResponseEntity with status 200 (OK) and the list of assessment summary attributes
+   *         in the body
+   */
+  @Override
+  public ResponseEntity<AssessmentSummaryEntityLookupDetail> getAssessmentSummaryAttributes(
+      final String summaryType,
+      final Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getAssessmentSummaryAttributes(summaryType, pageable));
   }
 
   /**

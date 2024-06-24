@@ -822,6 +822,39 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /lookup/assessment-summary-attributes:
+    get:
+      tags:
+        - lookup
+      summary: 'Get a list of assessment summary attributes'
+      description: get a list of assessment summary attributes
+      operationId: 'getAssessmentSummaryAttributes'
+      x-spring-paginated: true
+      parameters:
+        - name: 'summary-type'
+          in: 'query'
+          schema:
+            type: 'string'
+            enum:
+              - 'parent'
+              - 'child'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/assessmentSummaryEntityLookupDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1308,6 +1341,36 @@ components:
           default: []
           items:
             $ref: "#/components/schemas/relationshipToCaseLookupValueDetail"
+    assessmentSummaryEntityLookupValueDetail:
+      type: 'object'
+      properties:
+        name:
+          type: 'string'
+        display_name:
+          type: 'string'
+        entity_level:
+          type: 'integer'
+        attributes:
+          type: 'array'
+          items:
+            $ref: "#/components/schemas/assessmentSummaryAttributeLookupValueDetail"
+    assessmentSummaryAttributeLookupValueDetail:
+      type: 'object'
+      properties:
+        name:
+          type: 'string'
+        display_name:
+          type: 'string'
+    assessmentSummaryEntityLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          default: []
+          items:
+            $ref: "#/components/schemas/assessmentSummaryEntityLookupValueDetail"
     page:
       type: 'object'
       properties:
