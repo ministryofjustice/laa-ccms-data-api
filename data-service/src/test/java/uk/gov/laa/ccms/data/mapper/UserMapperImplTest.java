@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.Firm;
+import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
+import uk.gov.laa.ccms.data.model.BaseOffice;
 import uk.gov.laa.ccms.data.model.BaseProvider;
 import uk.gov.laa.ccms.data.model.BaseUser;
 import uk.gov.laa.ccms.data.model.UserDetail;
@@ -55,6 +58,20 @@ class UserMapperImplTest {
         userDetail.setFirms(mapper.firmListToBaseProviderList(user.getFirms()));
         userDetail.setFunctions(new ArrayList<>(user.getFunctions()));
         return userDetail;
+    }
+
+    private Office createOffice(String suffix) {
+        Office office = new Office();
+        office.setId(1);
+        office.setName("name" + suffix);
+        return office;
+    }
+
+    private BaseOffice createBaseOffice(Office office) {
+        BaseOffice baseOffice = new BaseOffice();
+        baseOffice.setId(office.getId());
+        baseOffice.setName(office.getName());
+        return baseOffice;
     }
 
     // Tests
@@ -120,5 +137,42 @@ class UserMapperImplTest {
 
         // Assertion
         assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void officeToBaseOffice() {
+        Office office = createOffice("");
+        BaseOffice expectedBaseOffice = createBaseOffice(office);
+        BaseOffice actualBaseOffice = mapper.officeToBaseOffice(office);
+        assertEquals(expectedBaseOffice, actualBaseOffice);
+    }
+
+    @Test
+    void officeToBaseOffice_null() {
+        BaseOffice actualBaseOffice = mapper.officeToBaseOffice(null);
+        assertNull(actualBaseOffice);
+    }
+
+    @Test
+    void officeListToBaseOfficeList() {
+        List<Office> offices = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            offices.add(createOffice(String.valueOf(i)));
+        }
+
+        List<BaseOffice> expectedBaseOffices = new ArrayList<>();
+        for (Office office : offices) {
+            expectedBaseOffices.add(createBaseOffice(office));
+        }
+
+        List<BaseOffice> actualBaseOffices = mapper.officeListToBaseOfficeList(offices);
+
+        assertEquals(expectedBaseOffices, actualBaseOffices);
+    }
+
+    @Test
+    void officeListToBaseOfficeList_null() {
+        List<BaseOffice> actualBaseOffices = mapper.officeListToBaseOfficeList(null);
+        assertNull(actualBaseOffices);
     }
 }

@@ -35,6 +35,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+
+    // Hide warning for dynamic loading of agents https://github.com/mockito/mockito/issues/3037
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
 }
 
 jacocoTestReport {

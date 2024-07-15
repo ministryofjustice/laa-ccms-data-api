@@ -1,6 +1,8 @@
 package uk.gov.laa.ccms.data.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryAttribute;
+import uk.gov.laa.ccms.data.entity.AssessmentSummaryEntity;
 import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
@@ -33,6 +37,9 @@ import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryAttributeLookupValueDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
+import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupValueDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
@@ -893,6 +900,109 @@ class LookupMapperImplTest {
 
         return detail;
     }
+
+    @Test
+    void toAssessmentSummaryEntityLookupDetailTest() {
+        List<AssessmentSummaryEntity> entities = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            entities.add(createAssessmentSummaryEntity(String.valueOf(i)));
+        }
+
+        Page<AssessmentSummaryEntity> entityPage = new PageImpl<>(entities);
+
+        AssessmentSummaryEntityLookupDetail expectedDetail = new AssessmentSummaryEntityLookupDetail();
+        expectedDetail.setTotalPages(entityPage.getTotalPages());
+        expectedDetail.setTotalElements((int) entityPage.getTotalElements());
+        expectedDetail.setNumber(entityPage.getNumber());
+        expectedDetail.setSize(entityPage.getSize());
+        expectedDetail.setContent(mapper.assessmentSummaryEntityListToAssessmentSummaryEntityLookupValueDetailList(entityPage.getContent()));
+
+        AssessmentSummaryEntityLookupDetail actualDetail = mapper.toAssessmentSummaryEntityLookupDetail(entityPage);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toAssessmentSummaryEntityLookupDetail_nullTest() {
+        AssessmentSummaryEntityLookupDetail actualDetail = mapper.toAssessmentSummaryEntityLookupDetail(null);
+        assertNull(actualDetail);
+    }
+
+    // Tests for toAssessmentSummaryEntityLookupValueDetail
+    @Test
+    void toAssessmentSummaryEntityLookupValueDetailTest() {
+        AssessmentSummaryEntity entity = createAssessmentSummaryEntity("");
+
+        AssessmentSummaryEntityLookupValueDetail expectedDetail = createAssessmentSummaryEntityLookupValueDetail(entity);
+        AssessmentSummaryEntityLookupValueDetail actualDetail = mapper.toAssessmentSummaryEntityLookupValueDetail(entity);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toAssessmentSummaryEntityLookupValueDetail_nullTest() {
+        AssessmentSummaryEntityLookupValueDetail actualDetail = mapper.toAssessmentSummaryEntityLookupValueDetail(null);
+        assertNull(actualDetail);
+    }
+
+    // Tests for toAssessmentSummaryAttributeLookupValueDetail
+    @Test
+    void toAssessmentSummaryAttributeLookupValueDetailTest() {
+        AssessmentSummaryAttribute attribute = createAssessmentSummaryAttribute("");
+
+        AssessmentSummaryAttributeLookupValueDetail expectedDetail = createAssessmentSummaryAttributeLookupValueDetail(attribute);
+        AssessmentSummaryAttributeLookupValueDetail actualDetail = mapper.toAssessmentSummaryAttributeLookupValueDetail(attribute);
+
+        assertEquals(expectedDetail, actualDetail);
+    }
+
+    @Test
+    void toAssessmentSummaryAttributeLookupValueDetail_nullTest() {
+        AssessmentSummaryAttributeLookupValueDetail actualDetail = mapper.toAssessmentSummaryAttributeLookupValueDetail(null);
+        assertNull(actualDetail);
+    }
+
+    // Helper methods to create objects
+    private AssessmentSummaryEntity createAssessmentSummaryEntity(String suffix) {
+        AssessmentSummaryEntity entity = new AssessmentSummaryEntity();
+        entity.setOpaEntityName("entityName" + suffix);
+        entity.setOpaEntityDisplayName("entityDisplayName" + suffix);
+        entity.setEntityLevel(1);
+
+        List<AssessmentSummaryAttribute> attributes = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            attributes.add(createAssessmentSummaryAttribute(suffix + "_" + i));
+        }
+        entity.setAttributes(attributes);
+
+        return entity;
+    }
+
+    private AssessmentSummaryAttribute createAssessmentSummaryAttribute(String suffix) {
+        AssessmentSummaryAttribute attribute = new AssessmentSummaryAttribute();
+        attribute.setOpaAttributeName("attributeName" + suffix);
+        attribute.setOpaAttributeDisplayName("attributeDisplayName" + suffix);
+        return attribute;
+    }
+
+    private AssessmentSummaryEntityLookupValueDetail createAssessmentSummaryEntityLookupValueDetail(AssessmentSummaryEntity entity) {
+        AssessmentSummaryEntityLookupValueDetail detail = new AssessmentSummaryEntityLookupValueDetail();
+        detail.setName(entity.getOpaEntityName());
+        detail.setDisplayName(entity.getOpaEntityDisplayName());
+        detail.setEntityLevel(entity.getEntityLevel());
+        detail.setAttributes(mapper.assessmentSummaryAttributeListToAssessmentSummaryAttributeLookupValueDetailList(entity.getAttributes()));
+        return detail;
+    }
+
+    private AssessmentSummaryAttributeLookupValueDetail createAssessmentSummaryAttributeLookupValueDetail(AssessmentSummaryAttribute attribute) {
+        AssessmentSummaryAttributeLookupValueDetail detail = new AssessmentSummaryAttributeLookupValueDetail();
+        detail.setName(attribute.getOpaAttributeName());
+        detail.setDisplayName(attribute.getOpaAttributeDisplayName());
+        return detail;
+    }
+
+
+
 
 
 }
