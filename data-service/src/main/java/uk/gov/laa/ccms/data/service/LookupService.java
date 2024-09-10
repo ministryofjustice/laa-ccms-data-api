@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,7 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.Declaration;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValueId;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
@@ -40,6 +42,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
@@ -53,6 +56,7 @@ import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.DeclarationRepository;
 import uk.gov.laa.ccms.data.repository.EvidenceDocumentTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.LevelOfServiceRepository;
 import uk.gov.laa.ccms.data.repository.MatterTypeRepository;
@@ -103,6 +107,8 @@ public class LookupService extends AbstractEbsDataService {
   private final EvidenceDocumentTypeLookupValueRepository evidenceDocumentTypeLookupValueRepository;
 
   private final AssessmentSummaryAttributesRepository assessmentSummaryAttributesRepository;
+
+  private final DeclarationRepository declarationRepository;
 
 
   /**
@@ -416,6 +422,29 @@ public class LookupService extends AbstractEbsDataService {
 
     return lookupMapper.toEvidenceDocumentTypeLookupDetail(
         evidenceDocumentTypeLookupValueRepository.findAll(Example.of(example), pageable));
+  }
+
+  /**
+   * Retrieves declaration lookup values based on the specified declaration type and bill type.
+   *
+   * @param declarationType the type of declaration to filter by
+   * @param billType the type of bill to filter by
+   * @param pageable pagination details
+   * @return the declaration lookup details
+   */
+  public DeclarationLookupDetail getDeclarationLookupValues(
+      final String declarationType,
+      final String billType,
+      final Pageable pageable
+  ) {
+    Declaration example = new Declaration();
+    example.setDeclarationType(declarationType);
+    example.setBillType(billType);
+
+    Page<Declaration> declarations = declarationRepository.findAll(Example.of(example), pageable);
+
+    return lookupMapper.toDeclarationLookupDetail(
+        declarations);
   }
 
   /**

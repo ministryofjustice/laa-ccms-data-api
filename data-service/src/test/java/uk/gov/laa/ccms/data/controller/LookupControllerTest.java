@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
@@ -329,5 +331,27 @@ class LookupControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedResponse, responseEntity.getBody());
     }
+
+    @Test
+    @DisplayName("getDeclarations returns DeclarationLookupDetail")
+    void getDeclarations_returnsDeclarationLookupDetail() throws Exception {
+        String type = "type1";
+        String billType = "bill1";
+        Pageable pageable = Pageable.ofSize(20);
+
+        DeclarationLookupDetail expectedResponse = new DeclarationLookupDetail();
+
+        when(lookupService.getDeclarationLookupValues(type, billType, pageable))
+            .thenReturn(expectedResponse);
+
+        mockMvc.perform(get("/lookup/declarations")
+                .param("type", type)
+                .param("bill-type", billType))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getDeclarationLookupValues(type, billType, pageable);
+    }
+
 
 }
