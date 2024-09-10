@@ -12,6 +12,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
@@ -67,8 +68,17 @@ public class LookupController implements LookupApi {
    */
   @Override
   public ResponseEntity<CommonLookupDetail> getCountriesLookupValues(
-          String code, Pageable pageable) {
+      final String code,
+      final Pageable pageable) {
     return ResponseEntity.ok(lookupService.getCountryLookupValues(code, pageable));
+  }
+
+  @Override
+  public ResponseEntity<DeclarationLookupDetail> getDeclarations(
+      final String type,
+      final String billType,
+      final Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getDeclarationLookupValues(type, billType, pageable));
   }
 
   /**

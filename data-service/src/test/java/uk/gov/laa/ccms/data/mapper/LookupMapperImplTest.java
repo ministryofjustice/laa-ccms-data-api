@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,6 +23,7 @@ import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
+import uk.gov.laa.ccms.data.entity.Declaration;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValueId;
 import uk.gov.laa.ccms.data.entity.LevelOfService;
@@ -50,6 +52,8 @@ import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
+import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
+import uk.gov.laa.ccms.data.model.DeclarationLookupValueDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
@@ -1001,8 +1005,50 @@ class LookupMapperImplTest {
         return detail;
     }
 
+    @Test
+    @DisplayName("toDeclarationLookupDetail returns correct detail for a given page of declarations")
+    void toDeclarationLookupDetail_returnsCorrectDetail() {
+        Declaration declaration1 = new Declaration();
+        declaration1.setDeclarationType("type1");
+        declaration1.setBillType("billType1");
 
+        Declaration declaration2 = new Declaration();
+        declaration2.setDeclarationType("type2");
+        declaration2.setBillType("billType2");
 
+        Page<Declaration> page = new PageImpl<>(List.of(declaration1, declaration2));
 
+        DeclarationLookupDetail expected = new DeclarationLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(List.of(
+            mapper.toDeclarationLookupValueDetail(declaration1),
+            mapper.toDeclarationLookupValueDetail(declaration2)
+        ));
+
+        DeclarationLookupDetail actual = mapper.toDeclarationLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("toDeclarationLookupValueDetail returns correct detail for a given declaration")
+    void toDeclarationLookupValueDetail_returnsCorrectDetail() {
+        Declaration declaration = new Declaration();
+        declaration.setDeclarationType("type");
+        declaration.setDeclarationNumber("123");
+        declaration.setDeclarationText("Declaration text");
+
+        DeclarationLookupValueDetail expected = new DeclarationLookupValueDetail();
+        expected.setType(declaration.getDeclarationType());
+        expected.setNumber(declaration.getDeclarationNumber());
+        expected.setText(declaration.getDeclarationText());
+
+        DeclarationLookupValueDetail actual = mapper.toDeclarationLookupValueDetail(declaration);
+
+        assertEquals(expected, actual);
+    }
 
 }
