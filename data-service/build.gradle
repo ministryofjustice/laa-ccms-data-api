@@ -29,7 +29,7 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:oracle-xe'
-    testImplementation 'org.hibernate:hibernate-core:6.3.1.Final'
+    testImplementation 'org.hibernate:hibernate-core:6.6.1.Final'
     testImplementation 'com.h2database:h2:2.2.224'
 }
 
