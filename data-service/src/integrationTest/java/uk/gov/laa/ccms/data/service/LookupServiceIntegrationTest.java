@@ -23,6 +23,7 @@ import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 
@@ -363,6 +364,48 @@ public class LookupServiceIntegrationTest implements IntegrationTestInterface {
         // Assert the result
         assertNotNull(result);
         assertEquals(expectedElements, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+            "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
+        "INSERT INTO XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+            "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
+    })
+    @CsvSource({
+        "true, 1",
+        "false, 1"
+    })
+    public void testGetProviderRequestTypeLookupValues(Boolean isCaseRelated, Integer expectedResults) {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        ProviderRequestTypeLookupDetail result = lookupService.getProviderRequestTypeLookupValues(isCaseRelated, null, pageable);
+
+        assertNotNull(result);
+        assertEquals(expectedResults, result.getTotalElements());
+    }
+
+    @ParameterizedTest
+    @Sql(statements = {
+        "INSERT INTO XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+            "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
+        "INSERT INTO XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+            "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
+    })
+    @CsvSource({
+        "TYPE1, Provider Type 1",
+        "TYPE2, Provider Type 2"
+    })
+    public void testGetProviderRequestTypeLookupValuesByType(String type, String expectedName) {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        ProviderRequestTypeLookupDetail
+            result = lookupService.getProviderRequestTypeLookupValues(null, type, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals(expectedName, result.getContent().get(0).getName());
     }
 
 
