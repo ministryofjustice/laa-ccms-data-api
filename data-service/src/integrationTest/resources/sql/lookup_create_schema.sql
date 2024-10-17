@@ -109,3 +109,14 @@ CREATE TABLE XXCCMS_PUI_OPA_ATTRIBUTE_V (
                                             SUMMARY_DISPLAY_FLAG 		VARCHAR(1)
 );
 
+CREATE TABLE XXCCMS_PROVIDER_REQTYPES_V (
+                                            REQUEST_TYPE VARCHAR(50) PRIMARY KEY,
+                                            REQUEST_NAME VARCHAR(100),
+                                            CASE_RELATED_FLAG CHAR(1),
+                                            ADDITIONAL_INFO_PROMPT VARCHAR(255),
+                                            TASK_TYPE_ID VARCHAR(150),
+                                            FILE_UPLD_ENABLED CHAR(1),
+                                            ACCESS_FUNC_CODE VARCHAR(50),
+                                            FILE_UPLD_PROMPT VARCHAR(255)
+);
+

@@ -17,6 +17,7 @@ import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
@@ -160,6 +161,24 @@ public class LookupController implements LookupApi {
         pageable));
   }
 
+  /**
+   * GET provider request type lookup values.
+   *
+   * @param isCaseRelated the isCaseRelated flag
+   * @param type the type of the provider request type
+   * @param pageable pagination information
+   * @return the ResponseEntity with status 200 (OK) and the list of provider request type lookup
+   *         values in the body
+   */
+  @Override
+  public ResponseEntity<ProviderRequestTypeLookupDetail> getProviderRequestTypeLookupValues(
+      final Boolean isCaseRelated, final String type, final Pageable pageable) {
+    return ResponseEntity.ok(lookupService.getProviderRequestTypeLookupValues(
+        isCaseRelated,
+        type,
+        pageable));
+  }
+
 
   /**
    * GET amendment type lookup values by application type.
@@ -177,8 +196,6 @@ public class LookupController implements LookupApi {
           String applicationType, Pageable pageable) {
     return ResponseEntity.ok(lookupService.getAmendmentTypeLookupValues(applicationType, pageable));
   }
-
-
 
   /**
    * Retrieves assessment summary attributes based on the given summary type and pageable.
@@ -243,8 +260,6 @@ public class LookupController implements LookupApi {
     return ResponseEntity.ok(lookupService.getPersonToCaseRelationshipLookupValues(
         code, description, pageable));
   }
-
-
 
   /**
    * GET organisation to case relationship lookup values.

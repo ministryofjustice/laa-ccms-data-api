@@ -32,6 +32,7 @@ import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
+import uk.gov.laa.ccms.data.entity.ProviderRequestType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
@@ -47,6 +48,7 @@ import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
@@ -64,6 +66,7 @@ import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValue
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.ProceedingClientInvolvementTypeRepository;
+import uk.gov.laa.ccms.data.repository.ProviderRequestTypeRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 /**
@@ -110,6 +113,7 @@ public class LookupService extends AbstractEbsDataService {
 
   private final DeclarationRepository declarationRepository;
 
+  private final ProviderRequestTypeRepository providerRequestTypeRepository;
 
   /**
    * Retrieves a page of common values based on the provided
@@ -500,6 +504,26 @@ public class LookupService extends AbstractEbsDataService {
         return builder.and(predicates.toArray(new Predicate[0]));
       }
     };
+  }
+
+  /**
+   * Retrieves a page of provider request type values based on the provided search criteria.
+   *
+   * @param isCaseRelated the case related flag
+   * @param type the type of provider request
+   * @param pageable pagination information
+   * @return a ProviderRequestTypeLookupDetail containing a page of provider request type values
+   */
+  public ProviderRequestTypeLookupDetail getProviderRequestTypeLookupValues(
+      final Boolean isCaseRelated,
+      final String type,
+      final Pageable pageable) {
+    ProviderRequestType example = new ProviderRequestType();
+    example.setCaseRelated(isCaseRelated);
+    example.setType(type);
+
+    return lookupMapper.toProviderRequestTypeLookupDetail(
+        providerRequestTypeRepository.findAll(Example.of(example), pageable));
   }
 
 }

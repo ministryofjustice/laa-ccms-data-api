@@ -34,6 +34,7 @@ import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
@@ -352,6 +353,30 @@ class LookupControllerTest {
 
         verify(lookupService).getDeclarationLookupValues(type, billType, pageable);
     }
+
+    @Test
+    @DisplayName("getProviderRequestTypeLookupValues returns ProviderRequestTypeLookupDetail")
+    void getProviderRequestTypeLookupValues_returnsProviderRequestTypeLookupDetail() throws Exception {
+        Boolean isCaseRelated = Boolean.TRUE;
+        String type = "providerType";
+        Pageable pageable = Pageable.ofSize(20);
+
+        ProviderRequestTypeLookupDetail expectedResponse = new ProviderRequestTypeLookupDetail();
+
+        when(lookupService.getProviderRequestTypeLookupValues(isCaseRelated, type, pageable))
+            .thenReturn(expectedResponse);
+
+        mockMvc.perform(get("/lookup/provider-request-types")
+                .param("is-case-related", isCaseRelated.toString())
+                .param("type", type))
+            .andDo(print())
+            .andExpect(status().isOk());
+
+        verify(lookupService).getProviderRequestTypeLookupValues(isCaseRelated, type, pageable);
+    }
+
+
+
 
 
 }

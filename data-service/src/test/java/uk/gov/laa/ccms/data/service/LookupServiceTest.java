@@ -44,6 +44,7 @@ import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
+import uk.gov.laa.ccms.data.entity.ProviderRequestType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
@@ -59,6 +60,7 @@ import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 import uk.gov.laa.ccms.data.repository.AmendmentTypeLookupValueRepository;
@@ -76,6 +78,7 @@ import uk.gov.laa.ccms.data.repository.OrganisationRelationshipToCaseLookupValue
 import uk.gov.laa.ccms.data.repository.OutcomeResultLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.ProceedingClientInvolvementTypeRepository;
+import uk.gov.laa.ccms.data.repository.ProviderRequestTypeRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -127,6 +130,9 @@ class LookupServiceTest {
 
     @Mock
     private AssessmentSummaryAttributesRepository assessmentSummaryAttributesRepository;
+
+    @Mock
+    private ProviderRequestTypeRepository providerRequestTypeRepository;
 
     @Mock
     private DeclarationRepository declarationRepository;
@@ -684,6 +690,31 @@ class LookupServiceTest {
         when(lookupMapper.toDeclarationLookupDetail(expectedPage)).thenReturn(expectedResponse);
 
         DeclarationLookupDetail actualResponse = lookupService.getDeclarationLookupValues(declarationType, billType, pageable);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    @DisplayName("getProviderRequestTypeLookupValues returns page of provider request type values")
+    void getProviderRequestTypeLookupValues_returnsPageOfProviderRequestTypeValues() {
+        Boolean isCaseRelated = Boolean.TRUE;
+        String type = "providerType";
+        Pageable pageable = Pageable.unpaged();
+
+        ProviderRequestType example = new ProviderRequestType();
+        example.setCaseRelated(isCaseRelated);
+        example.setType(type);
+
+        Page<ProviderRequestType> expectedPage = new PageImpl<>(Collections.singletonList(example));
+        ProviderRequestTypeLookupDetail expectedResponse = new ProviderRequestTypeLookupDetail();
+
+        when(providerRequestTypeRepository.findAll(Example.of(example), pageable))
+            .thenReturn(new PageImpl<>(Collections.singletonList(example)));
+        when(lookupMapper.toProviderRequestTypeLookupDetail(expectedPage))
+            .thenReturn(expectedResponse);
+
+        ProviderRequestTypeLookupDetail actualResponse = lookupService.getProviderRequestTypeLookupValues(
+            isCaseRelated, type, pageable);
 
         assertEquals(expectedResponse, actualResponse);
     }

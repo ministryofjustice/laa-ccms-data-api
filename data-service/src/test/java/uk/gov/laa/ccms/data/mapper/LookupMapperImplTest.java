@@ -35,6 +35,7 @@ import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValueId;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
+import uk.gov.laa.ccms.data.entity.ProviderRequestType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValueId;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
@@ -62,6 +63,8 @@ import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupValueDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
@@ -1050,5 +1053,73 @@ class LookupMapperImplTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("toProviderRequestTypeLookupDetail returns correct detail for a given page of provider request types")
+    void toProviderRequestTypeLookupDetail_returnsCorrectDetail() {
+        ProviderRequestType providerRequestType1 = new ProviderRequestType();
+        providerRequestType1.setType("type1");
+        providerRequestType1.setName("name1");
+
+        ProviderRequestType providerRequestType2 = new ProviderRequestType();
+        providerRequestType2.setType("type2");
+        providerRequestType2.setName("name2");
+
+        Page<ProviderRequestType> page = new PageImpl<>(List.of(providerRequestType1, providerRequestType2));
+
+        ProviderRequestTypeLookupDetail expected = new ProviderRequestTypeLookupDetail();
+        expected.setTotalPages(page.getTotalPages());
+        expected.setTotalElements((int) page.getTotalElements());
+        expected.setNumber(page.getNumber());
+        expected.setSize(page.getSize());
+        expected.setContent(mapper.providerRequestTypeListToProviderRequestTypeLookupValueDetailList(page.getContent()));
+
+        ProviderRequestTypeLookupDetail actual = mapper.toProviderRequestTypeLookupDetail(page);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("toProviderRequestTypeLookupDetail returns null when input page is null")
+    void toProviderRequestTypeLookupDetail_returnsNullForNullInput() {
+        assertNull(mapper.toProviderRequestTypeLookupDetail(null));
+    }
+
+    @Test
+    @DisplayName("toProviderRequestTypeLookupValueDetail returns correct detail for a given provider request type")
+    void toProviderRequestTypeLookupValueDetail_returnsCorrectDetail() {
+        ProviderRequestType providerRequestType = new ProviderRequestType();
+        providerRequestType.setCaseRelated(true);
+        providerRequestType.setAdditionalInformationPrompt("Additional info");
+        providerRequestType.setFileUploadEnabled(true);
+        providerRequestType.setType("type1");
+        providerRequestType.setName("name1");
+        providerRequestType.setTaskTypeId("123");
+        providerRequestType.setAccessFunctionCode("accessCode");
+        providerRequestType.setFileUploadPrompt("File upload");
+
+        ProviderRequestTypeLookupValueDetail expected = new ProviderRequestTypeLookupValueDetail();
+        expected.setIsCaseRelated(providerRequestType.getCaseRelated());
+        expected.setAdditionalInformationPrompt(providerRequestType.getAdditionalInformationPrompt());
+        expected.setIsFileUploadEnabled(providerRequestType.getFileUploadEnabled());
+        expected.setType(providerRequestType.getType());
+        expected.setName(providerRequestType.getName());
+        expected.setTaskTypeId(providerRequestType.getTaskTypeId());
+        expected.setAccessFunctionCode(providerRequestType.getAccessFunctionCode());
+        expected.setFileUploadPrompt(providerRequestType.getFileUploadPrompt());
+
+        ProviderRequestTypeLookupValueDetail actual = mapper.toProviderRequestTypeLookupValueDetail(providerRequestType);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("toProviderRequestTypeLookupValueDetail returns null when input provider request type is null")
+    void toProviderRequestTypeLookupValueDetail_returnsNullForNullInput() {
+        assertNull(mapper.toProviderRequestTypeLookupValueDetail(null));
+    }
+
+
+
 
 }
