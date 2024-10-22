@@ -19,6 +19,7 @@ import uk.gov.laa.ccms.data.entity.OrganisationRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.OutcomeResultLookupValue;
 import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
 import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementType;
+import uk.gov.laa.ccms.data.entity.ProviderRequestData;
 import uk.gov.laa.ccms.data.entity.ProviderRequestType;
 import uk.gov.laa.ccms.data.entity.StageEndLookupValue;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
@@ -44,6 +45,7 @@ import uk.gov.laa.ccms.data.model.LevelOfServiceLookupValueDetail;
 import uk.gov.laa.ccms.data.model.MatterTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.OutcomeResultLookupValueDetail;
+import uk.gov.laa.ccms.data.model.ProviderRequestDataLookupValueDetail;
 import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
@@ -181,8 +183,17 @@ public interface LookupMapper {
   @Mapping(source = "caseRelated", target = "isCaseRelated")
   @Mapping(source = "additionalInformationPrompt", target = "additionalInformationPrompt")
   @Mapping(source = "fileUploadEnabled", target = "isFileUploadEnabled")
+  @Mapping(source = "providerRequestData", target = "dataItems")
   ProviderRequestTypeLookupValueDetail toProviderRequestTypeLookupValueDetail(
       ProviderRequestType providerRequestType);
+
+  @Mapping(source = "id.dataItemCode", target = "code")
+  @Mapping(source = "dataItemLabel", target = "label")
+  @Mapping(source = "dataItemType", target = "type")
+  @Mapping(source = "dataItemSeq", target = "sequence")
+  ProviderRequestDataLookupValueDetail toProviderRequestDataLookupValueDetail(
+      ProviderRequestData providerRequestData);
+
 
 
 

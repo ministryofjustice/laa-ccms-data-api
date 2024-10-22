@@ -120,3 +120,16 @@ CREATE TABLE XXCCMS_PROVIDER_REQTYPES_V (
                                             FILE_UPLD_PROMPT VARCHAR(255)
 );
 
+CREATE TABLE XXCCMS_PROVIDER_REQUEST_DATA_V (
+                                            REQUEST_TYPE VARCHAR(255) NOT NULL,
+                                            DATA_ITEM_CODE VARCHAR(255) NOT NULL,
+                                            DATA_ITEM_LABEL VARCHAR(255),
+                                            DATA_ITEM_TYPE VARCHAR(255) NOT NULL,
+                                            MANDATORY_FLAG VARCHAR(255) NOT NULL,
+                                            DATA_ITEM_SEQ VARCHAR(255) NOT NULL,
+                                            LOV_LOOKUP_TYPE VARCHAR(255),
+                                            PRIMARY KEY (REQUEST_TYPE, DATA_ITEM_CODE)
+);
+
+
+

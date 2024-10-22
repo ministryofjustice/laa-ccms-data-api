@@ -1097,6 +1097,7 @@ class LookupMapperImplTest {
         providerRequestType.setTaskTypeId("123");
         providerRequestType.setAccessFunctionCode("accessCode");
         providerRequestType.setFileUploadPrompt("File upload");
+        providerRequestType.setProviderRequestData(new ArrayList<>());
 
         ProviderRequestTypeLookupValueDetail expected = new ProviderRequestTypeLookupValueDetail();
         expected.setIsCaseRelated(providerRequestType.getCaseRelated());

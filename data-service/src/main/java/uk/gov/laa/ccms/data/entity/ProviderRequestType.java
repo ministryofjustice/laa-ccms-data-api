@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -48,6 +51,9 @@ public class ProviderRequestType {
 
   @Column(name = "FILE_UPLD_PROMPT")
   private String fileUploadPrompt;
+
+  @OneToMany(mappedBy = "providerRequestType", fetch = FetchType.EAGER)
+  private List<ProviderRequestData> providerRequestData;
 
 
 }

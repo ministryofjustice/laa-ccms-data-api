@@ -1480,6 +1480,11 @@ components:
           type: 'string'
         file_upload_prompt:
           type: 'string'
+        data_items:
+          type: 'array'
+          default: [ ]
+          items:
+            $ref: "#/components/schemas/providerRequestDataLookupValueDetail"
     providerRequestTypeLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"
@@ -1490,6 +1495,21 @@ components:
           default: [ ]
           items:
             $ref: "#/components/schemas/providerRequestTypeLookupValueDetail"
+    providerRequestDataLookupValueDetail:
+      type: 'object'
+      properties:
+        code:
+          type: 'string'
+        label:
+          type: 'string'
+        type:
+          type: 'string'
+        mandatory_flag:
+          type: 'boolean'
+        sequence:
+          type: 'string'
+        lov_lookup_type:
+          type: 'string'
     page:
       type: 'object'
       properties:
