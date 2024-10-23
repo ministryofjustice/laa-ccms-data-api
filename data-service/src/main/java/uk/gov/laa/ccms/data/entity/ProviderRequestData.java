@@ -33,8 +33,8 @@ public class ProviderRequestData implements Serializable {
   @Column(name = "data_item_type", nullable = false)
   private String dataItemType;
 
-  @Column(name = "mandatory_flag", nullable = false)
-  private String mandatoryFlag;
+  @Column(name = "mandatory_flag")
+  private boolean mandatoryFlag;
 
   @Column(name = "data_item_seq", nullable = false)
   private String dataItemSeq;
