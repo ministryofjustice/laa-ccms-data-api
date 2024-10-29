@@ -598,6 +598,7 @@ class LookupServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void getAssessmentSummaryAttributes_withParentSummaryType_returnsFilteredResults() {
         String summaryType = "PARENT";
@@ -619,6 +620,7 @@ class LookupServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void getAssessmentSummaryAttributes_withChildSummaryType_returnsFilteredResults() {
         String summaryType = "CHILD";
@@ -640,6 +642,7 @@ class LookupServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void getAssessmentSummaryAttributes_withNullSummaryType_returnsAllResults() {
         String summaryType = null;

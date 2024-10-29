@@ -3,6 +3,7 @@ CREATE TABLE XXCCMS_USER_FIRMS_V (
                                      PROVIDERFIRM_ID NUMBER(15),
                                      PROVIDER_NAME VARCHAR2(360),
                                      USER_END_DATE TIMESTAMP,
+                                     PRIMARY_FLAG VARCHAR2(1),
                                      CONSTRAINT XXCCMS_USER_FIRMS_PK PRIMARY KEY (USER_LOGIN_ID, PROVIDERFIRM_ID)
 );
 

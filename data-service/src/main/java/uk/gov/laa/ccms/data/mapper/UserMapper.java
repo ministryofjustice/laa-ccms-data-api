@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 import uk.gov.laa.ccms.data.entity.Firm;
+import uk.gov.laa.ccms.data.entity.Provider;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.model.BaseProvider;
 import uk.gov.laa.ccms.data.model.BaseUser;
@@ -27,6 +28,9 @@ public interface UserMapper {
   UserDetails toUserDetails(Page<User> users);
 
   BaseUser toBaseUser(User user);
+
+  @Mapping(target = "isPrimary", ignore = true)
+  BaseProvider toBaseProvider(Provider provider);
 
   @Mapping(target = "offices", ignore = true)
   BaseProvider toBaseProvider(Firm firm);
