@@ -958,6 +958,8 @@ components:
           type: 'array'
           items:
             $ref: "#/components/schemas/baseOffice"
+        is_primary:
+          type: 'boolean'
     providerDetail:
       allOf:
         - $ref: "#/components/schemas/baseProvider"

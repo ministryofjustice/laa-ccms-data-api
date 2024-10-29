@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import uk.gov.laa.ccms.data.entity.FeeEarner;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
@@ -24,6 +25,7 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
 @Mapper(componentModel = "spring")
 public interface ProviderMapper {
 
+  @Mapping(target = "isPrimary", ignore = true)
   ProviderDetail toProviderDetail(Provider provider);
 
   OfficeDetail toOfficeDetail(Office office);

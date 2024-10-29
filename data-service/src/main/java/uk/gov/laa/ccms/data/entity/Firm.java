@@ -43,6 +43,12 @@ public class Firm implements Serializable {
   private String name;
 
   /**
+   * Whether this is the primary provider firm.
+   */
+  @Column(name = "PRIMARY_FLAG")
+  private Boolean isPrimary;
+
+  /**
    * The end date of the user associated with the firm.
    * This field is ignored during JSON serialization/deserialization.
    */

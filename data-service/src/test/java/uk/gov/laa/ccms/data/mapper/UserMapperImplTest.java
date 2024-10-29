@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import uk.gov.laa.ccms.data.entity.Firm;
 import uk.gov.laa.ccms.data.entity.Office;
 import uk.gov.laa.ccms.data.entity.Provider;
+import uk.gov.laa.ccms.data.entity.ProviderContact;
 import uk.gov.laa.ccms.data.entity.User;
 import uk.gov.laa.ccms.data.model.BaseOffice;
 import uk.gov.laa.ccms.data.model.BaseProvider;
@@ -54,7 +56,7 @@ class UserMapperImplTest {
         userDetail.setLoginId(user.getLoginId());
         userDetail.setUsername(user.getUsername());
         userDetail.setUserType(user.getUserType());
-        userDetail.setProvider(mapper.providerToBaseProvider(user.getProvider()));
+        userDetail.setProvider(mapper.toBaseProvider(user.getProvider()));
         userDetail.setFirms(mapper.firmListToBaseProviderList(user.getFirms()));
         userDetail.setFunctions(new ArrayList<>(user.getFunctions()));
         return userDetail;
@@ -73,6 +75,41 @@ class UserMapperImplTest {
         baseOffice.setName(office.getName());
         return baseOffice;
     }
+
+    private Provider createProvider() {
+        Provider provider = new Provider();
+        provider.setId(12345);
+        provider.setOffices(List.of(new Office()));
+        provider.setContactNames(List.of(new ProviderContact()));
+        provider.setName("provider");
+        return provider;
+    }
+
+    private BaseProvider createBaseProvider(Provider provider) {
+        BaseProvider baseProvider = new BaseProvider();
+        baseProvider.setId(provider.getId());
+        baseProvider.setName(provider.getName());
+        baseProvider.setOffices(mapper.officeListToBaseOfficeList(provider.getOffices()));
+        return baseProvider;
+    }
+
+    private BaseProvider createBaseProvider(Firm firm) {
+        BaseProvider baseProvider = new BaseProvider();
+        baseProvider.setId(firm.getId());
+        baseProvider.setName(firm.getName());
+        baseProvider.setIsPrimary(firm.getIsPrimary());
+        return baseProvider;
+    }
+
+    private Firm createFirm(Boolean isPrimary) {
+        Firm firm = new Firm();
+        firm.setId(12345);
+        firm.setName("firm");
+        firm.setUserEndDate(LocalDateTime.now());
+        firm.setIsPrimary(isPrimary);
+        return firm;
+    }
+
 
     // Tests
 
@@ -97,6 +134,30 @@ class UserMapperImplTest {
         BaseProvider actualProvider = mapper.toBaseProvider(firm);
 
         assertEquals(expectedProvider, actualProvider);
+    }
+
+    @Test
+    void providerToBaseProvider() {
+        Provider provider = createProvider();
+        BaseProvider expectedProvider = createBaseProvider(provider);
+        BaseProvider actualBaseProvider = mapper.toBaseProvider(provider);
+        assertEquals(expectedProvider, actualBaseProvider);
+    }
+
+    @Test
+    void primaryFirmToBaseProvider() {
+        Firm firm = createFirm(true);
+        BaseProvider expectedProvider = createBaseProvider(firm);
+        BaseProvider actualBaseProvider = mapper.toBaseProvider(firm);
+        assertEquals(expectedProvider, actualBaseProvider);
+    }
+
+    @Test
+    void nonPrimaryFirmToBaseProvider() {
+        Firm firm = createFirm(false);
+        BaseProvider expectedProvider = createBaseProvider(firm);
+        BaseProvider actualBaseProvider = mapper.toBaseProvider(firm);
+        assertEquals(expectedProvider, actualBaseProvider);
     }
 
     @Test
