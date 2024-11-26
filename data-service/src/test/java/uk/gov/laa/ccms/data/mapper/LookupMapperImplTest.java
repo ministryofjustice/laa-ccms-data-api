@@ -1091,23 +1091,23 @@ class LookupMapperImplTest {
         ProviderRequestType providerRequestType = new ProviderRequestType();
         providerRequestType.setCaseRelated(true);
         providerRequestType.setAdditionalInformationPrompt("Additional info");
-        providerRequestType.setFileUploadEnabled(true);
+        providerRequestType.setClaimUploadEnabled(true);
         providerRequestType.setType("type1");
         providerRequestType.setName("name1");
         providerRequestType.setTaskTypeId("123");
         providerRequestType.setAccessFunctionCode("accessCode");
-        providerRequestType.setFileUploadPrompt("File upload");
+        providerRequestType.setClaimUploadPrompt("File upload");
         providerRequestType.setProviderRequestData(new ArrayList<>());
 
         ProviderRequestTypeLookupValueDetail expected = new ProviderRequestTypeLookupValueDetail();
         expected.setIsCaseRelated(providerRequestType.getCaseRelated());
         expected.setAdditionalInformationPrompt(providerRequestType.getAdditionalInformationPrompt());
-        expected.setIsFileUploadEnabled(providerRequestType.getFileUploadEnabled());
+        expected.setIsClaimUploadEnabled(providerRequestType.getClaimUploadEnabled());
         expected.setType(providerRequestType.getType());
         expected.setName(providerRequestType.getName());
         expected.setTaskTypeId(providerRequestType.getTaskTypeId());
         expected.setAccessFunctionCode(providerRequestType.getAccessFunctionCode());
-        expected.setFileUploadPrompt(providerRequestType.getFileUploadPrompt());
+        expected.setClaimUploadPrompt(providerRequestType.getClaimUploadPrompt());
 
         ProviderRequestTypeLookupValueDetail actual = mapper.toProviderRequestTypeLookupValueDetail(providerRequestType);
 
