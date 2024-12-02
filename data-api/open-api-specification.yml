@@ -64,6 +64,37 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /users/{login-id}/notifications/summary:
+    get:
+      tags:
+        - users
+        - notifications
+      summary: 'Get User Notification Summary'
+      operationId: 'getUserNotificationSummary'
+      parameters:
+        - name: 'login-id'
+          in: 'path'
+          required: true
+          schema:
+            type: 'string'
+            example: 'abc123'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notificationSummary"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /providers/{provider-id}:
     get:
       tags:
@@ -1044,6 +1075,15 @@ components:
           type: 'array'
           items:
             type: 'string'
+    notificationSummary:
+      type: 'object'
+      properties:
+        notifications:
+          type: 'integer'
+        standard_actions:
+          type: 'integer'
+        overdue_actions:
+          type: 'integer'
     contactDetail:
       type: 'object'
       properties:
