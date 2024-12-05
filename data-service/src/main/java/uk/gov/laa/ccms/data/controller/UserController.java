@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.UsersApi;
+import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
@@ -34,8 +35,7 @@ public class UserController implements UsersApi {
    */
   @Override
   public ResponseEntity<UserDetail> getUser(String loginId) {
-    return userService.getUser(loginId)
-        .map(ResponseEntity::ok)
+    return userService.getUser(loginId).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -48,5 +48,11 @@ public class UserController implements UsersApi {
   @Override
   public ResponseEntity<UserDetails> getUsers(Integer providerId, Pageable pageable) {
     return ResponseEntity.ok(userService.getUsers(providerId, pageable));
+  }
+
+  @Override
+  public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {
+    return userService.getUserNotificationSummary(loginId).map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 }
