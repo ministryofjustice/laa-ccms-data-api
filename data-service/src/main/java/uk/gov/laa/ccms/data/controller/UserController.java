@@ -35,8 +35,7 @@ public class UserController implements UsersApi {
    */
   @Override
   public ResponseEntity<UserDetail> getUser(String loginId) {
-    return userService.getUser(loginId)
-        .map(ResponseEntity::ok)
+    return userService.getUser(loginId).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -52,7 +51,8 @@ public class UserController implements UsersApi {
   }
 
   @Override
-  public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId){
-    return ResponseEntity.ok(userService.getUserNotificationSummary(loginId));
+  public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {
+    return userService.getUserNotificationSummary(loginId).map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 }

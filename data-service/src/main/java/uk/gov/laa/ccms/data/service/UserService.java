@@ -52,8 +52,7 @@ public class UserService extends AbstractEbsDataService {
 
   @Transactional
   public Optional<UserDetail> getUser(String id) {
-    return userRepository.findById(id)
-        .map(userMapper::toUserDetail);
+    return userRepository.findById(id).map(userMapper::toUserDetail);
   }
 
   /**
@@ -73,11 +72,18 @@ public class UserService extends AbstractEbsDataService {
    * Retrieves the summary of notifications for a specific user.
    *
    * @param userId the unique identifier of the user for whom to retrieve the notification summary
-   * @return a NotificationSummary object representing the summary of notifications for the specified user
+   * @return a NotificationSummary object representing the summary of notifications for the
+   * specified user
    */
-  public NotificationSummary getUserNotificationSummary(String userId) {
-    List<NotificationCount> allByIdUserLoginId = notificationCountRepository.findAllByIdUserLoginId(
-        userId);
-    return notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId);
+  @Transactional
+  public Optional<NotificationSummary> getUserNotificationSummary(String userId) {
+    // Check if user exists
+    if (getUser(userId).isPresent()) {
+      List<NotificationCount> allByIdUserLoginId = notificationCountRepository.findAllByIdUserLoginId(
+          userId);
+      return Optional.ofNullable(
+          notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId));
+    }
+    return Optional.empty();
   }
 }
