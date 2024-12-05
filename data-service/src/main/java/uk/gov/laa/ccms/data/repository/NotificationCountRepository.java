@@ -19,8 +19,8 @@ import uk.gov.laa.ccms.data.entity.NotificationCount.NotificationCountId;
  * @see ReadOnlyRepository
  */
 @Repository
-public interface NotificationCountRepository extends ReadOnlyRepository<NotificationCount, NotificationCountId> {
+public interface NotificationCountRepository
+    extends ReadOnlyRepository<NotificationCount, NotificationCountId> {
 
-  List<NotificationCount> findAll();
   List<NotificationCount> findAllByIdUserLoginId(String userLoginId);
 }

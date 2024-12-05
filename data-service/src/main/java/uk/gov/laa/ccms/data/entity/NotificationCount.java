@@ -23,8 +23,8 @@ import uk.gov.laa.ccms.data.entity.NotificationCount.NotificationCountId;
 /**
  * Represents an immutable notification count entity corresponding to the
  * "XXCCMS_NOTIFICATION_COUNT_V" database view.
- * <p>
- * The entity tracks the total number of notifications for a specific user login
+ *
+ * <p>The entity tracks the total number of notifications for a specific user login
  * and notification type.
  */
 @Entity

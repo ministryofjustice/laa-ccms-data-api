@@ -25,7 +25,7 @@ import uk.gov.laa.ccms.data.repository.UserRepository;
  * Service class for managing user-related operations.
  *
  * <p>This service provides methods to interact with user-related data and encapsulates
- * the logic required to access the underlying {@link UserRepository}.</p>
+ * the logic required to access the underlying {@link UserRepository}.
  *
  * @see User
  * @see UserRepository
@@ -73,14 +73,14 @@ public class UserService extends AbstractEbsDataService {
    *
    * @param userId the unique identifier of the user for whom to retrieve the notification summary
    * @return a NotificationSummary object representing the summary of notifications for the
-   * specified user
+   *     specified user
    */
   @Transactional
   public Optional<NotificationSummary> getUserNotificationSummary(String userId) {
     // Check if user exists
     if (getUser(userId).isPresent()) {
-      List<NotificationCount> allByIdUserLoginId = notificationCountRepository.findAllByIdUserLoginId(
-          userId);
+      List<NotificationCount> allByIdUserLoginId =
+          notificationCountRepository.findAllByIdUserLoginId(userId);
       return Optional.ofNullable(
           notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId));
     }
