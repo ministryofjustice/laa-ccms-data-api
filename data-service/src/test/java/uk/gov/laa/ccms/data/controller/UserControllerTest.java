@@ -32,66 +32,65 @@ import uk.gov.laa.ccms.data.service.UserService;
 @WebAppConfiguration
 class UserControllerTest {
 
-  @Mock
-  private UserService userService;
+    @Mock
+    private UserService userService;
 
-  @InjectMocks
-  private UserController userController;
+    @InjectMocks
+    private UserController userController;
 
-  private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-  @Autowired
-  private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-  @BeforeEach
-  public void setup() {
-    mockMvc = standaloneSetup(userController).build();
-  }
+    @BeforeEach
+    public void setup() {
+        mockMvc = standaloneSetup(userController).build();
+    }
 
-  @Test
-  public void getUser_isOk() throws Exception {
-    String loginId = "test";
+    @Test
+    public void getUser_isOk() throws Exception{
+        String loginId = "test";
 
-    UserDetail userDetail = new UserDetail();
-    userDetail.setUserId(12345);
-    userDetail.setLoginId(loginId);
-
-    when(userService.getUser(loginId)).thenReturn(Optional.of(userDetail));
-
-    this.mockMvc.perform(get("/users/{loginId}", loginId))
-        .andDo(print())
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  public void getUser_notFound() throws Exception {
-    String loginId = "test";
-
-    when(userService.getUser(loginId)).thenReturn(Optional.empty());
-
-    this.mockMvc.perform(get("/users/{loginId}", loginId))
-        .andDo(print())
-        .andExpect(status().isNotFound());
-
-  }
-
-  @Test
-  void getUsers_returnsData() {
-    Integer providerId = 123;
-    Pageable pageable = Pageable.unpaged();
-
-    UserDetails expectedResponse = new UserDetails();
-
-    when(userService.getUsers(providerId, pageable))
-        .thenReturn(expectedResponse);
-
-    ResponseEntity<UserDetails> responseEntity =
-        userController.getUsers(providerId, pageable);
-
-    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-    assertEquals(expectedResponse, responseEntity.getBody());
-  }
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUserId(12345);
+        userDetail.setLoginId(loginId);
 
 
+        when(userService.getUser(loginId)).thenReturn(Optional.of(userDetail));
+
+        this.mockMvc.perform(get("/users/{loginId}", loginId))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getUser_notFound() throws Exception{
+        String loginId = "test";
+
+        when(userService.getUser(loginId)).thenReturn(Optional.empty());
+
+        this.mockMvc.perform(get("/users/{loginId}", loginId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    void getUsers_returnsData() {
+        Integer providerId = 123;
+        Pageable pageable = Pageable.unpaged();
+
+        UserDetails expectedResponse = new UserDetails();
+
+        when(userService.getUsers(providerId, pageable))
+            .thenReturn(expectedResponse);
+
+        ResponseEntity<UserDetails> responseEntity =
+            userController.getUsers(providerId, pageable);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedResponse, responseEntity.getBody());
+    }
 
 }
