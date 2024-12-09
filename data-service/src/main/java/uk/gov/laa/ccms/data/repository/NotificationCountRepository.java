@@ -2,9 +2,8 @@ package uk.gov.laa.ccms.data.repository;
 
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
-import uk.gov.laa.ccms.data.entity.NotificationCount.NotificationCountId;
+import uk.gov.laa.ccms.data.entity.NotificationCountId;
 
 /**
  * Repository interface for accessing {@link NotificationCount} entities.
@@ -14,7 +13,6 @@ import uk.gov.laa.ccms.data.entity.NotificationCount.NotificationCountId;
  * {@code String}.</p>
  *
  * @author Jamie Briggs
- * @version 1.0
  * @see NotificationCount
  * @see ReadOnlyRepository
  */

@@ -67,7 +67,6 @@ paths:
   /users/{login-id}/notifications/summary:
     get:
       tags:
-        - users
         - notifications
       summary: 'Get User Notification Summary'
       operationId: 'getUserNotificationSummary'
@@ -826,7 +825,7 @@ paths:
         - name: 'type'
           in: 'query'
           schema:
-            type: 'String'
+            type: 'string'
       responses:
         '200':
           description: 'Successful operation'

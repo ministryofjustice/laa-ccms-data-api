@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
@@ -94,33 +92,6 @@ class UserControllerTest {
     assertEquals(expectedResponse, responseEntity.getBody());
   }
 
-  @Test
-  @DisplayName("getUserNotificationSummary: Returns data")
-  void getUserNotificationSummary_returnsData() {
-    //Given
-    String loginId = "123";
-    NotificationSummary expected = new NotificationSummary().notifications(1).standardActions(1)
-        .overdueActions(1);
-    when(userService.getUserNotificationSummary(loginId)).thenReturn(Optional.of(expected));
-    // When
-    ResponseEntity<NotificationSummary> result =
-        userController.getUserNotificationSummary(loginId);
-    // Then
-    assertEquals(HttpStatus.OK, result.getStatusCode(), "Status code should be OK");
-    assertEquals(expected, result.getBody(), "Response body should be as expected");
-  }
 
-  @Test
-  @DisplayName("getUserNotificationSummary: Not found")
-  void getUserNotificationSummary_notFound() {
-    // Given
-    String loginId = "123";
-    // When
-    ResponseEntity<NotificationSummary> result =
-        userController.getUserNotificationSummary(loginId);
-    // Then
-    assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode(),
-        "Status code should be NOT FOUND");
-  }
 
 }

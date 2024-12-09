@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
-import uk.gov.laa.ccms.data.entity.NotificationCount.NotificationCountId;
+import uk.gov.laa.ccms.data.entity.NotificationCountId;
 import uk.gov.laa.ccms.data.entity.NotificationType;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 
