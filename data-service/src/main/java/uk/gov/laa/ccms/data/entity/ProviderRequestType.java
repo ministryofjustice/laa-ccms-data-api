@@ -26,7 +26,6 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProviderRequestType {
 
-
   @Id
   @Column(name = "REQUEST_TYPE")
   private String type;
@@ -43,14 +42,16 @@ public class ProviderRequestType {
   @Column(name = "TASK_TYPE_ID")
   private String taskTypeId;
 
+  //renamed to distinguish the difference between a claim upload and a document upload request
   @Column(name = "FILE_UPLD_ENABLED")
-  private Boolean fileUploadEnabled;
+  private Boolean claimUploadEnabled;
+
+  //renamed to distinguish the difference between a claim upload and a document upload request
+  @Column(name = "FILE_UPLD_PROMPT")
+  private String claimUploadPrompt;
 
   @Column(name = "ACCESS_FUNC_CODE")
   private String accessFunctionCode;
-
-  @Column(name = "FILE_UPLD_PROMPT")
-  private String fileUploadPrompt;
 
   @OneToMany(mappedBy = "providerRequestType", fetch = FetchType.EAGER)
   private List<ProviderRequestData> providerRequestData;

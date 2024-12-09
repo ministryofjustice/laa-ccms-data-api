@@ -182,7 +182,7 @@ public interface LookupMapper {
 
   @Mapping(source = "caseRelated", target = "isCaseRelated")
   @Mapping(source = "additionalInformationPrompt", target = "additionalInformationPrompt")
-  @Mapping(source = "fileUploadEnabled", target = "isFileUploadEnabled")
+  @Mapping(source = "claimUploadEnabled", target = "isClaimUploadEnabled")
   @Mapping(source = "providerRequestData", target = "dataItems")
   ProviderRequestTypeLookupValueDetail toProviderRequestTypeLookupValueDetail(
       ProviderRequestType providerRequestType);

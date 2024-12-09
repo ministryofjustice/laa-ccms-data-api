@@ -1515,11 +1515,11 @@ components:
           type: 'string'
         task_type_id:
           type: 'string'
-        is_file_upload_enabled:
+        is_claim_upload_enabled:
           type: 'boolean'
         access_function_code:
           type: 'string'
-        file_upload_prompt:
+        claim_upload_prompt:
           type: 'string'
         data_items:
           type: 'array'
