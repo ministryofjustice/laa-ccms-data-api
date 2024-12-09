@@ -34,7 +34,8 @@ public class UserController implements UsersApi {
    */
   @Override
   public ResponseEntity<UserDetail> getUser(String loginId) {
-    return userService.getUser(loginId).map(ResponseEntity::ok)
+    return userService.getUser(loginId)
+        .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
@@ -48,5 +49,4 @@ public class UserController implements UsersApi {
   public ResponseEntity<UserDetails> getUsers(Integer providerId, Pageable pageable) {
     return ResponseEntity.ok(userService.getUsers(providerId, pageable));
   }
-
 }
