@@ -954,6 +954,27 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /case-reference:
+    post:
+      tags:
+        - case-reference
+      summary: 'Get the next available case reference number'
+      description: get the next available case reference number
+      operationId: postCaseReference
+      responses:
+        '201':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/caseReferenceSummary"
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '500':
+          description: 'Internal server error'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1550,6 +1571,11 @@ components:
         sequence:
           type: 'string'
         lov_lookup_type:
+          type: 'string'
+    caseReferenceSummary:
+      type: 'object'
+      properties:
+        case_reference_number:
           type: 'string'
     page:
       type: 'object'
