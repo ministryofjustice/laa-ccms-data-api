@@ -6,18 +6,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.CaseReferenceApi;
 import uk.gov.laa.ccms.data.model.CaseReferenceSummary;
-import uk.gov.laa.ccms.data.repository.NewCaseReferenceRepository;
+import uk.gov.laa.ccms.data.service.NewCaseReferenceService;
 
+/**
+ * REST Controller responsible for allocating and returning the next case reference number.
+ *
+ * <p>The controller implements the {@link CaseReferenceApi} interface, which defines the API
+ * contract for working with case references.</p>
+ *
+ * @author Jamie Briggs
+ * @see NewCaseReferenceService
+ */
 @RestController
 @AllArgsConstructor
 public class CaseReferenceController implements CaseReferenceApi {
 
-  private final NewCaseReferenceRepository newCaseReferenceRepository;
+  private final NewCaseReferenceService newCaseReferenceService;
 
   @Override
   public ResponseEntity<CaseReferenceSummary> postCaseReference() {
-    // TODO: Need to use a proper mapper still, just testing if this repository works with view
-    String nextCaseReference = newCaseReferenceRepository.getNextCaseReference();
-    return new ResponseEntity<>(new CaseReferenceSummary().caseReferenceNumber(nextCaseReference), HttpStatus.CREATED);
+    return new ResponseEntity<>((newCaseReferenceService.getNextAvailableCaseReference()),
+        HttpStatus.CREATED);
   }
 }
