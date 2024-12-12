@@ -274,8 +274,6 @@ public class LookupService extends AbstractEbsDataService {
     LevelOfService example = new LevelOfService();
     example.setId(exampleId);
 
-    levelOfServiceRepository.findAll(Example.of(example), pageable);
-
     return lookupMapper.toLevelOfServicePage(
         levelOfServiceRepository.findAll(Example.of(example), pageable));
 
