@@ -3,7 +3,6 @@ package uk.gov.laa.ccms.data.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccms.data.mapper.CaseReferenceSummaryMapper;
 import uk.gov.laa.ccms.data.model.CaseReferenceSummary;
 import uk.gov.laa.ccms.data.repository.NewCaseReferenceRepository;
 
@@ -25,7 +24,6 @@ import uk.gov.laa.ccms.data.repository.NewCaseReferenceRepository;
 public class NewCaseReferenceService {
 
   private final NewCaseReferenceRepository newCaseReferenceRepository;
-  private final CaseReferenceSummaryMapper caseReferenceSummaryMapper;
 
   /**
    * Retrieves the next available case reference to a {@link CaseReferenceSummary} object.
@@ -33,6 +31,6 @@ public class NewCaseReferenceService {
    * @return the next available case reference wrapped in a {@link CaseReferenceSummary} object
    */
   public CaseReferenceSummary getNextAvailableCaseReference() {
-    return caseReferenceSummaryMapper.map(newCaseReferenceRepository.getNextCaseReference());
+    return new CaseReferenceSummary().caseReferenceNumber(newCaseReferenceRepository.getNextCaseReference());
   }
 }
