@@ -31,6 +31,7 @@ public class NewCaseReferenceService {
    * @return the next available case reference wrapped in a {@link CaseReferenceSummary} object
    */
   public CaseReferenceSummary getNextAvailableCaseReference() {
-    return new CaseReferenceSummary().caseReferenceNumber(newCaseReferenceRepository.getNextCaseReference());
+    return new CaseReferenceSummary()
+        .caseReferenceNumber(newCaseReferenceRepository.getNextCaseReference());
   }
 }
