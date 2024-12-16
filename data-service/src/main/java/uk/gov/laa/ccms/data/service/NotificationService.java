@@ -4,12 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uk.gov.laa.ccms.data.entity.Notification;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.mapper.NotificationSummaryMapper;
+import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
+import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
+import uk.gov.laa.ccms.data.repository.NotificationRepository;
 
 /**
  * Service class responsible for handling notification-related operations.
@@ -27,6 +33,8 @@ public class NotificationService {
 
   private final NotificationCountRepository notificationCountRepository;
   private final NotificationSummaryMapper notificationSummaryMapper;
+  private final NotificationRepository notificationRepository;
+  private final NotificationsMapper notificationsMapper;
   private final UserService userService;
 
   /**
@@ -46,5 +54,13 @@ public class NotificationService {
           notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId));
     }
     return Optional.empty();
+  }
+
+  public Optional<Notifications> getNotifications(Pageable pageable){
+    Page<Notification> byAssignedTo = notificationRepository.findByAssignedTo(
+        "PENNY.WALL@SWITALSKIS.COM", pageable);
+    //Page<Notification> byAll = notificationRepository.findAll(Pageable.ofSize(100));
+    Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
+    return Optional.ofNullable(notifications);
   }
 }
