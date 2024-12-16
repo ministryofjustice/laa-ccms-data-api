@@ -1680,8 +1680,8 @@ components:
       properties:
         #client_reference_number:
         #  type: 'string'
-        #case_reference_number:
-        #  type: 'string'
+        case_reference_number:
+          type: 'string'
         provider_case_reference_number:
           type: 'string'
         user:

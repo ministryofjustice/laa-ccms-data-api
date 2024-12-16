@@ -56,11 +56,9 @@ public class NotificationsMapperImplTest {
         .evidenceAllowedInd("true")
         .isOpen("true")
         .actionNotificationInd("N")
-
-        // Not needed for view model?
-        .clientPartyId(3L)
         .lscCaseRefReference("LSC Case Ref")
         .providerCaseReference("Provider Case Ref")
+        .clientPartyId(3L)
         .feeEarnerPartyId(4L)
         .assignedToPartyId(5L)
         .build();
@@ -85,6 +83,7 @@ public class NotificationsMapperImplTest {
     assertEquals(true, notificationResult.getEvidenceAllowed());
     assertEquals(true, notificationResult.getNotificationOpenIndicator());
     assertEquals("Provider Case Ref",notificationResult.getProviderCaseReferenceNumber());
+    assertEquals("LSC Case Ref", notificationResult.getCaseReferenceNumber());
     assertEquals(true, notificationResult.getEvidenceAllowed());
   }
 

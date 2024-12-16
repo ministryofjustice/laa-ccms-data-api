@@ -56,7 +56,14 @@ public class NotificationService {
     return Optional.empty();
   }
 
-  public Optional<Notifications> getNotifications(Pageable pageable){
+  /**
+   * Retrieves a paginated list of notifications assigned to a specific user.
+   *
+   * @param pageable the pagination and sorting information for retrieving notifications
+   * @return an Optional containing a Notifications object if
+   *     notifications are found, or an empty Optional otherwise
+   */
+  public Optional<Notifications> getNotifications(Pageable pageable) {
     Page<Notification> byAssignedTo = notificationRepository.findByAssignedTo(
         "PENNY.WALL@SWITALSKIS.COM", pageable);
     //Page<Notification> byAll = notificationRepository.findAll(Pageable.ofSize(100));
