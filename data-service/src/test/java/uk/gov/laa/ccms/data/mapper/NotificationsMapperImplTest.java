@@ -2,6 +2,7 @@ package uk.gov.laa.ccms.data.mapper;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -147,8 +148,24 @@ public class NotificationsMapperImplTest {
             ensure you have quoted the correct case reference or check with your conducting
             solicitor to ensure that this case has been granted.""".strip(), noteTwo.getMessage().strip());
     assertEquals(LocalDate.of(2024, 12, 12), noteTwo.getDate());
-
   }
+
+  @Test
+  @DisplayName("Should map empty notes")
+  void shouldMapEmptyNotes(){
+    // Given
+    String noteContent = "<Notes></Notes>";
+    Notification notification = Notification.builder()
+        .notes(noteContent)
+        .build();
+    Page<Notification> input = new PageImpl<>(Arrays.asList(notification),
+        PageRequest.of(0, 1), 1);
+    // When
+    Notifications result = mapper.mapToNotificationsList(input);
+    // Then
+    assertTrue(result.getContent().get(0).getNotes().isEmpty());
+  }
+
 
   @Test
   @DisplayName("Should map uploaded documents")
@@ -192,6 +209,22 @@ public class NotificationsMapperImplTest {
   }
 
   @Test
+  @DisplayName("Should map empty uploaded documents")
+  void shouldMapEmptyUploadedDocuments(){
+    // Given
+    String uploadedDocumentsContent = "<Uploaded_Documents></Uploaded_Documents>";
+    Notification notification = Notification.builder()
+        .uploadedDocuments(uploadedDocumentsContent)
+        .build();
+    Page<Notification> input = new PageImpl<>(Arrays.asList(notification),
+        PageRequest.of(0, 1), 1);
+    // When
+    Notifications result = mapper.mapToNotificationsList(input);
+    // Then
+    assertTrue(result.getContent().get(0).getUploadedDocuments().isEmpty());
+  }
+
+  @Test
   @DisplayName("Should map attached documents")
   void shouldMapAttachedDocuments(){
     String attachedDocuments =
@@ -220,6 +253,22 @@ public class NotificationsMapperImplTest {
   }
 
   @Test
+  @DisplayName("Should map empty attached documents")
+  void shouldMapEmptyAttachedDocuments(){
+    // Given
+    String attachedDocumentsContent = "<Attached_Documents></Attached_Documents>";
+    Notification notification = Notification.builder()
+        .attachedDocuments(attachedDocumentsContent)
+        .build();
+    Page<Notification> input = new PageImpl<>(Arrays.asList(notification),
+        PageRequest.of(0, 1), 1);
+    // When
+    Notifications result = mapper.mapToNotificationsList(input);
+    // Then
+    assertTrue(result.getContent().get(0).getAttachedDocuments().isEmpty());
+  }
+
+  @Test
   @DisplayName("Should map available responses")
   void shouldMapAvailableResponses(){
     String attachedDocuments =
@@ -239,5 +288,21 @@ public class NotificationsMapperImplTest {
     uk.gov.laa.ccms.data.model.Notification notificationResult = result.getContent().get(0);
     String response = notificationResult.getAvailableResponses().get(0);
     assertEquals("Read", response);
+  }
+
+  @Test
+  @DisplayName("Should map empty available responses")
+  void shouldMapEmptyAvailableResponses(){
+    String attachedDocuments =
+        "<AvailableResponses></AvailableResponses>";
+    Notification notification = Notification.builder()
+        .availableResponses(attachedDocuments)
+        .build();
+    Page<Notification> input = new PageImpl<>(Arrays.asList(notification),
+        PageRequest.of(0, 1), 1);
+    // When
+    Notifications result = mapper.mapToNotificationsList(input);
+    // Then
+    assertTrue(result.getContent().get(0).getAvailableResponses().isEmpty());
   }
 }

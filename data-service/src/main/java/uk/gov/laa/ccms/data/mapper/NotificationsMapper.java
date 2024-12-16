@@ -79,6 +79,10 @@ public interface NotificationsMapper {
       return Collections.emptyList();
     }
     List<NoteXml> noteXmls = xmlMapper.readValue(notesString, NotesXml.class).noteXmls();
+
+    // Return empty list if noteXmls is null
+    if(noteXmls == null) return Collections.emptyList();
+
     return noteXmls.stream().map(
         x -> new Note().notesId(x.noteId()).user(new UserDetail().username(x.noteBy()))
             .date(x.date()).message(x.message())).toList();
@@ -100,6 +104,10 @@ public interface NotificationsMapper {
     }
     List<UploadedDocumentXml> uploadedDocumentsXmls = xmlMapper.readValue(uploadedDocuments,
         UploadedDocumentsXml.class).uploadedDocument();
+
+    // Return empty list if uploadedDocumentsXmls is null
+    if(uploadedDocumentsXmls == null) return Collections.emptyList();
+
     return uploadedDocumentsXmls.stream().map(
         x -> new Document().documentId(x.documentId()).documentType(x.documentType())
             .channel(x.documentChannel()).text(x.text())).toList();
@@ -119,9 +127,13 @@ public interface NotificationsMapper {
     if (attachedDocuments == null || attachedDocuments.isEmpty()) {
       return Collections.emptyList();
     }
-    List<AttachedDocumentXml> uploadedDocumentsXmls = xmlMapper.readValue(attachedDocuments,
+    List<AttachedDocumentXml> attachedDocumentXmls = xmlMapper.readValue(attachedDocuments,
         AttachedDocumentsXml.class).attachedDocuments();
-    return uploadedDocumentsXmls.stream().map(
+
+    // Return empty list if uploadedDocumentsXmls is null
+    if(attachedDocumentXmls == null) return Collections.emptyList();
+
+    return attachedDocumentXmls.stream().map(
         x -> new Document().documentId(x.documentId()).title(x.attachmentTitle()).text(x.text())).toList();
   }
 
@@ -140,8 +152,9 @@ public interface NotificationsMapper {
     if (availableResponses == null || availableResponses.isEmpty()) {
       return Collections.emptyList();
     }
-    return xmlMapper.readValue(availableResponses,
+    List<String> responses = xmlMapper.readValue(availableResponses,
         AvailableResponsesXml.class).responses();
+    return responses == null ? Collections.emptyList() : responses;
   }
 
   /**
