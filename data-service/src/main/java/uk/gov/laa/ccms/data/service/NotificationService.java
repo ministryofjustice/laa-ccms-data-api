@@ -67,7 +67,7 @@ public class NotificationService {
    */
   public Optional<Notifications> getNotifications(String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, Boolean includeClosed, String notificationType, LocalDate dateFrom,
+      Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
       LocalDate dateTo, Pageable pageable) {
     Page<Notification> byAssignedTo = notificationRepository.findAll(
         NotificationSpecification.withFilters(caseReferenceNumber,
