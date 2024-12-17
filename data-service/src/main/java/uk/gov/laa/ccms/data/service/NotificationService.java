@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
+import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
 
 /**
  * Service class responsible for handling notification-related operations.
@@ -63,9 +65,21 @@ public class NotificationService {
    * @return an Optional containing a Notifications object if
    *     notifications are found, or an empty Optional otherwise
    */
-  public Optional<Notifications> getNotifications(Pageable pageable) {
-    Page<Notification> byAssignedTo = notificationRepository.findByAssignedTo(
-        "PENNY.WALL@SWITALSKIS.COM", pageable);
+  public Optional<Notifications> getNotifications(String caseReferenceNumber,
+      String providerCaseReference, String assignedToUserId, String clientSurname,
+      Integer feeEarnerId, Boolean includeClosed, String notificationType, LocalDate dateFrom,
+      LocalDate dateTo, Pageable pageable) {
+    Page<Notification> byAssignedTo = notificationRepository.findAll(
+        NotificationSpecification.withFilters(caseReferenceNumber,
+            providerCaseReference,
+            assignedToUserId,
+            clientSurname,
+            feeEarnerId,
+            includeClosed,
+            notificationType,
+            dateFrom,
+            dateTo),
+        pageable);
     //Page<Notification> byAll = notificationRepository.findAll(Pageable.ofSize(100));
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
