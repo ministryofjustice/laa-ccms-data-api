@@ -12,7 +12,7 @@ public class NotificationSpecification {
   public static Specification<Notification> withFilters(
       String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, Boolean includeClosed, String notificationType, LocalDate dateFrom,
+      Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
       LocalDate dateTo
   ){
     return (root, query, criteriaBuilder) -> {
@@ -20,33 +20,31 @@ public class NotificationSpecification {
 
       // Add predicates for each filter only if they are non-null
       if (caseReferenceNumber != null) {
-        predicates.add(criteriaBuilder.equal(root.get("caseReferenceNumber"), caseReferenceNumber));
+        predicates.add(criteriaBuilder.like(root.get("lscCaseRefReference"), "%" + caseReferenceNumber + "%"));
       }
       if (providerCaseReference != null) {
-        predicates.add(criteriaBuilder.equal(root.get("providerCaseReference"), providerCaseReference));
+        predicates.add(criteriaBuilder.like(root.get("providerCaseReference"), "%" + providerCaseReference + "%"));
       }
       if (assignedToUserId != null) {
         predicates.add(criteriaBuilder.equal(root.get("assignedTo"), assignedToUserId));
       }
       if (clientSurname != null) {
-        predicates.add(criteriaBuilder.like(root.get("clientName"), "%" + clientSurname + "%"));
+        predicates.add(criteriaBuilder.like(root.get("personLastName"), "%" + clientSurname + "%"));
       }
       if (feeEarnerId != null) {
-        predicates.add(criteriaBuilder.equal(root.get("feeEarnerId"), feeEarnerId));
+        predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));
       }
-      if (includeClosed != null) {
-        if (!includeClosed) {
-          predicates.add(criteriaBuilder.isFalse(root.get("isClosed")));
-        }
+      if (!includeClosed) {
+        predicates.add(criteriaBuilder.isTrue(root.get("isOpen")));
       }
       if (notificationType != null) {
-        predicates.add(criteriaBuilder.equal(root.get("notificationType"), notificationType));
+        predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));
       }
       if (dateFrom != null) {
-        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date"), dateFrom));
+        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateAssigned"), dateFrom));
       }
       if (dateTo != null) {
-        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("date"), dateTo));
+        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateAssigned"), dateTo));
       }
 
       // Combine all predicates with AND

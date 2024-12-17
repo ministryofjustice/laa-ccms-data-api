@@ -76,39 +76,39 @@ public class Notification {
   private LocalDate dueDate;
 
   @Column(name = "ACTION_NOTIFICATION_IND", length = 150)
-  String actionNotificationInd;
+  private String actionNotificationInd;
 
   @Column(name = "STATUS", length = 150)
-  String status;
+  private String status;
 
   @Column(name = "EVIDENCE_ALLOWED_IND", length = 5)
-  String evidenceAllowedInd;
+  private String evidenceAllowedInd;
 
-  @Column(name = "IS_OPEN", length = 5)
-  String isOpen;
+  @Column(name = "IS_OPEN")
+  private Boolean isOpen;
 
   @Column(name = "ASSIGNED_TO_PARTY_ID", precision = 15, scale = 0)
-  Long assignedToPartyId;
+  private Long assignedToPartyId;
 
   @Column(name = "PERSON_FIRST_NAME", length = 150)
-  String personFirstName;
+  private String personFirstName;
 
   @Column(name = "PERSON_LAST_NAME", length = 150)
-  String personLastName;
+  private String personLastName;
 
   @Lob
   @Column(name = "NOTES")
-  String notes;
+  private String notes;
 
   @Lob
   @Column(name = "UPLOADED_DOCUMENTS")
-  String uploadedDocuments;
+  private String uploadedDocuments;
 
   @Lob
   @Column(name = "ATTACHED_DOCUMENTS")
-  String attachedDocuments;
+  private String attachedDocuments;
 
   @Lob
   @Column(name = "AVAILABLE_RESPONSES")
-  String availableResponses;
+  private String availableResponses;
 }

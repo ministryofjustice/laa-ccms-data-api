@@ -54,7 +54,7 @@ public class NotificationsMapperImplTest {
         .dueDate(LocalDate.of(2025, 2, 1))
         .status("Status")
         .evidenceAllowedInd("true")
-        .isOpen("true")
+        .isOpen(true)
         .actionNotificationInd("N")
         .lscCaseRefReference("LSC Case Ref")
         .providerCaseReference("Provider Case Ref")
