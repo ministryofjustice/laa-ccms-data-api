@@ -59,11 +59,19 @@ public class NotificationService {
   }
 
   /**
-   * Retrieves a paginated list of notifications assigned to a specific user.
+   * Retrieves a paginated list of notifications.
    *
-   * @param pageable the pagination and sorting information for retrieving notifications
-   * @return an Optional containing a Notifications object if
-   *     notifications are found, or an empty Optional otherwise
+   * @param caseReferenceNumber the case reference number to filter by (optional).
+   * @param providerCaseReference the provider case reference to filter by (optional).
+   * @param assignedToUserId the user ID assigned to the notification (optional).
+   * @param clientSurname the client's surname to filter by (optional).
+   * @param feeEarnerId the ID of the fee earner to filter by (optional).
+   * @param includeClosed a flag to include closed notifications in the result set.
+   * @param notificationType the type of notification to filter by (optional).
+   * @param dateFrom the starting date for filtering notifications by the date assigned (inclusive).
+   * @param dateTo the ending date for filtering notifications by the date assigned (inclusive).
+   * @param pageable the pageable to describe the requested pagination format.
+   * @return a paginated list of notifications.
    */
   public Optional<Notifications> getNotifications(String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
@@ -80,7 +88,6 @@ public class NotificationService {
             dateFrom,
             dateTo),
         pageable);
-    //Page<Notification> byAll = notificationRepository.findAll(Pageable.ofSize(100));
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
   }
