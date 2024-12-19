@@ -87,7 +87,7 @@ public class NotificationSpecification {
         predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));
       }
       if (!includeClosed) {
-        predicates.add(criteriaBuilder.isTrue(root.get("isOpen")));
+        predicates.add(criteriaBuilder.equal(root.get("isOpen"), "true"));
       }
       if (notificationType != null) {
         predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));

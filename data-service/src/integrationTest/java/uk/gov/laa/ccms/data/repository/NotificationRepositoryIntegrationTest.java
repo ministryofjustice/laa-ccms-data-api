@@ -264,7 +264,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null,
         null,
-        false, "N",
+        true, "N",
         null,
         null);
     // When
