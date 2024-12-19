@@ -14,14 +14,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
+import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
 
 @ExtendWith({SpringExtension.class})
@@ -44,7 +48,9 @@ class NotificationsControllerTest {
 
   @BeforeEach
   public void setup() {
-    mockMvc = standaloneSetup(notificationsController).build();
+    mockMvc = standaloneSetup(notificationsController)
+        .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+        .build();
     objectMapper = new ObjectMapper();
   }
 
@@ -71,6 +77,33 @@ class NotificationsControllerTest {
     String loginId = "123";
     // Then
     this.mockMvc.perform(get("/users/{loginId}/notifications/summary", loginId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getNotifications: Returns data")
+  void getNotifications_returnsData() throws Exception {
+    //Given
+    Notifications expected = new Notifications().addContentItem(new Notification().notificationId("123"));
+    when(notificationService.getNotifications(Mockito.any(), Mockito.any(), Mockito.any(),
+        Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.any(), Mockito.any(),
+        Mockito.any(), Mockito.any())).thenReturn(Optional.of(
+        expected));
+    // Then
+    String jsonContent = objectMapper.writeValueAsString(expected);
+    this.mockMvc.perform(get("/notifications"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().json(jsonContent));
+  }
+
+  @Test
+  @DisplayName("getNotifications: Not found")
+  void getNotifications_notFound() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications"))
         .andDo(print())
         .andExpect(status().isNotFound());
   }

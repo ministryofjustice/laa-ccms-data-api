@@ -93,3 +93,7 @@ test-results/
 .idea
 
 /.java-version
+
+# Project
+data-api/src/main/resources/application-secret.yml
+data-service/src/main/resources/application-secret.yml
