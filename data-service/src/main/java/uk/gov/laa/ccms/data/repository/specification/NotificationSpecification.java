@@ -69,18 +69,18 @@ public class NotificationSpecification {
       List<Predicate> predicates = new ArrayList<>();
 
       // Add predicates for each filter only if they are non-null
-      if (caseReferenceNumber != null) {
+      if (caseReferenceNumber != null && !caseReferenceNumber.isBlank()) {
         predicates.add(criteriaBuilder.like(root.get("lscCaseRefReference"),
             "%" + caseReferenceNumber + "%"));
       }
-      if (providerCaseReference != null) {
+      if (providerCaseReference != null && !providerCaseReference.isBlank()) {
         predicates.add(criteriaBuilder.like(root.get("providerCaseReference"),
             "%" + providerCaseReference + "%"));
       }
-      if (assignedToUserId != null) {
+      if (assignedToUserId != null && !assignedToUserId.isBlank()) {
         predicates.add(criteriaBuilder.equal(root.get("assignedTo"), assignedToUserId));
       }
-      if (clientSurname != null) {
+      if (clientSurname != null && !clientSurname.isBlank()) {
         predicates.add(criteriaBuilder.like(root.get("personLastName"), "%" + clientSurname + "%"));
       }
       if (feeEarnerId != null) {
@@ -89,7 +89,7 @@ public class NotificationSpecification {
       if (!includeClosed) {
         predicates.add(criteriaBuilder.equal(root.get("isOpen"), "true"));
       }
-      if (notificationType != null) {
+      if (notificationType != null && !notificationType.isBlank()) {
         predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));
       }
       if (dateFrom != null) {
