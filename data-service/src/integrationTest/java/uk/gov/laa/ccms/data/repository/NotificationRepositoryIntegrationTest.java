@@ -20,7 +20,7 @@ import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
 @DataJpaTest
 @ActiveProfiles("h2-test")
 @DisplayName("Notification Repository Integration Test")
-public class NotificationRepositoryIntegrationTest {
+class NotificationRepositoryIntegrationTest {
   
   @Autowired
   private NotificationRepository notificationRepository;

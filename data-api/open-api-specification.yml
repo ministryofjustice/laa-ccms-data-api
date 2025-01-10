@@ -438,11 +438,13 @@ paths:
           in: 'query'
           schema:
             type: 'integer'
+            format: 'int64'
             example: 1234567890
         - name: 'office-id'
           in: 'query'
           schema:
             type: 'integer'
+            format: 'int64'
             example: 1234567890
       responses:
         '200':

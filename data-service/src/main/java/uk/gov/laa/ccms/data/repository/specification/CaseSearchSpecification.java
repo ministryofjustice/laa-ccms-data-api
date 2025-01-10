@@ -1,58 +1,51 @@
 package uk.gov.laa.ccms.data.repository.specification;
 
 import jakarta.persistence.criteria.Predicate;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
-import uk.gov.laa.ccms.data.entity.Notification;
+import uk.gov.laa.ccms.data.entity.CaseSearch;
 
 public class CaseSearchSpecification {
 
-  private CaseSearchSpecification() {}
-  public static Specification<Notification> withFilters(
-      String caseReferenceNumber,
-      String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
-      LocalDate dateTo
+  private CaseSearchSpecification() {
+  }
+
+  public static Specification<CaseSearch> withFilters(String caseReferenceNumber,
+      String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
+      Long officeId
   ) {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
-
-      // Add predicates for each filter only if they are non-null
-      if (caseReferenceNumber != null) {
-        predicates.add(criteriaBuilder.like(root.get("lscCaseRefReference"),
-            "%" + caseReferenceNumber + "%"));
+      if (stringNotEmpty(caseReferenceNumber)) {
+        predicates.add(
+            criteriaBuilder.like(root.get("lscCaseReference"), "%" + caseReferenceNumber + "%"));
       }
-      if (providerCaseReference != null) {
-        predicates.add(criteriaBuilder.like(root.get("providerCaseReference"),
-            "%" + providerCaseReference + "%"));
+      if (stringNotEmpty(providerCaseReference)) {
+        predicates.add(
+            criteriaBuilder.like(root.get("cisCaseReference"), "%" + providerCaseReference + "%"));
       }
-      if (assignedToUserId != null) {
-        predicates.add(criteriaBuilder.equal(root.get("assignedTo"), assignedToUserId));
+      if (stringNotEmpty(caseStatus)) {
+        predicates.add(criteriaBuilder.equal(root.get("actualCaseStatus"), caseStatus));
       }
-      if (clientSurname != null) {
-        predicates.add(criteriaBuilder.like(root.get("personLastName"), "%" + clientSurname + "%"));
+      if (stringNotEmpty(clientSurname)) {
+        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("personLastName")),
+            "%" + clientSurname.toLowerCase() + "%"));
       }
-      if (feeEarnerId != null) {
+      if(Objects.nonNull(feeEarnerId)){
         predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));
       }
-      if (!includeClosed) {
-        predicates.add(criteriaBuilder.equal(root.get("isOpen"), "true"));
+      if(Objects.nonNull(officeId)){
+        predicates.add(criteriaBuilder.equal(root.get("providerOfficePartyId"), officeId));
       }
-      if (notificationType != null) {
-        predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));
-      }
-      if (dateFrom != null) {
-        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateAssigned"), dateFrom));
-      }
-      if (dateTo != null) {
-        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateAssigned"), dateTo));
-      }
-
       // Combine all predicates with AND
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
+  }
+
+  private static boolean stringNotEmpty(String caseReferenceNumber) {
+    return caseReferenceNumber != null && !caseReferenceNumber.isEmpty();
   }
 
 
