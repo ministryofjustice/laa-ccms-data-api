@@ -406,7 +406,7 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /cases:
+  /{provider-firm-party-id}/cases:
     get:
       tags:
         - cases
@@ -414,6 +414,13 @@ paths:
       operationId: 'getCases'
       x-spring-paginated: true
       parameters:
+        - name: 'provider-firm-party-id'
+          in: 'path'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+            example: '123456789'
         - name: 'case-reference-number'
           in: 'query'
           schema:

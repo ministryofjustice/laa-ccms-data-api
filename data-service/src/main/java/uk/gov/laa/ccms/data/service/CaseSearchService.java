@@ -26,6 +26,7 @@ public class CaseSearchService {
   /**
    * Retrieves case details based on the provided search criteria and pagination information.
    *
+   * @param providerFirmPartyId the provider firm party ID to search for
    * @param caseReferenceNumber the unique reference number of the case to search for
    * @param providerCaseReference the case reference provided by the external provider
    * @param caseStatus the status of the case (e.g., active, closed)
@@ -35,11 +36,11 @@ public class CaseSearchService {
    * @param pageable the pagination information for retrieving a paged list of cases
    * @return an {@code Optional} containing the matching {@code CaseDetails} or empty if no results are found
    */
-  public Optional<CaseDetails> getCases(String caseReferenceNumber,
+  public Optional<CaseDetails> getCases(long providerFirmPartyId, String caseReferenceNumber,
       String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
       Long officeId, Pageable pageable){
     Page<CaseSearch> cases = caseSearchRepository.findAll(
-        CaseSearchSpecification.withFilters(caseReferenceNumber, providerCaseReference,
+        CaseSearchSpecification.withFilters(providerFirmPartyId, caseReferenceNumber, providerCaseReference,
             caseStatus, clientSurname, feeEarnerId, officeId), pageable);
     CaseDetails caseDetails = caseSearchMapper.toCaseDetails(cases);
     return Optional.ofNullable(caseDetails);

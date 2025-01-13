@@ -60,13 +60,13 @@ class CaseSearchControllerTest {
     // Given
     CaseSummary caseSummary = new CaseSummary().caseReferenceNumber("123");
     CaseDetails caseDetails = new CaseDetails().addContentItem(caseSummary);
-    when(caseSearchService.getCases(Mockito.any(),
+    when(caseSearchService.getCases(Mockito.eq(123L), Mockito.any(),
         Mockito.any(), Mockito.any(), Mockito.any(),
         Mockito.any(), Mockito.any(), Mockito.any()))
         .thenReturn(Optional.of(caseDetails));
     // Then
     String jsonContent = objectMapper.writeValueAsString(caseDetails);
-    this.mockMvc.perform(get("/cases"))
+    this.mockMvc.perform(get("/123/cases"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));
@@ -76,7 +76,7 @@ class CaseSearchControllerTest {
   @DisplayName("getCases: Returns not found")
   void getCases_returnsNotFound() throws Exception {
     // Then
-    this.mockMvc.perform(get("/cases"))
+    this.mockMvc.perform(get("/123/cases"))
         .andDo(print())
         .andExpect(status().isNotFound());
   }

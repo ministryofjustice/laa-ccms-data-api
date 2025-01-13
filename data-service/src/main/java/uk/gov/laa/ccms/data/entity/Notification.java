@@ -13,11 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 /**
- * Represents a notification entity from the "XXCCMS_GET_NOTIFICATIONS_V" database view.
+ * Represents a notification entity from the <b>XXCCMS_GET_NOTIFICATIONS_V</b> database view.
  *
  * <p>This entity captures details about notifications, such as the user it is assigned to,
  *     associated case references, client information, deadlines, and related metadata.
- *     It provides essential fields to track the status, associated parties,
+ *     It provides essential fields to track the status, associated client,
  *     supporting documents, and notes.</p>
  *
  * <p>The class is immutable, and its instances can be created using the builder pattern.</p>

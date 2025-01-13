@@ -37,6 +37,7 @@ class CaseSearchRepositoryIntegerationTest {
   void setUp() {
     // Insert some test case search rows
     s1 = CaseSearch.builder()
+        .providerFirmPartyId(100L)
         .casePartyId(1001L)
         .appOrCertSrId(2001L)
         .lscCaseReference("3001")
@@ -45,7 +46,6 @@ class CaseSearchRepositoryIntegerationTest {
         .personFirstName("First")
         .personLastName("Last")
         .providerCaseReference("6001")
-        .providerFirmPartyId(7001L)
         .providerOfficePartyId(8001L)
         .feeEarnerPartyId(9001L)
         .feeEarner("Fee One")
@@ -55,6 +55,7 @@ class CaseSearchRepositoryIntegerationTest {
         .displayCaseStatus("Display Status One")
         .build();
     s2 = CaseSearch.builder()
+        .providerFirmPartyId(100L)
         .casePartyId(1002L)
         .appOrCertSrId(2002L)
         .lscCaseReference("3002")
@@ -63,7 +64,6 @@ class CaseSearchRepositoryIntegerationTest {
         .personFirstName("First Two")
         .personLastName("Last Two")
         .providerCaseReference("6002")
-        .providerFirmPartyId(7002L)
         .providerOfficePartyId(8002L)
         .feeEarnerPartyId(9002L)
         .feeEarner("Fee Two")
@@ -78,10 +78,11 @@ class CaseSearchRepositoryIntegerationTest {
   }
 
   @Test
-  @DisplayName("Should get all case search")
-  void shouldGetAllCaseSearchRows(){
+  @DisplayName("Should get all case search using provider ID")
+  void shouldGetAllCaseSearchRowsUsingProviderId(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         null,
@@ -97,10 +98,31 @@ class CaseSearchRepositoryIntegerationTest {
   }
 
   @Test
+  @DisplayName("Should find no cases when provider ID does not match")
+  void shouldFindNoCaseSearchRowsWhenProviderIdDoesNotMatch(){
+    // Given
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(200L,
+        "3001",
+        null,
+        null,
+        null,
+        null,
+        null);
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
+        Pageable.unpaged());
+    // Then
+    assertEquals(0, result.getTotalElements());
+    assertFalse(result.getContent().contains(s1));
+    assertFalse(result.getContent().contains(s2));
+  }
+
+  @Test
   @DisplayName("Should filter by case reference number")
   void shouldFilterByCaseReferenceNumber(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters("3001",
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        "3001",
         null,
         null,
         null,
@@ -119,7 +141,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter like case reference number")
   void shouldFilterLikeCaseReferenceNumber(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters("300",
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        "300",
         null,
         null,
         null,
@@ -138,7 +161,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter by provider case reference number")
   void shouldFilterByProviderCaseReferenceNumber(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null ,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null ,
         "4001",
         null,
         null,
@@ -157,7 +181,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter like provider case reference number")
   void shouldFilterLikeProviderCaseReferenceNumber(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         "400",
         null,
         null,
@@ -176,7 +201,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter exactly status")
   void shouldFilterExactlyStatus(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         "ONE",
         null,
@@ -195,7 +221,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter exactly status two")
   void shouldFilterExactlyStatusTwo(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         "TWO",
         null,
@@ -214,7 +241,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter exactly status none")
   void shouldFilterExactlyStatusNone(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         "ON",
         null,
@@ -233,7 +261,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter by client surname")
   void shouldFilterByClientSurname(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         "Last Two",
@@ -252,7 +281,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter like client surname")
   void shouldFilterLikeClientSurname(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         "Last",
@@ -271,7 +301,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter like client surname ignore case")
   void shouldFilterLikeClientSurnameIgnoreCase(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         "LaSt twO",
@@ -290,7 +321,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter equal fee earner ID")
   void shouldFilterEqualFeeEarnerId(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         null,
@@ -310,7 +342,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter equal fee earner ID return none")
   void shouldFilterEqualFeeEarnerIdReturnNone(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         null,
@@ -329,7 +362,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter equal fee earner ID")
   void shouldFilterEqualOfficeId(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         null,
@@ -349,7 +383,8 @@ class CaseSearchRepositoryIntegerationTest {
   @DisplayName("Should filter equal fee earner ID return none")
   void shouldFilterEqualOfficeIdReturnNone(){
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(null,
+    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+        null,
         null,
         null,
         null,

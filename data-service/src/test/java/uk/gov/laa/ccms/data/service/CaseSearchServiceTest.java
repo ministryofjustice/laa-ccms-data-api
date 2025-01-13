@@ -45,10 +45,10 @@ class CaseSearchServiceTest {
         any(Pageable.class))).thenReturn(new PageImpl<>(List.of(
         CaseSearch.builder().lscCaseReference("123").build())));
     // When
-    Optional<CaseDetails> cases = caseSearchService.getCases("123",
+    Optional<CaseDetails> cases = caseSearchService.getCases(1L, "123",
         "345",
         "ACT",
-        "Surame",
+        "Surname",
         1L,
         2L,
         PageRequest.of(1, 10));
