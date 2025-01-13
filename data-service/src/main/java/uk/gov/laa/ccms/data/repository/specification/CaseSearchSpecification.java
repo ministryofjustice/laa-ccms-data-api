@@ -49,14 +49,17 @@ public class CaseSearchSpecification {
    * an AND logic.
    *
    * @param providerFirmPartyId the provider firm party ID to filter by (exact match).
-   * @param caseReferenceNumber the case reference number to filter by (optional, partial match).
-   * @param providerCaseReference the provider case reference to filter by (optional, partial match).
+   * @param caseReferenceNumber the case reference number to filter by
+   *                            (optional, partial match).
+   * @param providerCaseReference the provider case
+   *                              reference to filter by (optional, partial match).
    * @param caseStatus the case status to filter by (optional, exact match).
-   * @param clientSurname the client surname to filter by (optional, partial match, case-insensitive).
+   * @param clientSurname the client
+   *                      surname to filter by (optional, partial match, case-insensitive).
    * @param feeEarnerId the fee earner ID to filter by (optional, exact match).
    * @param officeId the office ID to filter by (optional, exact match).
    * @return a {@link Specification} object encapsulating the filtering logic for
-   *    {@link CaseSearch} entities.
+   *     {@link CaseSearch} entities.
    */
   public static Specification<CaseSearch> withFilters(final long providerFirmPartyId,
       final String caseReferenceNumber,
@@ -84,10 +87,10 @@ public class CaseSearchSpecification {
         predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("personLastName")),
             "%" + clientSurname.toLowerCase() + "%"));
       }
-      if(Objects.nonNull(feeEarnerId)){
+      if (Objects.nonNull(feeEarnerId)) {
         predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));
       }
-      if(Objects.nonNull(officeId)){
+      if (Objects.nonNull(officeId)) {
         predicates.add(criteriaBuilder.equal(root.get("providerOfficePartyId"), officeId));
       }
       // Combine all predicates with AND

@@ -50,7 +50,8 @@ public class NotificationSpecification {
    * an AND logic.
    *
    * @param caseReferenceNumber the case reference number to filter by (optional, partial match).
-   * @param providerCaseReference the provider case reference to filter by (optional, partial match).
+   * @param providerCaseReference the provider case reference to filter
+   *                             by (optional, partial match).
    * @param assignedToUserId the user ID assigned to the notification (optional, exact match).
    * @param clientSurname the client's surname to filter by (optional, partial match).
    * @param feeEarnerId the ID of the fee earner to filter by (optional, exact match).
