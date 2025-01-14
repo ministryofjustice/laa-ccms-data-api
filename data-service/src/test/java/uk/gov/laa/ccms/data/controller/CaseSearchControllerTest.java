@@ -66,17 +66,26 @@ class CaseSearchControllerTest {
         .thenReturn(Optional.of(caseDetails));
     // Then
     String jsonContent = objectMapper.writeValueAsString(caseDetails);
-    this.mockMvc.perform(get("/123/cases"))
+    this.mockMvc.perform(get("/cases?provider-id=123"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));
   }
 
   @Test
+  @DisplayName("getCases: Returns bad request")
+  void getCases_returnsBadRequest() throws Exception {
+    // Then
+    this.mockMvc.perform(get("/cases"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   @DisplayName("getCases: Returns not found")
   void getCases_returnsNotFound() throws Exception {
     // Then
-    this.mockMvc.perform(get("/123/cases"))
+    this.mockMvc.perform(get("/cases?provider-id=123"))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
