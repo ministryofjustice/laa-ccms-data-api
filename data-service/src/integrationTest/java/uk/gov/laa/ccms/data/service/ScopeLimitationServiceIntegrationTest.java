@@ -49,7 +49,7 @@ public class ScopeLimitationServiceIntegrationTest implements IntegrationTestInt
 
     // Call the service method
     ScopeLimitationDetails result = scopeLimitationService.getScopeLimitations(
-        scopeLimitationDetail, Pageable.ofSize(10).withPage(0));
+        scopeLimitationDetail, Pageable.unpaged());
 
     // Assert the proceeding
     assertNotNull(result);
@@ -88,7 +88,7 @@ public class ScopeLimitationServiceIntegrationTest implements IntegrationTestInt
 
     // Call the service method
     ScopeLimitationDetails result = scopeLimitationService.getScopeLimitations(
-        scopeLimitationDetail, Pageable.ofSize(10).withPage(0));
+        scopeLimitationDetail, Pageable.unpaged());
 
     // Assert the proceeding
     assertNotNull(result);
