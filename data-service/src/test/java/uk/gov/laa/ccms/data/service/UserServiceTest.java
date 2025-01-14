@@ -71,7 +71,7 @@ class UserServiceTest {
         user.setFirms(new ArrayList<>());
         user.getFirms().add(firm);
 
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<User> expectedPage = new PageImpl<>(
             Collections.singletonList(user));
         UserDetails expectedResponse = new UserDetails();

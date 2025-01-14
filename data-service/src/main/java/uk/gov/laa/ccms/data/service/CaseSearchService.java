@@ -9,7 +9,6 @@ import uk.gov.laa.ccms.data.entity.CaseSearch;
 import uk.gov.laa.ccms.data.mapper.CaseSearchMapper;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.repository.CaseSearchRepository;
-import uk.gov.laa.ccms.data.repository.specification.CaseSearchSpecification;
 
 /**
  * Service for performing search operations on case entities.
@@ -22,6 +21,7 @@ public class CaseSearchService {
 
   private final CaseSearchRepository caseSearchRepository;
   private final CaseSearchMapper caseSearchMapper;
+
 
   /**
    * Retrieves case details based on the provided search criteria and pagination information.
@@ -40,9 +40,8 @@ public class CaseSearchService {
   public Optional<CaseDetails> getCases(long providerFirmPartyId, String caseReferenceNumber,
       String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
       Long officeId, Pageable pageable) {
-    Page<CaseSearch> cases = caseSearchRepository.findAll(
-        CaseSearchSpecification.withFilters(providerFirmPartyId, caseReferenceNumber,
-            providerCaseReference, caseStatus, clientSurname, feeEarnerId, officeId),
+    Page<CaseSearch> cases = caseSearchRepository.findAll(providerFirmPartyId, caseReferenceNumber,
+            providerCaseReference, caseStatus, clientSurname, feeEarnerId, officeId,
         pageable);
     CaseDetails caseDetails = caseSearchMapper.toCaseDetails(cases);
     return Optional.ofNullable(caseDetails);

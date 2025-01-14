@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -16,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import uk.gov.laa.ccms.data.entity.CaseSearch;
 import uk.gov.laa.ccms.data.mapper.CaseSearchMapperImpl;
 import uk.gov.laa.ccms.data.model.CaseDetails;
@@ -41,7 +41,13 @@ class CaseSearchServiceTest {
   void shouldReturnCaseSummaryObject(){
     // Given
     new CaseSearch();
-    when(caseSearchRepository.findAll(any(Specification.class),
+    when(caseSearchRepository.findAll(anyLong(),
+        any(),
+        any(),
+        any(),
+        any(),
+        any(),
+        any(),
         any(Pageable.class))).thenReturn(new PageImpl<>(List.of(
         CaseSearch.builder().lscCaseReference("123").build())));
     // When

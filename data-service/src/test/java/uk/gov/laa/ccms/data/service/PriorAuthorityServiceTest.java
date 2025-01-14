@@ -41,7 +41,7 @@ class PriorAuthorityServiceTest {
         exampleType.setValueRequired(priorAuthorityType.getValueRequired());
 
         Example<PriorAuthorityType> example = Example.of(exampleType);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<PriorAuthorityType> expectedPage = new PageImpl<>(
             Collections.singletonList(priorAuthorityType));
         PriorAuthorityTypeDetails expectedResponse = new PriorAuthorityTypeDetails();

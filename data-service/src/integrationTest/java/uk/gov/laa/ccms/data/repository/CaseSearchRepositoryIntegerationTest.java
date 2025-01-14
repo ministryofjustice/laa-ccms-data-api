@@ -10,21 +10,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 import uk.gov.laa.ccms.data.entity.CaseSearch;
-import uk.gov.laa.ccms.data.repository.specification.CaseSearchSpecification;
 
 @DataJpaTest
 @ActiveProfiles("h2-test")
 @DisplayName("Case Search Repository Integration Test")
 class CaseSearchRepositoryIntegerationTest {
 
-  @Autowired
   private CaseSearchRepository caseSearchRepository;
 
   @PersistenceContext
@@ -35,6 +31,7 @@ class CaseSearchRepositoryIntegerationTest {
 
   @BeforeEach
   void setUp() {
+    caseSearchRepository = new CaseSearchRepository(entityManager);
     // Insert some test case search rows
     s1 = CaseSearch.builder()
         .providerFirmPartyId(100L)
@@ -79,18 +76,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should get all case search using provider ID")
-  void shouldGetAllCaseSearchRowsUsingProviderId(){
+  void shouldGetAllCaseSearchRowsUsingProviderId() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null);
     // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -98,19 +94,39 @@ class CaseSearchRepositoryIntegerationTest {
   }
 
   @Test
-  @DisplayName("Should find no cases when provider ID does not match")
-  void shouldFindNoCaseSearchRowsWhenProviderIdDoesNotMatch(){
+  @DisplayName("Should contain correct pagination information")
+  void shouldContainCorrectPaginationInformation() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(200L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        Pageable.ofSize(1).withPage(0));
+    // Then
+    assertTrue(result.getContent().contains(s1));
+    assertEquals(2, result.getTotalElements());
+    assertEquals(2, result.getTotalPages());
+    assertEquals(1, result.getNumberOfElements());
+    assertEquals(0, result.getNumber());
+  }
+
+  @Test
+  @DisplayName("Should find no cases when provider ID does not match")
+  void shouldFindNoCaseSearchRowsWhenProviderIdDoesNotMatch() {
+    // Given
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(200L,
         "3001",
         null,
         null,
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(0, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
@@ -119,18 +135,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter by case reference number")
-  void shouldFilterByCaseReferenceNumber(){
+  void shouldFilterByCaseReferenceNumber() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         "3001",
         null,
         null,
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -139,18 +154,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter like case reference number")
-  void shouldFilterLikeCaseReferenceNumber(){
+  void shouldFilterLikeCaseReferenceNumber() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         "300",
         null,
         null,
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -159,18 +173,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter by provider case reference number")
-  void shouldFilterByProviderCaseReferenceNumber(){
+  void shouldFilterByProviderCaseReferenceNumber() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
-        null ,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
+        null,
         "4001",
         null,
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -179,18 +192,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter like provider case reference number")
-  void shouldFilterLikeProviderCaseReferenceNumber(){
+  void shouldFilterLikeProviderCaseReferenceNumber() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         "400",
         null,
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -199,18 +211,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter exactly status")
-  void shouldFilterExactlyStatus(){
+  void shouldFilterExactlyStatus() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         "ONE",
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -219,18 +230,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter exactly status two")
-  void shouldFilterExactlyStatusTwo(){
+  void shouldFilterExactlyStatusTwo() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         "TWO",
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
@@ -239,18 +249,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter exactly status none")
-  void shouldFilterExactlyStatusNone(){
+  void shouldFilterExactlyStatusNone() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         "ON",
         null,
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(0, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
@@ -259,18 +268,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter by client surname")
-  void shouldFilterByClientSurname(){
+  void shouldFilterByClientSurname() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         null,
         "Last Two",
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
@@ -279,18 +287,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter like client surname")
-  void shouldFilterLikeClientSurname(){
+  void shouldFilterLikeClientSurname() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         null,
         "Last",
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -299,18 +306,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter like client surname ignore case")
-  void shouldFilterLikeClientSurnameIgnoreCase(){
+  void shouldFilterLikeClientSurnameIgnoreCase() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         null,
         "LaSt twO",
         null,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
@@ -319,18 +325,17 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter equal fee earner ID")
-  void shouldFilterEqualFeeEarnerId(){
+  void shouldFilterEqualFeeEarnerId() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         null,
         null,
         9001L,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -340,38 +345,37 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter equal fee earner ID return none")
-  void shouldFilterEqualFeeEarnerIdReturnNone(){
+  void shouldFilterEqualFeeEarnerIdReturnNone() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
+    // When
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
         null,
         null,
         null,
         900L,
-        null);
-    // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+        null,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(0, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
     assertFalse(result.getContent().contains(s2));
   }
 
+
   @Test
   @DisplayName("Should filter equal fee earner ID")
-  void shouldFilterEqualOfficeId(){
+  void shouldFilterEqualOfficeId() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        8001L);
     // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
+        null,
+        null,
+        null,
+        null,
+        null,
+        8001L,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(s1));
@@ -381,26 +385,26 @@ class CaseSearchRepositoryIntegerationTest {
 
   @Test
   @DisplayName("Should filter equal fee earner ID return none")
-  void shouldFilterEqualOfficeIdReturnNone(){
+  void shouldFilterEqualOfficeIdReturnNone() {
     // Given
-    Specification<CaseSearch> spec = CaseSearchSpecification.withFilters(100L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        800L);
     // When
-    Page<CaseSearch> result = caseSearchRepository.findAll(spec,
-        Pageable.unpaged());
+    Page<CaseSearch> result = caseSearchRepository.findAll(100L,
+        null,
+        null,
+        null,
+        null,
+        null,
+        800L,
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(0, result.getTotalElements());
     assertFalse(result.getContent().contains(s1));
     assertFalse(result.getContent().contains(s2));
   }
 
+
   @AfterEach
-  void afterEach(){
+  void afterEach() {
     entityManager.remove(s1);
     entityManager.remove(s2);
   }
