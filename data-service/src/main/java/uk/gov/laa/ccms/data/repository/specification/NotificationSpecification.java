@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Predicate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
 import uk.gov.laa.ccms.data.entity.Notification;
 
@@ -45,15 +46,17 @@ public class NotificationSpecification {
   /**
    * Builds a {@link Specification} for filtering {@link Notification} entities based
    * on various criteria. The method dynamically constructs filter
-   * conditions for the provided filter parameters.
+   * conditions for the provided filter parameters. Multiple filters are combined using
+   * an AND logic.
    *
-   * @param caseReferenceNumber the case reference number to filter by (optional).
-   * @param providerCaseReference the provider case reference to filter by (optional).
-   * @param assignedToUserId the user ID assigned to the notification (optional).
-   * @param clientSurname the client's surname to filter by (optional).
-   * @param feeEarnerId the ID of the fee earner to filter by (optional).
-   * @param includeClosed a flag to include closed notifications in the result set.
-   * @param notificationType the type of notification to filter by (optional).
+   * @param caseReferenceNumber the case reference number to filter by (optional, partial match).
+   * @param providerCaseReference the provider case reference to filter
+   *                             by (optional, partial match).
+   * @param assignedToUserId the user ID assigned to the notification (optional, exact match).
+   * @param clientSurname the client's surname to filter by (optional, partial match).
+   * @param feeEarnerId the ID of the fee earner to filter by (optional, exact match).
+   * @param includeClosed a flag to include closed notifications in the result set (optional).
+   * @param notificationType the type of notification to filter by (optional, exact match).
    * @param dateFrom the starting date for filtering notifications by the date assigned (inclusive).
    * @param dateTo the ending date for filtering notifications by the date assigned (inclusive).
    * @return a {@link Specification} object encapsulating the
@@ -69,39 +72,44 @@ public class NotificationSpecification {
       List<Predicate> predicates = new ArrayList<>();
 
       // Add predicates for each filter only if they are non-null
-      if (caseReferenceNumber != null && !caseReferenceNumber.isBlank()) {
+      if (stringNotEmpty(caseReferenceNumber)) {
         predicates.add(criteriaBuilder.like(root.get("lscCaseRefReference"),
             "%" + caseReferenceNumber + "%"));
       }
-      if (providerCaseReference != null && !providerCaseReference.isBlank()) {
+      if (stringNotEmpty(providerCaseReference)) {
         predicates.add(criteriaBuilder.like(root.get("providerCaseReference"),
             "%" + providerCaseReference + "%"));
       }
-      if (assignedToUserId != null && !assignedToUserId.isBlank()) {
+      if (Objects.nonNull(assignedToUserId)) {
         predicates.add(criteriaBuilder.equal(root.get("assignedTo"), assignedToUserId));
       }
-      if (clientSurname != null && !clientSurname.isBlank()) {
+      if (stringNotEmpty(clientSurname)) {
         predicates.add(criteriaBuilder.like(root.get("personLastName"), "%" + clientSurname + "%"));
       }
-      if (feeEarnerId != null) {
+      if (Objects.nonNull(feeEarnerId)) {
         predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));
       }
-      if (!includeClosed) {
+      if (Boolean.FALSE.equals(includeClosed)) {
         predicates.add(criteriaBuilder.equal(root.get("isOpen"), "true"));
       }
-      if (notificationType != null && !notificationType.isBlank()) {
+      if (Objects.nonNull(notificationType)) {
         predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));
       }
-      if (dateFrom != null) {
+      if (Objects.nonNull(dateFrom)) {
         predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dateAssigned"), dateFrom));
       }
-      if (dateTo != null) {
+      if (Objects.nonNull(dateTo)) {
         predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dateAssigned"), dateTo));
       }
 
       // Combine all predicates with AND
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
+
+  }
+
+  private static boolean stringNotEmpty(String caseReferenceNumber) {
+    return caseReferenceNumber != null && !caseReferenceNumber.isEmpty();
   }
 
 

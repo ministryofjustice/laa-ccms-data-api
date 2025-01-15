@@ -65,7 +65,7 @@ class LookupControllerTest {
         String type = "type";
         String code = "code";
         String desc = "desc";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
@@ -83,7 +83,7 @@ class LookupControllerTest {
     void getCaseStatusValues_returnsCaseStatusValuesList() {
         String code = "code";
         Boolean copyAllowed = Boolean.TRUE;
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         CaseStatusLookupDetail expectedResponse = new CaseStatusLookupDetail();
 
@@ -100,7 +100,7 @@ class LookupControllerTest {
     @Test
     void getAmendmentTypeValues_returnAmendmentTypeValuesList(){
         String code = "code";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
 
@@ -117,7 +117,7 @@ class LookupControllerTest {
     @Test
     void getCountriesValues_returnsCommonValuesList() {
         String code = "country_code";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
@@ -134,7 +134,7 @@ class LookupControllerTest {
     void getOutcomeResultValues_returnsOutcomeResultValuesList() {
         String code = "code";
         String result = "result";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
 
@@ -152,7 +152,7 @@ class LookupControllerTest {
     void getStageEndValues_returnsStageEndValuesList() {
         String code = "code";
         String stageEnd = "stageEnd";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
 
@@ -170,7 +170,7 @@ class LookupControllerTest {
     void getPersonToCaseRelationshipLookupValues() {
         String code = "code";
         String description = "description";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
 
@@ -188,7 +188,7 @@ class LookupControllerTest {
     void getAwardTypeValues_returnsAwardTypeValuesList() {
         String code = "code";
         String awardType = "awardType";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         AwardTypeLookupDetail expectedResponse = new AwardTypeLookupDetail();
 
@@ -206,7 +206,7 @@ class LookupControllerTest {
     void getOrganisationToCaseRelationshipLookupValues() {
         String code = "code";
         String description = "description";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
 
@@ -226,7 +226,7 @@ class LookupControllerTest {
         String desc = "desc";
         Boolean copyCostLimit = Boolean.TRUE;
 
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
 
@@ -319,7 +319,7 @@ class LookupControllerTest {
     @Test
     void getAssessmentSummaryAttributes_returnsData() throws Exception {
         String summaryType = "summaryType";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
 

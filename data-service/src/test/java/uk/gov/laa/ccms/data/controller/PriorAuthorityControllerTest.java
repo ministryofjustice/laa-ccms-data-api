@@ -27,7 +27,7 @@ class PriorAuthorityControllerTest {
     void getPriorAuthorityTypes_returnsData() {
         String code = "code";
         Boolean valueRequired = Boolean.TRUE;
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         PriorAuthorityTypeDetails expectedResponse = new PriorAuthorityTypeDetails();
 

@@ -79,7 +79,7 @@ class UserControllerTest {
     @Test
     void getUsers_returnsData() {
         Integer providerId = 123;
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         UserDetails expectedResponse = new UserDetails();
 

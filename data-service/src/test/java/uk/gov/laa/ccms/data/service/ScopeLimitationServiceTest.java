@@ -44,7 +44,7 @@ class ScopeLimitationServiceTest {
         scopeLimitation.getId().setCategoryOfLawCode(scopeLimitationDetail.getCategoryOfLaw());
 
         Example<ScopeLimitation> example = Example.of(scopeLimitation);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<ScopeLimitation> expectedPage = new PageImpl<>(
             Collections.singletonList(scopeLimitation));
         ScopeLimitationDetails expectedResponse = new ScopeLimitationDetails();

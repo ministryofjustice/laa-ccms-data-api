@@ -20,7 +20,7 @@ import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
 @DataJpaTest
 @ActiveProfiles("h2-test")
 @DisplayName("Notification Repository Integration Test")
-public class NotificationRepositoryIntegrationTest {
+class NotificationRepositoryIntegrationTest {
   
   @Autowired
   private NotificationRepository notificationRepository;
@@ -76,7 +76,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -98,7 +98,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -119,7 +119,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -141,7 +141,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -162,7 +162,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -184,7 +184,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -205,7 +205,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -226,7 +226,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -248,7 +248,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -268,7 +268,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -289,7 +289,7 @@ public class NotificationRepositoryIntegrationTest {
         LocalDate.of(2025, 2, 1),
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n2));
@@ -310,7 +310,7 @@ public class NotificationRepositoryIntegrationTest {
         LocalDate.of(2024, 1, 1),
         null);
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -332,7 +332,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         LocalDate.of(2025, 12, 1));
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
@@ -353,7 +353,7 @@ public class NotificationRepositoryIntegrationTest {
         null,
         LocalDate.of(2026, 1, 1));
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.unpaged());
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertEquals(true, result.getContent().contains(n1));
