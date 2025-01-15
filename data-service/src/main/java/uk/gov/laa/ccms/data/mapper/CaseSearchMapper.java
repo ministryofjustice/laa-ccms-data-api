@@ -28,7 +28,7 @@ public interface CaseSearchMapper {
    * @return a {@link CaseSummary} object containing the mapped case.
    */
   @Mapping(target = "caseReferenceNumber", source = "lscCaseReference")
-  @Mapping(target = "providerCaseReferenceNumber", source = "cisCaseReference")
+  @Mapping(target = "providerCaseReferenceNumber", source = "providerCaseReference")
   @Mapping(target = "feeEarnerName", source = "feeEarner")
   @Mapping(target = "caseStatusDisplay", source = "displayCaseStatus")
   @Mapping(target = "categoryOfLaw", source = "categoryOfLawDescription")

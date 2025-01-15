@@ -37,7 +37,7 @@ class CaseSearchMapperImplTest {
     CaseSummary result = mapper.toCaseSummary(search);
     // Then
     assertEquals("3", result.getCaseReferenceNumber());
-    assertEquals("4", result.getProviderCaseReferenceNumber());
+    assertEquals("provCaseRef", result.getProviderCaseReferenceNumber());
     assertEquals("Fee Earner Name", result.getFeeEarnerName());
     assertEquals("Category Description", result.getCategoryOfLaw());
     assertEquals("Display Status", result.getCaseStatusDisplay());
@@ -73,7 +73,7 @@ class CaseSearchMapperImplTest {
         .clientPartyId(5L)
         .personFirstName("First")
         .personLastName("Last")
-        .providerCaseReference("6")
+        .providerCaseReference("provCaseRef")
         .providerFirmPartyId(7L)
         .feeEarnerPartyId(8L)
         .feeEarner("Fee Earner Name")
@@ -93,7 +93,7 @@ class CaseSearchMapperImplTest {
         .clientPartyId(50L)
         .personFirstName("First Two")
         .personLastName("Last Two")
-        .providerCaseReference("60")
+        .providerCaseReference("provCaseRef Two")
         .providerFirmPartyId(70L)
         .feeEarnerPartyId(80L)
         .feeEarner("Fee Earner Name Two")
