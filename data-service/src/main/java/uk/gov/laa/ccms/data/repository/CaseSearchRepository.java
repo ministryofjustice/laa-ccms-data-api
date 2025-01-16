@@ -100,7 +100,7 @@ public class CaseSearchRepository {
     }
     // Provider case reference
     if (!Objects.isNull(providerCaseReference) && !providerCaseReference.isBlank()) {
-      sj.add("CIS_CASE_REFERENCE LIKE '%" + providerCaseReference + "%'");
+      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
     }
     // Case status
     if (!Objects.isNull(caseStatus) && !caseStatus.isBlank()) {

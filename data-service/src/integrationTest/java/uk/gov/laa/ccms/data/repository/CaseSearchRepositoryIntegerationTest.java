@@ -178,7 +178,7 @@ class CaseSearchRepositoryIntegerationTest {
     // When
     Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
-        "4001",
+        "6001",
         null,
         null,
         null,
@@ -197,7 +197,7 @@ class CaseSearchRepositoryIntegerationTest {
     // When
     Page<CaseSearch> result = caseSearchRepository.findAll(100L,
         null,
-        "400",
+        "600",
         null,
         null,
         null,
