@@ -6,6 +6,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.oracle.OracleContainer;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Testcontainers
@@ -16,9 +17,11 @@ public interface IntegrationTestInterface {
 
   @DynamicPropertySource
   static void properties(DynamicPropertyRegistry registry) {
-    registry.add("spring.datasource.url", oracleContainerSingleton.getOracleContainer()::getJdbcUrl);
-    registry.add("spring.datasource.username", oracleContainerSingleton.getOracleContainer()::getUsername);
-    registry.add("spring.datasource.password", oracleContainerSingleton.getOracleContainer()::getPassword);
+    OracleContainer oracleContainer = oracleContainerSingleton.getOracleContainer();
+    // Use service name
+    registry.add("spring.datasource.url", oracleContainer::getJdbcUrl);
+    registry.add("spring.datasource.username", oracleContainer::getUsername);
+    registry.add("spring.datasource.password", oracleContainer::getPassword);
   }
 }
 
