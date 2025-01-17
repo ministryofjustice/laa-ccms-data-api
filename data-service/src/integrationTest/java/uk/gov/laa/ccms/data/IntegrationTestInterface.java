@@ -18,7 +18,6 @@ public interface IntegrationTestInterface {
   @DynamicPropertySource
   static void properties(DynamicPropertyRegistry registry) {
     OracleContainer oracleContainer = oracleContainerSingleton.getOracleContainer();
-    // Use service name
     registry.add("spring.datasource.url", oracleContainer::getJdbcUrl);
     registry.add("spring.datasource.username", oracleContainer::getUsername);
     registry.add("spring.datasource.password", oracleContainer::getPassword);
