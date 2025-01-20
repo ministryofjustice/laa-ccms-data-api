@@ -37,10 +37,10 @@ import uk.gov.laa.ccms.data.model.UserDetail;
 public interface NotificationsMapper {
 
   /**
-   * Maps a Page of Notification objects to a Notifications object.
+   * Maps a {@link Page} of {@link Notification} objects to a {@link Notifications} object.
    *
-   * @param notificationPage a Page containing Notification entities to be mapped
-   * @return a Notifications object containing the mapped notifications along
+   * @param notificationPage a {@link Page} containing {@link Notification} entities to be mapped
+   * @return a {@link Notifications} object containing the mapped notifications along
    *     with pagination details
    */
   Notifications mapToNotificationsList(Page<Notification> notificationPage);
@@ -49,7 +49,7 @@ public interface NotificationsMapper {
    * Maps a Notification object to a {@link uk.gov.laa.ccms.data.model.Notification} object.
    *
    * @param notification the source Notification object to be mapped
-   * @return the mapped uk.gov.laa.ccms.data.model.Notification object
+   * @return the mapped {@link uk.gov.laa.ccms.data.model.Notification} object
    */
   @Mapping(target = "notes", source = "notes", qualifiedByName = "formatNotes")
   @Mapping(target = "uploadedDocuments", source = "uploadedDocuments",

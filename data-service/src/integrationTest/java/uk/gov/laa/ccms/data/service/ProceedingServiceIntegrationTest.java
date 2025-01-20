@@ -71,7 +71,7 @@ public class ProceedingServiceIntegrationTest implements IntegrationTestInterfac
 
     // Call the service method
     ProceedingDetails result = proceedingService.getProceedings(
-        categoryOfLawCode, null, null, null, Pageable.unpaged());
+        categoryOfLawCode, null, null, null, Pageable.ofSize(10).withPage(0));
 
     // Assert the proceeding
     assertNotNull(result);

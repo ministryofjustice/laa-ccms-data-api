@@ -159,7 +159,7 @@ class LookupServiceTest {
         commonLookupValue.setType("type");
         commonLookupValue.setDescription("desc");
         Example<CommonLookupValue> example = Example.of(commonLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CommonLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(commonLookupValue));
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
@@ -193,7 +193,7 @@ class LookupServiceTest {
 
         Example<CommonLookupValue> wildcardExample = Example.of(exampleLookupValue,
             wildcardMatcher);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CommonLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(commonLookupValue));
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
@@ -228,7 +228,7 @@ class LookupServiceTest {
 
         Example<CommonLookupValue> wildcardExample = Example.of(exampleLookupValue,
             wildcardMatcher);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CommonLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(commonLookupValue));
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
@@ -265,7 +265,7 @@ class LookupServiceTest {
 
         Example<CommonLookupValue> wildcardExample = Example.of(exampleLookupValue,
             wildcardMatcher);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CommonLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(commonLookupValue));
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
@@ -289,7 +289,7 @@ class LookupServiceTest {
         caseStatusLookupValue.setCode("code");
         caseStatusLookupValue.setCopyAllowed(Boolean.TRUE);
         Example<CaseStatusLookupValue> example = Example.of(caseStatusLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CaseStatusLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(caseStatusLookupValue));
         CaseStatusLookupDetail expectedResponse = new CaseStatusLookupDetail();
 
@@ -308,7 +308,7 @@ class LookupServiceTest {
         amendmentTypeLookupValue.setApplicationTypeCode("apptype");
 
         Example<AmendmentTypeLookupValue> example = Example.of(amendmentTypeLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<AmendmentTypeLookupValue> expectedPage = new PageImpl<>(Collections.singletonList(
             amendmentTypeLookupValue));
         AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
@@ -328,7 +328,7 @@ class LookupServiceTest {
         CountryLookupValue countryLookupValue = new CountryLookupValue();
         countryLookupValue.setCode("code");
         Example<CountryLookupValue> example = Example.of(countryLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CountryLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(countryLookupValue));
         CommonLookupDetail expectedResponse = new CommonLookupDetail();
@@ -350,7 +350,7 @@ class LookupServiceTest {
         outcomeResultLookupValue.getId().setProceedingCode("code");
         outcomeResultLookupValue.getId().setOutcomeResult("result");
         Example<OutcomeResultLookupValue> example = Example.of(outcomeResultLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<OutcomeResultLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(outcomeResultLookupValue));
         OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
@@ -375,7 +375,7 @@ class LookupServiceTest {
         stageEndLookupValue.getId().setProceedingCode("code");
         stageEndLookupValue.getId().setStageEnd("stageEnd");
         Example<StageEndLookupValue> example = Example.of(stageEndLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<StageEndLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(stageEndLookupValue));
         StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
@@ -399,7 +399,7 @@ class LookupServiceTest {
         personRelationshipToCaseLookupValue.setCode("code");
         personRelationshipToCaseLookupValue.setDescription("description");
         Example<PersonRelationshipToCaseLookupValue> example = Example.of(personRelationshipToCaseLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<PersonRelationshipToCaseLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(personRelationshipToCaseLookupValue));
         RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
@@ -423,7 +423,7 @@ class LookupServiceTest {
         organisationRelationshipToCaseLookupValue.setCode("code");
         organisationRelationshipToCaseLookupValue.setDescription("description");
         Example<OrganisationRelationshipToCaseLookupValue> example = Example.of(organisationRelationshipToCaseLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<OrganisationRelationshipToCaseLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(organisationRelationshipToCaseLookupValue));
         RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
@@ -448,7 +448,7 @@ class LookupServiceTest {
         awardTypeLookupValue.setCode("code");
         awardTypeLookupValue.setAwardType("awardType");
         Example<AwardTypeLookupValue> example = Example.of(awardTypeLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<AwardTypeLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(awardTypeLookupValue));
         AwardTypeLookupDetail expectedResponse = new AwardTypeLookupDetail();
@@ -474,7 +474,7 @@ class LookupServiceTest {
         categoryOfLawLookupValue.setCopyCostLimit(Boolean.TRUE);
 
         Example<CategoryOfLawLookupValue> example = Example.of(categoryOfLawLookupValue);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<CategoryOfLawLookupValue> expectedPage = new PageImpl<>(
             Collections.singletonList(categoryOfLawLookupValue));
         CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
@@ -498,7 +498,7 @@ class LookupServiceTest {
         String description = "desc";
         String matterType = "MAT1";
         String categoryOfLaw = "CAT1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         MatterType matterTypeEntity = new MatterType();
         matterTypeEntity.setDescription(description);
@@ -522,7 +522,7 @@ class LookupServiceTest {
     void getClientInvolvementTypeLookupValues_returnsPageOfClientInvolvementTypeValues() {
         String proceedingCode = "PRO1";
         String clientInvolvementType = "INV1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         ProceedingClientInvolvementType proceedingClientInvolvementTypeEntity = new ProceedingClientInvolvementType();
         proceedingClientInvolvementTypeEntity.setId(new ProceedingClientInvolvementTypeId());
@@ -547,7 +547,7 @@ class LookupServiceTest {
         String proceedingCode = "PRO1";
         String matterType = "MAT1";
         String categoryOfLaw = "CAT1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         LevelOfServiceId levelOfServiceId = new LevelOfServiceId();
         levelOfServiceId.setMatterType(matterType);
@@ -574,7 +574,7 @@ class LookupServiceTest {
     void getEvidenceDocumentTypeLookupValues_returnsPageOEvidenceDocumentTypeValues() {
         String type = "atype";
         String code = "code1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         EvidenceDocumentTypeLookupValueId lookupValueId =
             new EvidenceDocumentTypeLookupValueId();
@@ -680,7 +680,7 @@ class LookupServiceTest {
     void getDeclarationLookupValues_returnsPageOfDeclarationValues() {
         String declarationType = "type1";
         String billType = "bill1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         Declaration declaration = new Declaration();
         declaration.setDeclarationType(declarationType);
@@ -702,7 +702,7 @@ class LookupServiceTest {
     void getProviderRequestTypeLookupValues_returnsPageOfProviderRequestTypeValues() {
         Boolean isCaseRelated = Boolean.TRUE;
         String type = "providerType";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         ProviderRequestType example = new ProviderRequestType();
         example.setCaseRelated(isCaseRelated);

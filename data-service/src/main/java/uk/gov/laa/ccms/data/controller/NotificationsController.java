@@ -19,6 +19,10 @@ import uk.gov.laa.ccms.data.service.NotificationService;
  *
  * <p>This class implements the {@link NotificationsApi} interface and provides
  * endpoints for retrieving notification summaries for users.
+ *
+ * @see Notifications
+ * @see NotificationService
+ * @author Jamie Briggs
  */
 @RestController
 @RequiredArgsConstructor

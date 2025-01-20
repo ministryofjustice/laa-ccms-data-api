@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -76,7 +75,7 @@ class ProceedingServiceTest {
     void getProceedings_returnsPageOfProceeding() {
         Proceeding proceeding = buildProceeding();
         Example<Proceeding> example = Example.of(proceeding);
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
         Page<Proceeding> expectedPage = new PageImpl<>(
             Collections.singletonList(proceeding));
         ProceedingDetails expectedResponse = new ProceedingDetails();
@@ -113,7 +112,7 @@ class ProceedingServiceTest {
         String categoryOfLaw = "CAT1";
         String matterType = "MAT1";
         String appOrCertType = "APP1";
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = Pageable.ofSize(10).withPage(0);
 
         Proceeding proceeding = new Proceeding();
         proceeding.setCategoryOfLawCode(categoryOfLaw);

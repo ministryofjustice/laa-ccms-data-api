@@ -103,7 +103,7 @@ class NotificationServiceTest {
         true,
         "type",
         LocalDate.of(2000, 1, 1),
-        LocalDate.of(2024, 1 ,1), Pageable.unpaged());
+        LocalDate.of(2024, 1 ,1), Pageable.ofSize(10).withPage(0));
     // Then
     assertTrue(result.isPresent());
     assertEquals(expected, result.get());
@@ -123,7 +123,7 @@ class NotificationServiceTest {
         true,
         "type",
         LocalDate.of(2000, 1, 1),
-        LocalDate.of(2024, 1 ,1), Pageable.unpaged());
+        LocalDate.of(2024, 1 ,1), Pageable.ofSize(10).withPage(0));
     // Then
     assertFalse(result.isPresent());
   }

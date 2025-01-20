@@ -406,6 +406,70 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /cases:
+    get:
+      tags:
+        - cases
+      summary: 'Get Cases'
+      operationId: 'getCases'
+      x-spring-paginated: true
+      parameters:
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+            example: '123456789'
+        - name: 'case-reference-number'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: '1234567890'
+        - name: 'provider-case-reference'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: "1234567890"
+        - name: 'case-status'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'APPL'
+        - name: 'client-surname'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'smith'
+        - name: 'fee-earner-id'
+          in: 'query'
+          schema:
+            type: 'integer'
+            format: 'int64'
+            example: 1234567890
+        - name: 'office-id'
+          in: 'query'
+          schema:
+            type: 'integer'
+            format: 'int64'
+            example: 1234567890
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/caseDetails"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/case-status:
     get:
       tags:
@@ -1369,6 +1433,15 @@ components:
           type: 'string'
         default_code:
           type: 'string'
+    baseClient:
+      type: 'object'
+      properties:
+        client_reference_number:
+          type: 'string'
+        first_name:
+          type: 'string'
+        surname:
+          type: 'string'
     clientInvolvementTypeLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"
@@ -1490,6 +1563,31 @@ components:
           default: []
           items:
             $ref: "#/components/schemas/evidenceDocumentTypeLookupValueDetail"
+    caseDetails:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          default: [ ]
+          items:
+            $ref: "#/components/schemas/caseSummary"
+    caseSummary:
+      type: 'object'
+      properties:
+        case_reference_number:
+          type: 'string'
+        provider_case_reference_number:
+          type: 'string'
+        client:
+          $ref: '#/components/schemas/baseClient'
+        fee_earner_name:
+          type: 'string'
+        category_of_law:
+          type: 'string'
+        case_status_display:
+          type: 'string'
     commonLookupValueDetail:
       type: 'object'
       properties:
