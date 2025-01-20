@@ -20,7 +20,7 @@ import uk.gov.laa.ccms.data.entity.Notification;
  * @see org.springframework.data.jpa.domain.Specification
  */
 @Repository
-public interface NotificationRepository extends ReadOnlyRepository<Notification, Long>,
+public interface NotificationRepository extends ReadOnlyRepository<Notification, String>,
     JpaSpecificationExecutor<Notification> {
 
 }
