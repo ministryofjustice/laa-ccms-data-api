@@ -20,7 +20,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_USER_ROLES_V")
+@Table(name = "XXCCMS_USER_ROLES_V", schema = "XXCCMS")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @IdClass(UserRole.class)
 public class UserRole implements Serializable {

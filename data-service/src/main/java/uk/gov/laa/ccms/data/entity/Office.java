@@ -18,7 +18,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PROVIDER_OFFICES_V")
+@Table(name = "XXCCMS_PROVIDER_OFFICES_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Office {

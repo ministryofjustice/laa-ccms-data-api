@@ -24,7 +24,7 @@ import org.springframework.data.annotation.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_PUI_OPA_ATTRIBUTE_V")
+@Table(name = "XXCCMS_PUI_OPA_ATTRIBUTE_V", schema = "XXCCMS")
 @Immutable
 @IdClass(AssessmentSummaryAttributeId.class)
 public class AssessmentSummaryAttribute implements Serializable {

@@ -21,7 +21,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PROVIDER_REQTYPES_V")
+@Table(name = "XXCCMS_PROVIDER_REQTYPES_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProviderRequestType {

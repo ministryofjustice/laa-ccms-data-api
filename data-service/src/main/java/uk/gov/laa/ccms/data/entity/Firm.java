@@ -25,7 +25,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_USER_FIRMS_V")
+@Table(name = "XXCCMS_USER_FIRMS_V", schema = "XXCCMS")
 @Immutable
 public class Firm implements Serializable {
 

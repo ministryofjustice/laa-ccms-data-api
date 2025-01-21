@@ -24,7 +24,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_USERS_V")
+@Table(name = "XXCCMS_USERS_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
@@ -72,7 +72,8 @@ public class User {
    * The functions assigned to the user.
    */
   @ElementCollection(fetch = FetchType.LAZY)
-  @CollectionTable(name = "XXCCMS_USER_ROLES_V", joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
+  @CollectionTable(name = "XXCCMS_USER_ROLES_V", schema = "XXCCMS",
+      joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
   @Column(name = "FUNCTION")
   private List<String> functions;
 

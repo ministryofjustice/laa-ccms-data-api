@@ -28,7 +28,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_EVIDENCE_DOC_TYPE_V")
+@Table(name = "XXCCMS_EVIDENCE_DOC_TYPE_V", schema = "XXCCMS")
 @Immutable
 public class EvidenceDocumentTypeLookupValue implements Serializable {
 

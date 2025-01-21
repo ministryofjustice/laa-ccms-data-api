@@ -29,7 +29,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_SCOPELIMITATIONS_V")
+@Table(name = "XXCCMS_SCOPELIMITATIONS_V", schema = "XXCCMS")
 @Immutable
 public class ScopeLimitation implements Serializable {
 
