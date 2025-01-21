@@ -150,7 +150,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "1";
       // When
       List<TransactionStatus> result =
-          transactionStatusRepository.findUserFunctionTransactionsByTransactionId(
+          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
               requestId);
       // Then
       assertEquals(2, result.size());
@@ -165,7 +165,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "500";
       // When
       List<TransactionStatus> result =
-          transactionStatusRepository.findUserFunctionTransactionsByTransactionId(
+          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
               requestId);
       // Then
       assertEquals(1, result.size());

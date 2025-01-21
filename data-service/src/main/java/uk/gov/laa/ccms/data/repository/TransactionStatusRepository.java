@@ -24,7 +24,7 @@ public interface TransactionStatusRepository extends ReadOnlyRepository<Transact
     WHERE ts.requestId = ?1
     AND ts.processName like '%USER_FUNC_AUTH%'
       """)
-  List<TransactionStatus> findUserFunctionTransactionsByTransactionId(String transactionId);
+  List<TransactionStatus> findAllUserFunctionTransactionsByTransactionId(String transactionId);
 
   /**
    * Finds a client transaction with a specific transaction ID.

@@ -57,6 +57,12 @@ public class TransactionStatus {
   @Column(name = "ERROR_DESCRIPTION", length = 2000)
   private String errorDescription;
 
+  /**
+   * This class represents the composite primary key for the TransactionStatus entity.
+   *
+   * @author Jamie Briggs
+   * @see TransactionStatus
+   */
   @Getter
   @Setter
   @EqualsAndHashCode

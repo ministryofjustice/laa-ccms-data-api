@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.ClientService;
+import uk.gov.laa.ccms.data.service.ClientServiceException;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration
@@ -68,5 +69,16 @@ class ClientsControllerTest {
     this.mockMvc.perform(get("/clients/status/ABCDEF"))
         .andDo(print())
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getClientTransactionStatus() - Returns 500 error")
+  void getClientTransactionStatus_returns500Error() throws Exception {
+    // When
+    when(clientService.getTransactionStatus("ABCDEF")).thenThrow(new ClientServiceException("error"));
+    // Then
+    this.mockMvc.perform(get("/clients/status/ABCDEF"))
+        .andDo(print())
+        .andExpect(status().is5xxServerError());
   }
 }

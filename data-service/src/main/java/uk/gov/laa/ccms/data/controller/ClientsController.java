@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.ClientsApi;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.ClientService;
+import uk.gov.laa.ccms.data.service.ClientServiceException;
 
 /**
  * Controller class responsible for handling client-related requests.
@@ -36,7 +37,11 @@ public class ClientsController implements ClientsApi {
    */
   @Override
   public ResponseEntity<TransactionStatus> getClientTransactionStatus(String transactionRequestId) {
-    return transactionService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
+    try {
+      return transactionService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
+    } catch (ClientServiceException e) {
+      return ResponseEntity.internalServerError().build();
+    }
   }
 }
