@@ -57,7 +57,7 @@ public class CaseSearchRepository {
 
     final String searchCaseQuery =
         """
-        SELECT * FROM XXCCMS_CASE_SEARCH_V
+        SELECT * FROM XXCCMS.XXCCMS_CASE_SEARCH_V
         """
         +
         getFilterSql(providerFirmPartyId, caseReferenceNumber, providerCaseReference, caseStatus,
@@ -74,7 +74,7 @@ public class CaseSearchRepository {
 
     final String countCaseQuery =
         """
-        SELECT COUNT(*) FROM XXCCMS_CASE_SEARCH_V
+        SELECT COUNT(*) FROM XXCCMS.XXCCMS_CASE_SEARCH_V
         """
         + getFilterSql(providerFirmPartyId, caseReferenceNumber, providerCaseReference,
         caseStatus, clientSurname, feeEarnerId, officeId);

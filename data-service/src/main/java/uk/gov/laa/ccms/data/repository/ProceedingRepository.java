@@ -18,7 +18,7 @@ import uk.gov.laa.ccms.data.entity.Proceeding;
 @Repository
 public interface ProceedingRepository extends ReadOnlyRepository<Proceeding, String> {
   @Query(value =
-      "SELECT A.* FROM XXCCMS_PROCEEDING_V A , XXCCMS_LEAD_PROC_CTRL_V B WHERE "
+      "SELECT A.* FROM XXCCMS.XXCCMS_PROCEEDING_V A , XXCCMS.XXCCMS_LEAD_PROC_CTRL_V B WHERE "
           + "A.PROC_LAR_SCOPE = B.PERMITTED_PROCEEDING_SCOPE"
           + " AND (:categoryOfLaw is null or A.CATEGORY_OF_LAW_CODE = :categoryOfLaw)"
           + " AND (:matterType is null or A.MATTER_TYPE = :matterType)"
@@ -27,7 +27,7 @@ public interface ProceedingRepository extends ReadOnlyRepository<Proceeding, Str
           + " AND (:larScopeFlag is null or B.CASE_LAR_SCOPE_FLAG = :larScopeFlag)"
           + " AND (:appOrCertType is null or B.APP_OR_CERT_TYPE = :appOrCertType)",
       countQuery =
-          "SELECT COUNT(*) FROM XXCCMS_PROCEEDING_V A , XXCCMS_LEAD_PROC_CTRL_V B WHERE "
+          "SELECT COUNT(*) FROM XXCCMS.XXCCMS_PROCEEDING_V A , XXCCMS.XXCCMS_LEAD_PROC_CTRL_V B WHERE "
               + "A.PROC_LAR_SCOPE = B.PERMITTED_PROCEEDING_SCOPE"
               + " AND (:categoryOfLaw is null or A.CATEGORY_OF_LAW_CODE = :categoryOfLaw)"
               + " AND (:matterType is null or A.MATTER_TYPE = :matterType)"
