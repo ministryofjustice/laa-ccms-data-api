@@ -1,4 +1,4 @@
-CREATE TABLE XXCCMS_USER_FIRMS_V (
+CREATE TABLE XXCCMS.XXCCMS_USER_FIRMS_V (
                                      USER_LOGIN_ID VARCHAR2(100),
                                      PROVIDERFIRM_ID NUMBER(15),
                                      PROVIDER_NAME VARCHAR2(360),
@@ -8,7 +8,7 @@ CREATE TABLE XXCCMS_USER_FIRMS_V (
 );
 
 
-CREATE TABLE XXCCMS_USERS_V (
+CREATE TABLE XXCCMS.XXCCMS_USERS_V (
                                 USER_ID NUMBER(15),
                                 USER_LOGIN_ID VARCHAR2(100) PRIMARY KEY,
                                 USER_PARTY_ID NUMBER(15),
@@ -19,7 +19,7 @@ CREATE TABLE XXCCMS_USERS_V (
                                 FOREIGN KEY (USER_LOGIN_ID, PROVIDERFIRM_ID) REFERENCES XXCCMS_USER_FIRMS_V (USER_LOGIN_ID, PROVIDERFIRM_ID)
 );
 
-CREATE TABLE XXCCMS_USER_ROLES_V (
+CREATE TABLE XXCCMS.XXCCMS_USER_ROLES_V (
                                      USER_LOGIN_ID VARCHAR2(100),
                                      FUNCTION VARCHAR2(2000),
                                      PRIMARY KEY (USER_LOGIN_ID, FUNCTION),

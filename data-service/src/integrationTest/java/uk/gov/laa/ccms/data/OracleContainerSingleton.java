@@ -8,7 +8,8 @@ public class OracleContainerSingleton {
   private final OracleContainer oracleContainer;
 
   private OracleContainerSingleton() {
-    oracleContainer = new OracleContainer("gvenzl/oracle-free:23-slim-faststart");
+    oracleContainer = new OracleContainer("gvenzl/oracle-free:23-slim-faststart")
+         .withUsername("XXCCMS");
     oracleContainer.start();
   }
 

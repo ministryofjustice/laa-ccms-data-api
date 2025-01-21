@@ -17,7 +17,7 @@ import org.hibernate.annotations.Immutable;
  * Entity representing the provider request data.
  */
 @Entity
-@Table(name = "XXCCMS_PROVIDER_REQUEST_DATA_V")
+@Table(name = "XXCCMS_PROVIDER_REQUEST_DATA_V", schema = "XXCCMS")
 @Data
 @NoArgsConstructor
 @Immutable

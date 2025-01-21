@@ -29,7 +29,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_COMMON_LOV_V")
+@Table(name = "XXCCMS_COMMON_LOV_V", schema = "XXCCMS")
 @Immutable
 @IdClass(CommonLookupValueId.class)
 public class CommonLookupValue implements Serializable {

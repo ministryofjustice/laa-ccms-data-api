@@ -24,7 +24,7 @@ import org.hibernate.annotations.Immutable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "XXCCMS_NOTIFICATION_COUNT_V")
+@Table(name = "XXCCMS_NOTIFICATION_COUNT_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class NotificationCount {

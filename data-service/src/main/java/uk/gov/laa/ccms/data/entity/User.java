@@ -24,7 +24,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_USERS_V")
+@Table(name = "XXCCMS_USERS_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
