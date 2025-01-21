@@ -4,12 +4,17 @@ package uk.gov.laa.ccms.data.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
-import java.sql.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import uk.gov.laa.ccms.data.entity.TransactionStatus.TransactionStatusId;
 
 /**
  * Represents a transaction status entity from the "XXCCMS_TRANSACTION_STATUS_V" database view.
@@ -24,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "XXCCMS_TRANSACTION_STATUS_V")
 @Getter
 @Builder
+@IdClass(TransactionStatusId.class)
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class TransactionStatus {
@@ -31,6 +37,10 @@ public class TransactionStatus {
   @Id
   @Column(name = "REQUEST_ID")
   private String requestId;
+
+  @Id
+  @Column(name = "TRANSACTION_OCCURRENCE_DATE")
+  private LocalDateTime transactionOccurrenceDate;
 
   @Column(name = "PROCESS_NAME", length = 50)
   private String processName;
@@ -47,6 +57,11 @@ public class TransactionStatus {
   @Column(name = "ERROR_DESCRIPTION", length = 2000)
   private String errorDescription;
 
-  @Column(name = "TRANSACTION_OCCURRENCE_DATE")
-  private Date transactionOccurrenceDate;
+  @Getter
+  @Setter
+  @EqualsAndHashCode
+  public static class TransactionStatusId implements Serializable {
+    private String requestId;
+    private LocalDateTime transactionOccurrenceDate;
+  }
 }
