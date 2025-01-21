@@ -86,7 +86,7 @@ public class UserServiceIntegrationTest implements IntegrationTestInterface {
         "11, 1",
         "12, 0"})
     public void testGetUsers_returnsData(Integer providerId, int expectedElements){
-        UserDetails userDetails = userService.getUsers(providerId, Pageable.unpaged());
+        UserDetails userDetails = userService.getUsers(providerId, Pageable.ofSize(10).withPage(0));
         assertNotNull(userDetails);
         assertEquals(expectedElements, userDetails.getTotalElements());
     }
