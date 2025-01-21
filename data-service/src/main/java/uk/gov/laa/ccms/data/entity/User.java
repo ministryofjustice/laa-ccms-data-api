@@ -72,7 +72,7 @@ public class User {
    * The functions assigned to the user.
    */
   @ElementCollection(fetch = FetchType.LAZY)
-  @CollectionTable(name = "XXCCMS_USER_ROLES_V", joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
+  @CollectionTable(name = "XXCCMS_USER_ROLES_V", schema="XXCCMS", joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
   @Column(name = "FUNCTION")
   private List<String> functions;
 
