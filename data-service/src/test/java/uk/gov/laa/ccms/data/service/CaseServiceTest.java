@@ -20,64 +20,64 @@ import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Client Service Test")
-class ClientServiceTest {
+@DisplayName("Case Service Test")
+public class CaseServiceTest {
+
 
   @Mock
   TransactionStatusMapper transactionStatusMapper;
   @Mock
   TransactionStatusRepository transactionStatusRepository;
 
-  ClientService clientService;
+  CaseService caseService;
 
   @BeforeEach
-  void beforeEach() {
-    clientService =
-        new ClientService(transactionStatusRepository, transactionStatusMapper);
+  void beforeEach(){
+    caseService =
+        new CaseService(transactionStatusRepository, transactionStatusMapper);
   }
 
   @Test
-  @DisplayName("Should return empty client transaction status")
-  void shouldReturnEmptyClientTransactionStatus() {
+  @DisplayName("Should return empty case transaction status")
+  void shouldReturnEmptyCaseTransactionStatus(){
     // Given
     String transactionId = "123";
     // When
-    Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
-        transactionId);
+    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(transactionId);
     // Then
     assertTrue(transactionStatus.isEmpty());
   }
 
   @Test
-  @DisplayName("Should return client transaction status")
-  void shouldReturnClientTransactionStatus() {
+  @DisplayName("Should return case transaction status")
+  void shouldReturnCaseTransactionStatus() {
     // Given
     String transactionId = "123";
     uk.gov.laa.ccms.data.entity.TransactionStatus entity =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("CreateClient").status("Success").build();
-    when(transactionStatusRepository.findClientTransactionByTransactionId(transactionId))
+            .processName("CreateCaseApplication").status("Success").build();
+    when(transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId))
         .thenReturn(Optional.of(entity));
     TransactionStatus result = new TransactionStatus().submissionStatus("Success")
         .referenceNumber("123");
     when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
         result);
     // When
-    Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
+    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(
         transactionId);
     // Then
     verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
         transactionId);
-    verify(transactionStatusRepository, times(1)).findClientTransactionByTransactionId(
+    verify(transactionStatusRepository, times(1)).findCaseApplicationTransactionByTransactionId(
         transactionId);
     assertTrue(transactionStatus.isPresent());
     assertEquals(result, transactionStatus.get());
   }
 
   @Test
-  @DisplayName("Should return client transaction status even with success transaction")
-  void shouldReturnClientTransactionStatusEvenWithSuccessTransactions() {
+  @DisplayName("Should return case transaction status even with success transaction")
+  void shouldReturnCaseTransactionStatusEvenWithSuccessTransactions() {
     // Given
     String transactionId = "123";
     uk.gov.laa.ccms.data.entity.TransactionStatus successTransaction =
@@ -89,22 +89,22 @@ class ClientServiceTest {
     uk.gov.laa.ccms.data.entity.TransactionStatus entity =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("CreateClient").status("Success").build();
-    when(transactionStatusRepository.findClientTransactionByTransactionId(transactionId))
+            .processName("CreateCaseApplication").status("Success").build();
+    when(transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId))
         .thenReturn(Optional.of(entity));
     TransactionStatus result = new TransactionStatus().submissionStatus("Success")
         .referenceNumber("123");
     when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
         result);
-    
+
     // When
-    Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
+    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(
         transactionId);
-    
+
     // Then
     verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
         transactionId);
-    verify(transactionStatusRepository, times(1)).findClientTransactionByTransactionId(
+    verify(transactionStatusRepository, times(1)).findCaseApplicationTransactionByTransactionId(
         transactionId);
     assertTrue(transactionStatus.isPresent());
     assertEquals(result, transactionStatus.get());
@@ -121,13 +121,12 @@ class ClientServiceTest {
             .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH").status("Error").build();
     when(transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId))
         .thenReturn(singletonList(successTransaction));
-  
+
     // When & Then
-    assertThrows(ClientServiceException.class, () -> clientService.getTransactionStatus(transactionId));
+    assertThrows(ClientServiceException.class, () -> caseService.getTransactionStatus(transactionId));
     verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
         transactionId);
-    verify(transactionStatusRepository, times(0)).findClientTransactionByTransactionId(
+    verify(transactionStatusRepository, times(0)).findCaseApplicationTransactionByTransactionId(
         transactionId);
   }
-
 }

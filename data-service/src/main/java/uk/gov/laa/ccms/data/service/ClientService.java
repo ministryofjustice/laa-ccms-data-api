@@ -2,6 +2,7 @@ package uk.gov.laa.ccms.data.service;
 
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
@@ -19,16 +20,11 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
  * @author Jamie Briggs
  */
 @Service
+@RequiredArgsConstructor
 public class ClientService {
 
-  private final TransactionStatusMapper transactionStatusMapper;
   private final TransactionStatusRepository transactionStatusRepository;
-
-  public ClientService(TransactionStatusMapper transactionStatusMapper,
-      TransactionStatusRepository transactionStatusRepository) {
-    this.transactionStatusMapper = transactionStatusMapper;
-    this.transactionStatusRepository = transactionStatusRepository;
-  }
+  private final TransactionStatusMapper transactionStatusMapper;
 
   /**
    * Retrieves the transaction status for a given transaction ID. If the transaction
