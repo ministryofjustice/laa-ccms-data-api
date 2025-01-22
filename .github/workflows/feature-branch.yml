@@ -17,6 +17,7 @@ jobs:
       tag_name: ${{ steps.extract_tag_name.outputs.tag_name }}
       repo_name: ${{ steps.extract_repo_name.outputs.repo_name }}
     steps:
+      - uses: actions/checkout@v3
       - name: Extract short repo name
         shell: bash
         run: echo "repo_name=caab-ebs${GITHUB_REPOSITORY#*\/laa-ccms-data}" >> $GITHUB_OUTPUT
