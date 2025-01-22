@@ -149,4 +149,4 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git add .
           git commit -m "Update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
-          git push origin $FEATURE_BRANCH
+          git push --set-upstream origin $FEATURE_BRANCH
