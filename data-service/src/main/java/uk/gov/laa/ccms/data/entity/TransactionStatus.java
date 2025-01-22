@@ -26,7 +26,7 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus.TransactionStatusId;
  * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
  */
 @Entity
-@Table(name = "XXCCMS_TRANSACTION_STATUS_V")
+@Table(name = "XXCCMS_TRANSACTION_STATUS_V", schema = "XXCCMS")
 @Getter
 @Builder
 @IdClass(TransactionStatusId.class)
