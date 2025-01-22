@@ -470,6 +470,36 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /cases/status/{transaction-request-id}:
+    get:
+      tags:
+        - cases
+      summary: 'Get Case transaction status'
+      operationId: 'getCaseTransactionStatus'
+      parameters:
+        - name: 'transaction-request-id'
+          in: 'path'
+          required: true
+          schema:
+            type: 'string'
+            example: 'abc123'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/transactionStatus"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/case-status:
     get:
       tags:
