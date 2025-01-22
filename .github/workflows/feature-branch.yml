@@ -14,22 +14,12 @@ jobs:
   define-image-tag:
     runs-on: ubuntu-latest
     outputs:
-      tag_name: ${{ steps.extract_tag_name.outputs.tag_name }}
       repo_name: ${{ steps.extract_repo_name.outputs.repo_name }}
     steps:
-      - uses: actions/checkout@v3
       - name: Extract short repo name
         shell: bash
         run: echo "repo_name=caab-ebs${GITHUB_REPOSITORY#*\/laa-ccms-data}" >> $GITHUB_OUTPUT
         id: extract_repo_name
-
-      - name: Extract branch name and commit hash
-        id: extract_tag_name
-        shell: bash
-        run: |
-          BRANCH_NAME=${GITHUB_REF_NAME#feature-*/}
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          echo "tag_name=${BRANCH_NAME}-${COMMIT_HASH}-SNAPSHOT" >> $GITHUB_OUTPUT
 
   build-test-publish:
     runs-on: ubuntu-latest
@@ -70,8 +60,12 @@ jobs:
         shell: bash
         id: capture_version
         run: |
-          echo "app_version=${{ needs.define-image-tag.outputs.tag_name }}" >> $GITHUB_OUTPUT
-          echo "Captured version: ${{ needs.define-image-tag.outputs.tag_name }}"
+          BRANCH_NAME=${GITHUB_REF_NAME#feature-*/}
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "${BRANCH_NAME}"
+          echo "${COMMIT_HASH}"
+          echo "${BRANCH_NAME}-${COMMIT_HASH}-SNAPSHOT"
+          echo "app_version=${BRANCH_NAME}-${COMMIT_HASH}-SNAPSHOT" >> $GITHUB_OUTPUT
 
       - name: Upload jarfile
         uses: actions/upload-artifact@v3

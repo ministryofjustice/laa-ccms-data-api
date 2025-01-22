@@ -11,7 +11,8 @@ on:
   push:
     branches-ignore:
       - main
-      - feature-*
+      - 'feature-dev/*'
+      - 'feature-test/*'
 
 permissions:
   contents: read
