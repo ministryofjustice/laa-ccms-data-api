@@ -9,24 +9,28 @@ import uk.gov.laa.ccms.data.api.CasesApi;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.CaseSearchService;
+import uk.gov.laa.ccms.data.service.CaseService;
+import uk.gov.laa.ccms.data.service.ClientServiceException;
 
 /**
- * Controller class responsible for handling case search operations.
+ * Controller class responsible for handling case related operations.
  *
  * <p>This controller serves as an interface to return requested case information. It
- * delegates the business logic to the {@link CaseSearchService}.</p>
+ * delegates the business logic to the {@link CaseSearchService} and {@link CaseService}.</p>
  *
  * <p>This class implemented the {@CasesApi} interface and provides endpoints for retrieving
  * case information.</p>
  *
  * @see CaseDetails
+ * @see CaseService
  * @see CaseSearchService
  * @author Jamie Briggs
  */
 @RestController
 @RequiredArgsConstructor
-public class CaseSearchController implements CasesApi {
+public class CaseController implements CasesApi {
 
+  private final CaseService caseService;
   private final CaseSearchService caseSearchService;
 
   /**
@@ -57,6 +61,11 @@ public class CaseSearchController implements CasesApi {
 
   @Override
   public ResponseEntity<TransactionStatus> getCaseTransactionStatus(String transactionRequestId) {
-    return null;
+    try {
+      return caseService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
+    } catch (ClientServiceException e) {
+      return ResponseEntity.internalServerError().build();
+    }
   }
 }
