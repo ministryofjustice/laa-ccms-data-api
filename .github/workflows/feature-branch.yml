@@ -123,29 +123,28 @@ jobs:
           path: laa-ccms-caab-helm-charts
           token: ${{ secrets.REPO_TOKEN }}
 
-      - name: Create or switch to feature branch
+      - name: Update Helm chart
         env:
           FEATURE_BRANCH: ${{ github.ref_name }}
+          REPO_NAME: ${{ needs.define-image-tag.outputs.repo_name }}
+          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           cd laa-ccms-caab-helm-charts
+
           git config --global user.email "github@justice.gov.uk"
           git config --global user.name "GitHub Actions Bot"
+
           git fetch origin
           if git rev-parse --verify origin/$FEATURE_BRANCH; then
             git checkout $FEATURE_BRANCH
             git pull origin $FEATURE_BRANCH
           else
             git checkout -b $FEATURE_BRANCH
-            git push --set-upstream origin $FEATURE_BRANCH
           fi
 
-      - name: Update helm chart
-        env:
-          REPO_NAME: ${{ needs.define-image-tag.outputs.repo_name }}
-          APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
-        run: |
-          cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/caab-ebs-api/
-          yq eval "( .appVersion = \"${{ env.REPO_NAME }}-${{ env.APP_VERSION }}\" )" -i Chart.yaml
+          cd laa-ccms-caab-service/charts/caab-ebs-api/
+          yq eval "( .appVersion = \"${REPO_NAME}-${APP_VERSION}\" )" -i Chart.yaml
+
           git add .
-          git commit -m "Update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
-          git push
+          git commit -m "Update appVersion to ${REPO_NAME}-${APP_VERSION}"
+          git push --set-upstream origin $FEATURE_BRANCH
