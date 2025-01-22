@@ -25,7 +25,7 @@ import org.hibernate.annotations.Immutable;
  * @author Jamie Briggs
  */
 @Entity
-@Table(name = "XXCCMS_GET_NOTIFICATIONS_V")
+@Table(name = "XXCCMS_GET_NOTIFICATIONS_V", schema = "XXCCMS")
 @Getter
 @Builder
 @Immutable

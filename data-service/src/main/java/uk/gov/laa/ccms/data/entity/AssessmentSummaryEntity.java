@@ -26,7 +26,7 @@ import org.springframework.data.annotation.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_PUI_OPA_ENTITIES_V")
+@Table(name = "XXCCMS_PUI_OPA_ENTITIES_V", schema = "XXCCMS")
 @Immutable
 @IdClass(AssessmentSummaryEntityId.class)
 public class AssessmentSummaryEntity {

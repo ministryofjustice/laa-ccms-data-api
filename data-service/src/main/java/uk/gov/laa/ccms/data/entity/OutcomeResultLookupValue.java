@@ -18,7 +18,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_OUTCOME_RESULTS_V")
+@Table(name = "XXCCMS_OUTCOME_RESULTS_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OutcomeResultLookupValue {

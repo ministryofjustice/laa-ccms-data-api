@@ -27,7 +27,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_AWARD_TYPE_V")
+@Table(name = "XXCCMS_AWARD_TYPE_V", schema = "XXCCMS")
 @Immutable
 public class AwardTypeLookupValue implements Serializable {
   @Id

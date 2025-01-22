@@ -21,7 +21,7 @@ import org.hibernate.annotations.Immutable;
  *
  */
 @Entity
-@Table(name = "XXCCMS_CASE_SEARCH_V")
+@Table(name = "XXCCMS_CASE_SEARCH_V", schema = "XXCCMS")
 @Getter
 @Builder
 @Immutable

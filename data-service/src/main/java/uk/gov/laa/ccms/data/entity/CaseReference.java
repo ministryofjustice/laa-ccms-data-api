@@ -24,7 +24,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_GENERATE_V")
+@Table(name = "XXCCMS_GENERATE_V", schema = "XXCCMS")
 @Immutable
 public class CaseReference implements Serializable {
 

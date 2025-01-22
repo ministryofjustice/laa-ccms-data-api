@@ -20,7 +20,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "XXCCMS_PRIOR_AUTH_DETAILS_V")
+@Table(name = "XXCCMS_PRIOR_AUTH_DETAILS_V", schema = "XXCCMS")
 @Immutable
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PriorAuthority {

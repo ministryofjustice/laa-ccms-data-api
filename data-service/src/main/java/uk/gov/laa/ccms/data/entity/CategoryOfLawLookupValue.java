@@ -26,7 +26,7 @@ import org.springframework.data.annotation.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_CATEGORY_OF_LAW_V")
+@Table(name = "XXCCMS_CATEGORY_OF_LAW_V", schema = "XXCCMS")
 @Immutable
 public class CategoryOfLawLookupValue {
 

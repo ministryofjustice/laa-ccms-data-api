@@ -20,7 +20,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Table(name = "XXCCMS_DECLARATION_TEXT_V")
+@Table(name = "XXCCMS_DECLARATION_TEXT_V", schema = "XXCCMS")
 @Immutable
 @IdClass(DeclarationId.class)
 public class Declaration {
