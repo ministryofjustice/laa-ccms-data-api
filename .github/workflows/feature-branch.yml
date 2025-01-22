@@ -3,8 +3,8 @@ name: CI feature branch and deploy
 on:
   push:
     branches:
-      - 'feature-dev/*'
-      - 'feature-test/*'
+      - 'feature-dev/**'
+      - 'feature-test/**'
 
 permissions:
   contents: read
@@ -128,8 +128,15 @@ jobs:
           FEATURE_BRANCH: ${{ github.ref_name }}
         run: |
           cd laa-ccms-caab-helm-charts
-          git fetch origin $FEATURE_BRANCH || true
-          git checkout -b $FEATURE_BRANCH || git checkout $FEATURE_BRANCH
+          git config --global user.email "github@justice.gov.uk"
+          git config --global user.name "GitHub Actions Bot"
+          git fetch origin
+          if git rev-parse --verify origin/$FEATURE_BRANCH; then
+            git checkout $FEATURE_BRANCH
+            git pull origin $FEATURE_BRANCH
+          else
+            git checkout -b $FEATURE_BRANCH
+          fi
 
       - name: Update helm chart
         env:
@@ -138,6 +145,8 @@ jobs:
         run: |
           cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/caab-ebs-api/
           yq eval-all "( .appVersion = \"${{ env.REPO_NAME }}-${{ env.APP_VERSION }}\" )" -i Chart.yaml
+          git config --global user.email "github@justice.gov.uk"
+          git config --global user.name "GitHub Actions Bot"
           git add .
           git commit -m "Update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
           git push origin $FEATURE_BRANCH
