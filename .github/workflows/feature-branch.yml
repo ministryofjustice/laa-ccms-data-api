@@ -136,6 +136,7 @@ jobs:
             git pull origin $FEATURE_BRANCH
           else
             git checkout -b $FEATURE_BRANCH
+            git push --set-upstream origin $FEATURE_BRANCH
           fi
 
       - name: Update helm chart
@@ -144,9 +145,7 @@ jobs:
           APP_VERSION: ${{ needs.build-test-publish.outputs.app_version }}
         run: |
           cd laa-ccms-caab-helm-charts/laa-ccms-caab-service/charts/caab-ebs-api/
-          yq eval-all "( .appVersion = \"${{ env.REPO_NAME }}-${{ env.APP_VERSION }}\" )" -i Chart.yaml
-          git config --global user.email "github@justice.gov.uk"
-          git config --global user.name "GitHub Actions Bot"
+          yq eval "( .appVersion = \"${{ env.REPO_NAME }}-${{ env.APP_VERSION }}\" )" -i Chart.yaml
           git add .
           git commit -m "Update appVersion to ${{ env.REPO_NAME }}-${{ env.APP_VERSION }}"
-          git push --set-upstream origin $FEATURE_BRANCH
+          git push
