@@ -20,7 +20,7 @@ import uk.gov.laa.ccms.data.entity.Notification;
  * @author Jamie Briggs
  */
 @Repository
-public interface NotificationRepository extends ReadOnlyRepository<Notification, Long>,
+public interface NotificationRepository extends ReadOnlyRepository<Notification, String>,
     JpaSpecificationExecutor<Notification> {
 
 }
