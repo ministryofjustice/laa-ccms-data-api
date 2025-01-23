@@ -9,11 +9,11 @@ import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 
 /**
- * Service class responsible for handling client-related operations.
+ * Service class responsible for handling case-related operations.
  *
- * <p>This class provides methods to retrieve transaction statuses for client-related transactions.
- * It utilizes a repository for database access and a mapper for converting database entities
- * to objects used in the application.</p>
+ * <p>This class provides methods to retrieve transaction statuses for case-related
+ * transactions. It utilizes a repository for database access and a mapper for converting
+ * database entities to objects used in the application.</p>
  *
  * @see TransactionStatusRepository
  * @see TransactionStatusMapper
@@ -21,7 +21,7 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
  */
 @Service
 @RequiredArgsConstructor
-public class ClientService {
+public class CaseService {
 
   private final TransactionStatusRepository transactionStatusRepository;
   private final TransactionStatusMapper transactionStatusMapper;
@@ -37,17 +37,14 @@ public class ClientService {
    * @throws ClientServiceException throws exception when there was an error found
    *     with the associated transaction ID
    */
-  public Optional<TransactionStatus> getTransactionStatus(String transactionId)
-      throws ClientServiceException {
+  public Optional<TransactionStatus> getTransactionStatus(String transactionId) {
     List<uk.gov.laa.ccms.data.entity.TransactionStatus> userFuncStatus =
         transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId);
     if (userFuncStatus.stream().anyMatch(x -> x.getStatus()
         .equalsIgnoreCase("ERROR"))) {
       throw new ClientServiceException("Error found in user function");
     }
-    return transactionStatusRepository.findClientTransactionByTransactionId(transactionId)
+    return transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
   }
-
-
 }

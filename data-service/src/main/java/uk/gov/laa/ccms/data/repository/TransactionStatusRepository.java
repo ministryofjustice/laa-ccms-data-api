@@ -40,4 +40,18 @@ public interface TransactionStatusRepository extends ReadOnlyRepository<Transact
       """)
   Optional<TransactionStatus> findClientTransactionByTransactionId(String transactionId);
 
+  /**
+   * Finds a case transaction with a specific transaction ID.
+   *
+   * @param transactionId the unique identifier of the transaction to search for
+   * @return an {@code Optional} containing the {@code TransactionStatus} if found, or an
+   *     empty {@code Optional} if not found.
+   */
+  @Query("""
+    SELECT ts FROM TransactionStatus ts
+    WHERE ts.requestId = ?1
+    AND (ts.processName = 'CreateCaseApplication' OR ts.processName = 'UpdateCaseApplication')
+      """)
+  Optional<TransactionStatus> findCaseApplicationTransactionByTransactionId(String transactionId);
+
 }

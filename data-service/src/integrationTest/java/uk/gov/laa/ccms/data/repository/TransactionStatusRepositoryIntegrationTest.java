@@ -31,6 +31,8 @@ public class TransactionStatusRepositoryIntegrationTest {
 
   private TransactionStatus createClientTransactionStatus;
   private TransactionStatus updateClientTransactionStatus;
+  private TransactionStatus createCaseApplicationTransactionStatus;
+  private TransactionStatus updateCaseApplicationTransactionStatus;
   private TransactionStatus userFuncOne;
   private TransactionStatus userFuncTwo;
   private TransactionStatus userFuncErr;
@@ -56,6 +58,25 @@ public class TransactionStatusRepositoryIntegrationTest {
         .errorDescription("Party Successfully Created")
         .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 2))
         .build();
+    createCaseApplicationTransactionStatus = TransactionStatus.builder()
+        .requestId("3")
+        .processName("CreateCaseApplication")
+        .recordRefKey("CLIENT_REF_NUMBER")
+        .recordRefValue("6505")
+        .status("Success")
+        .errorDescription("Party Successfully Created")
+        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 3))
+        .build();
+    updateCaseApplicationTransactionStatus = TransactionStatus.builder()
+        .requestId("4")
+        .processName("UpdateCaseApplication")
+        .recordRefKey("CLIENT_REF_NUMBER")
+        .recordRefValue("6505")
+        .status("Success")
+        .errorDescription("Party Successfully Created")
+        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 4))
+        .build();
+
     // Both with same request ID, this happens in EBS
     userFuncOne = TransactionStatus.builder()
         .requestId("1")
@@ -88,6 +109,8 @@ public class TransactionStatusRepositoryIntegrationTest {
     // Use entityManager as NotificationRepository extends ReadOnlyRepository.
     entityManager.persist(createClientTransactionStatus);
     entityManager.persist(updateClientTransactionStatus);
+    entityManager.persist(createCaseApplicationTransactionStatus);
+    entityManager.persist(updateCaseApplicationTransactionStatus);
     entityManager.persist(userFuncOne);
     entityManager.persist(userFuncTwo);
     entityManager.persist(userFuncErr);
@@ -136,6 +159,52 @@ public class TransactionStatusRepositoryIntegrationTest {
       // Then
       assertFalse(result.isEmpty());
       assertEquals(updateClientTransactionStatus, result.get());
+    }
+  }
+
+  @Nested
+  @DisplayName("findCaseApplicationTransactionByTransactionId() Tests")
+  class FindCaseApplicationTransactionByTransactionIdTests {
+
+    @Test
+    @DisplayName("Should not return case transaction status")
+    void shouldNotReturnCaseTransactionStatus() {
+      // Given
+      String requestId = "404";
+      // When
+      Optional<TransactionStatus> result =
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
+              requestId);
+      // Then
+      assertTrue(result.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should get only create case transaction status")
+    void shouldGetOnlyCreateCaseTransactionStatus() {
+      // Given
+      String requestId = "3";
+      // When
+      Optional<TransactionStatus> result =
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
+              requestId);
+      // Then
+      assertFalse(result.isEmpty());
+      assertEquals(createCaseApplicationTransactionStatus, result.get());
+    }
+
+    @Test
+    @DisplayName("Should get only update case transaction status")
+    void shouldGetOnlyUpdateCaseTransactionStatus() {
+      // Given
+      String requestId = "4";
+      // When
+      Optional<TransactionStatus> result =
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
+              requestId);
+      // Then
+      assertFalse(result.isEmpty());
+      assertEquals(updateCaseApplicationTransactionStatus, result.get());
     }
   }
 

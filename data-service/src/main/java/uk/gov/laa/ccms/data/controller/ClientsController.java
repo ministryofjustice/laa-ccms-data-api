@@ -23,10 +23,10 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
 @RestController
 public class ClientsController implements ClientsApi {
 
-  private final ClientService transactionService;
+  private final ClientService clientService;
 
-  public ClientsController(ClientService transactionService) {
-    this.transactionService = transactionService;
+  public ClientsController(ClientService clientService) {
+    this.clientService = clientService;
   }
 
   /**
@@ -38,7 +38,7 @@ public class ClientsController implements ClientsApi {
   @Override
   public ResponseEntity<TransactionStatus> getClientTransactionStatus(String transactionRequestId) {
     try {
-      return transactionService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
+      return clientService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
     } catch (ClientServiceException e) {
       return ResponseEntity.internalServerError().build();
