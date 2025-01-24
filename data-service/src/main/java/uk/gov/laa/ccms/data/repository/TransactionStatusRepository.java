@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.TransactionStatus;
+import uk.gov.laa.ccms.data.entity.TransactionStatus.TransactionStatusId;
 
 /**
  * Repository interface for accessing {@link TransactionStatus} entities.
@@ -17,7 +18,8 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus;
  * @author Jamie Briggs
  */
 @Repository
-public interface TransactionStatusRepository extends ReadOnlyRepository<TransactionStatus, String> {
+public interface TransactionStatusRepository
+    extends ReadOnlyRepository<TransactionStatus, TransactionStatusId> {
 
   @Query("""
     SELECT ts FROM TransactionStatus ts

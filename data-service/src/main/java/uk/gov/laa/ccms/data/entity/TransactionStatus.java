@@ -8,9 +8,9 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -42,6 +42,7 @@ public class TransactionStatus {
   @Column(name = "TRANSACTION_OCCURRENCE_DATE")
   private LocalDateTime transactionOccurrenceDate;
 
+  @Id
   @Column(name = "PROCESS_NAME", length = 50)
   private String processName;
 
@@ -65,9 +66,25 @@ public class TransactionStatus {
    */
   @Getter
   @Setter
-  @EqualsAndHashCode
   public static class TransactionStatusId implements Serializable {
     private String requestId;
+    private String processName;
     private LocalDateTime transactionOccurrenceDate;
+
+    @Override
+    public boolean equals(Object o) {
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      TransactionStatusId that = (TransactionStatusId) o;
+      return Objects.equals(requestId, that.requestId) && Objects.equals(
+          processName, that.processName) && Objects.equals(transactionOccurrenceDate,
+          that.transactionOccurrenceDate);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(requestId, processName, transactionOccurrenceDate);
+    }
   }
 }
