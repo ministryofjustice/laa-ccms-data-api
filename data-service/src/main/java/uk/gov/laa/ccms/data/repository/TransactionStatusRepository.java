@@ -41,8 +41,6 @@ public interface TransactionStatusRepository extends ReadOnlyRepository<Transact
       """)
   Optional<TransactionStatus> findClientTransactionByTransactionId(String transactionId);
 
-  List<TransactionStatus> findAllByRequestId(String requestId);
-
   /**
    * Finds a case transaction with a specific transaction ID.
    *
