@@ -18,7 +18,8 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus.TransactionStatusId;
  * @author Jamie Briggs
  */
 @Repository
-public interface TransactionStatusRepository extends ReadOnlyRepository<TransactionStatus, TransactionStatusId> {
+public interface TransactionStatusRepository
+    extends ReadOnlyRepository<TransactionStatus, TransactionStatusId> {
 
   @Query("""
     SELECT ts FROM TransactionStatus ts
