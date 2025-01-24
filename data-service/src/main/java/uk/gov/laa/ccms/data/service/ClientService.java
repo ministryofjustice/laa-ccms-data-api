@@ -45,6 +45,8 @@ public class ClientService {
         .equalsIgnoreCase("ERROR"))) {
       throw new ClientServiceException("Error found in user function");
     }
+    List<uk.gov.laa.ccms.data.entity.TransactionStatus> all =
+        transactionStatusRepository.findAllByRequestId(transactionId);
     return transactionStatusRepository.findClientTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
   }
