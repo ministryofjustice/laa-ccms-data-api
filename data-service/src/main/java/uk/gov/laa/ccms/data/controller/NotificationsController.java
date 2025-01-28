@@ -15,12 +15,12 @@ import uk.gov.laa.ccms.data.service.NotificationService;
  * Controller class responsible for handling notification-related requests.
  *
  * <p>This controller serves as an interface to return requested user notification
- * information. It delegates the business logic to the {@link NotificationService}.
+ * information. It delegates the business logic to the {@link NotificationService}.</p>
  *
  * <p>This class implements the {@link NotificationsApi} interface and provides
- * endpoints for retrieving notification summaries for users.
+ * endpoints for retrieving notification summaries for users.</p>
  *
- * @see Notifications
+ * @see NotificationsApi
  * @see NotificationService
  * @author Jamie Briggs
  */

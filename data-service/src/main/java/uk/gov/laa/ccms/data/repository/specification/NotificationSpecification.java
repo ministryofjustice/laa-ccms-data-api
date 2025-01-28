@@ -92,7 +92,7 @@ public class NotificationSpecification {
       if (Boolean.FALSE.equals(includeClosed)) {
         predicates.add(criteriaBuilder.equal(root.get("isOpen"), "true"));
       }
-      if (Objects.nonNull(notificationType)) {
+      if (stringNotEmpty(notificationType)) {
         predicates.add(criteriaBuilder.equal(root.get("actionNotificationInd"), notificationType));
       }
       if (Objects.nonNull(dateFrom)) {
