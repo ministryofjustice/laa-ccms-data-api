@@ -12,9 +12,9 @@ import uk.gov.laa.ccms.data.entity.Notification;
  * A utility class for creating specifications to filter and query notifications.
  *
  * <p>The {@link NotificationSpecification} class provides mechanisms to construct dynamic
- * query criteria using the JPA Specification API. It allows filtering of
- * {@link Notification} entities based on various attributes such as case reference number,
- * provider case reference, assigned user, client surname, and more.</p>
+ * query criteria using the JPA Specification API. It allows filtering of {@link Notification}
+ * entities based on various attributes such as case reference number, provider case reference,
+ * assigned user, client surname, and more.</p>
  *
  * <p>The filters include:</p>
  * <ul>
@@ -31,36 +31,40 @@ import uk.gov.laa.ccms.data.entity.Notification;
  * <p>This allows querying for notifications based on multiple combinations of these filters,
  * with all specified conditions combined.</p>
  *
+ * @author Jamie Briggs
  * @see Notification
  * @see Specification
  * @see uk.gov.laa.ccms.data.repository.NotificationRepository
- * @author Jamie Briggs
  */
 public class NotificationSpecification {
 
   /**
    * Private constructor to prevent instantiation of the NotificationSpecification class.
    */
-  private NotificationSpecification() {}
+  private NotificationSpecification() {
+  }
 
   /**
-   * Builds a {@link Specification} for filtering {@link Notification} entities based
-   * on various criteria. The method dynamically constructs filter
-   * conditions for the provided filter parameters. Multiple filters are combined using
-   * an AND logic.
+   * Builds a {@link Specification} for filtering {@link Notification} entities based on various
+   * criteria. The method dynamically constructs filter conditions for the provided filter
+   * parameters. Multiple filters are combined using an AND logic.
    *
-   * @param caseReferenceNumber the case reference number to filter by (optional, partial match).
-   * @param providerCaseReference the provider case reference to filter
-   *                             by (optional, partial match).
-   * @param assignedToUserId the user ID assigned to the notification (optional, exact match).
-   * @param clientSurname the client's surname to filter by (optional, partial match).
-   * @param feeEarnerId the ID of the fee earner to filter by (optional, exact match).
-   * @param includeClosed a flag to include closed notifications in the result set (optional).
-   * @param notificationType the type of notification to filter by (optional, exact match).
-   * @param dateFrom the starting date for filtering notifications by the date assigned (inclusive).
-   * @param dateTo the ending date for filtering notifications by the date assigned (inclusive).
-   * @return a {@link Specification} object encapsulating the
-   *     filtering logic for {@link Notification} entities.
+   * @param caseReferenceNumber   the case reference number to filter by (optional, partial match).
+   * @param providerCaseReference the provider case reference to filter by (optional, partial
+   *                              match, case-insensitive).
+   * @param assignedToUserId      the user ID assigned to the notification (optional, exact match).
+   * @param clientSurname         the client's surname to filter by (optional, partial match,
+   *                              case-insensitive).
+   * @param feeEarnerId           the ID of the fee earner to filter by (optional, exact match).
+   * @param includeClosed         a flag to include closed notifications in the result set
+   *                              (optional).
+   * @param notificationType      the type of notification to filter by (optional, exact match).
+   * @param dateFrom              the starting date for filtering notifications by the date assigned
+   *                              (inclusive).
+   * @param dateTo                the ending date for filtering notifications by the date assigned
+   *                              (inclusive).
+   * @return a {@link Specification} object encapsulating the filtering logic for
+   * {@link Notification} entities.
    */
   public static Specification<Notification> withFilters(
       String caseReferenceNumber,
@@ -77,14 +81,16 @@ public class NotificationSpecification {
             "%" + caseReferenceNumber + "%"));
       }
       if (stringNotEmpty(providerCaseReference)) {
-        predicates.add(criteriaBuilder.like(root.get("providerCaseReference"),
-            "%" + providerCaseReference + "%"));
+        predicates.add(
+            criteriaBuilder.like(criteriaBuilder.upper(root.get("providerCaseReference")),
+                "%" + providerCaseReference.toUpperCase() + "%"));
       }
       if (Objects.nonNull(assignedToUserId)) {
         predicates.add(criteriaBuilder.equal(root.get("assignedTo"), assignedToUserId));
       }
       if (stringNotEmpty(clientSurname)) {
-        predicates.add(criteriaBuilder.like(root.get("personLastName"), "%" + clientSurname + "%"));
+        predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("personLastName")),
+            "%" + clientSurname.toUpperCase() + "%"));
       }
       if (Objects.nonNull(feeEarnerId)) {
         predicates.add(criteriaBuilder.equal(root.get("feeEarnerPartyId"), feeEarnerId));

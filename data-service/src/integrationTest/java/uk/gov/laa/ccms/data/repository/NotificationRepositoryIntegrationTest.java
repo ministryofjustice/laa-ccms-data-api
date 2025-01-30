@@ -1,6 +1,8 @@
 package uk.gov.laa.ccms.data.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -36,7 +38,7 @@ class NotificationRepositoryIntegrationTest {
     // Insert test data into the in-memory database
     n1 = Notification.builder().notificationId(1L)
         .lscCaseRefReference("1001")
-        .providerCaseReference("2001")
+        .providerCaseReference("First Case Reference")
         .assignedTo("JBriggs")
         .personFirstName("Jamie")
         .personLastName("Briggs")
@@ -47,7 +49,7 @@ class NotificationRepositoryIntegrationTest {
         .build();
     n2 = Notification.builder().notificationId(2L)
         .lscCaseRefReference("1002")
-        .providerCaseReference("2002")
+        .providerCaseReference("Second Case Reference")
         .assignedTo("SMonday")
         .personFirstName("Ski")
         .personLastName("Bri-Monday")
@@ -79,8 +81,8 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
   
   @Test
@@ -101,7 +103,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -122,8 +124,8 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
 
   @Test
@@ -132,7 +134,7 @@ class NotificationRepositoryIntegrationTest {
     // Given
     Specification<Notification> spec = NotificationSpecification.withFilters(
         null,
-        "2001",
+        "First",
         null,
         null,
         null,
@@ -144,7 +146,28 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
+  }
+
+  @Test
+  @DisplayName("Should filter by provider case reference number case insensitive")
+  void shouldFilterByProviderCaseReferenceNumberCaseInsensitive(){
+    // Given
+    Specification<Notification> spec = NotificationSpecification.withFilters(
+        null,
+        "FIRST case REF",
+        null,
+        null,
+        null,
+        true,
+        null,
+        null,
+        null);
+    // When
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    // Then
+    assertEquals(1, result.getTotalElements());
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -153,7 +176,7 @@ class NotificationRepositoryIntegrationTest {
     // Given
     Specification<Notification> spec = NotificationSpecification.withFilters(
         null,
-        "200",
+        "Case Reference",
         null,
         null,
         null,
@@ -165,8 +188,8 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
 
   @Test
@@ -187,7 +210,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -208,7 +231,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -229,8 +252,30 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
+  }
+
+  @Test
+  @DisplayName("Should filter by like user surname case insensitive")
+  void shouldFilterByLikeUserSurnameCaseInsensitive(){
+    // Given
+    Specification<Notification> spec = NotificationSpecification.withFilters(
+        null,
+        null,
+        null,
+        "bri-MONDAY",
+        null,
+        true,
+        null,
+        null,
+        null);
+    // When
+    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    // Then
+    assertEquals(1, result.getTotalElements());
+    assertFalse(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
 
   @Test
@@ -251,7 +296,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -271,7 +316,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -292,7 +337,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n2));
   }
 
   @Test
@@ -313,8 +358,8 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
 
   @Test
@@ -335,7 +380,7 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n1));
   }
 
   @Test
@@ -356,8 +401,8 @@ class NotificationRepositoryIntegrationTest {
     Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    assertTrue(result.getContent().contains(n1));
+    assertTrue(result.getContent().contains(n2));
   }
 
 
