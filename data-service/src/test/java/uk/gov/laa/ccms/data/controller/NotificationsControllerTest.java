@@ -92,7 +92,7 @@ class NotificationsControllerTest {
         expected));
     // Then
     String jsonContent = objectMapper.writeValueAsString(expected);
-    this.mockMvc.perform(get("/notifications"))
+    this.mockMvc.perform(get("/notifications?provider-id=123"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));
@@ -103,8 +103,18 @@ class NotificationsControllerTest {
   void getNotifications_notFound() throws Exception {
     //Given
     // Then
-    this.mockMvc.perform(get("/notifications"))
+    this.mockMvc.perform(get("/notifications?provider-id=123"))
         .andDo(print())
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getNotifications: Bad request")
+  void getNotifications_badRequest() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
   }
 }

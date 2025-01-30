@@ -1106,6 +1106,13 @@ paths:
       operationId: 'getNotifications'
       x-spring-paginated: true
       parameters:
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+          example: '123456789'
         - name: 'case-reference-number'
           in: 'query'
           schema:

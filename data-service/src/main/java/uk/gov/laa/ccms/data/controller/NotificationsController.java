@@ -33,6 +33,7 @@ public class NotificationsController implements NotificationsApi {
   /**
    * Retrieves a list of notifications based on various search criteria.
    *
+   * @param providerId the provider ID to filter notifications
    * @param caseReferenceNumber the case reference number to filter notifications
    * @param providerCaseReference the provider-specific case reference to filter notifications
    * @param assignedToUserId the user ID to filter notifications assigned to a specific user
@@ -47,10 +48,10 @@ public class NotificationsController implements NotificationsApi {
    *         or a {@code ResponseEntity} with HTTP status 404 if no notifications are found
    */
   @Override
-  public ResponseEntity<Notifications> getNotifications(String caseReferenceNumber,
-      String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, Boolean includeClosed, String notificationType, LocalDate dateFrom,
-      LocalDate dateTo, Pageable pageable) {
+  public ResponseEntity<Notifications> getNotifications(Long providerId,
+      String caseReferenceNumber, String providerCaseReference, String assignedToUserId,
+      String clientSurname, Integer feeEarnerId, Boolean includeClosed,
+      String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable) {
     Optional<Notifications> notifications = notificationService.getNotifications(
         caseReferenceNumber,
         providerCaseReference,
