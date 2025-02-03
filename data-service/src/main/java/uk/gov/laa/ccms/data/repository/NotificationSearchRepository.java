@@ -44,8 +44,10 @@ public final class NotificationSearchRepository {
    * @param feeEarnerId            the ID of the fee earner to filter by
    * @param includeClosed          whether to include closed notifications in the results
    * @param notificationType       the type of notification to filter results by
-   * @param assignedDateFrom               the start date for filtering notifications by assignment date
-   * @param assignedDateTo                 the end date for filtering notifications by assignment date
+   * @param assignedDateFrom               the start date for filtering notifications by
+   *                                       assignment date
+   * @param assignedDateTo                 the end date for filtering notifications by
+   *                                       assignment date
    * @param pageable               the pagination and sorting information
    * @return a paginated list of NotificationInfo entities matching the specified filters
    */
