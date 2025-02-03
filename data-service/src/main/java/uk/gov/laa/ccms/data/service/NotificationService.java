@@ -16,8 +16,7 @@ import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
-import uk.gov.laa.ccms.data.repository.NotificationRepository;
-import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
+import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 
 /**
  * Service class responsible for handling notification-related operations.
@@ -35,7 +34,7 @@ public class NotificationService {
 
   private final NotificationCountRepository notificationCountRepository;
   private final NotificationSummaryMapper notificationSummaryMapper;
-  private final NotificationRepository notificationRepository;
+  private final NotificationSearchRepository notificationSearchRepository;
   private final NotificationsMapper notificationsMapper;
   private final UserService userService;
 
@@ -78,7 +77,18 @@ public class NotificationService {
       String providerCaseReference, String assignedToUserId, String clientSurname,
       Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
       LocalDate dateTo, Pageable pageable) {
-    Page<NotificationInfo> byAssignedTo = notificationRepository.findAll(
+    Page<NotificationInfo> byAssignedTo = notificationSearchRepository.findAll(providerId,
+        caseReferenceNumber,
+        providerCaseReference,
+        assignedToUserId,
+        clientSurname,
+        feeEarnerId,
+        includeClosed,
+        notificationType,
+        dateFrom,
+        dateTo,
+        pageable);
+    /*Page<NotificationInfo> byAssignedTo = notificationRepository.findAll(
         NotificationSpecification.withFilters(
             providerId,
             caseReferenceNumber,
@@ -90,7 +100,7 @@ public class NotificationService {
             notificationType,
             dateFrom,
             dateTo),
-        pageable);
+        pageable);*/
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
   }

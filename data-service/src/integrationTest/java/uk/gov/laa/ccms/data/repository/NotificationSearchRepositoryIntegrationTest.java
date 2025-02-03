@@ -10,22 +10,18 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
-import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
 
 @DataJpaTest
 @ActiveProfiles("h2-test")
 @DisplayName("NotificationInfo Repository Integration Test")
-class NotificationInfoRepositoryIntegrationTest {
+class NotificationSearchRepositoryIntegrationTest {
   
-  @Autowired
-  private NotificationRepository notificationRepository;
+  private NotificationSearchRepository notificationRepository;
   
   @PersistenceContext
   private EntityManager entityManager;
@@ -35,13 +31,13 @@ class NotificationInfoRepositoryIntegrationTest {
 
   @BeforeEach
   void setUp() {
+    notificationRepository = new NotificationSearchRepository(entityManager);
     // Insert test data into the in-memory database
     n1 = NotificationInfo.builder().notificationId(1L)
         .providerFirmId(10L)
         .lscCaseRefReference("1001")
         .providerCaseReference("First Case Reference")
         .assignedTo("JBriggs")
-        .personFirstName("Jamie")
         .personLastName("Briggs")
         .feeEarnerPartyId(3001L)
         .isOpen(true)
@@ -53,7 +49,6 @@ class NotificationInfoRepositoryIntegrationTest {
         .lscCaseRefReference("1002")
         .providerCaseReference("Second Case Reference")
         .assignedTo("SMonday")
-        .personFirstName("Ski")
         .personLastName("Bri-Monday")
         .feeEarnerPartyId(3002L)
         .isOpen(false)
@@ -69,7 +64,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should not get any Notifications")
   void shouldNotGetAnyNotifications(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(100L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(100L,
         null,
         null,
         null,
@@ -78,9 +74,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertTrue(result.getContent().isEmpty());
   }
@@ -89,7 +83,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should get all Notifications by provider ID")
   void shouldGetAllNotifications(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -98,9 +93,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -111,7 +104,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by case reference number")
   void shouldFilterByCaseReferenceNumber(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         "1001",
         null,
         null,
@@ -120,9 +114,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -132,7 +124,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by similar case reference number")
   void shouldFilterBySimilarCaseReferenceNumber(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         "100",
         null,
         null,
@@ -141,9 +134,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -154,7 +145,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by provider case reference number")
   void shouldFilterByProviderCaseReferenceNumber(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         "First",
         null,
@@ -163,9 +155,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -175,7 +165,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by provider case reference number case insensitive")
   void shouldFilterByProviderCaseReferenceNumberCaseInsensitive(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         "FIRST case REF",
         null,
@@ -184,9 +175,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -196,7 +185,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by similar provider case reference number")
   void shouldFilterBySimilarProviderCaseReferenceNumber(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         "Case Reference",
         null,
@@ -205,9 +195,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -218,7 +206,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by assigned to user ID")
   void shouldFilterByAssignedToUserID(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         "JBriggs",
@@ -227,9 +216,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -239,7 +226,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by user surname")
   void shouldFilterByUserSurname(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -248,9 +236,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -260,7 +246,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by like user surname")
   void shouldFilterByLikeUserSurname(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -269,9 +256,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -282,7 +267,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by like user surname case insensitive")
   void shouldFilterByLikeUserSurnameCaseInsensitive(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -291,9 +277,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertFalse(result.getContent().contains(n1));
@@ -304,7 +288,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by fee earner ID")
   void shouldFilterByFeeEarnerID(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -313,9 +298,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -325,7 +308,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by notification type")
   void shouldFilterByNotificationType(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -333,9 +317,7 @@ class NotificationInfoRepositoryIntegrationTest {
         null,
         true, "N",
         null,
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -345,7 +327,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by date from")
   void shouldFilterByDateFrom(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -354,9 +337,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         LocalDate.of(2025, 2, 1),
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n2));
@@ -366,7 +347,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by date from inclusive")
   void shouldFilterByDateFromInclusive(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -375,9 +357,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         LocalDate.of(2024, 1, 1),
-        null);
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        null, Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -388,7 +368,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by date to")
   void shouldFilterByDateTo(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -397,9 +378,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        LocalDate.of(2025, 12, 1));
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        LocalDate.of(2025, 12, 1), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -409,7 +388,8 @@ class NotificationInfoRepositoryIntegrationTest {
   @DisplayName("Should filter by date to inclusive")
   void shouldFilterByDateToInclusive(){
     // Given
-    Specification<NotificationInfo> spec = NotificationSpecification.withFilters(10L,
+    // When
+    Page<NotificationInfo> result = notificationRepository.findAll(10L,
         null,
         null,
         null,
@@ -418,9 +398,7 @@ class NotificationInfoRepositoryIntegrationTest {
         true,
         null,
         null,
-        LocalDate.of(2026, 1, 1));
-    // When
-    Page<NotificationInfo> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+        LocalDate.of(2026, 1, 1), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));

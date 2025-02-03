@@ -86,8 +86,8 @@ class NotificationsControllerTest {
   void getNotifications_returnsData() throws Exception {
     //Given
     Notifications expected = new Notifications().addContentItem(new NotificationInfo().notificationId("123"));
-    when(notificationService.getNotifications(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(),
-        Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.any(), Mockito.any(),
+    when(notificationService.getNotifications(Mockito.eq(123L), Mockito.any(), Mockito.any(), Mockito.any(),
+        Mockito.any(), Mockito.any(), Mockito.eq(true), Mockito.any(), Mockito.any(),
         Mockito.any(), Mockito.any())).thenReturn(Optional.of(
         expected));
     // Then

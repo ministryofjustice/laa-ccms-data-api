@@ -35,8 +35,8 @@ public class NotificationsMapperImplTest {
   }
 
   @Test
-  @DisplayName("Should map single notification excluding Lob objects")
-  void shouldMapSingleNotificationExcludingLobObjects(){
+  @DisplayName("Should map single notification")
+  void shouldMapSingleNotification(){
     // Given
     NotificationInfo notificationInfo = NotificationInfo.builder()
         .assignedTo("User Name")
@@ -72,11 +72,9 @@ public class NotificationsMapperImplTest {
     assertEquals(LocalDate.of(2025, 2, 1), notificationResult.getDueDate());
     assertEquals("N", notificationResult.getNotificationType());
     assertEquals("Status", notificationResult.getStatus());
-    assertEquals(true, notificationResult.getEvidenceAllowed());
     assertEquals(true, notificationResult.getNotificationOpenIndicator());
     assertEquals("Provider Case Ref",notificationResult.getProviderCaseReferenceNumber());
     assertEquals("LSC Case Ref", notificationResult.getCaseReferenceNumber());
-    assertEquals(true, notificationResult.getEvidenceAllowed());
   }
 
 }

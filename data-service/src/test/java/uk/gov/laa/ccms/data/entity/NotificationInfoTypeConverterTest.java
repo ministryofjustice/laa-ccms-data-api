@@ -12,7 +12,7 @@ public class NotificationInfoTypeConverterTest {
   @Test
   @DisplayName("Should convert NotificationInfo DB Value to Entity value")
   public void shouldConvertNotificationDbValuetoEntityValue() {
-    assertEquals(NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("NotificationInfo"));
+    assertEquals(NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("Notification"));
   }
 
   @Test

@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.mapper.NotificationSummaryMapper;
@@ -27,7 +26,7 @@ import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
-import uk.gov.laa.ccms.data.repository.NotificationRepository;
+import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("NotificationInfo service test")
@@ -39,7 +38,7 @@ class NotificationInfoServiceTest {
   @Mock
   private NotificationSummaryMapper notificationSummaryMapper;
   @Mock
-  private NotificationRepository notificationRepository;
+  private NotificationSearchRepository notificationSearchRepository;
   @Mock
   private NotificationsMapper notificationsMapper;
   @Mock
@@ -49,7 +48,7 @@ class NotificationInfoServiceTest {
   @BeforeEach
   void setup() {
     notificationService = new NotificationService(notificationCountRepository,
-        notificationSummaryMapper, notificationRepository, notificationsMapper, userService);
+        notificationSummaryMapper, notificationSearchRepository, notificationsMapper, userService);
   }
 
   @Test
@@ -86,7 +85,7 @@ class NotificationInfoServiceTest {
   void getNotifications_returnsData() {
     // Given
     PageImpl<NotificationInfo> repositoryResult = new PageImpl<>(Collections.singletonList(new NotificationInfo()));
-    when(notificationRepository.findAll(any(Specification.class), any(Pageable.class)))
+    when(notificationSearchRepository.findAll(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(Pageable.class)))
         .thenReturn(
             repositoryResult);
     Notifications expected = new Notifications().size(1);

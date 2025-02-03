@@ -1862,8 +1862,6 @@ components:
           type: 'string'
         status:
           type: 'string'
-        evidence_allowed:
-          type: 'boolean'
         notification_open_indicator:
           type: 'boolean'
     note:
