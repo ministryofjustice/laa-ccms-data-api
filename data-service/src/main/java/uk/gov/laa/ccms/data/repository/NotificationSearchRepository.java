@@ -120,16 +120,16 @@ public final class NotificationSearchRepository {
     }
     // Include closed (If true, include all)
     if (Boolean.FALSE.equals(includeClosed)) {
-      sj.add("IS_OPEN = true");
+      sj.add("IS_OPEN = 'true'");
     }
     if (stringNotEmpty(notificationType)) {
       sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
     }
     if (Objects.nonNull(dateFrom)) {
-      sj.add("DATE_ASSIGNED >= '" + dateFrom + "'");
+      sj.add("DATE_ASSIGNED >= TO_DATE('" + dateFrom + "', 'YYYY-MM-DD')");
     }
     if (Objects.nonNull(dateTo)) {
-      sj.add("DATE_ASSIGNED <= '" + dateTo + "'");
+      sj.add("DATE_ASSIGNED <= TO_DATE('" + dateTo + "', 'YYYY-MM-DD')");
     }
     return sj + " ";
   }
