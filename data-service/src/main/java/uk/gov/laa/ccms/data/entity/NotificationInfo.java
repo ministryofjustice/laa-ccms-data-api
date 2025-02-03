@@ -1,12 +1,14 @@
 package uk.gov.laa.ccms.data.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -28,6 +30,7 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @Builder
 @Immutable
+@EqualsAndHashCode
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class NotificationInfo {
@@ -81,23 +84,9 @@ public class NotificationInfo {
   private String actionNotificationInd;
 
   @Column(name = "IS_OPEN")
+  @Convert(converter = BooleanStringConverter.class)
   private Boolean isOpen;
 
-
-
-/*  @Column(name = "CLIENT_PARTY_ID")
-  private Long clientPartyId;
-
-  @Column(name = "CATEGORY_OF_LAW", length = 150)
-  private String categoryOfLaw;
-
-  @Column(name = "NOTIFICATION_SUBJECT", length = 320)
-  private String notificationSubject;
-
-  @Column(name = "EVIDENCE_ALLOWED_IND", length = 5)
-  private String evidenceAllowedInd;
-
-  @Column(name = "ASSIGNED_TO_PARTY_ID", precision = 15, scale = 0)
-  private Long assignedToPartyId;*/
+  
 
 }

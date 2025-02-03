@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccms.data.entity.BooleanConverter;
+import uk.gov.laa.ccms.data.entity.BooleanCharConverter;
 import uk.gov.laa.ccms.data.entity.Proceeding;
 import uk.gov.laa.ccms.data.mapper.ProceedingMapper;
 import uk.gov.laa.ccms.data.model.ProceedingDetail;
@@ -80,15 +80,15 @@ public class ProceedingService extends AbstractEbsDataService {
       Boolean larScopeFlag,
       Pageable pageable) {
 
-    BooleanConverter booleanConverter = new BooleanConverter();
+    BooleanCharConverter booleanCharConverter = new BooleanCharConverter();
 
     return proceedingMapper.toProceedingDetails(
         proceedingRepository.findAllLeadProceedings(
             categoryOfLaw,
             matterType,
-            booleanConverter.convertToDatabaseColumn(amendmentOnly),
-            booleanConverter.convertToDatabaseColumn(enabled),
-            booleanConverter.convertToDatabaseColumn(larScopeFlag),
+            booleanCharConverter.convertToDatabaseColumn(amendmentOnly),
+            booleanCharConverter.convertToDatabaseColumn(enabled),
+            booleanCharConverter.convertToDatabaseColumn(larScopeFlag),
             applicationType,
             pageable));
   }

@@ -3,6 +3,9 @@ package uk.gov.laa.ccms.data.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_CLASS;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
+import static org.springframework.test.context.jdbc.SqlMergeMode.MergeMode.MERGE;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -10,16 +13,21 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlMergeMode;
+import org.springframework.transaction.annotation.Transactional;
+import uk.gov.laa.ccms.data.IntegrationTestInterface;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
-@DataJpaTest
-@ActiveProfiles("h2-test")
+@SpringBootTest
+@SqlMergeMode(MERGE)
+@Sql(executionPhase=BEFORE_TEST_CLASS,scripts= "/sql/get_notif_info_create_schema.sql")
+@Sql(executionPhase=AFTER_TEST_CLASS,scripts= "/sql/get_notif_info_drop_schema.sql")
 @DisplayName("NotificationInfo Repository Integration Test")
-class NotificationSearchRepositoryIntegrationTest {
+class NotificationSearchRepositoryIntegrationTest implements IntegrationTestInterface {
   
   private NotificationSearchRepository notificationRepository;
   
@@ -29,35 +37,48 @@ class NotificationSearchRepositoryIntegrationTest {
   private NotificationInfo n1;
   private NotificationInfo n2;
 
+  @Transactional
   @BeforeEach
   void setUp() {
     notificationRepository = new NotificationSearchRepository(entityManager);
     // Insert test data into the in-memory database
     n1 = NotificationInfo.builder().notificationId(1L)
+        .userId("test_user")
+        .userLoginId("test_login")
         .providerFirmId(10L)
+        .dateAssigned(LocalDate.of(2025, 1, 1))
+        .subject("Subject")
+        .dueDate(LocalDate.of(2027, 1, 1))
+        .assignedTo("JBriggs")
+        .status("open")
         .lscCaseRefReference("1001")
         .providerCaseReference("First Case Reference")
-        .assignedTo("JBriggs")
+        .clientName("Jamie Briggs")
+        .feeEarner("Fee")
         .personLastName("Briggs")
         .feeEarnerPartyId(3001L)
-        .isOpen(true)
         .actionNotificationInd("N")
-        .dateAssigned(LocalDate.of(2025, 1, 1))
+        .isOpen(true)
         .build();
     n2 = NotificationInfo.builder().notificationId(2L)
+        .userId("test_user")
+        .userLoginId("test_login")
         .providerFirmId(10L)
-        .lscCaseRefReference("1002")
-        .providerCaseReference("Second Case Reference")
+        .dateAssigned(LocalDate.of(2026, 1, 1))
+        .subject("Subject")
+        .dueDate(LocalDate.of(2027, 1, 1))
         .assignedTo("SMonday")
+        .status("open")
+        .lscCaseRefReference("2100")
+        .providerCaseReference("Second Case Reference")
+        .clientName("Ski Monday")
+        .feeEarner("Fee")
         .personLastName("Bri-Monday")
         .feeEarnerPartyId(3002L)
-        .isOpen(false)
         .actionNotificationInd("O")
-        .dateAssigned(LocalDate.of(2026, 1, 1))
+        .isOpen(false)
         .build();
-    // Use entityManager as NotificationRepository extends ReadOnlyRepository.
-    entityManager.persist(n1);
-    entityManager.persist(n2);
+
   }
 
   @Test
@@ -136,9 +157,9 @@ class NotificationSearchRepositoryIntegrationTest {
         null,
         null, Pageable.ofSize(10).withPage(0));
     // Then
-    assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
     assertTrue(result.getContent().contains(n2));
+    assertEquals(2, result.getTotalElements());
   }
 
   @Test
@@ -398,7 +419,7 @@ class NotificationSearchRepositoryIntegrationTest {
         true,
         null,
         null,
-        LocalDate.of(2026, 1, 1), Pageable.ofSize(10).withPage(0));
+        LocalDate.of(2027, 1, 1), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));

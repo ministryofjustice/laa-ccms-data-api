@@ -11,44 +11,44 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class BooleanConverterTest {
+public class BooleanCharConverterTest {
 
   @InjectMocks
-  BooleanConverter booleanConverter;
+  BooleanCharConverter booleanCharConverter;
 
   @Test
   public void testConvertDbToEntity_Y() {
-    assertTrue(booleanConverter.convertToEntityAttribute('Y'));
+    assertTrue(booleanCharConverter.convertToEntityAttribute('Y'));
   }
 
   @Test
   public void testConvertDbToEntity_N() {
-    assertFalse(booleanConverter.convertToEntityAttribute('N'));
+    assertFalse(booleanCharConverter.convertToEntityAttribute('N'));
   }
 
   @Test
   public void testConvertDbToEntity_AnythingElse() {
-    assertFalse(booleanConverter.convertToEntityAttribute('P'));
+    assertFalse(booleanCharConverter.convertToEntityAttribute('P'));
   }
 
   @Test
   public void testConvertDbToEntity_NULL() {
-    assertNull(booleanConverter.convertToEntityAttribute(null));
+    assertNull(booleanCharConverter.convertToEntityAttribute(null));
   }
 
   @Test
   public void testEntityToDb_true() {
-    assertEquals('Y', booleanConverter.convertToDatabaseColumn(Boolean.TRUE));
+    assertEquals('Y', booleanCharConverter.convertToDatabaseColumn(Boolean.TRUE));
   }
 
   @Test
   public void testEntityToDb_false() {
-    assertEquals('N', booleanConverter.convertToDatabaseColumn(Boolean.FALSE));
+    assertEquals('N', booleanCharConverter.convertToDatabaseColumn(Boolean.FALSE));
   }
 
   @Test
   public void testEntityToDb_NULL() {
-    assertNull(booleanConverter.convertToDatabaseColumn(null));
+    assertNull(booleanCharConverter.convertToDatabaseColumn(null));
   }
 
 }

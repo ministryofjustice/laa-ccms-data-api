@@ -44,8 +44,8 @@ public final class NotificationSearchRepository {
    * @param feeEarnerId            the ID of the fee earner to filter by
    * @param includeClosed          whether to include closed notifications in the results
    * @param notificationType       the type of notification to filter results by
-   * @param dateFrom               the start date for filtering notifications by assignment date
-   * @param dateTo                 the end date for filtering notifications by assignment date
+   * @param assignedDateFrom               the start date for filtering notifications by assignment date
+   * @param assignedDateTo                 the end date for filtering notifications by assignment date
    * @param pageable               the pagination and sorting information
    * @return a paginated list of NotificationInfo entities matching the specified filters
    */
@@ -53,7 +53,8 @@ public final class NotificationSearchRepository {
       final String caseReferenceNumber, final String providerCaseReference,
       final String assignedToUserId, final String clientSurname, final Integer feeEarnerId,
       final Boolean includeClosed, final String notificationType,
-      final LocalDate dateFrom, final LocalDate dateTo, final Pageable pageable) {
+      final LocalDate assignedDateFrom, final LocalDate assignedDateTo,
+      final Pageable pageable) {
 
     final String searchNotificationQuery =
         """
@@ -62,7 +63,7 @@ public final class NotificationSearchRepository {
         +
             getFilterSql(providerId, caseReferenceNumber, providerCaseReference,
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
-                notificationType, dateFrom, dateTo)
+                notificationType, assignedDateFrom, assignedDateTo)
         +
         """
             OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
@@ -79,7 +80,7 @@ public final class NotificationSearchRepository {
             +
             getFilterSql(providerId, caseReferenceNumber, providerCaseReference,
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
-                notificationType, dateFrom, dateTo);
+                notificationType, assignedDateFrom, assignedDateTo);
 
     Query countQuery = entityManager.createNativeQuery(notificationCount);
 
@@ -93,7 +94,7 @@ public final class NotificationSearchRepository {
   private static String getFilterSql(Long providerId,
       String caseReferenceNumber, String providerCaseReference, String assignedToUser,
       String clientSurname, Integer feeEarnerId, Boolean includeClosed,
-      String notificationType, LocalDate dateFrom, LocalDate dateTo) {
+      String notificationType, LocalDate assignedDateFrom, LocalDate assignedDateTo) {
 
     StringJoiner sj = new StringJoiner(" AND ");
     // Provider firm party id
@@ -125,11 +126,11 @@ public final class NotificationSearchRepository {
     if (stringNotEmpty(notificationType)) {
       sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
     }
-    if (Objects.nonNull(dateFrom)) {
-      sj.add("DATE_ASSIGNED >= TO_DATE('" + dateFrom + "', 'YYYY-MM-DD')");
+    if (Objects.nonNull(assignedDateFrom)) {
+      sj.add("DATE_ASSIGNED >= TO_DATE('" + assignedDateFrom + "', 'YYYY-MM-DD')");
     }
-    if (Objects.nonNull(dateTo)) {
-      sj.add("DATE_ASSIGNED <= TO_DATE('" + dateTo + "', 'YYYY-MM-DD')");
+    if (Objects.nonNull(assignedDateTo)) {
+      sj.add("DATE_ASSIGNED <= TO_DATE('" + assignedDateTo + "', 'YYYY-MM-DD')");
     }
     return sj + " ";
   }
