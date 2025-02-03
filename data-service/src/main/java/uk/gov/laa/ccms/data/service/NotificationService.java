@@ -88,19 +88,6 @@ public class NotificationService {
         dateFrom,
         dateTo,
         pageable);
-    /*Page<NotificationInfo> byAssignedTo = notificationRepository.findAll(
-        NotificationSpecification.withFilters(
-            providerId,
-            caseReferenceNumber,
-            providerCaseReference,
-            assignedToUserId,
-            clientSurname,
-            feeEarnerId,
-            includeClosed,
-            notificationType,
-            dateFrom,
-            dateTo),
-        pageable);*/
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
   }
