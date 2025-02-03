@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -85,7 +86,7 @@ class NotificationInfoServiceTest {
   void getNotifications_returnsData() {
     // Given
     PageImpl<NotificationInfo> repositoryResult = new PageImpl<>(Collections.singletonList(new NotificationInfo()));
-    when(notificationSearchRepository.findAll(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(Pageable.class)))
+    when(notificationSearchRepository.findAll(eq(10L), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(Pageable.class)))
         .thenReturn(
             repositoryResult);
     Notifications expected = new Notifications().size(1);

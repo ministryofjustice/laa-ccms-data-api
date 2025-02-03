@@ -23,7 +23,8 @@ public interface NotificationsMapper {
   /**
    * Maps a {@link Page} of {@link NotificationInfo} objects to a {@link Notifications} object.
    *
-   * @param notificationPage a {@link Page} containing {@link NotificationInfo} entities to be mapped
+   * @param notificationPage a {@link Page} containing {@link NotificationInfo} entities to be
+*        mapped
    * @return a {@link Notifications} object containing the mapped notifications along
    *     with pagination details
    */

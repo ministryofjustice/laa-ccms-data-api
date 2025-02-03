@@ -13,28 +13,59 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
+/**
+ * Repository for searching and retrieving notification records
+ *     using dynamic filters and pagination.
+ *
+ * <p>This class interacts directly with the database view `XXCCMS_GET_NOTIF_INFO_V`
+ * to fetch records related to notifications, applying dynamic filters and paginated results.
+ * It provides an implementation using native SQL queries to support complex filter conditions.</p>
+ *
+ * @author Jamie Briggs
+ * @see NotificationInfo
+ * @see Pageable
+ */
 @Component
 @RequiredArgsConstructor
 public final class NotificationSearchRepository {
 
   private final EntityManager entityManager;
 
-  public Page<NotificationInfo> findAll(Long providerId,
-      String caseReferenceNumber, String providerCaseReference, String assignedToUserId,
-      String clientSurname, Integer feeEarnerId, Boolean includeClosed,
-      String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable){
+  /**
+   * Retrieves a paginated list of NotificationInfo entities from the database, applying the
+   * specified filters to narrow down the results.
+   *
+   * @param providerId             the ID of the provider firm to filter notifications
+   *                                   by (mandatory)
+   * @param caseReferenceNumber    the case reference number to search for
+   * @param providerCaseReference  the provider-specific case reference to search for
+   * @param assignedToUserId       the user ID of the person assigned to the notification
+   * @param clientSurname          the surname of the client associated with the notification
+   * @param feeEarnerId            the ID of the fee earner to filter by
+   * @param includeClosed          whether to include closed notifications in the results
+   * @param notificationType       the type of notification to filter results by
+   * @param dateFrom               the start date for filtering notifications by assignment date
+   * @param dateTo                 the end date for filtering notifications by assignment date
+   * @param pageable               the pagination and sorting information
+   * @return a paginated list of NotificationInfo entities matching the specified filters
+   */
+  public Page<NotificationInfo> findAll(final long providerId,
+      final String caseReferenceNumber, final String providerCaseReference,
+      final String assignedToUserId, final String clientSurname, final Integer feeEarnerId,
+      final Boolean includeClosed, final String notificationType,
+      final LocalDate dateFrom, final LocalDate dateTo, final Pageable pageable) {
 
     final String searchNotificationQuery =
         """
-        SELECT * FROM XXCCMS.XXCCMS_GET_NOTIF_INFO_V
+            SELECT * FROM XXCCMS.XXCCMS_GET_NOTIF_INFO_V
         """
         +
             getFilterSql(providerId, caseReferenceNumber, providerCaseReference,
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
-                notificationType, dateFrom, dateTo, pageable)
+                notificationType, dateFrom, dateTo)
         +
         """
-        OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
+            OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
         """;
     Query query = entityManager.createNativeQuery(searchNotificationQuery, NotificationInfo.class);
     query.setHint("org.hibernate.readOnly", true);
@@ -48,7 +79,7 @@ public final class NotificationSearchRepository {
             +
             getFilterSql(providerId, caseReferenceNumber, providerCaseReference,
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
-                notificationType, dateFrom, dateTo, pageable);
+                notificationType, dateFrom, dateTo);
 
     Query countQuery = entityManager.createNativeQuery(notificationCount);
 
@@ -62,7 +93,7 @@ public final class NotificationSearchRepository {
   private static String getFilterSql(Long providerId,
       String caseReferenceNumber, String providerCaseReference, String assignedToUser,
       String clientSurname, Integer feeEarnerId, Boolean includeClosed,
-      String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable) {
+      String notificationType, LocalDate dateFrom, LocalDate dateTo) {
 
     StringJoiner sj = new StringJoiner(" AND ");
     // Provider firm party id
@@ -91,13 +122,13 @@ public final class NotificationSearchRepository {
     if (Boolean.FALSE.equals(includeClosed)) {
       sj.add("IS_OPEN = true");
     }
-    if(stringNotEmpty(notificationType)){
+    if (stringNotEmpty(notificationType)) {
       sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
     }
-    if(Objects.nonNull(dateFrom)){
+    if (Objects.nonNull(dateFrom)) {
       sj.add("DATE_ASSIGNED >= '" + dateFrom + "'");
     }
-    if(Objects.nonNull(dateTo)){
+    if (Objects.nonNull(dateTo)) {
       sj.add("DATE_ASSIGNED <= '" + dateTo + "'");
     }
     return sj + " ";
