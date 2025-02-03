@@ -53,6 +53,7 @@ public class NotificationsController implements NotificationsApi {
       String clientSurname, Integer feeEarnerId, Boolean includeClosed,
       String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable) {
     Optional<Notifications> notifications = notificationService.getNotifications(
+        providerId,
         caseReferenceNumber,
         providerCaseReference,
         assignedToUserId,

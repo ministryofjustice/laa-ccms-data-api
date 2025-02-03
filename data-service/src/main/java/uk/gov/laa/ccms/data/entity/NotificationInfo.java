@@ -3,7 +3,6 @@ package uk.gov.laa.ccms.data.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -25,19 +24,19 @@ import org.hibernate.annotations.Immutable;
  * @author Jamie Briggs
  */
 @Entity
-@Table(name = "XXCCMS_GET_NOTIFICATIONS_V", schema = "XXCCMS")
+@Table(name = "XXCCMS_GET_NOTIF_INFO_V", schema = "XXCCMS")
 @Getter
 @Builder
 @Immutable
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Notification {
+public class NotificationInfo {
 
   @Id
   private long notificationId;
 
-  @Column(name = "ASSIGNED_TO", length = 360)
-  private String assignedTo;
+  @Column(name = "USER_ID", length = 100)
+  private String userId;
 
   @Column(name = "USER_LOGIN_ID", length = 100)
   private String userLoginId;
@@ -45,8 +44,20 @@ public class Notification {
   @Column(name = "PROVIDERFIRM_ID", nullable = false)
   private long providerFirmId;
 
-  @Column(name = "CLIENT_PARTY_ID")
-  private Long clientPartyId;
+  @Column(name = "DATE_ASSIGNED")
+  private LocalDate dateAssigned;
+
+  @Column(name = "SUBJECT", length = 320)
+  private String subject;
+
+  @Column(name = "DUE_DATE")
+  private LocalDate dueDate;
+
+  @Column(name = "ASSIGNED_TO", length = 360)
+  private String assignedTo;
+
+  @Column(name = "STATUS", length = 150)
+  private String status;
 
   @Column(name = "LSC_CASE_REF_REFERENCE", length = 360)
   private String lscCaseRefReference;
@@ -57,58 +68,36 @@ public class Notification {
   @Column(name = "CLIENT_NAME", length = 301)
   private String clientName;
 
-  @Column(name = "CATEGORY_OF_LAW", length = 150)
-  private String categoryOfLaw;
-
   @Column(name = "FEE_EARNER", length = 360)
   private String feeEarner;
-
-  @Column(name = "FEE_EARNER_PARTY_ID")
-  private Long feeEarnerPartyId;
-
-  @Column(name = "NOTIFICATION_SUBJECT", length = 320)
-  private String notificationSubject;
-
-  @Column(name = "DATE_ASSIGNED")
-  private LocalDate dateAssigned;
-
-  @Column(name = "DUE_DATE")
-  private LocalDate dueDate;
-
-  @Column(name = "ACTION_NOTIFICATION_IND", length = 150)
-  private String actionNotificationInd;
-
-  @Column(name = "STATUS", length = 150)
-  private String status;
-
-  @Column(name = "EVIDENCE_ALLOWED_IND", length = 5)
-  private String evidenceAllowedInd;
-
-  @Column(name = "IS_OPEN")
-  private Boolean isOpen;
-
-  @Column(name = "ASSIGNED_TO_PARTY_ID", precision = 15, scale = 0)
-  private Long assignedToPartyId;
-
-  @Column(name = "PERSON_FIRST_NAME", length = 150)
-  private String personFirstName;
 
   @Column(name = "PERSON_LAST_NAME", length = 150)
   private String personLastName;
 
-  @Lob
-  @Column(name = "NOTES")
-  private String notes;
+  @Column(name = "FEE_EARNER_PARTY_ID")
+  private Long feeEarnerPartyId;
 
-  @Lob
-  @Column(name = "UPLOADED_DOCUMENTS")
-  private String uploadedDocuments;
+  @Column(name = "ACTION_NOTIFICATION_IND", length = 150)
+  private String actionNotificationInd;
 
-  @Lob
-  @Column(name = "ATTACHED_DOCUMENTS")
-  private String attachedDocuments;
+  @Column(name = "IS_OPEN")
+  private Boolean isOpen;
 
-  @Lob
-  @Column(name = "AVAILABLE_RESPONSES")
-  private String availableResponses;
+
+
+/*  @Column(name = "CLIENT_PARTY_ID")
+  private Long clientPartyId;
+
+  @Column(name = "CATEGORY_OF_LAW", length = 150)
+  private String categoryOfLaw;
+
+  @Column(name = "NOTIFICATION_SUBJECT", length = 320)
+  private String notificationSubject;
+
+  @Column(name = "EVIDENCE_ALLOWED_IND", length = 5)
+  private String evidenceAllowedInd;
+
+  @Column(name = "ASSIGNED_TO_PARTY_ID", precision = 15, scale = 0)
+  private Long assignedToPartyId;*/
+
 }

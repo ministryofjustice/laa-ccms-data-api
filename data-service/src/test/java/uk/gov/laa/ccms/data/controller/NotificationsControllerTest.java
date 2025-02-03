@@ -23,7 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import uk.gov.laa.ccms.data.model.Notification;
+import uk.gov.laa.ccms.data.model.NotificationInfo;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
@@ -85,8 +85,8 @@ class NotificationsControllerTest {
   @DisplayName("getNotifications: Returns data")
   void getNotifications_returnsData() throws Exception {
     //Given
-    Notifications expected = new Notifications().addContentItem(new Notification().notificationId("123"));
-    when(notificationService.getNotifications(Mockito.any(), Mockito.any(), Mockito.any(),
+    Notifications expected = new Notifications().addContentItem(new NotificationInfo().notificationId("123"));
+    when(notificationService.getNotifications(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(),
         Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.any(), Mockito.any(),
         Mockito.any(), Mockito.any())).thenReturn(Optional.of(
         expected));

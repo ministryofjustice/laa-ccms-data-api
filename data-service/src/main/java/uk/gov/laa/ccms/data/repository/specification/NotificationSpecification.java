@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.jpa.domain.Specification;
-import uk.gov.laa.ccms.data.entity.Notification;
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
 /**
  * A utility class for creating specifications to filter and query notifications.
  *
  * <p>The {@link NotificationSpecification} class provides mechanisms to construct dynamic
- * query criteria using the JPA Specification API. It allows filtering of {@link Notification}
+ * query criteria using the JPA Specification API. It allows filtering of {@link NotificationInfo}
  * entities based on various attributes such as case reference number, provider case reference,
  * assigned user, client surname, and more.</p>
  *
@@ -24,7 +24,7 @@ import uk.gov.laa.ccms.data.entity.Notification;
  *    <li>Client surname (partial matching support).</li>
  *    <li>Fee earner ID.</li>
  *    <li>Should include closed notifications.</li>
- *    <li>Notification type.</li>
+ *    <li>NotificationInfo type.</li>
  *    <li>Date range (start and end dates).</li>
  * </ul>
  *
@@ -32,7 +32,7 @@ import uk.gov.laa.ccms.data.entity.Notification;
  * with all specified conditions combined.</p>
  *
  * @author Jamie Briggs
- * @see Notification
+ * @see NotificationInfo
  * @see Specification
  * @see uk.gov.laa.ccms.data.repository.NotificationRepository
  */
@@ -45,10 +45,11 @@ public class NotificationSpecification {
   }
 
   /**
-   * Builds a {@link Specification} for filtering {@link Notification} entities based on various
+   * Builds a {@link Specification} for filtering {@link NotificationInfo} entities based on various
    * criteria. The method dynamically constructs filter conditions for the provided filter
    * parameters. Multiple filters are combined using an AND logic.
    *
+   * @param providerId            the provider ID (exact match).
    * @param caseReferenceNumber   the case reference number to filter by (optional, partial match).
    * @param providerCaseReference the provider case reference to filter by (optional, partial
    *                              match, case-insensitive).
@@ -64,9 +65,10 @@ public class NotificationSpecification {
    * @param dateTo                the ending date for filtering notifications by the date assigned
    *                              (inclusive).
    * @return a {@link Specification} object encapsulating the filtering logic for
-   * {@link Notification} entities.
+   * {@link NotificationInfo} entities.
    */
-  public static Specification<Notification> withFilters(
+  public static Specification<NotificationInfo> withFilters(
+      long providerId,
       String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
       Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
@@ -74,6 +76,8 @@ public class NotificationSpecification {
   ) {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
+
+      predicates.add(criteriaBuilder.equal(root.get("providerFirmId"), providerId));
 
       // Add predicates for each filter only if they are non-null
       if (stringNotEmpty(caseReferenceNumber)) {

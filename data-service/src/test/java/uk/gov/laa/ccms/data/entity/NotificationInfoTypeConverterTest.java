@@ -1,20 +1,18 @@
 package uk.gov.laa.ccms.data.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.entity.NotificationType;
 
-public class NotificationTypeConverterTest {
+public class NotificationInfoTypeConverterTest {
 
   NotificationTypeConverter converter = new NotificationTypeConverter();
 
   @Test
-  @DisplayName("Should convert Notification DB Value to Entity value")
+  @DisplayName("Should convert NotificationInfo DB Value to Entity value")
   public void shouldConvertNotificationDbValuetoEntityValue() {
-    assertEquals(NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("Notification"));
+    assertEquals(NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("NotificationInfo"));
   }
 
   @Test
@@ -30,9 +28,9 @@ public class NotificationTypeConverterTest {
   }
 
   @Test
-  @DisplayName("Should convert Notification Entity value to DB value")
+  @DisplayName("Should convert NotificationInfo Entity value to DB value")
   public void shouldConvertNotificationEntityValuetoDBValue() {
-    assertEquals("Notification", converter.convertToDatabaseColumn(NotificationType.NOTIFICATIONS));
+    assertEquals("NotificationInfo", converter.convertToDatabaseColumn(NotificationType.NOTIFICATIONS));
   }
 
   @Test

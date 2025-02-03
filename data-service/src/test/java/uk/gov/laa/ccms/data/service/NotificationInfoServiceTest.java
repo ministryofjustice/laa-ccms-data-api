@@ -19,8 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import uk.gov.laa.ccms.data.entity.Notification;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.mapper.NotificationSummaryMapper;
 import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
@@ -30,8 +30,8 @@ import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Notification service test")
-class NotificationServiceTest {
+@DisplayName("NotificationInfo service test")
+class NotificationInfoServiceTest {
 
   private NotificationService notificationService;
   @Mock
@@ -85,7 +85,7 @@ class NotificationServiceTest {
   @DisplayName("getNotifications(): Returns data")
   void getNotifications_returnsData() {
     // Given
-    PageImpl<Notification> repositoryResult = new PageImpl<>(Collections.singletonList(new Notification()));
+    PageImpl<NotificationInfo> repositoryResult = new PageImpl<>(Collections.singletonList(new NotificationInfo()));
     when(notificationRepository.findAll(any(Specification.class), any(Pageable.class)))
         .thenReturn(
             repositoryResult);
@@ -95,6 +95,7 @@ class NotificationServiceTest {
     );
     // When
     Optional<Notifications> result = notificationService.getNotifications(
+        10L,
         "Case Ref",
         "Prov case ref",
         "Assigned user id",
@@ -114,7 +115,7 @@ class NotificationServiceTest {
   void getNotifications_noDataFound() {
     // Given
     // When
-    Optional<Notifications> result = notificationService.getNotifications(
+    Optional<Notifications> result = notificationService.getNotifications(10L,
         "Case Ref",
         "Prov case ref",
         "Assigned user id",

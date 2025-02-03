@@ -1832,12 +1832,10 @@ components:
           type: array
           default: [ ]
           items:
-            $ref: '#/components/schemas/notification'
-    notification:
+            $ref: '#/components/schemas/notificationInfo'
+    notificationInfo:
       type: 'object'
       properties:
-        #client_reference_number:
-        #  type: 'string'
         case_reference_number:
           type: 'string'
         provider_case_reference_number:
@@ -1845,8 +1843,6 @@ components:
         user:
           $ref: '#/components/schemas/userDetail'
         client_name:
-          type: 'string'
-        category_of_law:
           type: 'string'
         fee_earner:
           type: 'string'
@@ -1866,26 +1862,10 @@ components:
           type: 'string'
         status:
           type: 'string'
-        notes:
-          type: 'array'
-          items:
-            $ref: '#/components/schemas/note'
         evidence_allowed:
           type: 'boolean'
         notification_open_indicator:
           type: 'boolean'
-        attached_documents:
-          type: 'array'
-          items:
-            $ref: '#/components/schemas/document'
-        uploaded_documents:
-          type: 'array'
-          items:
-            $ref: '#/components/schemas/document'
-        available_responses:
-          type: array
-          items:
-            type: 'string'
     note:
       type: 'object'
       properties:

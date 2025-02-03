@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.gov.laa.ccms.data.entity.Notification;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.mapper.NotificationSummaryMapper;
 import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
@@ -73,12 +73,15 @@ public class NotificationService {
    * @param pageable the pageable to describe the requested pagination format.
    * @return a paginated list of notifications.
    */
-  public Optional<Notifications> getNotifications(String caseReferenceNumber,
+  public Optional<Notifications> getNotifications(long providerId,
+      String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
       Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
       LocalDate dateTo, Pageable pageable) {
-    Page<Notification> byAssignedTo = notificationRepository.findAll(
-        NotificationSpecification.withFilters(caseReferenceNumber,
+    Page<NotificationInfo> byAssignedTo = notificationRepository.findAll(
+        NotificationSpecification.withFilters(
+            providerId,
+            caseReferenceNumber,
             providerCaseReference,
             assignedToUserId,
             clientSurname,
