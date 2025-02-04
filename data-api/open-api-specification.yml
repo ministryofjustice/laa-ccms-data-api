@@ -1177,7 +1177,37 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-
+  /notifications/{notification-id}:
+    get:
+      tags:
+        - notifications
+      summary: 'Get Notification'
+      operationId: 'getNotification'
+      parameters:
+        - name: 'notification-id'
+          in: 'path'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+            example: '123456789'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notification"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1864,6 +1894,13 @@ components:
           type: 'string'
         notification_open_indicator:
           type: 'boolean'
+    notification:
+      allOf:
+        - $ref: "#/components/schemas/notificationInfo"
+      type: object
+      properties:
+        docs:
+          type: 'string'
     note:
       type: 'object'
       properties:

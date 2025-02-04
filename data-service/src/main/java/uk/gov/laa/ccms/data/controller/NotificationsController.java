@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.NotificationsApi;
+import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
@@ -29,6 +30,11 @@ import uk.gov.laa.ccms.data.service.NotificationService;
 public class NotificationsController implements NotificationsApi {
 
   private final NotificationService notificationService;
+
+  @Override
+  public ResponseEntity<Notification> getNotification(Long notificationId) {
+    return null;
+  }
 
   /**
    * Retrieves a list of notifications based on various search criteria.
