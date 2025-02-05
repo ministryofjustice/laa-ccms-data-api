@@ -3,12 +3,14 @@ package uk.gov.laa.ccms.data.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -30,7 +32,6 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @Builder
 @Immutable
-@EqualsAndHashCode
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class NotificationInfo {
@@ -87,6 +88,15 @@ public class NotificationInfo {
   @Convert(converter = BooleanStringConverter.class)
   private Boolean isOpen;
 
-  
+  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
+  private List<NotificationNote> notes;
 
+  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
+  private List<NotificationDocument> documents;
+
+  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
+  private List<NotificationAttachments> attachments;
+
+  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
+  private List<NotificationActions> actions;
 }

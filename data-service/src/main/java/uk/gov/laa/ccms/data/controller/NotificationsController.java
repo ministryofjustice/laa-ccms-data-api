@@ -3,13 +3,16 @@ package uk.gov.laa.ccms.data.controller;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.NotificationsApi;
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
+import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.service.NotificationService;
 
 /**
@@ -25,15 +28,21 @@ import uk.gov.laa.ccms.data.service.NotificationService;
  * @see NotificationService
  * @author Jamie Briggs
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class NotificationsController implements NotificationsApi {
 
   private final NotificationService notificationService;
+  private final NotificationRepository tempRepo;
+
 
   @Override
   public ResponseEntity<Notification> getNotification(Long notificationId) {
-    return null;
+    Optional<NotificationInfo> tempNotification = tempRepo.findById(notificationId);
+
+    log.info(tempNotification.get().getSubject());
+    return ResponseEntity.ok(new Notification().subject(tempNotification.get().getSubject()));
   }
 
   /**
