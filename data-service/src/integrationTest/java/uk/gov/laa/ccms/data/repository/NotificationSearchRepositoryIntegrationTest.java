@@ -18,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.IntegrationTestInterface;
+import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
 @SpringBootTest
@@ -26,7 +26,7 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
 @Sql(executionPhase=BEFORE_TEST_CLASS,scripts= "/sql/get_notif_info_create_schema.sql")
 @Sql(executionPhase=AFTER_TEST_CLASS,scripts= "/sql/get_notif_info_drop_schema.sql")
 @DisplayName("Notification Info Repository Integration Test")
-class NotificationSearchRepositoryIntegrationTest implements IntegrationTestInterface {
+class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTestInterface {
   
   private NotificationSearchRepository notificationRepository;
   

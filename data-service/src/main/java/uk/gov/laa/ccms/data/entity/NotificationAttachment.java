@@ -10,6 +10,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
+/**
+ * Represents a notification attachment entity from the <b>XXCCMS_NOTIFICATION_ATTMNTS_V</b>
+ *     database view.
+ *
+ * <p>This entity captures details about a notification's attachment. It provides fields
+ *     relating to the attachment including it's title, and a description of the attachment.</p>
+ *
+ * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ */
 @Entity
 @Table(name = "XXCCMS_NOTIFICATION_ATTMNTS_V", schema = "XXCCMS")
 @Getter
@@ -17,7 +26,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class NotificationAttachments {
+public class NotificationAttachment {
 
   @Id
   @Column(name = "ATTACHMENT_ID", nullable = false)

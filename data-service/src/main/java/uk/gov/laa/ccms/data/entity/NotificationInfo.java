@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
@@ -19,19 +20,33 @@ import org.hibernate.annotations.Immutable;
  * Represents a notification entity from the <b>XXCCMS_GET_NOTIFICATIONS_V</b> database view.
  *
  * <p>This entity captures details about notifications, such as the user it is assigned to,
- *     associated case references, client information, deadlines, and related metadata.
- *     It provides essential fields to track the status, associated client,
- *     supporting documents, and notes.</p>
+ * associated case references, client information, deadlines, and related metadata. It provides
+ * essential fields to track the status, associated client, supporting documents, and notes.</p>
+ *
+ * <p>This entity also includes four <i>one-to-many</i> relationships for other associated
+ * content relating to the {@link NotificationInfo}:
+ *     <ul>
+ *       <li>Notes relating to this notification.</li>
+ *       <li>Documents uploaded relating to this notification.</li>
+ *       <li>Attachments relating to this notification.</li>
+ *       <li>Actions relating to this notification.</li>
+ *     </ul>
+ * </p>
  *
  * <p>The class is immutable, and its instances can be created using the builder pattern.</p>
  *
  * @author Jamie Briggs
+ * @see NotificationNote
+ * @see NotificationDocument
+ * @see NotificationAttachment
+ * @see NotificationAction
  */
 @Entity
 @Table(name = "XXCCMS_GET_NOTIF_INFO_V", schema = "XXCCMS")
 @Getter
 @Builder
 @Immutable
+@EqualsAndHashCode
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class NotificationInfo {
@@ -95,8 +110,9 @@ public class NotificationInfo {
   private List<NotificationDocument> documents;
 
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
-  private List<NotificationAttachments> attachments;
+  private List<NotificationAttachment> attachments;
 
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
-  private List<NotificationActions> actions;
+  private List<NotificationAction> actions;
+
 }

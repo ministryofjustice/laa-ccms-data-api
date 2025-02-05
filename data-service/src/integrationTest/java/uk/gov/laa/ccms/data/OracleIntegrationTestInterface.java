@@ -11,7 +11,7 @@ import org.testcontainers.oracle.OracleContainer;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @DirtiesContext
-public interface IntegrationTestInterface {
+public interface OracleIntegrationTestInterface {
 
   OracleContainerSingleton oracleContainerSingleton = OracleContainerSingleton.getInstance();
 
