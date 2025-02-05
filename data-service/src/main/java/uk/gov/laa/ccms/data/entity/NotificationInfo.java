@@ -46,7 +46,7 @@ import org.hibernate.annotations.Immutable;
 @Getter
 @Builder
 @Immutable
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"notes", "documents", "attachments", "actions"})
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class NotificationInfo {
