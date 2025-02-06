@@ -1899,8 +1899,22 @@ components:
         - $ref: "#/components/schemas/notificationInfo"
       type: object
       properties:
-        docs:
-          type: 'string'
+        notes:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/note'
+        attached_documents:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/document'
+        uploaded_documents:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/document'
+        available_responses:
+          type: array
+          items:
+            type: 'string'
     note:
       type: 'object'
       properties:
