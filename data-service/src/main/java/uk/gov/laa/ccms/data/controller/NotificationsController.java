@@ -59,7 +59,7 @@ public class NotificationsController implements NotificationsApi {
    * @param dateTo                the ending date to filter notifications by a specific date range
    * @param pageable              the pagination and sorting information for the result set
    * @return a {@code ResponseEntity} containing the retrieved list of notifications if found, or a
-   * {@code ResponseEntity} with HTTP status 404 if no notifications are found
+   *     {@code ResponseEntity} with HTTP status 404 if no notifications are found
    */
   @Override
   public ResponseEntity<Notifications> getNotifications(Long providerId,
@@ -86,7 +86,7 @@ public class NotificationsController implements NotificationsApi {
    *
    * @param loginId the login ID of the user for whom the notification summary is to be retrieved
    * @return a {@code ResponseEntity} containing the {@code NotificationSummary} if found, or a
-   * {@code ResponseEntity} with HTTP status 404 if no summary is available
+   *     {@code ResponseEntity} with HTTP status 404 if no summary is available
    */
   @Override
   public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {
