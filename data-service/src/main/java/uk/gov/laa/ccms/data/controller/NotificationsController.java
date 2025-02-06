@@ -34,9 +34,17 @@ public class NotificationsController implements NotificationsApi {
   private final NotificationService notificationService;
 
 
+  /**
+   * Retrieves a notification based on the provided notification ID and provider ID.
+   *
+   * @param notificationId the unique identifier of the notification to retrieve
+   * @param providerId the unique identifier of the provider associated with the notification
+   * @return a {@code ResponseEntity} containing the retrieved {@code Notification} if found,
+   *         or a {@code ResponseEntity} with HTTP status 404 if the notification is not found.
+   */
   @Override
-  public ResponseEntity<Notification> getNotification(Long notificationId) {
-    return notificationService.getNotification(notificationId).map(ResponseEntity::ok)
+  public ResponseEntity<Notification> getNotification(Long notificationId, Long providerId) {
+    return notificationService.getNotification(notificationId, providerId).map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 

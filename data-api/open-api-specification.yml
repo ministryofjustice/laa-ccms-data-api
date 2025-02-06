@@ -1191,6 +1191,13 @@ paths:
             type: 'integer'
             format: 'int64'
             example: '123456789'
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+          example: '123456789'
       responses:
         '200':
           description: 'Successful operation'

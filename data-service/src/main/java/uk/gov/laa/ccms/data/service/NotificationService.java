@@ -1,5 +1,7 @@
 package uk.gov.laa.ccms.data.service;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.mapper.NotificationMapper;
@@ -26,7 +29,7 @@ import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
  *
  * <p>This class serves to manage the retrieval of notification summaries
  * for users, bridging the interactions between repositories, mappers,
- * and other services required to obtain and synthesize notification data.
+ * and other services required to obtain and synthesize notification data.</p>
  *
  * @author Jamie Briggs
  */
@@ -98,14 +101,29 @@ public class NotificationService {
   }
 
   /**
-   * Retrieves a notification by its unique identifier.
+   * Retrieves a notification based on its ID and verifies the provider firm's ID.
    *
    * @param notificationId the unique identifier of the notification to retrieve
-   * @return an Optional containing the Notification object if found, or an
-   *     empty Optional if not found
+   * @param providerFirmId the identifier of the provider firm to validate access
+   * @return an Optional containing the Notification if found and accessible,
+   *     otherwise an empty Optional
+   * @throws ResponseStatusException if the provider firm ID does not match,
+   *     returning a forbidden status
    */
-  public Optional<Notification> getNotification(final long notificationId) {
-    return notificationRepository.findById(notificationId).map(
-        notificationMapper::mapToNotification);
+  public Optional<Notification> getNotification(final long notificationId,
+      final long providerFirmId) {
+    Optional<NotificationInfo> byId = notificationRepository.findById(notificationId);
+
+    // Return empty if not found
+    if (byId.isEmpty()) {
+      return Optional.empty();
+    }
+
+    // Return notification if exists, throw forbidden exception if provider firm ID mismatch
+    return Optional.ofNullable(byId
+        .filter(notification -> notification.getProviderFirmId() == providerFirmId)
+        .map(notificationMapper::mapToNotification)
+        .orElseThrow(() -> new ResponseStatusException(FORBIDDEN, "Access Denied")));
+
   }
 }

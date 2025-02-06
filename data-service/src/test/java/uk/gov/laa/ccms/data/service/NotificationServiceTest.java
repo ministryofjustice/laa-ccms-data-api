@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.service;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.server.ResponseStatusException;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.mapper.NotificationMapper;
@@ -165,13 +167,13 @@ class NotificationServiceTest {
     void shouldReturnNotification(){
       // Given
       long notificationId = 1L;
-      NotificationInfo notificationInfo = new NotificationInfo();
-      Notification expected = new Notification().notificationId("1");
+      NotificationInfo notificationInfo = NotificationInfo.builder().providerFirmId(1L).build();
+      Notification expected = new Notification().notificationId("1").providerFirmId("1");
       when(notificationRepository.findById(notificationId))
           .thenReturn(Optional.of(notificationInfo));
       when(notificationMapper.mapToNotification(notificationInfo)).thenReturn(expected);
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId);
+      Optional<Notification> result = notificationService.getNotification(notificationId, 1L);
       // Then
       assertTrue(result.isPresent());
       assertEquals(expected, result.get());
@@ -185,11 +187,24 @@ class NotificationServiceTest {
       // Given
       long notificationId = 1L;
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId);
+      Optional<Notification> result = notificationService.getNotification(notificationId, 1L);
       // Then
       assertTrue(result.isEmpty());
       verify(notificationRepository, times(1)).findById(notificationId);
       verify(notificationMapper, times(0)).mapToNotification(any());
+    }
+
+    @Test
+    @DisplayName("Should throw exception")
+    void shouldThrowException() {
+      // Given
+      long notificationId = 1L;
+      NotificationInfo notificationInfo = NotificationInfo.builder().providerFirmId(1L).build();
+      when(notificationRepository.findById(notificationId))
+          .thenReturn(Optional.of(notificationInfo));
+      // When / Then
+      assertThrows(ResponseStatusException.class,
+          () -> notificationService.getNotification(notificationId, 500));
     }
   }
 }
