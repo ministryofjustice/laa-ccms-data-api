@@ -51,7 +51,6 @@ public interface DocumentMapper {
    *   <li>fileData</li>
    *   <li>statusDescription</li>
    *   <li>fileExtension</li>
-   *   <li>title</li>
    *   <li>status</li>
    *   <li>documentType</li>
    * </ul>
@@ -64,9 +63,9 @@ public interface DocumentMapper {
   @Mapping(target = "fileData",  constant = "")
   @Mapping(target = "statusDescription",  constant = "")
   @Mapping(target = "fileExtension",  constant = "")
-  @Mapping(target = "title", constant = "")
   @Mapping(target = "status", constant = "")
   @Mapping(target = "documentType", constant = "")
+  @Mapping(target = "title", source = "attachmentTitle")
   @Mapping(target = "text", source = "attachmentDescription")
   @Mapping(target = "documentId", source = "attachmentId")
   Document mapToNotification(NotificationAttachment notificationAttachment);

@@ -50,6 +50,7 @@ class DocumentMapperImplTest {
     Document result = mapper.mapToNotification(attachment);
     // Then
     assertEquals("1", result.getDocumentId());
+    assertEquals("Title", result.getTitle());
     assertEquals("Description", result.getText());
   }
 
