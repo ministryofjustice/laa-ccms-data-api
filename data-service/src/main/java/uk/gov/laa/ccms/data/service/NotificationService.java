@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
+import uk.gov.laa.ccms.data.mapper.NotificationMapper;
 import uk.gov.laa.ccms.data.mapper.NotificationSummaryMapper;
 import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
+import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
+import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 
 /**
@@ -33,9 +36,11 @@ import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 public class NotificationService {
 
   private final NotificationCountRepository notificationCountRepository;
-  private final NotificationSummaryMapper notificationSummaryMapper;
   private final NotificationSearchRepository notificationSearchRepository;
+  private final NotificationRepository notificationRepository;
+  private final NotificationSummaryMapper notificationSummaryMapper;
   private final NotificationsMapper notificationsMapper;
+  private final NotificationMapper notificationMapper;
   private final UserService userService;
 
   /**
@@ -72,7 +77,7 @@ public class NotificationService {
    * @param pageable the pageable to describe the requested pagination format.
    * @return a paginated list of notifications.
    */
-  public Optional<Notifications> getNotifications(long providerId,
+  public Optional<Notifications> getNotifications(final long providerId,
       String caseReferenceNumber,
       String providerCaseReference, String assignedToUserId, String clientSurname,
       Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
@@ -90,5 +95,17 @@ public class NotificationService {
         pageable);
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
+  }
+
+  /**
+   * Retrieves a notification by its unique identifier.
+   *
+   * @param notificationId the unique identifier of the notification to retrieve
+   * @return an Optional containing the Notification object if found, or an
+   *     empty Optional if not found
+   */
+  public Optional<Notification> getNotification(final long notificationId) {
+    return notificationRepository.findById(notificationId).map(
+        notificationMapper::mapToNotification);
   }
 }

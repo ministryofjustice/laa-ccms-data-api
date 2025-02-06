@@ -23,6 +23,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationInfo;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
@@ -114,6 +115,40 @@ class NotificationsControllerTest {
     //Given
     // Then
     this.mockMvc.perform(get("/notifications"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("getNotification: Returns data")
+  void getNotification_returnsData() throws Exception {
+    //Given
+    Notification expected = new Notification().notificationId("123");
+    when(notificationService.getNotification(123L)).thenReturn(Optional.of(expected));
+    // Then
+    String jsonContent = objectMapper.writeValueAsString(expected);
+    this.mockMvc.perform(get("/notifications/123"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().json(jsonContent));
+  }
+
+  @Test
+  @DisplayName("getNotification: Not found")
+  void getNotification_notFound() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications/123"))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getNotification: Bad request")
+  void getNotification_badRequest() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications/abc"))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
