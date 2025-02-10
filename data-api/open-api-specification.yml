@@ -1899,8 +1899,6 @@ components:
           type: 'string'
         status:
           type: 'string'
-        evidence_allowed:
-          type: 'boolean'
         notification_open_indicator:
           type: 'boolean'
     notification:
@@ -1908,6 +1906,8 @@ components:
         - $ref: "#/components/schemas/notificationInfo"
       type: object
       properties:
+        evidence_allowed:
+          type: 'boolean'
         notes:
           type: 'array'
           items:
