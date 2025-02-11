@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Integration Test
+      - name: Integration test
         run: ./gradlew integrationTest -Pversion=${{ steps.capture_version.outputs.app_version }}
 
       - name: Publish package
