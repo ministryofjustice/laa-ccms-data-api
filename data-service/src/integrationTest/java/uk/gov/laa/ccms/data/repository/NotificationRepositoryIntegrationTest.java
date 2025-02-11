@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -98,7 +99,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
     NotificationNote note = result.getNotes().getFirst();
     assertEquals(1, note.getNoteId());
     assertEquals(1, note.getNotificationId());
-    assertEquals(LocalDate.of(2025, 1, 1), note.getNoteDate());
+    assertEquals(LocalDateTime.of(2025, 1, 1, 0,0,0,0), note.getNoteDate());
     assertEquals("Here is the body of text for this note", note.getNoteText());
     assertEquals("Jamie Briggs", note.getNoteBy());
   }
