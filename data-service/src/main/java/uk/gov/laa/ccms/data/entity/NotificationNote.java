@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +40,7 @@ public class NotificationNote {
   private long notificationId;
 
   @Column(name = "NOTE_DATE", nullable = false)
-  private LocalDate noteDate;
+  private LocalDateTime noteDate;
 
   @Column(name = "NOTE_TEXT", nullable = false, length = 2000)
   private String noteText;

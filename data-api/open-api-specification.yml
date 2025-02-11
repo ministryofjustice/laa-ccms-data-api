@@ -1933,7 +1933,7 @@ components:
           $ref: '#/components/schemas/userDetail'
         date:
           type: 'string'
-          format: date
+          format: date-time
         message:
           type: 'string'
     baseDocument:

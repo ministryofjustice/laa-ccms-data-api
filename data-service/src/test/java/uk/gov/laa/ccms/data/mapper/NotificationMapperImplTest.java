@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -91,12 +92,12 @@ class NotificationMapperImplTest {
     Note noteResultOne = notificationResult.getNotes().get(0);
     assertEquals("1", noteResultOne.getNotesId());
     assertEquals("User Name", noteResultOne.getUser().getUsername());
-    assertEquals(LocalDate.of(2025, 1, 1), noteResultOne.getDate());
+    assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0, 0), noteResultOne.getDate());
     assertEquals("Note Text", noteResultOne.getMessage());
     Note noteResultTwo = notificationResult.getNotes().get(1);
     assertEquals("2", noteResultTwo.getNotesId());
     assertEquals("User Name", noteResultTwo.getUser().getUsername());
-    assertEquals(LocalDate.of(2025, 1, 1), noteResultTwo.getDate());
+    assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0, 0), noteResultTwo.getDate());
     assertEquals("Second Note Text", noteResultTwo.getMessage());
   }
 
@@ -174,7 +175,7 @@ class NotificationMapperImplTest {
         .builder()
         .noteId(noteId)
         .notificationId(2L)
-        .noteDate(LocalDate.of(2025, 1, 1))
+        .noteDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0))
         .noteText(noteText)
         .noteBy("User Name")
         .build();
@@ -193,8 +194,8 @@ class NotificationMapperImplTest {
         .build();
   }
 
-  private static NotificationAttachment getAttachment(long attachmentId, String One) {
-    return NotificationAttachment.builder().attachmentId(attachmentId).attachmentDescription(One)
+  private static NotificationAttachment getAttachment(long attachmentId, String one) {
+    return NotificationAttachment.builder().attachmentId(attachmentId).attachmentDescription(one)
         .build();
   }
 }
