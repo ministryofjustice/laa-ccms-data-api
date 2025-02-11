@@ -1,8 +1,11 @@
 package uk.gov.laa.ccms.data.controller;
 
+import java.time.LocalDate;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.ClientsApi;
+import uk.gov.laa.ccms.data.model.ClientDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.ClientService;
 import uk.gov.laa.ccms.data.service.ClientServiceException;
@@ -43,5 +46,12 @@ public class ClientsController implements ClientsApi {
     } catch (ClientServiceException e) {
       return ResponseEntity.internalServerError().build();
     }
+  }
+
+  @Override
+  public ResponseEntity<ClientDetails> getClients(String firstName, String surname,
+      LocalDate dateOfBirth, String gender, String caseReferenceNumber, String homeOfficeReference,
+      String nationalInsuranceNumber, Pageable pageable) {
+    return null;
   }
 }
