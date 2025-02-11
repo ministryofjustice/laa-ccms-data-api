@@ -27,7 +27,7 @@ class DocumentMapperImplTest {
         .edrmsDocumentid("EDRMS")
         .build();
     // When
-    Document result = mapper.mapToNotification(document);
+    Document result = mapper.mapToDocument(document);
     // Then
     assertEquals("1", result.getDocumentId());
     assertEquals("Channel", result.getChannel());
@@ -47,7 +47,7 @@ class DocumentMapperImplTest {
         .attachmentDescription("Description")
         .build();
     // When
-    Document result = mapper.mapToNotification(attachment);
+    Document result = mapper.mapToAttachment(attachment);
     // Then
     assertEquals("1", result.getDocumentId());
     assertEquals("Title", result.getTitle());

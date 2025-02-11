@@ -41,7 +41,7 @@ public interface DocumentMapper {
   @Mapping(target = "statusDescription",  constant = "")
   @Mapping(target = "fileExtension",  constant = "")
   @Mapping(target = "title", constant = "")
-  Document mapToNotification(NotificationDocument notificationDocument);
+  Document mapToDocument(NotificationDocument notificationDocument);
 
   /**
    * Maps a {@link NotificationAttachment} to a {@link Document}. Some fields have been set to an
@@ -68,5 +68,5 @@ public interface DocumentMapper {
   @Mapping(target = "title", source = "attachmentTitle")
   @Mapping(target = "text", source = "attachmentDescription")
   @Mapping(target = "documentId", source = "attachmentId")
-  Document mapToNotification(NotificationAttachment notificationAttachment);
+  Document mapToAttachment(NotificationAttachment notificationAttachment);
 }
