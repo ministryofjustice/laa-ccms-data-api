@@ -46,9 +46,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build & test
-        run: ./gradlew build jacocoTestCoverageVerification -Pversion=${{ steps.capture_version.outputs.app_version }}
+        run: ./gradlew build -Pversion=${{ steps.capture_version.outputs.app_version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test coverage verification
+        run: ./gradlew jacocoTestCoverageVerification
 
       - name: Integration test
         run: ./gradlew integrationTest -Pversion=${{ steps.capture_version.outputs.app_version }}
@@ -63,6 +66,30 @@ jobs:
         with:
           name: data-api-jar
           path: data-service/build/libs/data-service-${{ steps.capture_version.outputs.app_version }}.jar
+
+      - name: Upload checkstyle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: data-service/build/reports/checkstyle
+          retention-days: 14
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: data-service/build/reports/tests
+          retention-days: 14
+
+      - name: Upload jacoco coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: data-service/build/reports/jacoco
+          retention-days: 14
 
   ecr:
     needs: [ build-test-publish, define-image-tag ]
