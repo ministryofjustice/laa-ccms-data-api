@@ -1,26 +1,19 @@
 package uk.gov.laa.ccms.data.repository;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccms.data.entity.Notification;
-
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
 /**
- * Repository interface for accessing {@link Notification} entities.
+ * Repository interface for managing read-only access to {@link NotificationInfo} entities.
  *
- * <p>This repository extends the {@link ReadOnlyRepository} interface,
- * it supports read-only operations for the {@link Notification} entity.
- * This repository also extends {@link JpaSpecificationExecutor}, which
- * allows the use of {@link org.springframework.data.jpa.domain.Specification}
- * to filter easier.</p>
+ * <p>Extends the {@link ReadOnlyRepository} interface which enforces read-only access
+ * to entities and includes default query capabilities.</p>
  *
- * @see Notification
- * @see ReadOnlyRepository
- * @see org.springframework.data.jpa.domain.Specification
  * @author Jamie Briggs
+ * @see NotificationInfo
+ * @see ReadOnlyRepository
  */
 @Repository
-public interface NotificationRepository extends ReadOnlyRepository<Notification, String>,
-    JpaSpecificationExecutor<Notification> {
+public interface NotificationRepository extends ReadOnlyRepository<NotificationInfo, Long> {
 
 }

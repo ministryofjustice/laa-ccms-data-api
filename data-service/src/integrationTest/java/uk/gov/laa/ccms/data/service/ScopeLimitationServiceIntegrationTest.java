@@ -12,14 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.IntegrationTestInterface;
+import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
 import uk.gov.laa.ccms.data.model.ScopeLimitationDetails;
 
 @SpringBootTest
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/scope_limitations_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/scope_limitations_drop_schema.sql")
-public class ScopeLimitationServiceIntegrationTest implements IntegrationTestInterface {
+public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ScopeLimitationService scopeLimitationService;
