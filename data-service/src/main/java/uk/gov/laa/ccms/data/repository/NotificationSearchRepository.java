@@ -60,16 +60,18 @@ public final class NotificationSearchRepository {
 
     final String searchNotificationQuery =
         """
-            SELECT * FROM XXCCMS.XXCCMS_GET_NOTIF_INFO_V
-        """
-        +
+                SELECT * FROM XXCCMS.XXCCMS_GET_NOTIF_INFO_V
+            """
+            +
             getFilterSql(providerId, caseReferenceNumber, providerCaseReference,
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
                 notificationType, assignedDateFrom, assignedDateTo)
-        +
+            +
+            getSortSql(pageable) +
         """
             OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
         """;
+    
     Query query = entityManager.createNativeQuery(searchNotificationQuery, NotificationInfo.class);
     query.setHint("org.hibernate.readOnly", true);
     query.setParameter("offset", pageable.getOffset());
@@ -140,6 +142,17 @@ public final class NotificationSearchRepository {
 
   private static boolean stringNotEmpty(String value) {
     return value != null && !value.isEmpty();
+  }
+
+  private static String getSortSql(Pageable pageable) {
+    if (pageable.getSort().isEmpty()) {
+      return " ";
+    }
+
+    StringJoiner sortJoiner = new StringJoiner(", ", " ORDER BY ", " ");
+    pageable.getSort().forEach(order ->
+        sortJoiner.add(order.getProperty() + " " + order.getDirection().name()));
+    return sortJoiner.toString();
   }
 
 }
