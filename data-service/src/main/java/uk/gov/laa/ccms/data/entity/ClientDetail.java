@@ -62,11 +62,6 @@ public class ClientDetail {
   // TODO: Contacts is in XML format, is this needed?
   // TODO: Addresses is in XML format, is this needed?
 
-  // TODO: Is client password really needed? If not, it shouldn't be exposed
-
-  @Column(name = "PASSWORD_REMINDER", length = 150)
-  private String passwordReminder;
-
   @Column(name = "CORRESPONDENCE_METHOD", length = 150)
   private String correspondenceMethod;
 

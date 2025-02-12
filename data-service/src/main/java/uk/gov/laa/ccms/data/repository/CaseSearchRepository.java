@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.laa.ccms.data.entity.CaseSearch;
 
@@ -30,7 +30,7 @@ import uk.gov.laa.ccms.data.entity.CaseSearch;
  *
  * @author Jamie Briggs
  */
-@Component
+@Repository
 @RequiredArgsConstructor
 public class CaseSearchRepository {
 
