@@ -67,7 +67,8 @@ public final class NotificationSearchRepository {
                 assignedToUserId, clientSurname, feeEarnerId, includeClosed,
                 notificationType, assignedDateFrom, assignedDateTo)
             +
-            getSortSql(pageable) +
+            getSortSql(pageable)
+            +
         """
             OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
         """;
