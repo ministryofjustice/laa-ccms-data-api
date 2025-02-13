@@ -43,7 +43,7 @@ INSERT INTO XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V (CLIENT_REFERENCE_NUMBER, TITLE, 
                                                 CORRESPONDENCE_LANGUAGE,
                                                 ETHNIC_MONITORING, NO_FIX_ABODE, NI_NUMBER,
                                                 HOME_OFFICE_NUMBER)
-VALUES (100000000000002, 'Ms.', 'Jane', 'Doe', 'Johnson',
+VALUES (100000000000002, 'Ms.', 'Jane', 'Roe', 'Johnson',
         TO_DATE('1990-03-21', 'YYYY-MM-DD'), 'Female', 'CAN', 'Married',
         'Phone', 'Visual Impairment', 'French',
-        'Caucasian', 'No', 'CD987654E', 'HO987654');
+        'Caucasian', 'No', 'CD123654E', 'HO987654');

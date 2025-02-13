@@ -50,7 +50,7 @@ public class ClientsController implements ClientsApi {
 
   @Override
   public ResponseEntity<ClientDetails> getClients(String firstName, String surname,
-      LocalDate dateOfBirth, String gender, String caseReferenceNumber, String homeOfficeReference,
+      LocalDate dateOfBirth, String gender, String clientReferenceNumber, String homeOfficeReference,
       String nationalInsuranceNumber, Pageable pageable) {
     return null;
   }

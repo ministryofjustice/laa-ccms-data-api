@@ -1097,7 +1097,7 @@ paths:
           schema:
             type: 'string'
             example: 'Male'
-        - name: 'case-reference-number'
+        - name: 'client-reference-number'
           in: 'query'
           schema:
             type: 'string'

@@ -5,7 +5,6 @@ import jakarta.persistence.Query;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +23,22 @@ import uk.gov.laa.ccms.data.entity.CaseSearch;
  * <p>It relies on {@link EntityManager} to execute native SQL queries and doesn't use standard
  * Spring Data repositories. All queries are read-only and do not modify the database state.</p>
  *
+ * <p>Extends {@link BaseEntityManagerRepository} which contains helper methods
+ * for helping build a SQL query and {@link EntityManager}.</p>
+ *
  * @see Page
  * @see CaseSearch
  * @see EntityManager
+ * @see BaseEntityManagerRepository
  *
  * @author Jamie Briggs
  */
 @Repository
-@RequiredArgsConstructor
-public class CaseSearchRepository {
+public class CaseSearchRepository extends BaseEntityManagerRepository{
 
-  private final EntityManager entityManager;
+  public CaseSearchRepository(EntityManager entityManager) {
+    super(entityManager);
+  }
 
   /**
    * Retrieves a paginated and filtered list of case search records based on the given parameters.
@@ -95,19 +99,19 @@ public class CaseSearchRepository {
     // Provider firm party id
     sj.add("WHERE PROVIDER_FIRM_PARTY_ID = " + providerFirmPartyId);
     // Case reference number
-    if (!Objects.isNull(caseReferenceNumber) && !caseReferenceNumber.isBlank()) {
+    if (stringNotEmpty(caseReferenceNumber)) {
       sj.add("LSC_CASE_REFERENCE LIKE '%" + caseReferenceNumber + "%'");
     }
     // Provider case reference
-    if (!Objects.isNull(providerCaseReference) && !providerCaseReference.isBlank()) {
+    if (stringNotEmpty(providerCaseReference)) {
       sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
     }
     // Case status
-    if (!Objects.isNull(caseStatus) && !caseStatus.isBlank()) {
+    if (stringNotEmpty(caseStatus)) {
       sj.add("ACTUAL_CASE_STATUS = '" + caseStatus + "'");
     }
     // Surname
-    if (!Objects.isNull(clientSurname) && !clientSurname.isBlank()) {
+    if (stringNotEmpty(clientSurname)) {
       sj.add("UPPER(PERSON_LAST_NAME) LIKE '%" + clientSurname.toUpperCase() + "%'");
     }
     // Fee earner party ID
