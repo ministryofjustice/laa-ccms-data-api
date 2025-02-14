@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.controller;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +53,10 @@ public class ClientsController implements ClientsApi {
   public ResponseEntity<ClientDetails> getClients(String firstName, String surname,
       LocalDate dateOfBirth, String gender, String clientReferenceNumber, String homeOfficeReference,
       String nationalInsuranceNumber, Pageable pageable) {
-    return null;
+    Optional<ClientDetails> clients = clientService.getClients(firstName, surname, dateOfBirth,
+        gender,
+        clientReferenceNumber, homeOfficeReference, nationalInsuranceNumber,
+        pageable);
+    return clients.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 }

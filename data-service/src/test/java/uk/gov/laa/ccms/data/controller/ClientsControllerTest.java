@@ -1,5 +1,7 @@
 package uk.gov.laa.ccms.data.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -17,11 +19,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import uk.gov.laa.ccms.data.model.ClientDetails;
+import uk.gov.laa.ccms.data.model.ClientSummary;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.ClientService;
 import uk.gov.laa.ccms.data.service.ClientServiceException;
@@ -46,7 +51,9 @@ class ClientsControllerTest {
 
   @BeforeEach
   public void setup(){
-    mockMvc = standaloneSetup(clientsController).build();
+    mockMvc = standaloneSetup(clientsController)
+        .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+        .build();
     objectMapper = new ObjectMapper();
   }
 
@@ -90,5 +97,36 @@ class ClientsControllerTest {
           .andExpect(status().is5xxServerError());
     }
 
+  }
+
+  @Nested
+  @DisplayName("getClients() Tests")
+  class GetClientsTests{
+
+    @Test
+    @DisplayName("Should return data")
+    void shouldReturnData() throws Exception {
+      // Given
+      ClientDetails details = new ClientDetails().addContentItem(new ClientSummary()
+          .clientReferenceNumber("123"));
+      when(clientService.getClients(anyString(), anyString(), any(), anyString(),
+          anyString(), anyString(), anyString(), any()))
+          .thenReturn(Optional.of(details));
+      // Then
+      String jsonContent = objectMapper.writeValueAsString(details);
+      mockMvc.perform(get("/clients"))
+          .andDo(print())
+          .andExpect(status().isOk())
+          .andExpect(content().json(jsonContent));
+    }
+
+    @Test
+    @DisplayName("Should return not found")
+    void shouldReturnNotFound() throws Exception {
+      // Then
+      mockMvc.perform(get("/clients"))
+          .andDo(print())
+          .andExpect(status().isNotFound());
+    }
   }
 }

@@ -51,16 +51,15 @@ public class ClientDetail {
   @Column(name = "GENDER", length = 30)
   private String gender;
 
-  // TODO: Contact type is in XML format, is this needed?
-
   @Column(name = "COUNTRY_OF_ORIGIN", length = 3)
   private String countryOfOrigin;
 
   @Column(name = "MARITAL_STATUS", length = 30)
   private String maritalStatus;
 
-  // TODO: Contacts is in XML format, is this needed?
-  // TODO: Addresses is in XML format, is this needed?
+  //@Lob
+  //@Column(name = "ADDRESS", columnDefinition = "CLOB")
+  //private String address;
 
   @Column(name = "CORRESPONDENCE_METHOD", length = 150)
   private String correspondenceMethod;
@@ -82,8 +81,5 @@ public class ClientDetail {
 
   @Column(name = "HOME_OFFICE_NUMBER", length = 150)
   private String homeOfficeNumber;
-
-  // TODO: Case references is in XML format, is this needed?
-
 
 }
