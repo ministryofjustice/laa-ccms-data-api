@@ -56,6 +56,7 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
         .feeEarnerPartyId(3001L)
         .actionNotificationInd("N")
         .isOpen(true)
+        .evidenceAllowedIndicator(true)
         .build();
     n2 = NotificationInfo.builder().notificationId(2L)
         .userId("test_user")
@@ -74,6 +75,7 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
         .feeEarnerPartyId(3002L)
         .actionNotificationInd("O")
         .isOpen(false)
+        .evidenceAllowedIndicator(false)
         .build();
   }
 
