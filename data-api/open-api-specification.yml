@@ -1901,6 +1901,9 @@ components:
           type: 'string'
         notification_open_indicator:
           type: 'boolean'
+        evidence_allowed:
+          type: 'boolean'
+
     notification:
       allOf:
         - $ref: "#/components/schemas/notificationInfo"

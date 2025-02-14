@@ -53,6 +53,7 @@ class NotificationMapperImplTest {
         .lscCaseRefReference("LSC Case Ref")
         .providerCaseReference("Provider Case Ref")
         .feeEarnerPartyId(4L)
+        .evidenceAllowedIndicator(true)
         .build();
 
     // When
@@ -72,6 +73,7 @@ class NotificationMapperImplTest {
     assertEquals(true, notificationResult.getNotificationOpenIndicator());
     assertEquals("Provider Case Ref",notificationResult.getProviderCaseReferenceNumber());
     assertEquals("LSC Case Ref", notificationResult.getCaseReferenceNumber());
+    assertEquals(true, notificationResult.getEvidenceAllowed());
   }
 
   @Test
@@ -129,7 +131,6 @@ class NotificationMapperImplTest {
     assertEquals("Status", resultTwo.getStatus());
   }
 
-  // TODO Come back to this one
   @Test
   @DisplayName("Should map two attachments")
   void shouldMapAttachments(){

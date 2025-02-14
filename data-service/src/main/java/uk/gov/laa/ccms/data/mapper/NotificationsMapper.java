@@ -43,6 +43,7 @@ public interface NotificationsMapper {
   @Mapping(target = "caseReferenceNumber", source = "lscCaseRefReference")
   @Mapping(target = "notificationType", source = "actionNotificationInd")
   @Mapping(target = "notificationOpenIndicator", source = "isOpen")
+  @Mapping(target = "evidenceAllowed", source = "evidenceAllowedIndicator")
   uk.gov.laa.ccms.data.model.NotificationInfo mapToNotification(NotificationInfo notificationInfo);
 
 

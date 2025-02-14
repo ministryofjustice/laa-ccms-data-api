@@ -115,4 +115,8 @@ public class NotificationInfo {
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
   private List<NotificationAction> actions;
 
+  @Column(name = "EVIDENCE_ALLOWED_IND")
+  @Convert(converter = BooleanStringConverter.class)
+  private Boolean evidenceAllowedIndicator;
+
 }
