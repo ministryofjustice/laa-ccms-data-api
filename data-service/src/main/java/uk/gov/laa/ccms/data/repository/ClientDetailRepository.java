@@ -59,7 +59,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
     return new PageImpl<>(resultList, pageable, total);
   }
 
-  private static String getFilterSql(final String firstName, final String surname,
+  private static String getFilterSql(final String firstName, final String surnameAtBirth,
       final LocalDate dateOfBirth, final String gender, final String clientReferenceNumber,
       final String homeOfficeReference, final String nationalInsuranceNumber){
     StringJoiner sj = new StringJoiner(" AND ");
@@ -68,9 +68,8 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
       sj.add("UPPER(FIRSTNAME) LIKE '%" + firstName.toUpperCase() + "%'");
     }
     // Surname (Fuzzy match, case-insensitive)
-    // TODO: Should this also be filtering rows using SURNAME_AT_BIRTH column?
-    if(stringNotEmpty(surname)){
-      sj.add("UPPER(SURNAME) LIKE '%" + surname.toUpperCase() + "%'");
+    if(stringNotEmpty(surnameAtBirth)){
+      sj.add("UPPER(SURNAME_AT_BIRTH) LIKE '%" + surnameAtBirth.toUpperCase() + "%'");
     }
     // Date of birth (Exact match)
     if(!Objects.isNull(dateOfBirth)){

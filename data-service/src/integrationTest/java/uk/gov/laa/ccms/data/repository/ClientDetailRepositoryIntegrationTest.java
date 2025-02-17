@@ -91,10 +91,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
   }
 
   @Test
-  @DisplayName("Should return single client filter equals surname")
-  void shouldReturnSingleClientFilterEqualsSurname(){
+  @DisplayName("Should return single client filter equals surname at birth")
+  void shouldReturnSingleClientFilterEqualsSurnameAtBirth(){
     // Given
-    String surname = "doe";
+    String surname = "smithson";
     // When
     Page<ClientDetail> result = repository.findAll(null,
         surname, null, null, null,
@@ -102,21 +102,22 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals("Doe", result.getContent().getFirst().getSurname());
+    assertEquals("Smithson", result.getContent().getFirst().getSurnameAtBirth());
   }
 
   @Test
-  @DisplayName("Should return mulitple clients filter like surname")
-  void shouldReturnMultipleClientsFilterLikeSurname(){
+  @DisplayName("Should return mulitple clients filter like surname at birth")
+  void shouldReturnMultipleClientsFilterLikeSurnameAtBirth(){
     // Given
-    String surname = "oe";
+    String surname = "smith";
     // When
     Page<ClientDetail> result = repository.findAll(null,
         surname, null, null, null,
         null, null, PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
-    assertEquals("Doe", result.getContent().getFirst().getSurname());
-    assertEquals("Roe", result.getContent().get(1).getSurname());
+    assertEquals("Smithson", result.getContent().getFirst().getSurnameAtBirth());
+    assertEquals("Smith", result.getContent().get(1).getSurnameAtBirth());
   }
 
   @Test
