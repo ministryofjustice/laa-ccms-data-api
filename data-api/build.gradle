@@ -47,6 +47,8 @@ openApiGenerate {
             annotationLibrary     : "swagger2",
             useSpringBoot3        : "true"
     ]
+    typeMappings = ["DateTime": "LocalDateTime"]
+    importMappings = ["LocalDateTime": "java.time.LocalDateTime"]
 }
 
 compileJava.dependsOn 'openApiGenerate'

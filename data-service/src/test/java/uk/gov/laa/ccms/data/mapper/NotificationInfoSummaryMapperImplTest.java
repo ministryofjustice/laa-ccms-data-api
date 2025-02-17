@@ -15,7 +15,7 @@ import uk.gov.laa.ccms.data.entity.NotificationType;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 
 @ExtendWith(MockitoExtension.class)
-class NotificationSummaryMapperImplTest {
+class NotificationInfoSummaryMapperImplTest {
 
   NotificationSummaryMapperImpl mapper = new NotificationSummaryMapperImpl();
 
@@ -71,7 +71,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(3).standardActions(0).overdueActions(0),
-        result, "Notification summary should only have 3 notifications");
+        result, "NotificationInfo summary should only have 3 notifications");
   }
 
   @Test
@@ -86,7 +86,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(5).standardActions(0).overdueActions(0),
-        result, "Notification summary should only have 5 notifications");
+        result, "NotificationInfo summary should only have 5 notifications");
   }
 
   @Test
@@ -102,7 +102,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(0).standardActions(5).overdueActions(0),
-        result, "Notification summary should only have 5 actions");
+        result, "NotificationInfo summary should only have 5 actions");
   }
 
   @Test
@@ -117,7 +117,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(0).standardActions(6).overdueActions(0),
-        result, "Notification summary should only have 6 actions");
+        result, "NotificationInfo summary should only have 6 actions");
   }
 
 
@@ -134,7 +134,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(0).standardActions(0).overdueActions(7),
-        result, "Notification summary should only have 7 actions");
+        result, "NotificationInfo summary should only have 7 actions");
   }
 
   @Test
@@ -149,7 +149,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(0).standardActions(0).overdueActions(9),
-        result, "Notification summary should only have 9 overdue");
+        result, "NotificationInfo summary should only have 9 overdue");
   }
 
   @Test
@@ -165,7 +165,7 @@ class NotificationSummaryMapperImplTest {
     NotificationSummary result = mapper.toNotificationSummary(counts);
     // Then
     assertEquals(new NotificationSummary().notifications(2).standardActions(4).overdueActions(6),
-        result, "Notification summary should only have 7 actions");
+        result, "NotificationInfo summary should only have 7 actions");
   }
 
 

@@ -3,10 +3,12 @@ package uk.gov.laa.ccms.data.controller;
 import java.time.LocalDate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.NotificationsApi;
+import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
@@ -20,38 +22,60 @@ import uk.gov.laa.ccms.data.service.NotificationService;
  * <p>This class implements the {@link NotificationsApi} interface and provides
  * endpoints for retrieving notification summaries for users.</p>
  *
+ * @author Jamie Briggs
  * @see NotificationsApi
  * @see NotificationService
- * @author Jamie Briggs
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class NotificationsController implements NotificationsApi {
 
   private final NotificationService notificationService;
 
+
+  /**
+   * Retrieves a notification based on the provided notification ID and provider ID.
+   *
+   * @param notificationId the unique identifier of the notification to retrieve
+   * @param providerId the unique identifier of the provider associated with the notification
+   * @return a {@code ResponseEntity} containing the retrieved {@code Notification} if found,
+   *         or a {@code ResponseEntity} with HTTP status 404 if the notification is not found.
+   */
+  @Override
+  public ResponseEntity<Notification> getNotification(Long notificationId, Long providerId) {
+    return notificationService.getNotification(notificationId, providerId).map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
   /**
    * Retrieves a list of notifications based on various search criteria.
    *
-   * @param caseReferenceNumber the case reference number to filter notifications
+   * @param providerId            the provider ID to filter notifications
+   * @param caseReferenceNumber   the case reference number to filter notifications
    * @param providerCaseReference the provider-specific case reference to filter notifications
-   * @param assignedToUserId the user ID to filter notifications assigned to a specific user
-   * @param clientSurname the client's surname to filter notifications for a specific client
-   * @param feeEarnerId the ID of the fee earner to filter notifications associated with them
-   * @param includeClosed a flag to indicate whether to include closed notifications in the results
-   * @param notificationType the type of notifications to filter by
-   * @param dateFrom the starting date to filter notifications by a specific date range
-   * @param dateTo the ending date to filter notifications by a specific date range
-   * @param pageable the pagination and sorting information for the result set
-   * @return a {@code ResponseEntity} containing the retrieved list of notifications if found,
-   *         or a {@code ResponseEntity} with HTTP status 404 if no notifications are found
+   * @param assignedToUserId      the user ID to filter notifications assigned to a specific user
+   * @param clientSurname         the client's surname to filter notifications for a specific
+   *                              client
+   * @param feeEarnerId           the ID of the fee earner to filter notifications associated with
+   *                              them
+   * @param includeClosed         a flag to indicate whether to include closed notifications in the
+   *                              results
+   * @param notificationType      the type of notifications to filter by
+   * @param dateFrom              the starting date to filter notifications by a specific date
+   *                              range
+   * @param dateTo                the ending date to filter notifications by a specific date range
+   * @param pageable              the pagination and sorting information for the result set
+   * @return a {@code ResponseEntity} containing the retrieved list of notifications if found, or a
+   *     {@code ResponseEntity} with HTTP status 404 if no notifications are found
    */
   @Override
-  public ResponseEntity<Notifications> getNotifications(String caseReferenceNumber,
-      String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, Boolean includeClosed, String notificationType, LocalDate dateFrom,
-      LocalDate dateTo, Pageable pageable) {
+  public ResponseEntity<Notifications> getNotifications(Long providerId,
+      String caseReferenceNumber, String providerCaseReference, String assignedToUserId,
+      String clientSurname, Integer feeEarnerId, Boolean includeClosed,
+      String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable) {
     Optional<Notifications> notifications = notificationService.getNotifications(
+        providerId,
         caseReferenceNumber,
         providerCaseReference,
         assignedToUserId,
@@ -69,8 +93,8 @@ public class NotificationsController implements NotificationsApi {
    * Retrieves a summary of user notifications for the specified login ID.
    *
    * @param loginId the login ID of the user for whom the notification summary is to be retrieved
-   * @return a {@code ResponseEntity} containing the {@code NotificationSummary} if found,
-   *         or a {@code ResponseEntity} with HTTP status 404 if no summary is available
+   * @return a {@code ResponseEntity} containing the {@code NotificationSummary} if found, or a
+   *     {@code ResponseEntity} with HTTP status 404 if no summary is available
    */
   @Override
   public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {

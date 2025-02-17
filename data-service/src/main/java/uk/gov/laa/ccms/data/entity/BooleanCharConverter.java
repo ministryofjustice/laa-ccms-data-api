@@ -8,7 +8,7 @@ import java.util.Optional;
  * AttributeConverter class to handle the conversion to/from a Boolean value and 'Y' or 'N'.
  */
 @Converter(autoApply = true)
-public class BooleanConverter implements AttributeConverter<Boolean, Character> {
+public class BooleanCharConverter implements AttributeConverter<Boolean, Character> {
 
   /**
    * Handle the conversion from a boolean value, to 'Y' or 'N'.

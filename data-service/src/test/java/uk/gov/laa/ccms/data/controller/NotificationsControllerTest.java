@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.controller;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,8 +23,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.server.ResponseStatusException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.Notification;
+import uk.gov.laa.ccms.data.model.NotificationInfo;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
@@ -85,14 +88,14 @@ class NotificationsControllerTest {
   @DisplayName("getNotifications: Returns data")
   void getNotifications_returnsData() throws Exception {
     //Given
-    Notifications expected = new Notifications().addContentItem(new Notification().notificationId("123"));
-    when(notificationService.getNotifications(Mockito.any(), Mockito.any(), Mockito.any(),
-        Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.any(), Mockito.any(),
+    Notifications expected = new Notifications().addContentItem(new NotificationInfo().notificationId("123"));
+    when(notificationService.getNotifications(Mockito.eq(123L), Mockito.any(), Mockito.any(), Mockito.any(),
+        Mockito.any(), Mockito.any(), Mockito.eq(true), Mockito.any(), Mockito.any(),
         Mockito.any(), Mockito.any())).thenReturn(Optional.of(
         expected));
     // Then
     String jsonContent = objectMapper.writeValueAsString(expected);
-    this.mockMvc.perform(get("/notifications"))
+    this.mockMvc.perform(get("/notifications?provider-id=123"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));
@@ -103,8 +106,65 @@ class NotificationsControllerTest {
   void getNotifications_notFound() throws Exception {
     //Given
     // Then
-    this.mockMvc.perform(get("/notifications"))
+    this.mockMvc.perform(get("/notifications?provider-id=123"))
         .andDo(print())
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getNotifications: Bad request")
+  void getNotifications_badRequest() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("getNotification: Returns data")
+  void getNotification_returnsData() throws Exception {
+    //Given
+    Notification expected = new Notification().notificationId("123").providerFirmId("1");
+    when(notificationService.getNotification(123L, 1L)).thenReturn(Optional.of(expected));
+    // Then
+    String jsonContent = objectMapper.writeValueAsString(expected);
+    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().json(jsonContent));
+  }
+
+  @Test
+  @DisplayName("getNotification: Forbidden data")
+  void getNotification_forbidden() throws Exception {
+    //Given
+    when(notificationService.getNotification(123L, 1L))
+        .thenThrow(new ResponseStatusException(FORBIDDEN, "Access Denied"));
+    // Then
+    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+        .andDo(print())
+        .andExpect(status().isForbidden());
+  }
+
+
+  @Test
+  @DisplayName("getNotification: Not found")
+  void getNotification_notFound() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("getNotification: Bad request")
+  void getNotification_badRequest() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications/abc"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
   }
 }

@@ -12,7 +12,7 @@ import lombok.Getter;
  * <p>The available types are:
  * <ul>
  *  <li>NOTIFICATIONS: Represents general notifications. In
- *  the DB referred to as 'Notification'.</li>
+ *  the DB referred to as 'NotificationInfo'.</li>
  *  <li>ACTION: Represents action-required notifications. In the DB referred to as 'Action'.</li>
  *  <li>OVERDUE: Represents overdue notifications. In the DB referred to as 'Overdue'.</li>
  * </ul>
@@ -23,7 +23,7 @@ import lombok.Getter;
  */
 @Getter
 public enum NotificationType {
-  NOTIFICATIONS("Notification"),
+  NOTIFICATIONS("NotificationInfo"),
   ACTION("Action"),
   OVERDUE("Overdue");
 

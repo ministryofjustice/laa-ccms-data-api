@@ -2,363 +2,154 @@ package uk.gov.laa.ccms.data.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.ActiveProfiles;
-import uk.gov.laa.ccms.data.entity.Notification;
-import uk.gov.laa.ccms.data.repository.specification.NotificationSpecification;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlMergeMode;
+import org.springframework.transaction.annotation.Transactional;
+import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
+import uk.gov.laa.ccms.data.entity.NotificationAction;
+import uk.gov.laa.ccms.data.entity.NotificationAttachment;
+import uk.gov.laa.ccms.data.entity.NotificationDocument;
+import uk.gov.laa.ccms.data.entity.NotificationInfo;
+import uk.gov.laa.ccms.data.entity.NotificationNote;
 
-@DataJpaTest
-@ActiveProfiles("h2-test")
-@DisplayName("Notification Repository Integration Test")
-class NotificationRepositoryIntegrationTest {
-  
+@SpringBootTest
+@SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
+@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_CLASS, scripts = {
+    "/sql/get_notif_info_create_schema.sql",
+    "/sql/get_notif_info_relationships_create_schema.sql"
+})
+@Sql(executionPhase = ExecutionPhase.AFTER_TEST_CLASS, scripts = {
+    "/sql/get_notif_info_drop_schema.sql",
+    "/sql/get_notif_info_relationships_drop_schema.sql",
+})
+@DisplayName("Notification Repository Integration Tests")
+public class NotificationRepositoryIntegrationTest implements OracleIntegrationTestInterface {
+
   @Autowired
-  private NotificationRepository notificationRepository;
-  
-  @PersistenceContext
-  private EntityManager entityManager;
+  private NotificationRepository repository;
 
-  private Notification n1;
-  private Notification n2;
+  private NotificationInfo notification;
 
   @BeforeEach
-  void setUp() {
-    // Insert test data into the in-memory database
-    n1 = Notification.builder().notificationId(1L)
-        .lscCaseRefReference("1001")
-        .providerCaseReference("2001")
+  void setup(){
+    notification = NotificationInfo.builder().notificationId(1L)
+        .userId("test_user")
+        .userLoginId("test_login")
+        .providerFirmId(10L)
+        .dateAssigned(LocalDate.of(2025, 1, 1))
+        .subject("Subject")
+        .dueDate(LocalDate.of(2027, 1, 1))
         .assignedTo("JBriggs")
-        .personFirstName("Jamie")
+        .status("open")
+        .lscCaseRefReference("1001")
+        .providerCaseReference("First Case Reference")
+        .clientName("Jamie Briggs")
+        .feeEarner("Fee")
         .personLastName("Briggs")
         .feeEarnerPartyId(3001L)
-        .isOpen(true)
         .actionNotificationInd("N")
-        .dateAssigned(LocalDate.of(2025, 1, 1))
+        .isOpen(true)
         .build();
-    n2 = Notification.builder().notificationId(2L)
-        .lscCaseRefReference("1002")
-        .providerCaseReference("2002")
-        .assignedTo("SMonday")
-        .personFirstName("Ski")
-        .personLastName("Bri-Monday")
-        .feeEarnerPartyId(3002L)
-        .isOpen(false)
-        .actionNotificationInd("O")
-        .dateAssigned(LocalDate.of(2026, 1, 1))
-        .build();
-    // Use entityManager as NotificationRepository extends ReadOnlyRepository.
-    entityManager.persist(n1);
-    entityManager.persist(n2);
   }
 
   @Test
-  @DisplayName("Should get all Notifications")
-  void shouldGetAllNotifications(){
+  @DisplayName("Should return notification")
+  void shouldReturnNotification(){
     // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
+    long notificationId = 1L;
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    NotificationInfo result = repository.findById(notificationId).orElse(null);
     // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
-  }
-  
-  @Test
-  @DisplayName("Should filter by case reference number")
-  void shouldFilterByCaseReferenceNumber(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        "1001",
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    assertEquals(1L, result.getNotificationId());
+    assertEquals("test_user", result.getUserId());
+    assertEquals("test_login", result.getUserLoginId());
+    assertEquals(10L, result.getProviderFirmId());
+    assertEquals(LocalDate.of(2025, 1, 1), result.getDateAssigned());
+    assertEquals("Subject", result.getSubject());
+    assertEquals(LocalDate.of(2027, 1, 1), result.getDueDate());
+    assertEquals("JBriggs", result.getAssignedTo());
+    assertEquals("open", result.getStatus());
+    assertEquals("1001", result.getLscCaseRefReference());
+    assertEquals("First Case Reference", result.getProviderCaseReference());
+    assertEquals("Jamie Briggs", result.getClientName());
+    assertEquals("Fee", result.getFeeEarner());
+    assertEquals("Briggs", result.getPersonLastName());
+    assertEquals(3001L, result.getFeeEarnerPartyId());
+    assertEquals("N", result.getActionNotificationInd());
+    assertEquals(true, result.getIsOpen());
   }
 
   @Test
-  @DisplayName("Should filter by similar case reference number")
-  void shouldFilterBySimilarCaseReferenceNumber(){
+  @Transactional
+  @DisplayName("Should return notification with notes")
+  public void shouldReturnNotificationWithNotes(){
     // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        "100",
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
+    long notificationId = 1L;
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    NotificationInfo result = repository.findById(notificationId).orElse(null);
     // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    NotificationNote note = result.getNotes().getFirst();
+    assertEquals(1, note.getNoteId());
+    assertEquals(1, note.getNotificationId());
+    assertEquals(LocalDateTime.of(2025, 1, 1, 0,0,0,0), note.getNoteDate());
+    assertEquals("Here is the body of text for this note", note.getNoteText());
+    assertEquals("Jamie Briggs", note.getNoteBy());
   }
 
   @Test
-  @DisplayName("Should filter by provider case reference number")
-  void shouldFilterByProviderCaseReferenceNumber(){
+  @Transactional
+  @DisplayName("Should return notification with documents")
+  public void shouldReturnNotificationWithDocuments(){
     // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        "2001",
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
+    long notificationId = 1L;
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    NotificationInfo result = repository.findById(notificationId).orElse(null);
     // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    NotificationDocument document = result.getDocuments().getFirst();
+    assertEquals(1, document.getDocumentId());
+    assertEquals(1, document.getNotificationId());
+    assertEquals("Channel", document.getDocumentChannel());
+    assertEquals("Type", document.getDocumentType());
+    assertEquals("Document description", document.getDocumentDescription());
+    assertEquals("Status", document.getDocumentStatus());
+    assertEquals("EDRMS ID", document.getEdrmsDocumentid());
   }
 
   @Test
-  @DisplayName("Should filter by similar provider case reference number")
-  void shouldFilterBySimilarProviderCaseReferenceNumber(){
+  @Transactional
+  @DisplayName("Should return notification with attachments")
+  public void shouldReturnNotificationWithAttachments(){
     // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        "200",
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
+    long notificationId = 1L;
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    NotificationInfo result = repository.findById(notificationId).orElse(null);
     // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
+    NotificationAttachment attachment = result.getAttachments().getFirst();
+    assertEquals(1, attachment.getAttachmentId());
+    assertEquals(1, attachment.getNotificationId());
+    assertEquals("Attachment Title", attachment.getAttachmentTitle());
+    assertEquals("Attachment description", attachment.getAttachmentDescription());
   }
 
   @Test
-  @DisplayName("Should filter by assigned to user ID")
-  void shouldFilterByAssignedToUserID(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        "JBriggs",
-        null,
-        null,
-        true,
-        null,
-        null,
-        null);
+  @Transactional
+  @DisplayName("Should return notification with actions")
+  public void shouldReturnNotificationWithActions(){
+    long notificationId = 1L;
     // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
+    NotificationInfo result = repository.findById(notificationId).orElse(null);
     // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
+    NotificationAction action = result.getActions().getFirst();
+    assertEquals(1, action.getNextActionId());
+    assertEquals(1, action.getNotificationId());
+    assertEquals("Action to complete", action.getNextAction());
   }
-
-  @Test
-  @DisplayName("Should filter by user surname")
-  void shouldFilterByUserSurname(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        "Briggs",
-        null,
-        true,
-        null,
-        null,
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-  }
-
-  @Test
-  @DisplayName("Should filter by like user surname")
-  void shouldFilterByLikeUserSurname(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        "Bri",
-        null,
-        true,
-        null,
-        null,
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
-  }
-
-  @Test
-  @DisplayName("Should filter by fee earner ID")
-  void shouldFilterByFeeEarnerID(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        3001,
-        true,
-        null,
-        null,
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-  }
-
-  @Test
-  @DisplayName("Should filter by notification type")
-  void shouldFilterByNotificationType(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true, "N",
-        null,
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-  }
-
-  @Test
-  @DisplayName("Should filter by date from")
-  void shouldFilterByDateFrom(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        LocalDate.of(2025, 2, 1),
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n2));
-  }
-
-  @Test
-  @DisplayName("Should filter by date from inclusive")
-  void shouldFilterByDateFromInclusive(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        LocalDate.of(2024, 1, 1),
-        null);
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
-  }
-
-  @Test
-  @DisplayName("Should filter by date to")
-  void shouldFilterByDateTo(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        LocalDate.of(2025, 12, 1));
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(1, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-  }
-
-  @Test
-  @DisplayName("Should filter by date to inclusive")
-  void shouldFilterByDateToInclusive(){
-    // Given
-    Specification<Notification> spec = NotificationSpecification.withFilters(
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        LocalDate.of(2026, 1, 1));
-    // When
-    Page<Notification> result = notificationRepository.findAll(spec, Pageable.ofSize(10).withPage(0));
-    // Then
-    assertEquals(2, result.getTotalElements());
-    assertEquals(true, result.getContent().contains(n1));
-    assertEquals(true, result.getContent().contains(n2));
-  }
-
-
 }

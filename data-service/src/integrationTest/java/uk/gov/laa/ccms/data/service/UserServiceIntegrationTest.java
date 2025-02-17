@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.IntegrationTestInterface;
+import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
 import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.model.UserDetails;
 
@@ -28,7 +28,7 @@ import uk.gov.laa.ccms.data.model.UserDetails;
 @Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/users_create_schema.sql" )
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/providers_drop_schema.sql")
 @Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/users_drop_schema.sql")
-public class UserServiceIntegrationTest implements IntegrationTestInterface {
+public class UserServiceIntegrationTest implements OracleIntegrationTestInterface {
 
     @Autowired
     private UserService userService;

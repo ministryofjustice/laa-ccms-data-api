@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
-import uk.gov.laa.ccms.data.IntegrationTestInterface;
+import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
 import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
@@ -23,7 +23,7 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/providers_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/providers_drop_schema.sql")
-public class ProviderServiceIntegrationTest implements IntegrationTestInterface {
+public class ProviderServiceIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ProviderService providerService;
