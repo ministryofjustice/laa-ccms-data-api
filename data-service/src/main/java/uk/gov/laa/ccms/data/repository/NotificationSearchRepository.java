@@ -35,7 +35,7 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
   }
 
   /**
-   * Retrieves a paginated list of NotificationInfo entities from the database, applying the
+   * Retrieves a paginated list of {@link NotificationInfo} entities from the database, applying the
    * specified filters to narrow down the results.
    *
    * @param providerId             the ID of the provider firm to filter notifications
@@ -106,22 +106,25 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
 
     StringJoiner sj = new StringJoiner(" AND ");
     // Provider firm party id
+    
     sj.add("WHERE PROVIDERFIRM_ID = " + providerId);
     // Case reference number
     if (stringNotEmpty(caseReferenceNumber)) {
-      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + caseReferenceNumber + "%'");
+      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + sanitizeForSql(caseReferenceNumber) + "%'");
     }
     // Provider case reference
     if (stringNotEmpty(providerCaseReference)) {
-      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
+      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + sanitizeForSql(
+          providerCaseReference.toUpperCase()) + "%'");
     }
     // Assigned to user ID
     if (stringNotEmpty(assignedToUser)) {
-      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + assignedToUser.toUpperCase() + "%'");
+      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + sanitizeForSql(assignedToUser.toUpperCase()) + "%'");
     }
     // Client Surname
     if (stringNotEmpty(clientSurname)) {
-      sj.add("UPPER(PERSON_LAST_NAME) LIKE '%" + clientSurname.toUpperCase() + "%'");
+      sj.add(
+          "UPPER(PERSON_LAST_NAME) LIKE '%" + sanitizeForSql(clientSurname.toUpperCase()) + "%'");
     }
     // Fee Earner ID
     if (!Objects.isNull(feeEarnerId)) {
@@ -132,7 +135,7 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
       sj.add("IS_OPEN = 'true'");
     }
     if (stringNotEmpty(notificationType)) {
-      sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
+      sj.add("ACTION_NOTIFICATION_IND = '" + sanitizeForSql(notificationType) + "'");
     }
     if (Objects.nonNull(assignedDateFrom)) {
       sj.add("DATE_ASSIGNED >= TO_DATE('" + assignedDateFrom + "', 'YYYY-MM-DD')");

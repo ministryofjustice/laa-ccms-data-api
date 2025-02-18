@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -57,9 +58,9 @@ public class ClientDetail {
   @Column(name = "MARITAL_STATUS", length = 30)
   private String maritalStatus;
 
-  //@Lob
-  //@Column(name = "ADDRESS", columnDefinition = "CLOB")
-  //private String address;
+  @Lob
+  @Column(name = "ADDRESS", columnDefinition = "CLOB")
+  private String address;
 
   @Column(name = "CORRESPONDENCE_METHOD", length = 150)
   private String correspondenceMethod;

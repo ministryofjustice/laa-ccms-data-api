@@ -11,11 +11,10 @@ import uk.gov.laa.ccms.data.model.ClientSummary;
 public interface ClientDetailsMapper {
 
 
-  //@Mapping(target = "postalCode",
-  //    expression = "java(clientDetail.getAddress() != null ? "
-  //        + "clientDetail.getAddress().replaceAll(\".*<PostalCode>(.*?)</PostalCode>"
-  //        + ".*\", \"$1\") : \"\")")
-  @Mapping(target = "postalCode", constant = "")
+  @Mapping(target = "postalCode",
+      expression = "java(clientDetail.getAddress() != null ? "
+          + "clientDetail.getAddress().replaceAll(\".*<PostalCode>(.*?)</PostalCode>"
+          + ".*\", \"$1\") : \"\")")
   @Mapping(target = "homeOfficeReference", source = "homeOfficeNumber")
   @Mapping(target = "fullName",
       expression = "java(clientDetail.getFirstName() + ' ' + clientDetail.getSurname())")

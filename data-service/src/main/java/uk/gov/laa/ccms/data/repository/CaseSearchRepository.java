@@ -100,19 +100,21 @@ public class CaseSearchRepository extends BaseEntityManagerRepository{
     sj.add("WHERE PROVIDER_FIRM_PARTY_ID = " + providerFirmPartyId);
     // Case reference number
     if (stringNotEmpty(caseReferenceNumber)) {
-      sj.add("LSC_CASE_REFERENCE LIKE '%" + caseReferenceNumber + "%'");
+      sj.add("LSC_CASE_REFERENCE LIKE '%" + sanitizeForSql(caseReferenceNumber) + "%'");
     }
     // Provider case reference
     if (stringNotEmpty(providerCaseReference)) {
-      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
+      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + sanitizeForSql(
+          providerCaseReference.toUpperCase()) + "%'");
     }
     // Case status
     if (stringNotEmpty(caseStatus)) {
-      sj.add("ACTUAL_CASE_STATUS = '" + caseStatus + "'");
+      sj.add("ACTUAL_CASE_STATUS = '" + sanitizeForSql(caseStatus) + "'");
     }
     // Surname
     if (stringNotEmpty(clientSurname)) {
-      sj.add("UPPER(PERSON_LAST_NAME) LIKE '%" + clientSurname.toUpperCase() + "%'");
+      sj.add(
+          "UPPER(PERSON_LAST_NAME) LIKE '%" + sanitizeForSql(clientSurname.toUpperCase()) + "%'");
     }
     // Fee earner party ID
     if (!Objects.isNull(feeEarnerId)) {

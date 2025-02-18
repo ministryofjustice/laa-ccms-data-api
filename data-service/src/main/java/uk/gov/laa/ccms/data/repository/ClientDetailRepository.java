@@ -12,30 +12,60 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.ClientDetail;
 
+/**
+ * Repository for searching and retrieving client detail records using dynamic filters
+ *     and pagination.
+ *
+ * <p>This class interacts directly with the database view <b>XXCCMS_GET_CLIENT_DETAILS_V</b>
+ * to fetch records relating to client details, appying dynamic filters and paginated results.
+ * It provides an implementation using native SQL queries to support complex filter conditions.</p>
+ *
+ * <p>Extends {@link BaseEntityManagerRepository} which contains helper methods for helping
+ * build a SQL query and {@link EntityManager}.</p>
+ *
+ * @author Jamie Briggs
+ * @see ClientDetail
+ * @see Pageable
+ */
 @Repository
 public class ClientDetailRepository extends BaseEntityManagerRepository {
-
 
   public ClientDetailRepository(EntityManager entityManager) {
     super(entityManager);
   }
 
+  /**
+   * Retrieves a paginated list of {@link ClientDetail} objects based on the provided search
+   *     criteria and pageable options.
+   *
+   * @param firstName              the first name of the client to search for; supports fuzzy
+   *                                   matching and case insensitivity
+   * @param surname                the surname of the client to search for; supports fuzzy
+   *                                   matching and case insensitivity
+   * @param dateOfBirth            the date of birth of the client to search for; supports
+   *                                   exact matching
+   * @param gender                 the gender of the client to search for; supports exact
+   *                                   matching and case insensitivity
+   * @param clientReferenceNumber  the client reference number to search for; supports fuzzy
+   *                                   matching and case insensitivity
+   * @param homeOfficeReference    the home office reference to search for; supports fuzzy
+   *                                   matching and case insensitivity
+   * @param nationalInsuranceNumber the national insurance number to search for; supports
+   *                                   fuzzy matching and case insensitivity
+   * @param pageable               pagination and sorting information to apply to the results
+   * @return a {@link Page} of {@link ClientDetail} instances that match the search criteria,
+   *     including pagination data
+   */
   public Page<ClientDetail> findAll(final String firstName, final String surname,
       final LocalDate dateOfBirth, final String gender, final String clientReferenceNumber,
       final String homeOfficeReference, final String nationalInsuranceNumber,
-      final Pageable pageable){
-
+      final Pageable pageable) {
     final String searchCaseQuery =
-        """
-             SELECT * FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V
-            """
+        "SELECT * FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V"
         + getFilterSql(firstName, surname, dateOfBirth, gender, clientReferenceNumber,
             homeOfficeReference, nationalInsuranceNumber)
-        +
-            getSortSql(pageable) +
-        """
-            OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY
-            """;
+        + getSortSql(pageable)
+        + "OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY";
 
     Query query = entityManager.createNativeQuery(searchCaseQuery, ClientDetail.class);
     query.setHint("org.hibernate.readOnly", true);
@@ -65,11 +95,11 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
     StringJoiner sj = new StringJoiner(" AND ");
     // First name (Fuzzy match, case-insensitive)
     if(stringNotEmpty(firstName)){
-      sj.add("UPPER(FIRSTNAME) LIKE '%" + firstName.toUpperCase() + "%'");
+      sj.add("UPPER(FIRSTNAME) LIKE '%" + sanitizeForSql(firstName.toUpperCase()) + "%'");
     }
     // Surname (Fuzzy match, case-insensitive)
     if(stringNotEmpty(surnameAtBirth)){
-      sj.add("UPPER(SURNAME_AT_BIRTH) LIKE '%" + surnameAtBirth.toUpperCase() + "%'");
+      sj.add("UPPER(SURNAME_AT_BIRTH) LIKE '%" + sanitizeForSql(surnameAtBirth.toUpperCase()) + "%'");
     }
     // Date of birth (Exact match)
     if(!Objects.isNull(dateOfBirth)){
@@ -77,22 +107,22 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
     }
     // Gender (Exact match but case-insensitive)
     if(stringNotEmpty(gender)){
-      sj.add("UPPER(GENDER) = '" + gender.toUpperCase() + "'");
+      sj.add("UPPER(GENDER) = '" + sanitizeForSql(gender.toUpperCase()) + "'");
     }
     // Client reference number (Fuzzy match, case-insensitive)
     if(stringNotEmpty(clientReferenceNumber)){
       sj.add("TO_CHAR(CLIENT_REFERENCE_NUMBER) LIKE '%"
-          + clientReferenceNumber.toUpperCase() + "%'");
+          + sanitizeForSql(clientReferenceNumber.toUpperCase()) + "%'");
     }
     // Home office number (Fuzzy match, case-insensitive)
     if(stringNotEmpty(homeOfficeReference)){
       sj.add("UPPER(HOME_OFFICE_NUMBER) LIKE '%"
-          + homeOfficeReference.toUpperCase() + "%'");
+          + sanitizeForSql(homeOfficeReference.toUpperCase()) + "%'");
     }
     // National insurance number
     if(stringNotEmpty(nationalInsuranceNumber)){
       sj.add("UPPER(NI_NUMBER) LIKE '%"
-          + nationalInsuranceNumber.toUpperCase() + "%'");
+          + sanitizeForSql(nationalInsuranceNumber.toUpperCase()) + "%'");
     }
     return sj.length() > 0 ? "WHERE " + sj : "";
   }

@@ -51,8 +51,9 @@ public class ClientsController implements ClientsApi {
 
   @Override
   public ResponseEntity<ClientDetails> getClients(String firstName, String surname,
-      LocalDate dateOfBirth, String gender, String clientReferenceNumber, String homeOfficeReference,
-      String nationalInsuranceNumber, Pageable pageable) {
+      LocalDate dateOfBirth, String gender, String clientReferenceNumber,
+      String homeOfficeReference, String nationalInsuranceNumber,
+      Pageable pageable) {
     Optional<ClientDetails> clients = clientService.getClients(firstName, surname, dateOfBirth,
         gender,
         clientReferenceNumber, homeOfficeReference, nationalInsuranceNumber,
