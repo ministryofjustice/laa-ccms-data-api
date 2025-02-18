@@ -53,7 +53,7 @@ public interface NotificationMapper {
    *     the {@link NotificationAction} object.
    */
   @Named("action")
-  public static String actionToString(NotificationAction action) {
+  static String actionToString(NotificationAction action) {
     return action.getNextAction();
   }
 

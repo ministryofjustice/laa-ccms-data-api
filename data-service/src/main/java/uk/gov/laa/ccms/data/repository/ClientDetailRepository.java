@@ -60,6 +60,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
       final LocalDate dateOfBirth, final String gender, final String clientReferenceNumber,
       final String homeOfficeReference, final String nationalInsuranceNumber,
       final Pageable pageable) {
+    
     final String searchCaseQuery =
         "SELECT * FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V"
         + getFilterSql(firstName, surname, dateOfBirth, gender, clientReferenceNumber,
@@ -73,9 +74,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
     query.setParameter("size", pageable.getPageSize());
 
     final String countClientDetails =
-        """
-        SELECT COUNT(*) FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V
-        """
+        "SELECT COUNT(*) FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V"
         + getFilterSql(firstName, surname, dateOfBirth, gender, clientReferenceNumber,
             homeOfficeReference, nationalInsuranceNumber);
 
@@ -91,36 +90,37 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
 
   private static String getFilterSql(final String firstName, final String surnameAtBirth,
       final LocalDate dateOfBirth, final String gender, final String clientReferenceNumber,
-      final String homeOfficeReference, final String nationalInsuranceNumber){
+      final String homeOfficeReference, final String nationalInsuranceNumber) {
     StringJoiner sj = new StringJoiner(" AND ");
     // First name (Fuzzy match, case-insensitive)
-    if(stringNotEmpty(firstName)){
+    if (stringNotEmpty(firstName)) {
       sj.add("UPPER(FIRSTNAME) LIKE '%" + sanitizeForSql(firstName.toUpperCase()) + "%'");
     }
     // Surname (Fuzzy match, case-insensitive)
-    if(stringNotEmpty(surnameAtBirth)){
-      sj.add("UPPER(SURNAME_AT_BIRTH) LIKE '%" + sanitizeForSql(surnameAtBirth.toUpperCase()) + "%'");
+    if (stringNotEmpty(surnameAtBirth)) {
+      sj.add("UPPER(SURNAME_AT_BIRTH) LIKE '%"
+          + sanitizeForSql(surnameAtBirth.toUpperCase()) + "%'");
     }
     // Date of birth (Exact match)
-    if(!Objects.isNull(dateOfBirth)){
+    if (!Objects.isNull(dateOfBirth)) {
       sj.add("DATE_OF_BIRTH = TO_DATE('" + dateOfBirth + "', 'YYYY-MM-DD')");
     }
     // Gender (Exact match but case-insensitive)
-    if(stringNotEmpty(gender)){
+    if (stringNotEmpty(gender)) {
       sj.add("UPPER(GENDER) = '" + sanitizeForSql(gender.toUpperCase()) + "'");
     }
     // Client reference number (Fuzzy match, case-insensitive)
-    if(stringNotEmpty(clientReferenceNumber)){
+    if (stringNotEmpty(clientReferenceNumber)) {
       sj.add("TO_CHAR(CLIENT_REFERENCE_NUMBER) LIKE '%"
           + sanitizeForSql(clientReferenceNumber.toUpperCase()) + "%'");
     }
     // Home office number (Fuzzy match, case-insensitive)
-    if(stringNotEmpty(homeOfficeReference)){
+    if (stringNotEmpty(homeOfficeReference)) {
       sj.add("UPPER(HOME_OFFICE_NUMBER) LIKE '%"
           + sanitizeForSql(homeOfficeReference.toUpperCase()) + "%'");
     }
     // National insurance number
-    if(stringNotEmpty(nationalInsuranceNumber)){
+    if (stringNotEmpty(nationalInsuranceNumber)) {
       sj.add("UPPER(NI_NUMBER) LIKE '%"
           + sanitizeForSql(nationalInsuranceNumber.toUpperCase()) + "%'");
     }

@@ -34,7 +34,7 @@ import uk.gov.laa.ccms.data.entity.CaseSearch;
  * @author Jamie Briggs
  */
 @Repository
-public class CaseSearchRepository extends BaseEntityManagerRepository{
+public class CaseSearchRepository extends BaseEntityManagerRepository {
 
   public CaseSearchRepository(EntityManager entityManager) {
     super(entityManager);

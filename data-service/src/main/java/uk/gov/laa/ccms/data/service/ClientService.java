@@ -74,10 +74,10 @@ public class ClientService {
    *         or an empty {@code Optional} if no matches exist
    */
   public Optional<ClientDetails> getClients(String firstName, String surname,
-      LocalDate dateOfBirth, String gender, String clientReferenceNumber, String homeOfficeReference,
-      String nationalInsuranceNumber, Pageable pageable) {
-    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(firstName, surname, dateOfBirth,
-        gender, clientReferenceNumber, homeOfficeReference,
+      LocalDate dateOfBirth, String gender, String clientReferenceNumber,
+      String homeOfficeReference, String nationalInsuranceNumber, Pageable pageable) {
+    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(firstName, surname,
+        dateOfBirth, gender, clientReferenceNumber, homeOfficeReference,
         nationalInsuranceNumber, pageable);
     ClientDetails clientDetails = clientDetailsMapper.mapToClientDetails(
         pagedClients);

@@ -52,11 +52,14 @@ public abstract class BaseEntityManagerRepository {
   /**
    * Ensures that a string is query safe. For example, if the string "O'Neil" is entered, it
    *     will get transformed into "O''Neil" to work correctly in a SQL statement.
+   *
    * @param input the string which requires sanitizing.
+   *
    * @return a sanitized string.
    */
   protected static String sanitizeForSql(String input) {
-    return input.replace("'", "''");
+    return input.replace("'",
+        "''");
   }
 
 }
