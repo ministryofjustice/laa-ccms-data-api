@@ -28,7 +28,7 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  * @see Pageable
  */
 @Component
-public final class NotificationSearchRepository extends BaseEntityManagerRepository{
+public final class NotificationSearchRepository extends BaseEntityManagerRepository {
 
   public NotificationSearchRepository(EntityManager entityManager) {
     super(entityManager);

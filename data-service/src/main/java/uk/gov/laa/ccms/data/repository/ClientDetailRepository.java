@@ -74,7 +74,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
     query.setParameter("size", pageable.getPageSize());
 
     final String countClientDetails =
-        "SELECT COUNT(*) FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V"
+        "SELECT COUNT(*) FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V "
         + getFilterSql(firstName, surname, dateOfBirth, gender, clientReferenceNumber,
             homeOfficeReference, nationalInsuranceNumber);
 
