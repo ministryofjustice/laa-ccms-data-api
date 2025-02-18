@@ -108,8 +108,7 @@ class ClientDetailsMapperImplTest {
         .noFixAbode("false")
         .nationalInsuranceNumber("NINO")
         .homeOfficeNumber("Home Office Number")
-        // TODO Add address again once address has been added
-        //.address("<Address><AddressID>52731</AddressID><House>26</House><AddressLine1>26, Grange Avenue</AddressLine1><City>BILLINGHAM</City><Country>GBR</Country><PostalCode>TS23 1JH</PostalCode></Address>")
+        .address("<Address><AddressID>52731</AddressID><House>26</House><AddressLine1>26, Grange Avenue</AddressLine1><City>BILLINGHAM</City><Country>GBR</Country><PostalCode>TS23 1JH</PostalCode></Address>")
         .build();
   }
 }

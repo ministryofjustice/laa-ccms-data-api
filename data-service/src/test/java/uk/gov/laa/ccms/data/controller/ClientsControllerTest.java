@@ -1,7 +1,7 @@
 package uk.gov.laa.ccms.data.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -109,9 +109,10 @@ class ClientsControllerTest {
       // Given
       ClientDetails details = new ClientDetails().addContentItem(new ClientSummary()
           .clientReferenceNumber("123"));
-      when(clientService.getClients(anyString(), anyString(), any(), anyString(),
-          anyString(), anyString(), anyString(), any()))
-          .thenReturn(Optional.of(details));
+      doReturn(Optional.of(details)).when(clientService).getClients(
+          any(), any(), any(), any(),
+          any(), any(), any(), any());
+
       // Then
       String jsonContent = objectMapper.writeValueAsString(details);
       mockMvc.perform(get("/clients"))
