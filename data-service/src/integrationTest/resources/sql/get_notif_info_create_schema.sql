@@ -15,7 +15,8 @@ CREATE TABLE XXCCMS.XXCCMS_GET_NOTIF_INFO_V (
     PERSON_LAST_NAME VARCHAR2(150),
     FEE_EARNER_PARTY_ID NUMBER,
     ACTION_NOTIFICATION_IND VARCHAR2(150),
-    IS_OPEN VARCHAR2(5));
+    IS_OPEN VARCHAR2(5),
+    EVIDENCE_ALLOWED_IND VARCHAR2(5));
 
 
 INSERT INTO XXCCMS.XXCCMS_GET_NOTIF_INFO_V (NOTIFICATION_ID,
@@ -34,7 +35,8 @@ INSERT INTO XXCCMS.XXCCMS_GET_NOTIF_INFO_V (NOTIFICATION_ID,
                                             PERSON_LAST_NAME,
                                             FEE_EARNER_PARTY_ID,
                                             ACTION_NOTIFICATION_IND,
-                                            IS_OPEN)
+                                            IS_OPEN,
+                                            EVIDENCE_ALLOWED_IND)
 VALUES (1, -- NOTIFICATION_ID
         'test_user', -- USER_ID
         'test_login', -- USER_LOGIN_ID
@@ -51,7 +53,8 @@ VALUES (1, -- NOTIFICATION_ID
         'Briggs', -- PERSON_LAST_NAME
         3001, -- FEE_EARNER_PARTY_ID
         'N', -- ACTION_NOTIFICATION_IND
-        'true' -- IS_OPEN
+        'true', -- IS_OPEN
+        'true' -- EVIDENCE_allowed_ind
 );
 
 INSERT INTO XXCCMS.XXCCMS_GET_NOTIF_INFO_V (NOTIFICATION_ID,
@@ -70,7 +73,8 @@ INSERT INTO XXCCMS.XXCCMS_GET_NOTIF_INFO_V (NOTIFICATION_ID,
                                             PERSON_LAST_NAME,
                                             FEE_EARNER_PARTY_ID,
                                             ACTION_NOTIFICATION_IND,
-                                            IS_OPEN)
+                                            IS_OPEN,
+                                            EVIDENCE_ALLOWED_IND)
 VALUES (2, -- NOTIFICATION_ID
         'test_user', -- USER_ID
         'test_login', -- USER_LOGIN_ID
@@ -87,5 +91,6 @@ VALUES (2, -- NOTIFICATION_ID
         'Bri-Monday', -- PERSON_LAST_NAME
         3002, -- FEE_EARNER_PARTY_ID
         'O', -- ACTION_NOTIFICATION_IND
-        'false' -- IS_OPEN
+        'false', -- IS_OPEN
+        'false' -- EVIDENCE_allowed_ind
        );

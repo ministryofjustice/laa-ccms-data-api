@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  * Repository for searching and retrieving notification records
  *     using dynamic filters and pagination.
  *
- * <p>This class interacts directly with the database view <b>XXCCMS_GET_NOTIF_INFO_V</b>
+ * <p>This class interacts directly with the database view `XXCCMS_GET_NOTIF_INFO_V`
  * to fetch records related to notifications, applying dynamic filters and paginated results.
  * It provides an implementation using native SQL queries to support complex filter conditions.</p>
  *
@@ -28,14 +29,13 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  * @see Pageable
  */
 @Component
-public final class NotificationSearchRepository extends BaseEntityManagerRepository  {
+@RequiredArgsConstructor
+public final class NotificationSearchRepository {
 
-  public NotificationSearchRepository(EntityManager entityManager) {
-    super(entityManager);
-  }
+  private final EntityManager entityManager;
 
   /**
-   * Retrieves a paginated list of {@link NotificationInfo} entities from the database, applying the
+   * Retrieves a paginated list of NotificationInfo entities from the database, applying the
    * specified filters to narrow down the results.
    *
    * @param providerId             the ID of the provider firm to filter notifications
@@ -73,7 +73,7 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
             getSortSql(pageable)
             +
         """
-            OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY
+            OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY    
         """;
 
     Query query = entityManager.createNativeQuery(searchNotificationQuery, NotificationInfo.class);
@@ -106,25 +106,23 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
 
     StringJoiner sj = new StringJoiner(" AND ");
     // Provider firm party id
-    
+
     sj.add("WHERE PROVIDERFIRM_ID = " + providerId);
     // Case reference number
     if (stringNotEmpty(caseReferenceNumber)) {
-      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + sanitizeForSql(caseReferenceNumber) + "%'");
+      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + caseReferenceNumber + "%'");
     }
     // Provider case reference
     if (stringNotEmpty(providerCaseReference)) {
-      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + sanitizeForSql(
-          providerCaseReference.toUpperCase()) + "%'");
+      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
     }
     // Assigned to user ID
     if (stringNotEmpty(assignedToUser)) {
-      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + sanitizeForSql(assignedToUser.toUpperCase()) + "%'");
+      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + assignedToUser.toUpperCase() + "%'");
     }
     // Client Surname
     if (stringNotEmpty(clientSurname)) {
-      sj.add(
-          "UPPER(PERSON_LAST_NAME) LIKE '%" + sanitizeForSql(clientSurname.toUpperCase()) + "%'");
+      sj.add("UPPER(PERSON_LAST_NAME) LIKE '%" + clientSurname.toUpperCase() + "%'");
     }
     // Fee Earner ID
     if (!Objects.isNull(feeEarnerId)) {
@@ -135,7 +133,7 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
       sj.add("IS_OPEN = 'true'");
     }
     if (stringNotEmpty(notificationType)) {
-      sj.add("ACTION_NOTIFICATION_IND = '" + sanitizeForSql(notificationType) + "'");
+      sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
     }
     if (Objects.nonNull(assignedDateFrom)) {
       sj.add("DATE_ASSIGNED >= TO_DATE('" + assignedDateFrom + "', 'YYYY-MM-DD')");
@@ -144,6 +142,22 @@ public final class NotificationSearchRepository extends BaseEntityManagerReposit
       sj.add("DATE_ASSIGNED <= TO_DATE('" + assignedDateTo + "', 'YYYY-MM-DD')");
     }
     return sj + " ";
+  }
+
+
+  private static boolean stringNotEmpty(String value) {
+    return value != null && !value.isEmpty();
+  }
+
+  private static String getSortSql(Pageable pageable) {
+    if (pageable.getSort().isEmpty()) {
+      return " ";
+    }
+
+    StringJoiner sortJoiner = new StringJoiner(", ", " ORDER BY ", " ");
+    pageable.getSort().forEach(order ->
+        sortJoiner.add(order.getProperty() + " " + order.getDirection().name()));
+    return sortJoiner.toString();
   }
 
 }

@@ -109,10 +109,15 @@ public class NotificationInfo {
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
   private List<NotificationDocument> documents;
 
-  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
-  private List<NotificationAttachment> attachments;
+  @Column(name = "PERSON_LAST_NAME", length = 150)
+  private String personLastName;
 
-  @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
-  private List<NotificationAction> actions;
+  @Lob
+  @Column(name = "NOTES")
+  private String notes;
+
+  @Lob
+  @Column(name = "UPLOADED_DOCUMENTS")
+  private String uploadedDocuments;
 
 }

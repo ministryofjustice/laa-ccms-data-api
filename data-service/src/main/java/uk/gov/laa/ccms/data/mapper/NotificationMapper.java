@@ -42,6 +42,7 @@ public interface NotificationMapper {
   @Mapping(target = "uploadedDocuments", source = "documents")
   @Mapping(target = "attachedDocuments", source = "attachments")
   @Mapping(target = "availableResponses", source = "actions", qualifiedByName = "action")
+  @Mapping(target = "evidenceAllowed", source = "evidenceAllowedIndicator")
   Notification mapToNotification(NotificationInfo notification);
 
   /**

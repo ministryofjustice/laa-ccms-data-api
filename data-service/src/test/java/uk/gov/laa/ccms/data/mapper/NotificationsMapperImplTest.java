@@ -15,7 +15,7 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.model.Notifications;
 
 @DisplayName("NotificationsMapperImpl Test")
-public class NotificationsMapperImplTest {
+class NotificationsMapperImplTest {
 
   NotificationsMapperImpl mapper = new NotificationsMapperImpl();
 
@@ -54,6 +54,7 @@ public class NotificationsMapperImplTest {
         .lscCaseRefReference("LSC Case Ref")
         .providerCaseReference("Provider Case Ref")
         .feeEarnerPartyId(4L)
+        .evidenceAllowedIndicator(true)
         .build();
     Page<NotificationInfo> input = new PageImpl<>(Arrays.asList(notificationInfo),
         PageRequest.of(0, 1), 1);
