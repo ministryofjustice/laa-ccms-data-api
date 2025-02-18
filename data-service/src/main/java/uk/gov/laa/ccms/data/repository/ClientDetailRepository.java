@@ -62,7 +62,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
       final Pageable pageable) {
     
     final String searchCaseQuery =
-        "SELECT * FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V"
+        "SELECT * FROM XXCCMS.XXCCMS_GET_CLIENT_DETAILS_V "
         + getFilterSql(firstName, surname, dateOfBirth, gender, clientReferenceNumber,
             homeOfficeReference, nationalInsuranceNumber)
         + getSortSql(pageable)
@@ -124,7 +124,7 @@ public class ClientDetailRepository extends BaseEntityManagerRepository {
       sj.add("UPPER(NI_NUMBER) LIKE '%"
           + sanitizeForSql(nationalInsuranceNumber.toUpperCase()) + "%'");
     }
-    return sj.length() > 0 ? "WHERE " + sj : "";
+    return sj.length() > 0 ? "WHERE " + sj + " " : "";
   }
 
 

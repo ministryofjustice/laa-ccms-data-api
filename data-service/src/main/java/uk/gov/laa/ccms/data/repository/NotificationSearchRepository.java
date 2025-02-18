@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,10 +28,11 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  * @see Pageable
  */
 @Component
-@RequiredArgsConstructor
-public final class NotificationSearchRepository {
+public final class NotificationSearchRepository extends BaseEntityManagerRepository{
 
-  private final EntityManager entityManager;
+  public NotificationSearchRepository(EntityManager entityManager) {
+    super(entityManager);
+  }
 
   /**
    * Retrieves a paginated list of NotificationInfo entities from the database, applying the
@@ -107,22 +107,25 @@ public final class NotificationSearchRepository {
     StringJoiner sj = new StringJoiner(" AND ");
     // Provider firm party id
 
+    
     sj.add("WHERE PROVIDERFIRM_ID = " + providerId);
     // Case reference number
     if (stringNotEmpty(caseReferenceNumber)) {
-      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + caseReferenceNumber + "%'");
+      sj.add("LSC_CASE_REF_REFERENCE LIKE '%" + sanitizeForSql(caseReferenceNumber) + "%'");
     }
     // Provider case reference
     if (stringNotEmpty(providerCaseReference)) {
-      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + providerCaseReference.toUpperCase() + "%'");
+      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + sanitizeForSql(
+          providerCaseReference.toUpperCase()) + "%'");
     }
     // Assigned to user ID
     if (stringNotEmpty(assignedToUser)) {
-      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + assignedToUser.toUpperCase() + "%'");
+      sj.add("UPPER(ASSIGNED_TO) LIKE '%" + sanitizeForSql(assignedToUser.toUpperCase()) + "%'");
     }
     // Client Surname
     if (stringNotEmpty(clientSurname)) {
-      sj.add("UPPER(PERSON_LAST_NAME) LIKE '%" + clientSurname.toUpperCase() + "%'");
+      sj.add(
+          "UPPER(PERSON_LAST_NAME) LIKE '%" + sanitizeForSql(clientSurname.toUpperCase()) + "%'");
     }
     // Fee Earner ID
     if (!Objects.isNull(feeEarnerId)) {
@@ -133,7 +136,7 @@ public final class NotificationSearchRepository {
       sj.add("IS_OPEN = 'true'");
     }
     if (stringNotEmpty(notificationType)) {
-      sj.add("ACTION_NOTIFICATION_IND = '" + notificationType + "'");
+      sj.add("ACTION_NOTIFICATION_IND = '" + sanitizeForSql(notificationType) + "'");
     }
     if (Objects.nonNull(assignedDateFrom)) {
       sj.add("DATE_ASSIGNED >= TO_DATE('" + assignedDateFrom + "', 'YYYY-MM-DD')");
@@ -144,20 +147,5 @@ public final class NotificationSearchRepository {
     return sj + " ";
   }
 
-
-  private static boolean stringNotEmpty(String value) {
-    return value != null && !value.isEmpty();
-  }
-
-  private static String getSortSql(Pageable pageable) {
-    if (pageable.getSort().isEmpty()) {
-      return " ";
-    }
-
-    StringJoiner sortJoiner = new StringJoiner(", ", " ORDER BY ", " ");
-    pageable.getSort().forEach(order ->
-        sortJoiner.add(order.getProperty() + " " + order.getDirection().name()));
-    return sortJoiner.toString();
-  }
 
 }
