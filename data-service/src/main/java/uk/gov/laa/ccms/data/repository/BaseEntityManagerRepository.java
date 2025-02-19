@@ -2,12 +2,23 @@ package uk.gov.laa.ccms.data.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.query.QueryUtils;
+import uk.gov.laa.ccms.data.entity.ClientDetail;
 
 /**
  * {@link BaseEntityManagerRepository} provides a foundational repository setup for working with
@@ -24,12 +35,52 @@ import org.springframework.data.domain.Pageable;
  * @see EntityManager
  */
 @RequiredArgsConstructor
-public abstract class BaseEntityManagerRepository {
+public abstract class BaseEntityManagerRepository<T> {
 
   protected final EntityManager entityManager;
+  
+  public abstract Class<T> getEntityClazz();
 
-  protected static boolean stringNotEmpty(String value) {
-    return value != null && !value.isEmpty();
+  @Transactional
+  public Page<T> findAll(final Specification<T> specification, final Pageable pageable) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    
+    CriteriaQuery<T> criteriaQuery = cb.createQuery(getEntityClazz());
+    Root<T> root = criteriaQuery.from(getEntityClazz());
+
+    // Apply specification to construct WHERE clause dynamically
+    if (specification != null) {
+      Predicate predicate = specification.toPredicate(root, criteriaQuery, cb);
+      if (predicate != null) {
+        criteriaQuery = criteriaQuery.where(predicate);
+      }
+    }
+
+    // Apply sorting from Pageable
+    if (pageable.getSort().isSorted()) {
+      criteriaQuery = criteriaQuery.orderBy(QueryUtils.toOrders(pageable.getSort(), root, cb));
+    }
+    
+    Query findAllQuery = entityManager.createQuery(criteriaQuery);
+    findAllQuery.setFirstResult((int) pageable.getOffset());
+    findAllQuery.setMaxResults(pageable.getPageSize());
+    List<T> resultList = findAllQuery.getResultList();
+
+    // Get total count
+    CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+    countQuery.where(criteriaQuery.getRestriction());
+    Root<T> countRoot = countQuery.from(getEntityClazz());
+    countQuery.select(cb.count(countRoot));
+    if (specification != null) {
+      Predicate countPredicate = specification.toPredicate(countRoot, countQuery, cb);
+      if (countPredicate != null) {
+        countQuery.where(countPredicate);
+      }
+    }
+    long total = entityManager.createQuery(countQuery).getSingleResult();
+
+    // Return results with pagination
+    return new PageImpl<>(resultList, pageable, total);
   }
 
   /**

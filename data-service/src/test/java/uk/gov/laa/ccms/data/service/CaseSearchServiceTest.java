@@ -41,12 +41,7 @@ class CaseSearchServiceTest {
   void shouldReturnCaseSummaryObject(){
     // Given
     new CaseSearch();
-    when(caseSearchRepository.findAll(anyLong(),
-        any(),
-        any(),
-        any(),
-        any(),
-        any(),
+    when(caseSearchRepository.findAll(
         any(),
         any(Pageable.class))).thenReturn(new PageImpl<>(List.of(
         CaseSearch.builder().lscCaseReference("123").build())));

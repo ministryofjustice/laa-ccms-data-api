@@ -14,6 +14,7 @@ import uk.gov.laa.ccms.data.model.ClientDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.ClientDetailRepository;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
+import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
 
 /**
  * Service class responsible for handling client-related operations.
@@ -58,27 +59,14 @@ public class ClientService {
         .map(transactionStatusMapper::toTransactionStatus);
   }
 
-  /**
-   * Retrieves client details based on the provided search criteria.
-   * If no matching clients are found, an empty {@code Optional} is returned.
-   *
-   * @param firstName the first name of the client
-   * @param surname the surname of the client
-   * @param dateOfBirth the date of birth of the client
-   * @param gender the gender of the client
-   * @param clientReferenceNumber the unique client reference number
-   * @param homeOfficeReference the home office reference number of the client
-   * @param nationalInsuranceNumber the National Insurance number of the client
-   * @param pageable pagination information for the result set
-   * @return an {@code Optional} containing the {@link ClientDetails} if matching clients are found,
-   *         or an empty {@code Optional} if no matches exist
-   */
+
   public Optional<ClientDetails> getClients(String firstName, String surname,
       LocalDate dateOfBirth, String gender, String clientReferenceNumber,
       String homeOfficeReference, String nationalInsuranceNumber, Pageable pageable) {
-    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(firstName, surname,
+    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(
+        ClientDetailSpecification.filterBy(firstName, surname,
         dateOfBirth, gender, clientReferenceNumber, homeOfficeReference,
-        nationalInsuranceNumber, pageable);
+        nationalInsuranceNumber), pageable);
     ClientDetails clientDetails = clientDetailsMapper.mapToClientDetails(
         pagedClients);
     return Optional.ofNullable(clientDetails);

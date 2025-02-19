@@ -23,6 +23,7 @@ import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
+import uk.gov.laa.ccms.data.repository.specification.NotificationInfoSpecification;
 
 /**
  * Service class responsible for handling notification-related operations.
@@ -85,7 +86,8 @@ public class NotificationService {
       String providerCaseReference, String assignedToUserId, String clientSurname,
       Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
       LocalDate dateTo, Pageable pageable) {
-    Page<NotificationInfo> byAssignedTo = notificationSearchRepository.findAll(providerId,
+    Page<NotificationInfo> byAssignedTo = notificationSearchRepository.findAll(
+        NotificationInfoSpecification.filterBy(providerId,
         caseReferenceNumber,
         providerCaseReference,
         assignedToUserId,
@@ -94,7 +96,7 @@ public class NotificationService {
         includeClosed,
         notificationType,
         dateFrom,
-        dateTo,
+        dateTo),
         pageable);
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);

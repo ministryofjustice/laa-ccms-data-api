@@ -1,124 +1,19 @@
 package uk.gov.laa.ccms.data.repository;
 
-import static uk.gov.laa.ccms.data.repository.BaseEntityManagerRepository.SqlOperand.EQUALS;
-import static uk.gov.laa.ccms.data.repository.BaseEntityManagerRepository.SqlOperand.LIKE;
-
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import uk.gov.laa.ccms.data.entity.CaseSearch;
 
-/**
- * A repository class for performing search queries on {@link CaseSearch} entities.
- *
- * <p>This class utilizes a native SQL query to fetch filtered and paginated results
- * from the <b>XXCCMS_CASE_SEARCH_V</b> database view. It combines filtering criteria such
- * as provider firm party ID, case references, case status, client surname, fee earner ID, and
- * provider office party ID to dynamically construct the query based on the passed parameters.</p>
- *
- * <p>It relies on {@link EntityManager} to execute native SQL queries and doesn't use standard
- * Spring Data repositories. All queries are read-only and do not modify the database state.</p>
- *
- * <p>Extends {@link BaseEntityManagerRepository} which contains helper methods
- * for helping build a SQL query and {@link EntityManager}.</p>
- *
- * @see Page
- * @see CaseSearch
- * @see EntityManager
- * @see BaseEntityManagerRepository
- *
- * @author Jamie Briggs
- */
 @Repository
-public class CaseSearchRepository extends BaseEntityManagerRepository {
+public class CaseSearchRepository extends BaseEntityManagerRepository<CaseSearch> {
 
   public CaseSearchRepository(EntityManager entityManager) {
     super(entityManager);
   }
 
-  /**
-   * Retrieves a paginated and filtered list of case search records based on the given parameters.
-   *
-   * @param providerFirmPartyId the unique identifier of the provider firm (mandatory)
-   * @param caseReferenceNumber the case reference number for filtering, can be partially matched
-   * @param providerCaseReference the reference number specific to the provider for filtering
-   * @param caseStatus the status of the case to filter by
-   * @param clientSurname the surname of the client to filter by; case-insensitive partial
-   *                      matches are allowed
-   * @param feeEarnerId the unique identifier of the associated fee earner to filter by
-   * @param officeId the unique identifier of the provider's office to filter by
-   * @param pageable the pagination and sorting information
-   * @return a paginated list of {@code CaseSearch} entities matching the filtering criteria
-   */
-  @Transactional(readOnly = true)
-  public Page<CaseSearch> findAll(final long providerFirmPartyId, final String caseReferenceNumber,
-      final String providerCaseReference, final String caseStatus, final String clientSurname,
-      final Long feeEarnerId, final Long officeId, final Pageable pageable) {
 
-    Map<String, Object> queryParams = new HashMap<>();
-    String filterSql = getFilterSql(queryParams, providerFirmPartyId, caseReferenceNumber,
-        providerCaseReference, caseStatus,
-        clientSurname, feeEarnerId, officeId);
-    final String searchCaseQuery =
-        """
-        SELECT * FROM XXCCMS.XXCCMS_CASE_SEARCH_V
-        """
-        +
-            filterSql
-        +
-        """
-        OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY
-        """;
-
-    Query query = entityManager.createNativeQuery(searchCaseQuery, CaseSearch.class);
-    query.setHint("org.hibernate.readOnly", true);
-    query.setParameter("offset", pageable.getOffset());
-    query.setParameter("size", pageable.getPageSize());
-    setQueryParameters(query, queryParams);
-
-    final String countCaseQuery =
-        """
-        SELECT COUNT(*) FROM XXCCMS.XXCCMS_CASE_SEARCH_V
-        """
-        + filterSql;
-    Query countQuery = entityManager.createNativeQuery(countCaseQuery);
-
-    countQuery.setHint("org.hibernate.readOnly", true);
-    setQueryParameters(countQuery, queryParams);
-    long total = ((Number) countQuery.getSingleResult()).longValue();
-
-    List<CaseSearch> resultList = query.getResultList();
-
-    return new PageImpl<>(resultList, pageable, total);
+  @Override
+  public Class<CaseSearch> getEntityClazz() {
+    return CaseSearch.class;
   }
-
-  private static String getFilterSql(Map<String, Object> queryParams,
-      long providerFirmPartyId, String caseReferenceNumber,
-      String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
-      Long officeId) {
-    StringJoiner whereClause = new StringJoiner(" AND ");
-    // Provider firm party id
-    addEqualsCondition(whereClause, queryParams, "PROVIDER_FIRM_PARTY_ID",
-        providerFirmPartyId);
-    addCondition(whereClause, queryParams, "LSC_CASE_REFERENCE", LIKE, caseReferenceNumber,
-        true);
-    addCondition(whereClause, queryParams, "PROVIDER_CASE_REFERENCE",
-        LIKE, providerCaseReference, true);
-    addCondition(whereClause, queryParams, "ACTUAL_CASE_STATUS", EQUALS, caseStatus,
-        false);
-    addCondition(whereClause, queryParams, "PERSON_LAST_NAME", LIKE, clientSurname,
-        true);
-    addEqualsCondition(whereClause, queryParams, "FEE_EARNER_PARTY_ID", feeEarnerId);
-    addEqualsCondition(whereClause, queryParams, "PROVIDER_OFFICE_PARTY_ID", officeId);
-    return whereClause.length() > 0 ? "WHERE " + whereClause + " " : "";
-  }
-
 }

@@ -166,8 +166,7 @@ class ClientServiceTest {
       PageImpl<ClientDetail> pagedResult = new PageImpl<>(singletonList(
           clientDetail
       ));
-      when(clientDetailRepository.findAll(anyString(), anyString(), any(), anyString(),
-          anyString(), anyString(), anyString(), any())).thenReturn(pagedResult);
+      when(clientDetailRepository.findAll(any(), any())).thenReturn(pagedResult);
       when(clientDetailsMapper.mapToClientDetails(pagedResult)).thenReturn(new ClientDetails()
           .size(1).totalPages(20));
       // When
