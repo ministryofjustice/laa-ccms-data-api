@@ -115,7 +115,7 @@ class ClientsControllerTest {
 
       // Then
       String jsonContent = objectMapper.writeValueAsString(details);
-      mockMvc.perform(get("/clients"))
+      mockMvc.perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().json(jsonContent));
@@ -125,9 +125,37 @@ class ClientsControllerTest {
     @DisplayName("Should return not found")
     void shouldReturnNotFound() throws Exception {
       // Then
-      mockMvc.perform(get("/clients"))
+      mockMvc.perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    @DisplayName("Should return bad request when missing first name")
+    void shouldReturnBadRequestWhenMissingFirstName() throws Exception {
+      // Then
+      mockMvc.perform(get("/clients?surname=last&date-of-birth=2010-01-01"))
+          .andDo(print())
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Should return bad request when missing surname")
+    void shouldReturnBadRequestWhenMissingSurname() throws Exception {
+      // Then
+      mockMvc.perform(get("/clients?first-name=first&date-of-birth=2010-01-01"))
+          .andDo(print())
+          .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Should return bad request when missing date of birth")
+    void shouldReturnBadRequestWhenMissingDateOfBirth() throws Exception {
+      // Then
+      mockMvc.perform(get("/clients?first-name=firstsurname=last"))
+          .andDo(print())
+          .andExpect(status().isBadRequest());
     }
   }
 }
