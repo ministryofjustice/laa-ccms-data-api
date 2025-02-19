@@ -397,7 +397,8 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
         true,
         null,
         null,
-        LocalDate.of(2025, 12, 1), Pageable.ofSize(10).withPage(0));
+        LocalDate.of(2025, 12, 1),
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -417,7 +418,8 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
         true,
         null,
         null,
-        LocalDate.of(2027, 1, 1), Pageable.ofSize(10).withPage(0));
+        LocalDate.of(2027, 1, 1),
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));

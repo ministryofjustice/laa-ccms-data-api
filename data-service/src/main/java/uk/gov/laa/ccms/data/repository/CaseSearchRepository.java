@@ -1,9 +1,13 @@
 package uk.gov.laa.ccms.data.repository;
 
+import static uk.gov.laa.ccms.data.repository.BaseEntityManagerRepository.SqlOperand.EQUALS;
+import static uk.gov.laa.ccms.data.repository.BaseEntityManagerRepository.SqlOperand.LIKE;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.StringJoiner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -59,13 +63,16 @@ public class CaseSearchRepository extends BaseEntityManagerRepository {
       final String providerCaseReference, final String caseStatus, final String clientSurname,
       final Long feeEarnerId, final Long officeId, final Pageable pageable) {
 
+    Map<String, Object> queryParams = new HashMap<>();
+    String filterSql = getFilterSql(queryParams, providerFirmPartyId, caseReferenceNumber,
+        providerCaseReference, caseStatus,
+        clientSurname, feeEarnerId, officeId);
     final String searchCaseQuery =
         """
         SELECT * FROM XXCCMS.XXCCMS_CASE_SEARCH_V
         """
         +
-        getFilterSql(providerFirmPartyId, caseReferenceNumber, providerCaseReference, caseStatus,
-          clientSurname, feeEarnerId, officeId)
+            filterSql
         +
         """
         OFFSET :offset ROWS FETCH NEXT :size ROWS ONLY
@@ -75,16 +82,17 @@ public class CaseSearchRepository extends BaseEntityManagerRepository {
     query.setHint("org.hibernate.readOnly", true);
     query.setParameter("offset", pageable.getOffset());
     query.setParameter("size", pageable.getPageSize());
+    setQueryParameters(query, queryParams);
 
     final String countCaseQuery =
         """
         SELECT COUNT(*) FROM XXCCMS.XXCCMS_CASE_SEARCH_V
         """
-        + getFilterSql(providerFirmPartyId, caseReferenceNumber, providerCaseReference,
-        caseStatus, clientSurname, feeEarnerId, officeId);
+        + filterSql;
     Query countQuery = entityManager.createNativeQuery(countCaseQuery);
 
     countQuery.setHint("org.hibernate.readOnly", true);
+    setQueryParameters(countQuery, queryParams);
     long total = ((Number) countQuery.getSingleResult()).longValue();
 
     List<CaseSearch> resultList = query.getResultList();
@@ -92,39 +100,25 @@ public class CaseSearchRepository extends BaseEntityManagerRepository {
     return new PageImpl<>(resultList, pageable, total);
   }
 
-  private static String getFilterSql(long providerFirmPartyId, String caseReferenceNumber,
+  private static String getFilterSql(Map<String, Object> queryParams,
+      long providerFirmPartyId, String caseReferenceNumber,
       String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
       Long officeId) {
-    StringJoiner sj = new StringJoiner(" AND ");
+    StringJoiner whereClause = new StringJoiner(" AND ");
     // Provider firm party id
-    sj.add("WHERE PROVIDER_FIRM_PARTY_ID = " + providerFirmPartyId);
-    // Case reference number
-    if (stringNotEmpty(caseReferenceNumber)) {
-      sj.add("LSC_CASE_REFERENCE LIKE '%" + sanitizeForSql(caseReferenceNumber) + "%'");
-    }
-    // Provider case reference
-    if (stringNotEmpty(providerCaseReference)) {
-      sj.add("UPPER(PROVIDER_CASE_REFERENCE) LIKE '%" + sanitizeForSql(
-          providerCaseReference.toUpperCase()) + "%'");
-    }
-    // Case status
-    if (stringNotEmpty(caseStatus)) {
-      sj.add("ACTUAL_CASE_STATUS = '" + sanitizeForSql(caseStatus) + "'");
-    }
-    // Surname
-    if (stringNotEmpty(clientSurname)) {
-      sj.add(
-          "UPPER(PERSON_LAST_NAME) LIKE '%" + sanitizeForSql(clientSurname.toUpperCase()) + "%'");
-    }
-    // Fee earner party ID
-    if (!Objects.isNull(feeEarnerId)) {
-      sj.add("FEE_EARNER_PARTY_ID = " + feeEarnerId);
-    }
-    // Provider office party ID
-    if (!Objects.isNull(officeId)) {
-      sj.add("PROVIDER_OFFICE_PARTY_ID = " + officeId);
-    }
-    return sj + " ";
+    addEqualsCondition(whereClause, queryParams, "PROVIDER_FIRM_PARTY_ID",
+        providerFirmPartyId);
+    addCondition(whereClause, queryParams, "LSC_CASE_REFERENCE", LIKE, caseReferenceNumber,
+        true);
+    addCondition(whereClause, queryParams, "PROVIDER_CASE_REFERENCE",
+        LIKE, providerCaseReference, true);
+    addCondition(whereClause, queryParams, "ACTUAL_CASE_STATUS", EQUALS, caseStatus,
+        false);
+    addCondition(whereClause, queryParams, "PERSON_LAST_NAME", LIKE, clientSurname,
+        true);
+    addEqualsCondition(whereClause, queryParams, "FEE_EARNER_PARTY_ID", feeEarnerId);
+    addEqualsCondition(whereClause, queryParams, "PROVIDER_OFFICE_PARTY_ID", officeId);
+    return whereClause.length() > 0 ? "WHERE " + whereClause + " " : "";
   }
 
 }
