@@ -24,6 +24,7 @@ import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 import uk.gov.laa.ccms.data.repository.specification.NotificationInfoSpecification;
+import uk.gov.laa.ccms.data.repository.spring.JPANotificationSearchRepository;
 
 /**
  * Service class responsible for handling notification-related operations.
@@ -40,7 +41,8 @@ import uk.gov.laa.ccms.data.repository.specification.NotificationInfoSpecificati
 public class NotificationService {
 
   private final NotificationCountRepository notificationCountRepository;
-  private final NotificationSearchRepository notificationSearchRepository;
+  private final JPANotificationSearchRepository notificationSearchRepository;
+  private final NotificationSearchRepository oldnotificationSearchRepository;
   private final NotificationRepository notificationRepository;
   private final NotificationSummaryMapper notificationSummaryMapper;
   private final NotificationsMapper notificationsMapper;
