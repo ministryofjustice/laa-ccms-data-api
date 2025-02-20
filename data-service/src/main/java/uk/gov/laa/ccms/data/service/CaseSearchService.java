@@ -10,6 +10,7 @@ import uk.gov.laa.ccms.data.mapper.CaseSearchMapper;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.repository.CaseSearchRepository;
 import uk.gov.laa.ccms.data.repository.specification.CaseSearchSpecification;
+import uk.gov.laa.ccms.data.repository.spring.JPACaseSearchRepository;
 
 /**
  * Service for performing search operations on case entities.
@@ -20,7 +21,8 @@ import uk.gov.laa.ccms.data.repository.specification.CaseSearchSpecification;
 @RequiredArgsConstructor
 public class CaseSearchService {
 
-  private final CaseSearchRepository caseSearchRepository;
+  private final JPACaseSearchRepository caseSearchRepository;
+  private final CaseSearchRepository oldcaseSearchRepository;
   private final CaseSearchMapper caseSearchMapper;
 
 

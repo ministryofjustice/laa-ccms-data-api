@@ -15,6 +15,7 @@ import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.ClientDetailRepository;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
+import uk.gov.laa.ccms.data.repository.spring.JPAClientDetailRepository;
 
 /**
  * Service class responsible for handling client-related operations.
@@ -31,7 +32,8 @@ import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
 @RequiredArgsConstructor
 public class ClientService {
 
-  private final ClientDetailRepository clientDetailRepository;
+  private final JPAClientDetailRepository clientDetailRepository;
+  private final ClientDetailRepository oldclientDetailRepository;
   private final TransactionStatusRepository transactionStatusRepository;
   private final ClientDetailsMapper clientDetailsMapper;
   private final TransactionStatusMapper transactionStatusMapper;
