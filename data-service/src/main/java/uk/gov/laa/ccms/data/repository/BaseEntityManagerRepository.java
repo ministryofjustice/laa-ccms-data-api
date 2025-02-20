@@ -63,7 +63,7 @@ public abstract class BaseEntityManagerRepository<T> {
   private long getCount(Specification<T> specification, CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
     Root<T> countRoot = countQuery.from(getEntityClazz());
-    countQuery.select(criteriaBuilder.count(countRoot));
+    countQuery.select(criteriaBuilder.count(countRoot.get("id")));
     applyWhereClause(countQuery, specification, criteriaBuilder, countRoot);
     return entityManager.createQuery(countQuery).getSingleResult();
   }
