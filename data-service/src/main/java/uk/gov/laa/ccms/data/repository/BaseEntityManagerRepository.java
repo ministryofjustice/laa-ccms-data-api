@@ -79,10 +79,21 @@ public abstract class BaseEntityManagerRepository<T> {
   private long getCount(Specification<T> specification, CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
     Root<T> countRoot = countQuery.from(getEntityClazz());
-    countQuery.select(criteriaBuilder.count(countRoot.get("clientReferenceNumber")));
+    countQuery.select(criteriaBuilder.count(countRoot.get(getIdPropertyName())));
     applyWhereClause(countQuery, specification, criteriaBuilder, countRoot);
     return entityManager.createQuery(countQuery).getSingleResult();
   }
+
+  public String getIdPropertyName() {
+    return java.util.Arrays.stream(getEntityClazz().getDeclaredFields())
+        .filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class))
+        .findFirst()
+        .map(java.lang.reflect.Field::getName)
+        .orElseThrow(() -> new RuntimeException(
+            "No @Id annotation found in class: " + getEntityClazz().getName()));
+  }
+  
+  
 
 
 }
