@@ -6,9 +6,9 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,12 +16,18 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 public abstract class BaseEntityManagerRepository<T> {
 
   protected final EntityManager entityManager;
-  
-  public abstract Class<T> getEntityClazz();
+  private final Class<T> entityClazz;
+
+  protected BaseEntityManagerRepository(EntityManager entityManager) {
+    this.entityManager = entityManager;
+    this.entityClazz = (Class<T>) ((ParameterizedType) getClass()
+        .getGenericSuperclass())
+        .getActualTypeArguments()[0];
+
+  }
 
   @Transactional(readOnly = true)
   public Page<T> findAll(final Specification<T> specification, final Pageable pageable) {
@@ -47,8 +53,8 @@ public abstract class BaseEntityManagerRepository<T> {
 
   private List<T> getResultList(Specification<T> specification, Pageable pageable,
       CriteriaBuilder criteriaBuilder) {
-    CriteriaQuery<T> mainQuery = criteriaBuilder.createQuery(getEntityClazz());
-    Root<T> mainQueryRoot = mainQuery.from(getEntityClazz());
+    CriteriaQuery<T> mainQuery = criteriaBuilder.createQuery(entityClazz);
+    Root<T> mainQueryRoot = mainQuery.from(entityClazz);
     applyWhereClause(mainQuery, specification, criteriaBuilder, mainQueryRoot);
     applySortingClause(mainQuery, pageable, criteriaBuilder, mainQueryRoot);
 
@@ -78,19 +84,19 @@ public abstract class BaseEntityManagerRepository<T> {
 
   private long getCount(Specification<T> specification, CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-    Root<T> countRoot = countQuery.from(getEntityClazz());
+    Root<T> countRoot = countQuery.from(entityClazz);
     countQuery.select(criteriaBuilder.count(countRoot.get(getIdPropertyName())));
     applyWhereClause(countQuery, specification, criteriaBuilder, countRoot);
     return entityManager.createQuery(countQuery).getSingleResult();
   }
 
   public String getIdPropertyName() {
-    return java.util.Arrays.stream(getEntityClazz().getDeclaredFields())
+    return java.util.Arrays.stream(entityClazz.getDeclaredFields())
         .filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class))
         .findFirst()
         .map(java.lang.reflect.Field::getName)
         .orElseThrow(() -> new RuntimeException(
-            "No @Id annotation found in class: " + getEntityClazz().getName()));
+            "No @Id annotation found in class: " + entityClazz.getName()));
   }
   
   

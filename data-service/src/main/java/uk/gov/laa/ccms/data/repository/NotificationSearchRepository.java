@@ -13,8 +13,4 @@ public class NotificationSearchRepository extends BaseEntityManagerRepository<No
     super(entityManager);
   }
 
-  @Override
-  public Class<NotificationInfo> getEntityClazz() {
-    return NotificationInfo.class;
-  }
 }

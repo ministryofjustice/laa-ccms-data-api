@@ -11,8 +11,4 @@ public class ClientDetailRepository extends BaseEntityManagerRepository<ClientDe
     super(entityManager);
   }
 
-  @Override
-  public Class<ClientDetail> getEntityClazz() {
-    return ClientDetail.class;
-  }
 }

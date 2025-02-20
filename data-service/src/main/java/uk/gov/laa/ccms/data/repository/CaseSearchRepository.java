@@ -11,9 +11,4 @@ public class CaseSearchRepository extends BaseEntityManagerRepository<CaseSearch
     super(entityManager);
   }
 
-
-  @Override
-  public Class<CaseSearch> getEntityClazz() {
-    return CaseSearch.class;
-  }
 }
