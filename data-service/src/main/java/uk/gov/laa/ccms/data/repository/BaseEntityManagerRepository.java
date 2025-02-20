@@ -6,14 +6,15 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.query.QueryUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public abstract class BaseEntityManagerRepository<T> {
@@ -22,11 +23,30 @@ public abstract class BaseEntityManagerRepository<T> {
   
   public abstract Class<T> getEntityClazz();
 
-  @Transactional
+  @Transactional(readOnly = true)
   public Page<T> findAll(final Specification<T> specification, final Pageable pageable) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-    // Build the main query
+    // Get all results
+    CompletableFuture<List<T>> resultListFuture =
+        CompletableFuture.supplyAsync(() -> getResultList(specification, pageable, criteriaBuilder));
+
+    // Build the count query
+    CompletableFuture<Long> countFuture =
+        CompletableFuture.supplyAsync(() -> getCount(specification, criteriaBuilder));
+
+    // Wait for both tasks to complete
+    try {
+      List<T> resultList = resultListFuture.get(); // Main query results
+      long totalCount = countFuture.get();  // Count query results
+      return new PageImpl<>(resultList, pageable, totalCount);
+    } catch (Exception e) {
+      throw new RuntimeException("Error executing queries", e);
+    }
+  }
+
+  private List<T> getResultList(Specification<T> specification, Pageable pageable,
+      CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<T> mainQuery = criteriaBuilder.createQuery(getEntityClazz());
     Root<T> mainQueryRoot = mainQuery.from(getEntityClazz());
     applyWhereClause(mainQuery, specification, criteriaBuilder, mainQueryRoot);
@@ -36,11 +56,7 @@ public abstract class BaseEntityManagerRepository<T> {
     query.setFirstResult((int) pageable.getOffset());
     query.setMaxResults(pageable.getPageSize());
     List<T> resultList = query.getResultList();
-
-    // Build the count query
-    long totalCount = getCount(specification, criteriaBuilder);
-
-    return new PageImpl<>(resultList, pageable, totalCount);
+    return resultList;
   }
 
   private void applyWhereClause(CriteriaQuery<?> query, Specification<T> specification,
@@ -63,7 +79,7 @@ public abstract class BaseEntityManagerRepository<T> {
   private long getCount(Specification<T> specification, CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
     Root<T> countRoot = countQuery.from(getEntityClazz());
-    countQuery.select(criteriaBuilder.count(countRoot.get("id")));
+    countQuery.select(criteriaBuilder.count(countRoot.get("clientReferenceNumber")));
     applyWhereClause(countQuery, specification, criteriaBuilder, countRoot);
     return entityManager.createQuery(countQuery).getSingleResult();
   }
