@@ -113,8 +113,7 @@ class NotificationServiceTest {
       // Given
       PageImpl<NotificationInfo> repositoryResult = new PageImpl<>(
           Collections.singletonList(new NotificationInfo()));
-      when(notificationSearchRepository.findAll(eq(10L), any(), any(), any(), any(), any(), any(),
-          any(), any(), any(), any(Pageable.class)))
+      when(notificationSearchRepository.findAll(any(), any(Pageable.class)))
           .thenReturn(
               repositoryResult);
       Notifications expected = new Notifications().size(1);

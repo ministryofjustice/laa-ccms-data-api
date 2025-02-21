@@ -1,12 +1,20 @@
 package uk.gov.laa.ccms.data.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.entity.ClientDetail;
+import uk.gov.laa.ccms.data.mapper.ClientDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
+import uk.gov.laa.ccms.data.model.ClientDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
+import uk.gov.laa.ccms.data.repository.ClientDetailRepository;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
+import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
 
 /**
  * Service class responsible for handling client-related operations.
@@ -23,7 +31,9 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 @RequiredArgsConstructor
 public class ClientService {
 
+  private final ClientDetailRepository clientDetailRepository;
   private final TransactionStatusRepository transactionStatusRepository;
+  private final ClientDetailsMapper clientDetailsMapper;
   private final TransactionStatusMapper transactionStatusMapper;
 
   /**
@@ -47,6 +57,32 @@ public class ClientService {
     }
     return transactionStatusRepository.findClientTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
+  }
+
+  /**
+   * Retrieves client details based on the given filtering criteria and pagination settings.
+   *
+   * @param firstName the first name of the client
+   * @param surname the surname of the client
+   * @param dateOfBirth the date of birth of the client
+   * @param gender the gender of the client
+   * @param clientReferenceNumber the client reference number
+   * @param homeOfficeReference the home office reference number of the client
+   * @param nationalInsuranceNumber the national insurance number of the client
+   * @param pageable the pagination information
+   * @return an {@code Optional} containing {@link ClientDetails} if found, or an empty
+   *     {@code Optional} if no matching data is found
+   */
+  public Optional<ClientDetails> getClients(String firstName, String surname,
+      LocalDate dateOfBirth, String gender, String clientReferenceNumber,
+      String homeOfficeReference, String nationalInsuranceNumber, Pageable pageable) {
+    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(
+        ClientDetailSpecification.filterBy(firstName, surname,
+        dateOfBirth, gender, clientReferenceNumber, homeOfficeReference,
+        nationalInsuranceNumber), pageable);
+    ClientDetails clientDetails = clientDetailsMapper.mapToClientDetails(
+        pagedClients);
+    return Optional.ofNullable(clientDetails);
   }
 
 

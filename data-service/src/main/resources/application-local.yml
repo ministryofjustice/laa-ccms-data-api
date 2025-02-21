@@ -4,6 +4,8 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
     username: XXCCMS_PUI
     password: XXCCMS_PUI
+    hikari:
+      maximum-pool-size: 20 # Default is 10
 
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect

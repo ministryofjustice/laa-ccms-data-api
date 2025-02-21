@@ -36,30 +36,6 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Autowired
   private NotificationRepository repository;
 
-  private NotificationInfo notification;
-
-  @BeforeEach
-  void setup(){
-    notification = NotificationInfo.builder().notificationId(1L)
-        .userId("test_user")
-        .userLoginId("test_login")
-        .providerFirmId(10L)
-        .dateAssigned(LocalDate.of(2025, 1, 1))
-        .subject("Subject")
-        .dueDate(LocalDate.of(2027, 1, 1))
-        .assignedTo("JBriggs")
-        .status("open")
-        .lscCaseRefReference("1001")
-        .providerCaseReference("First Case Reference")
-        .clientName("Jamie Briggs")
-        .feeEarner("Fee")
-        .personLastName("Briggs")
-        .feeEarnerPartyId(3001L)
-        .actionNotificationInd("N")
-        .isOpen(true)
-        .build();
-  }
-
   @Test
   @DisplayName("Should return notification")
   void shouldReturnNotification(){

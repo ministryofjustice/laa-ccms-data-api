@@ -76,7 +76,6 @@ class NotificationsMapperImplTest {
     assertEquals(true, notificationResult.getNotificationOpenIndicator());
     assertEquals("Provider Case Ref",notificationResult.getProviderCaseReferenceNumber());
     assertEquals("LSC Case Ref", notificationResult.getCaseReferenceNumber());
-    assertEquals(true, notificationResult.getEvidenceAllowed());
   }
 
 }

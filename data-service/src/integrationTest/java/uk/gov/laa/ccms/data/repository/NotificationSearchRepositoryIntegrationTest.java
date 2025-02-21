@@ -20,16 +20,17 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
+import uk.gov.laa.ccms.data.repository.specification.NotificationInfoSpecification;
 
 @SpringBootTest
 @SqlMergeMode(MERGE)
-@Sql(executionPhase=BEFORE_TEST_CLASS,scripts= "/sql/get_notif_info_create_schema.sql")
-@Sql(executionPhase=AFTER_TEST_CLASS,scripts= "/sql/get_notif_info_drop_schema.sql")
+@Sql(executionPhase = BEFORE_TEST_CLASS, scripts = "/sql/get_notif_info_create_schema.sql")
+@Sql(executionPhase = AFTER_TEST_CLASS, scripts = "/sql/get_notif_info_drop_schema.sql")
 @DisplayName("Notification Info Repository Integration Test")
 class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTestInterface {
-  
+
   private NotificationSearchRepository notificationRepository;
-  
+
   @PersistenceContext
   private EntityManager entityManager;
 
@@ -81,59 +82,63 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should not get any Notifications")
-  void shouldNotGetAnyNotifications(){
+  void shouldNotGetAnyNotifications() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(100L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(100L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertTrue(result.getContent().isEmpty());
   }
 
   @Test
   @DisplayName("Should get all Notifications by provider ID")
-  void shouldGetAllNotifications(){
+  void shouldGetAllNotifications() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null),
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
     assertTrue(result.getContent().contains(n2));
   }
-  
+
   @Test
   @DisplayName("Should filter by case reference number")
-  void shouldFilterByCaseReferenceNumber(){
+  void shouldFilterByCaseReferenceNumber() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        "1001",
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            "1001",
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -141,19 +146,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by similar case reference number")
-  void shouldFilterBySimilarCaseReferenceNumber(){
+  void shouldFilterBySimilarCaseReferenceNumber() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        "100",
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            "100",
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertTrue(result.getContent().contains(n1));
     assertTrue(result.getContent().contains(n2));
@@ -162,19 +168,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by provider case reference number")
-  void shouldFilterByProviderCaseReferenceNumber(){
+  void shouldFilterByProviderCaseReferenceNumber() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        "First",
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            "First",
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -182,19 +189,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by provider case reference number case insensitive")
-  void shouldFilterByProviderCaseReferenceNumberCaseInsensitive(){
+  void shouldFilterByProviderCaseReferenceNumberCaseInsensitive() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        "FIRST case REF",
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            "FIRST case REF",
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -202,19 +210,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by similar provider case reference number")
-  void shouldFilterBySimilarProviderCaseReferenceNumber(){
+  void shouldFilterBySimilarProviderCaseReferenceNumber() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        "Case Reference",
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            "Case Reference",
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -223,19 +232,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by assigned to user ID")
-  void shouldFilterByAssignedToUserID(){
+  void shouldFilterByAssignedToUserID() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        "JBriggs",
-        null,
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            "JBriggs",
+            null,
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -243,19 +253,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by user surname")
-  void shouldFilterByUserSurname(){
+  void shouldFilterByUserSurname() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        "Briggs",
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            "Briggs",
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -263,19 +274,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by like user surname")
-  void shouldFilterByLikeUserSurname(){
+  void shouldFilterByLikeUserSurname() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        "Bri",
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            "Bri",
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -284,19 +296,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by like user surname case insensitive")
-  void shouldFilterByLikeUserSurnameCaseInsensitive(){
+  void shouldFilterByLikeUserSurnameCaseInsensitive() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        "bri-MONDAY",
-        null,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            "bri-MONDAY",
+            null,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertFalse(result.getContent().contains(n1));
@@ -305,19 +318,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by fee earner ID")
-  void shouldFilterByFeeEarnerID(){
+  void shouldFilterByFeeEarnerID() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        3001,
-        true,
-        null,
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            3001,
+            true,
+            null,
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -325,18 +339,19 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by notification type")
-  void shouldFilterByNotificationType(){
+  void shouldFilterByNotificationType() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true, "N",
-        null,
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true, "N",
+            null,
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -344,19 +359,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by date from")
-  void shouldFilterByDateFrom(){
+  void shouldFilterByDateFrom() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        LocalDate.of(2025, 2, 1),
-    null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            LocalDate.of(2025, 2, 1),
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n2));
@@ -364,19 +380,20 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by date from inclusive")
-  void shouldFilterByDateFromInclusive(){
+  void shouldFilterByDateFromInclusive() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        LocalDate.of(2024, 1, 1),
-        null, Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            LocalDate.of(2024, 1, 1),
+            null), Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -385,19 +402,21 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by date to")
-  void shouldFilterByDateTo(){
+  void shouldFilterByDateTo() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        LocalDate.of(2025, 12, 1), Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            LocalDate.of(2025, 12, 1)),
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
@@ -405,19 +424,21 @@ class NotificationSearchRepositoryIntegrationTest implements OracleIntegrationTe
 
   @Test
   @DisplayName("Should filter by date to inclusive")
-  void shouldFilterByDateToInclusive(){
+  void shouldFilterByDateToInclusive() {
     // Given
     // When
-    Page<NotificationInfo> result = notificationRepository.findAll(10L,
-        null,
-        null,
-        null,
-        null,
-        null,
-        true,
-        null,
-        null,
-        LocalDate.of(2027, 1, 1), Pageable.ofSize(10).withPage(0));
+    Page<NotificationInfo> result = notificationRepository.findAll(
+        NotificationInfoSpecification.filterBy(10L,
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            null,
+            LocalDate.of(2027, 1, 1)),
+        Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
     assertTrue(result.getContent().contains(n1));
