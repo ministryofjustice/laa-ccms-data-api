@@ -59,7 +59,20 @@ public class ClientService {
         .map(transactionStatusMapper::toTransactionStatus);
   }
 
-
+  /**
+   * Retrieves client details based on the given filtering criteria and pagination settings.
+   *
+   * @param firstName the first name of the client
+   * @param surname the surname of the client
+   * @param dateOfBirth the date of birth of the client
+   * @param gender the gender of the client
+   * @param clientReferenceNumber the client reference number
+   * @param homeOfficeReference the home office reference number of the client
+   * @param nationalInsuranceNumber the national insurance number of the client
+   * @param pageable the pagination information
+   * @return an {@code Optional} containing {@link ClientDetails} if found, or an empty
+   *     {@code Optional} if no matching data is found
+   */
   public Optional<ClientDetails> getClients(String firstName, String surname,
       LocalDate dateOfBirth, String gender, String clientReferenceNumber,
       String homeOfficeReference, String nationalInsuranceNumber, Pageable pageable) {
