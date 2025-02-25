@@ -119,4 +119,6 @@ public class NotificationInfo {
   @Convert(converter = BooleanStringConverter.class)
   private Boolean evidenceAllowedIndicator;
 
+
+
 }
