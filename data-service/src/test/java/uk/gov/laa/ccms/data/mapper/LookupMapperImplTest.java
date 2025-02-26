@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -1060,10 +1061,15 @@ class LookupMapperImplTest {
         ProviderRequestType providerRequestType1 = new ProviderRequestType();
         providerRequestType1.setType("type1");
         providerRequestType1.setName("name1");
+        providerRequestType1.setClaimUploadEnabled(false);
+        providerRequestType1.setProviderRequestData(Collections.emptyList());
+
 
         ProviderRequestType providerRequestType2 = new ProviderRequestType();
         providerRequestType2.setType("type2");
         providerRequestType2.setName("name2");
+        providerRequestType2.setClaimUploadEnabled(true);
+        providerRequestType2.setProviderRequestData(Collections.emptyList());
 
         Page<ProviderRequestType> page = new PageImpl<>(List.of(providerRequestType1, providerRequestType2));
 
@@ -1091,7 +1097,7 @@ class LookupMapperImplTest {
         ProviderRequestType providerRequestType = new ProviderRequestType();
         providerRequestType.setCaseRelated(true);
         providerRequestType.setAdditionalInformationPrompt("Additional info");
-        providerRequestType.setClaimUploadEnabled(true);
+        providerRequestType.setClaimUploadEnabled(false);
         providerRequestType.setType("type1");
         providerRequestType.setName("name1");
         providerRequestType.setTaskTypeId("123");
@@ -1108,6 +1114,7 @@ class LookupMapperImplTest {
         expected.setTaskTypeId(providerRequestType.getTaskTypeId());
         expected.setAccessFunctionCode(providerRequestType.getAccessFunctionCode());
         expected.setClaimUploadPrompt(providerRequestType.getClaimUploadPrompt());
+        expected.setIsAdditionalInformationPromptRequired(true);
 
         ProviderRequestTypeLookupValueDetail actual = mapper.toProviderRequestTypeLookupValueDetail(providerRequestType);
 
