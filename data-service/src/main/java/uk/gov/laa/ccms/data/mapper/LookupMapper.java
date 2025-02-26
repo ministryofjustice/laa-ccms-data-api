@@ -184,6 +184,9 @@ public interface LookupMapper {
   @Mapping(source = "additionalInformationPrompt", target = "additionalInformationPrompt")
   @Mapping(source = "claimUploadEnabled", target = "isClaimUploadEnabled")
   @Mapping(source = "providerRequestData", target = "dataItems")
+  @Mapping(target = "isAdditionalInformationPromptRequired",
+          expression = "java(!providerRequestType.getClaimUploadEnabled() " +
+                  "&& providerRequestType.getProviderRequestData().isEmpty())")
   ProviderRequestTypeLookupValueDetail toProviderRequestTypeLookupValueDetail(
       ProviderRequestType providerRequestType);
 

@@ -1911,6 +1911,8 @@ components:
           type: 'boolean'
         additional_information_prompt:
           type: 'string'
+        is_additional_information_prompt_required:
+          type: 'boolean'
         task_type_id:
           type: 'string'
         is_claim_upload_enabled:
