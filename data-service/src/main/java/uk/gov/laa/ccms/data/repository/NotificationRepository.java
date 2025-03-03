@@ -16,5 +16,15 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  */
 @Repository
 public interface NotificationRepository extends ReadOnlyRepository<NotificationInfo, Long> {
+
+  /**
+   * Finds and returns a {@link NotificationInfo} object matching both the notification ID and
+   *     user ID.
+   *
+   * @param notificationId notification identifier
+   * @param userId the user assigned to the notification
+   * @return an {@link Optional} containing a {@link NotificationInfo} if a notification is found
+   *     using the filters, or an empty {@link Optional} if a notification was not found.
+   */
   Optional<NotificationInfo> findByNotificationIdAndUserId(Long notificationId, String userId);
 }
