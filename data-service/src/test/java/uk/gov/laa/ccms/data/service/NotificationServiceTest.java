@@ -166,17 +166,18 @@ class NotificationServiceTest {
     void shouldReturnNotification(){
       // Given
       long notificationId = 1L;
+      String userId = "123456";
       NotificationInfo notificationInfo = NotificationInfo.builder().providerFirmId(1L).build();
       Notification expected = new Notification().notificationId("1").providerFirmId("1");
-      when(notificationRepository.findById(notificationId))
+      when(notificationRepository.findByNotificationIdAndUserId(notificationId, userId))
           .thenReturn(Optional.of(notificationInfo));
       when(notificationMapper.mapToNotification(notificationInfo)).thenReturn(expected);
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId, 1L);
+      Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
       // Then
       assertTrue(result.isPresent());
       assertEquals(expected, result.get());
-      verify(notificationRepository, times(1)).findById(notificationId);
+      verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(1)).mapToNotification(notificationInfo);
     }
 
@@ -185,11 +186,12 @@ class NotificationServiceTest {
     void shouldReturnEmpty(){
       // Given
       long notificationId = 1L;
+      String userId = "123456";
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId, 1L);
+      Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
       // Then
       assertTrue(result.isEmpty());
-      verify(notificationRepository, times(1)).findById(notificationId);
+      verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(0)).mapToNotification(any());
     }
 
@@ -198,12 +200,13 @@ class NotificationServiceTest {
     void shouldThrowException() {
       // Given
       long notificationId = 1L;
+      String userId = "123456";
       NotificationInfo notificationInfo = NotificationInfo.builder().providerFirmId(1L).build();
-      when(notificationRepository.findById(notificationId))
+      when(notificationRepository.findByNotificationIdAndUserId(notificationId, userId))
           .thenReturn(Optional.of(notificationInfo));
       // When / Then
       assertThrows(ResponseStatusException.class,
-          () -> notificationService.getNotification(notificationId, 500));
+          () -> notificationService.getNotification(notificationId, userId, 500));
     }
   }
 }

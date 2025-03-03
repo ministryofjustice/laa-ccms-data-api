@@ -114,9 +114,10 @@ public class NotificationService {
    *     returning a forbidden status
    */
   public Optional<Notification> getNotification(final long notificationId,
-      final long userId,
+      final String userId,
       final long providerFirmId) {
-    Optional<NotificationInfo> byId = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
+    Optional<NotificationInfo> byId = notificationRepository
+        .findByNotificationIdAndUserId(notificationId, userId);
 
     // Return empty if not found
     if (byId.isEmpty()) {

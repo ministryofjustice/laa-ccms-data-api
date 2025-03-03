@@ -44,8 +44,10 @@ public class NotificationsController implements NotificationsApi {
    *         or a {@code ResponseEntity} with HTTP status 404 if the notification is not found.
    */
   @Override
-  public ResponseEntity<Notification> getNotification(Long notificationId, Long userId, Long providerId) {
-    return notificationService.getNotification(notificationId, userId, providerId).map(ResponseEntity::ok)
+  public ResponseEntity<Notification> getNotification(Long notificationId, String userId,
+      Long providerId) {
+    return notificationService.getNotification(notificationId, userId, providerId)
+        .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 

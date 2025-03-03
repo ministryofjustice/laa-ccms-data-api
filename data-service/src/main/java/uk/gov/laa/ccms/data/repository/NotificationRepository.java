@@ -16,5 +16,5 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  */
 @Repository
 public interface NotificationRepository extends ReadOnlyRepository<NotificationInfo, Long> {
-  Optional<NotificationInfo> findByNotificationIdAndUserId(Long notificationId, Long userId);
+  Optional<NotificationInfo> findByNotificationIdAndUserId(Long notificationId, String userId);
 }
