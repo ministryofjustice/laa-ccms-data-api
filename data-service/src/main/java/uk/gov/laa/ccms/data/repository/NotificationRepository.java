@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.repository;
 
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
 
@@ -15,5 +16,5 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
  */
 @Repository
 public interface NotificationRepository extends ReadOnlyRepository<NotificationInfo, Long> {
-
+  Optional<NotificationInfo> findByNotificationIdAndUserId(Long notificationId, Long userId);
 }
