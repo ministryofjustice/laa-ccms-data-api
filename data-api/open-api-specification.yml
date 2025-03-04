@@ -1255,6 +1255,12 @@ paths:
             type: 'integer'
             format: 'int64'
             example: '123456789'
+        - name: 'user-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'string'
+            example: '123456789'
         - name: 'provider-id'
           in: 'query'
           required: true

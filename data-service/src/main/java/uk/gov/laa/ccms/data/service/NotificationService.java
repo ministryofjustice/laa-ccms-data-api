@@ -106,6 +106,7 @@ public class NotificationService {
    * Retrieves a notification based on its ID and verifies the provider firm's ID.
    *
    * @param notificationId the unique identifier of the notification to retrieve
+   * @param userId the identifier of the user assigned to the notification to retrieve
    * @param providerFirmId the identifier of the provider firm to validate access
    * @return an Optional containing the Notification if found and accessible,
    *     otherwise an empty Optional
@@ -113,8 +114,10 @@ public class NotificationService {
    *     returning a forbidden status
    */
   public Optional<Notification> getNotification(final long notificationId,
+      final String userId,
       final long providerFirmId) {
-    Optional<NotificationInfo> byId = notificationRepository.findById(notificationId);
+    Optional<NotificationInfo> byId = notificationRepository
+        .findByNotificationIdAndUserId(notificationId, userId);
 
     // Return empty if not found
     if (byId.isEmpty()) {

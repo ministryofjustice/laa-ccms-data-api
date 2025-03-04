@@ -126,10 +126,10 @@ class NotificationsControllerTest {
   void getNotification_returnsData() throws Exception {
     //Given
     Notification expected = new Notification().notificationId("123").providerFirmId("1");
-    when(notificationService.getNotification(123L, 1L)).thenReturn(Optional.of(expected));
+    when(notificationService.getNotification(123L, "2", 1L)).thenReturn(Optional.of(expected));
     // Then
     String jsonContent = objectMapper.writeValueAsString(expected);
-    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+    this.mockMvc.perform(get("/notifications/123?user-id=2&provider-id=1"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));
@@ -139,10 +139,10 @@ class NotificationsControllerTest {
   @DisplayName("getNotification: Forbidden data")
   void getNotification_forbidden() throws Exception {
     //Given
-    when(notificationService.getNotification(123L, 1L))
+    when(notificationService.getNotification(123L, "2",1L))
         .thenThrow(new ResponseStatusException(FORBIDDEN, "Access Denied"));
     // Then
-    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+    this.mockMvc.perform(get("/notifications/123?user-id=2&provider-id=1"))
         .andDo(print())
         .andExpect(status().isForbidden());
   }
@@ -153,17 +153,27 @@ class NotificationsControllerTest {
   void getNotification_notFound() throws Exception {
     //Given
     // Then
-    this.mockMvc.perform(get("/notifications/123?provider-id=1"))
+    this.mockMvc.perform(get("/notifications/123?user-id=2&provider-id=1"))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
 
   @Test
-  @DisplayName("getNotification: Bad request")
+  @DisplayName("getNotification: Bad request missing provider ID")
   void getNotification_badRequest() throws Exception {
     //Given
     // Then
-    this.mockMvc.perform(get("/notifications/abc"))
+    this.mockMvc.perform(get("/notifications/abc?user-id=123"))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("getNotification: Bad request missing user ID")
+  void getNotification_badRequestMissingUser() throws Exception {
+    //Given
+    // Then
+    this.mockMvc.perform(get("/notifications/abc?provider-id=123"))
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
