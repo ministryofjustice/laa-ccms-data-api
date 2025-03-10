@@ -220,6 +220,7 @@ public class LookupService extends AbstractEbsDataService {
     example.setMatterType(matterType);
     example.setDescription(description);
     example.setCategoryOfLawCode(categoryOfLaw);
+    example.setActiveFlag("Y");
 
     return lookupMapper.toMatterTypeLookupDetail(
         matterTypeRepository.findAll(Example.of(example), pageable));

@@ -504,6 +504,7 @@ class LookupServiceTest {
         matterTypeEntity.setDescription(description);
         matterTypeEntity.setMatterType(matterType);
         matterTypeEntity.setCategoryOfLawCode(categoryOfLaw);
+        matterTypeEntity.setActiveFlag("Y");
 
         Page<MatterType> expectedPage = new PageImpl<>(
             Collections.singletonList(matterTypeEntity));

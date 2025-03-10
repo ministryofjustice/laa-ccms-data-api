@@ -40,4 +40,12 @@ public class MatterType {
    */
   @Column(name = "CATEGORY_OF_LAW_CODE")
   private String categoryOfLawCode;
+
+  /**
+   * The category of law code.
+   */
+  @Column(name = "ACTIVE_FLAG")
+  private String activeFlag;
+
+
 }
