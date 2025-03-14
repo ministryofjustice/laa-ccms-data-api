@@ -2,12 +2,16 @@ package uk.gov.laa.ccms.data.controller;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.CasesApi;
+import uk.gov.laa.ccms.data.mapper.xml.CaseInqRSXml;
+import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
+import uk.gov.laa.ccms.data.repository.CaseDetailRepository;
 import uk.gov.laa.ccms.data.service.CaseSearchService;
 import uk.gov.laa.ccms.data.service.CaseService;
 import uk.gov.laa.ccms.data.service.ClientServiceException;
@@ -33,6 +37,8 @@ public class CaseController implements CasesApi {
   private final CaseService caseService;
   private final CaseSearchService caseSearchService;
 
+  private final CaseDetailRepository caseDetailRepository;
+
   /**
    * Retrieves a paginated list of case details based on the provided search criteria.
    *
@@ -56,7 +62,14 @@ public class CaseController implements CasesApi {
           providerCaseReference, caseStatus, clientSurname, feeEarnerId,
           officeId, pageable);
     return cases.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
 
+  @SneakyThrows
+  @Override
+  public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber) {
+    CaseInqRSXml tracey = caseDetailRepository.getCaseDetail(caseReferenceNumber, 26517L,
+        "Tracey");
+    return ResponseEntity.of(Optional.empty());
   }
 
   @Override
