@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.mapper.xml;
+package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.AllArgsConstructor;
