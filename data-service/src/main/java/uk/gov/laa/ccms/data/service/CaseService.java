@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.mapper.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
@@ -27,13 +28,15 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 public class CaseService {
 
   private final CaseDetailRepository caseDetailRepository;
+  private final CaseDetailsMapper caseDetailsMapper;
   private final TransactionStatusRepository transactionStatusRepository;
   private final TransactionStatusMapper transactionStatusMapper;
 
-  public CaseService(CaseDetailRepository caseDetailRepository,
+  public CaseService(CaseDetailRepository caseDetailRepository, CaseDetailsMapper caseDetailsMapper,
       TransactionStatusRepository transactionStatusRepository,
       TransactionStatusMapper transactionStatusMapper) {
     this.caseDetailRepository = caseDetailRepository;
+    this.caseDetailsMapper = caseDetailsMapper;
     this.transactionStatusMapper = transactionStatusMapper;
     this.transactionStatusRepository = transactionStatusRepository;
   }
@@ -67,6 +70,6 @@ public class CaseService {
       throws JsonProcessingException, SQLException {
     CaseInqRSXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, 26517L,
         "Tracey");
-    return Optional.empty();
+    return Optional.of(caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail()));
   }
 }

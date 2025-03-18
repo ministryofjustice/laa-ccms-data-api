@@ -15,7 +15,7 @@ public final class UserXml {
   @JacksonXmlProperty(localName = "UserLoginID", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private String userLoginId;
   @JacksonXmlProperty(localName = "UserName", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
-  private String UserName;
+  private String userName;
 
 
 }

@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CostLimitationXml;
 
+/**
+ * Contains Category of Law information for a case.
+ *
+ * @author Jamie Briggs
+ * @see uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml
+ */
 @Getter
 @Setter
 @AllArgsConstructor
