@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.mapper.xml.casedetail;
+package uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientXml {
+public final class ClientXml {
 
   @JacksonXmlProperty(localName = "ClientReferenceNumber", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String clientReferenceNumber;

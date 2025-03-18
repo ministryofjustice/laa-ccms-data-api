@@ -6,12 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CategoryOfLawXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CorrespondenceAddressXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.LARDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProviderDetailsXml;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationDetailsXml {
+public final class ApplicationDetailsXml {
 
   @JacksonXmlProperty(localName = "Client", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private ClientXml client;

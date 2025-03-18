@@ -17,13 +17,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
+import uk.gov.laa.ccms.data.repository.CaseDetailRepository;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Case Service Test")
 public class CaseServiceTest {
 
-
+@Mock
+  CaseDetailRepository caseDetailRepository;
   @Mock
   TransactionStatusMapper transactionStatusMapper;
   @Mock
@@ -34,7 +36,7 @@ public class CaseServiceTest {
   @BeforeEach
   void beforeEach(){
     caseService =
-        new CaseService(transactionStatusRepository, transactionStatusMapper);
+        new CaseService(caseDetailRepository, transactionStatusRepository, transactionStatusMapper);
   }
 
   @Test

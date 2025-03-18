@@ -26,13 +26,13 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 @Service
 public class CaseService {
 
+  private final CaseDetailRepository caseDetailRepository;
   private final TransactionStatusRepository transactionStatusRepository;
   private final TransactionStatusMapper transactionStatusMapper;
-  private final CaseDetailRepository caseDetailRepository;
 
   public CaseService(CaseDetailRepository caseDetailRepository,
-      TransactionStatusMapper transactionStatusMapper,
-      TransactionStatusRepository transactionStatusRepository) {
+      TransactionStatusRepository transactionStatusRepository,
+      TransactionStatusMapper transactionStatusMapper) {
     this.caseDetailRepository = caseDetailRepository;
     this.transactionStatusMapper = transactionStatusMapper;
     this.transactionStatusRepository = transactionStatusRepository;

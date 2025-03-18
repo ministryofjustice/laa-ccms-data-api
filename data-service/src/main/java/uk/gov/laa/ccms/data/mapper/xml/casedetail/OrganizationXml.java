@@ -11,7 +11,7 @@ import uk.gov.laa.ccms.data.mapper.xml.common.AddressXml;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationXml {
+public final class OrganizationXml {
 
   @JacksonXmlProperty(localName = "OrganizationName", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String organizationName;

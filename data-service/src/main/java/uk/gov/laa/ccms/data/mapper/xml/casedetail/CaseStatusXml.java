@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CaseStatusXml {
+public final class CaseStatusXml {
 
   @JacksonXmlProperty(localName = "ActualCaseStatus", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String actualCaseStatus;

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScopeLimitationXml {
+public final class ScopeLimitationXml {
 
   @JacksonXmlProperty(localName = "ScopeLimitationID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String scopeLimitationId;

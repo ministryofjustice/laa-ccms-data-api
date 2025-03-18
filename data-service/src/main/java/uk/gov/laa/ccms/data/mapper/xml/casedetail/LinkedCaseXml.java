@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkedCaseXml {
+public final class LinkedCaseXml {
 
   @JacksonXmlProperty(localName = "CaseReferenceNumber", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String caseReferenceNumber;

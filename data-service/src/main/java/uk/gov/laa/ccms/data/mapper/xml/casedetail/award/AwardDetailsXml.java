@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AwardDetailsXml {
+public final class AwardDetailsXml {
 
   @JacksonXmlProperty(localName = "CostAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private CostAwardXml costAward;

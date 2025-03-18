@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LARDetailsXml {
+public final class AvailableFunctionsXml {
 
-  @JacksonXmlProperty(localName = "LARScopeFlag", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private Boolean larScopeFlag;
+  @JacksonXmlProperty(localName = "Function", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private List<String> functions;
 }

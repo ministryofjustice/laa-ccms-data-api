@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.mapper.xml.casedetail;
+package uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.util.List;
@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProceedingDetailsXml {
+public final class ProceedingDetailsXml {
 
   @JacksonXmlProperty(localName = "ProceedingType", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String proceedingType;

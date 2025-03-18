@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.mapper.xml.casedetail;
+package uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProceedingXml {
+public final class ProceedingXml {
 
   @JacksonXmlProperty(localName = "OtherParties", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String proceedingCaseID;

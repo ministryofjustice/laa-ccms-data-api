@@ -12,7 +12,7 @@ import uk.gov.laa.ccms.data.mapper.xml.common.UserXml;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecordHistoryXml {
+public final class RecordHistoryXml {
 
   @JacksonXmlProperty(localName = "CreatedBy", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private UserXml createdBy;

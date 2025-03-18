@@ -10,8 +10,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DischargeStatusXml {
+public final class DischargeStatusXml {
+
+  @JacksonXmlProperty(localName = "Reason", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String reason;
 
   @JacksonXmlProperty(localName = "ClientContinuePvtInd", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Boolean clientContinuePvtInd;
+
+  @JacksonXmlProperty(localName = "OtherDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private Boolean otherDetails;
 }

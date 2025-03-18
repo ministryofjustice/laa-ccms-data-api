@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CostLimitationXml {
+public final class CostLimitationXml {
 
   @JacksonXmlProperty(localName = "CostLimitID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String costLimitId;

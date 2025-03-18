@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecoveryXml {
+public final class RecoveryXml {
 
   @JacksonXmlProperty(localName = "AwardValue", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String awardValue;

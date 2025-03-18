@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OtherPartyDetailXml {
+public final class OtherPartyDetailXml {
 
   @JacksonXmlProperty(localName = "Organization", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private OrganizationXml organization;

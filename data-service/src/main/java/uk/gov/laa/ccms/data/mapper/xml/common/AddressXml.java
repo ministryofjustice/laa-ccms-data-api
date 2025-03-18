@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressXml {
+public final class AddressXml {
 
   @JacksonXmlProperty(localName = "AddressID", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private String addressId;
