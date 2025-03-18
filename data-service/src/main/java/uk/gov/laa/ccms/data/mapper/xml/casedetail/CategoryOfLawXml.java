@@ -22,6 +22,6 @@ public class CategoryOfLawXml {
   private String grantedAmount;
   @JacksonXmlProperty(localName = "TotalPaidToDate", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String totalPaidToDate;
-
-  // TODO: XML Cost limitations
+  @JacksonXmlProperty(localName = "CostLimitation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private CostLimitationXml costLimitation;
 }

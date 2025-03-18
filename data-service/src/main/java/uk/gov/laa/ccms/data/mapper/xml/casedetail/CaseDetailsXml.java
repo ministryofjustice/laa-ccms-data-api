@@ -2,10 +2,13 @@ package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AwardDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AwardXml;
 
 @Getter
 @Setter
@@ -29,8 +32,28 @@ public class CaseDetailsXml {
   private Long legalHelpCosts;
 
 
-  // TODO: XML Linked Cases Type
-  // TODO: XML Awards Type
+  /**
+   * --LINKED CASES
+   *           linked_cases_xml ( v_clob, get_case_details_rec.case_party_id );
+   *
+   *           --OUTCOME AWARDS
+   *           outcome_award_xml ( v_clob, get_case_details_rec.case_party_id );
+   *
+   *           --PRIOR AUTHORITIES
+   *           prior_authority_xml ( v_clob,  get_case_details_rec.case_party_id, get_case_details_rec.app_or_cert_sr_id  ) ;
+   *
+   *           --DISCHARGE STATUS
+   *           discharge_status_xml ( p_clob                               => v_clob,
+   *                                             p_reason                           =>  get_case_details_rec.discharge_reason,
+   *                                             p_client_continue_pvt_ind    =>  get_case_details_rec.client_continuing_privately,
+   *                                             p_other_details                   =>  get_case_details_rec.other_discharge_information ) ;
+   */
+  @JacksonXmlProperty(localName = "LinkedCases", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private List<LinkedCaseXml> linkedCases;
+
+  @JacksonXmlProperty(localName = "Awards", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private List<AwardXml> outcomeAwards;
+
   // TODO: XML Prior Authority Type
   @JacksonXmlProperty(localName = "DischargeStatus", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private DischargeStatusXml dischargeStatus;
