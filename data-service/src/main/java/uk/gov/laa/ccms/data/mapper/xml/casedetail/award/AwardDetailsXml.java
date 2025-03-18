@@ -18,8 +18,10 @@ public class AwardDetailsXml {
   @JacksonXmlProperty(localName = "FinancialAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private FinancialAwardXml financialAward;
 
-  // TODO: XML LandAward
-  // TODO: XML OtherAsset
+  @JacksonXmlProperty(localName = "LandAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LandAwardXml landAward;
 
+  @JacksonXmlProperty(localName = "OtherAsset", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private OtherAssetXml otherAsset;
 
 }
