@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccms.data.mapper.CaseDetailsMapper;
+import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.CaseDetailRepository;

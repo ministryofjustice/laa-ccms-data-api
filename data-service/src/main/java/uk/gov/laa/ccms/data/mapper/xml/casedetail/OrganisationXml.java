@@ -2,6 +2,7 @@ package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,18 +10,22 @@ import uk.gov.laa.ccms.data.mapper.xml.common.AddressXml;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public final class OrganizationXml {
+public final class OrganisationXml {
 
   @JacksonXmlProperty(localName = "OrganizationName", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String organizationName;
+  private String organisationName;
 
   @JacksonXmlProperty(localName = "OrganizationType", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String organizationType;
+  private String organisationType;
 
   @JacksonXmlProperty(localName = "CurrentlyTrading", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String currentlyTrading;
+  private String currentlyTradingFlag;
+  public boolean getCurrentlyTrading(){
+    return "Y".equals(currentlyTradingFlag);
+  }
 
   @JacksonXmlProperty(localName = "RelationToClient", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String relationToClient;
@@ -33,5 +38,8 @@ public final class OrganizationXml {
 
   @JacksonXmlProperty(localName = "ContactName", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String contactName;
+
+  @JacksonXmlProperty(localName = "OtherInformation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String otherInformation;
 
 }

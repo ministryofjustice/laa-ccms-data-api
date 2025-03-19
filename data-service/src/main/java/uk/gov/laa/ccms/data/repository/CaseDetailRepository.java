@@ -2,6 +2,7 @@ package uk.gov.laa.ccms.data.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.sql.CallableStatement;
@@ -11,11 +12,13 @@ import java.sql.Struct;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml;
@@ -31,8 +34,6 @@ public class CaseDetailRepository {
     this.jdbcTemplate = jdbcTemplate;
     this.xmlMapper = new XmlMapper();
     this.xmlMapper.registerModule(new JavaTimeModule());
-
-    // TODO: Temporary flag, should really map everything
     this.xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
@@ -40,32 +41,25 @@ public class CaseDetailRepository {
       throws SQLException, JsonProcessingException {
     String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId,
         clientFirstName);
+    //String objectFunction = getCaseDetailObjectViaFunction(caseReference, providerId, clientFirstName);
     return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRSXml.class);
   }
 
-  @Deprecated
-  public static class SqlStructMapper implements SqlReturnType {
 
-    @Override
-    public Object getTypeValue(CallableStatement cs, int paramIndex, int sqlType, String typeName) throws SQLException {
-      Struct struct = (Struct) cs.getObject(paramIndex);
-      return struct;
-    }
-  }
-
+  @SneakyThrows
   @Deprecated
-  private Struct getCaseDetailObjectViaFunction(String caseReference, Long providerId, String clientFirstName)
-      throws SQLException {
+  private String getCaseDetailObjectViaFunction(String caseReference, Long providerId, String clientFirstName) {
     SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         .withSchemaName("XXCCMS")
         .withCatalogName("XXCCMS_SOA_REPLACE_PKG")
         .withFunctionName("GET_CASE_DETAILS_OBJECT")
         .declareParameters(
-            new SqlOutParameter("result", Types.STRUCT, "XXCCMS.XXCCMS_CASE_TYPE", new SqlStructMapper()),
+            new SqlOutParameter("result", Types.STRUCT, "XXCCMS.XXCCMS_CASE_TYPE"),
             new SqlParameter("p_case_reference_number", Types.VARCHAR),
             new SqlParameter("l_provider_firm_party_id", Types.NUMERIC),
             new SqlParameter("p_user_name", Types.VARCHAR)
         );
+
 
     Map<String, Object> params = new HashMap<>();
     params.put("p_case_reference_number", caseReference);
@@ -74,11 +68,17 @@ public class CaseDetailRepository {
 
     Struct result = jdbcCall.executeFunction(Struct.class, params);
 
-    for(var field : result.getAttributes()){
-      log.info(String.valueOf(field));
-    }
+    //ObjectMapper objectMapper = new ObjectMapper();
+    //String jsonResult = objectMapper.writeValueAsString(result.getAttributes());
+    return result.toString();
+  }
 
-    return result;
+  @Getter
+  @Setter
+  @org.hibernate.annotations.Struct(name = "xxccms_case_type")
+  public static class CaseStruct{
+    private String caseReferenceNumber;
+
   }
 
   private String getCaseDetailViaFunction(String caseReference, Long providerId, String clientFirstName)
@@ -104,6 +104,8 @@ public class CaseDetailRepository {
 
     // TODO: Temporarily removing Awards as for some reason the DB adds a rogue closing tag
     //  for awards
-    return result.getSubString(1, (int) result.length()).replaceAll("</case:Awards>", "");
+    return result.getSubString(1, (int) result.length());
   }
+
+
 }

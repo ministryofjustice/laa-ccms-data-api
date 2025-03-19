@@ -1,8 +1,10 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public final class ProceedingDetailsXml {
@@ -21,7 +24,7 @@ public final class ProceedingDetailsXml {
   private String proceedingDescription;
 
   @JacksonXmlProperty(localName = "DateCostsValid", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String dateCostsValid;
+  private LocalDate dateCostsValid;
 
   @JacksonXmlProperty(localName = "OrderType", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String orderType;

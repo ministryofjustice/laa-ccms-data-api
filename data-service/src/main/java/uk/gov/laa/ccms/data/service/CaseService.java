@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccms.data.mapper.CaseDetailsMapper;
+import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;

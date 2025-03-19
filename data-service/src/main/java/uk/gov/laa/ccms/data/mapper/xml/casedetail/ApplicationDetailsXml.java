@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,9 +13,11 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.Corresponde
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.LARDetailsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProviderDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public final class ApplicationDetailsXml {

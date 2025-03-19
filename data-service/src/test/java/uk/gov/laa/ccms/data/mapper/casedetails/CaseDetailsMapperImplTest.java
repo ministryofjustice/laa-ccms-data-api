@@ -1,4 +1,4 @@
-package uk.gov.laa.ccms.data.mapper;
+package uk.gov.laa.ccms.data.mapper.casedetails;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,7 +17,7 @@ class CaseDetailsMapperImplTest {
 
   @Test
   @DisplayName("Should map root level case detail values")
-  void shouldMapCaseReferenceNumberToCaseDetails() {
+  void shouldMapRootLevelCaseDetailValues() {
     // Given
     CaseDetailXml caseDetailXml = CaseDetailXml.builder()
         .caseReferenceNumber("12345")
@@ -26,6 +26,7 @@ class CaseDetailsMapperImplTest {
             .certificateDate(LocalDate.of(2000, 1, 1))
             .preCertificateCosts(50L)
             .legalHelpCosts(100L)
+            //.undertakingAmount(150L)
             .build())
         .build();
     // When
@@ -36,7 +37,7 @@ class CaseDetailsMapperImplTest {
     assertEquals(LocalDate.of(2000, 1, 1), result.getCertificateDate());
     assertEquals(BigDecimal.valueOf(50L), result.getPreCertificateCosts());
     assertEquals(BigDecimal.valueOf(100L), result.getLegalHelpCosts());
-    //assertEquals(BigDecimal.valueOf(150L), result.getUndertakingAmount());
+    assertEquals(BigDecimal.valueOf(150L), result.getUndertakingAmount());
   }
 
   // TODO Map SubmittedApplicationDetails

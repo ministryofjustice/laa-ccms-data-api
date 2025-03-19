@@ -1917,12 +1917,12 @@ components:
         proceedings:
           type: 'array'
           items:
-            $ref: '#/components/schemas/proceedingDetail'
-        means_assesments:
+            $ref: '#/components/schemas/proceeding'
+        means_assessments:
           type: 'array'
           items:
             $ref: '#/components/schemas/assessmentResult'
-        merits_assesments:
+        merits_assessments:
           type: 'array'
           items:
             $ref: '#/components/schemas/assessmentResult'
@@ -1948,6 +1948,95 @@ components:
         lar_details:
           $ref: '#/components/schemas/larDetails'
         certificate_type:
+          type: 'string'
+    proceeding:
+      type: object
+      properties:
+        proceeding_case_id:
+          type: 'string'
+        date_applied:
+          type: 'string'
+          format: date
+        status:
+          type: 'string'
+        lead_proceeding_indicator:
+          type: 'boolean'
+        outcome_court_case_number:
+          type: 'string'
+        available_functions:
+          type: 'array'
+          items:
+            type: 'string'
+        proceeding_type:
+          type: 'string'
+        proceeding_description:
+          type: 'string'
+        date_costs_valid:
+          type: 'string'
+          format: date
+        order_type:
+          type: 'string'
+        matter_type:
+          type: 'string'
+        level_of_service:
+          type: 'string'
+        stage:
+          type: 'string'
+        client_involvement_type:
+          type: 'string'
+        scope_limitations:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/scopeLimitation'
+        scope_limitation_applied:
+          type: 'string'
+        devolved_powers_ind:
+          type: 'boolean'
+        date_devolved_powers_used:
+          type: 'string'
+          format: date
+        date_granted:
+          type: 'string'
+          format: date
+        outcome:
+          $ref: '#/components/schemas/outcomeDetail'
+    scopeLimitation:
+      type: object
+      properties:
+        scope_limitation_id:
+          type: 'string'
+        scope_limitation:
+          type: 'string'
+        scope_limitation_wording:
+          type: 'string'
+        delegated_functions_apply:
+          type: 'boolean'
+    outcomeDetail:
+      type: 'object'
+      properties:
+        issue_date:
+          type: 'string'
+          format: date
+        final_work_date:
+          type: 'string'
+          format: date
+        stage_end:
+          type: 'string'
+        resolution_method:
+          type: 'string'
+        result:
+          type: 'string'
+        additional_result_info:
+          type: 'string'
+        alt_dispute_resolution:
+          type: 'string'
+        alt_acceptance_reason:
+          type: 'string'
+        court_code:
+          type: 'string'
+        wider_benefits:
+          type: 'string'
+        outcome_court_case_number:
           type: 'string'
     categoryOfLaw:
       type: object
@@ -2325,19 +2414,19 @@ components:
           type: 'string'
         contact_details:
           $ref: '#/components/schemas/contactDetail'
-        organization_name:
+        organisation_name:
           type: 'string'
         employers_name:
           type: 'string'
         employment_status:
           type: 'string'
-        organization_address:
+        organisation_address:
           type: 'string'
         party_legal_aided_ind:
           type: 'boolean'
         certificateNumber:
           type: 'string'
-        court_ordered_means_assesment:
+        court_ordered_means_assessment:
           type: 'boolean'
         assessed_income_frequency:
           type: 'string'
@@ -2355,9 +2444,9 @@ components:
     otherPartyOrganisation:
       type: 'object'
       properties:
-        organization_name:
+        organisation_name:
           type: 'string'
-        organization_type:
+        organisation_type:
           type: 'string'
         currently_trading:
           type: 'boolean'

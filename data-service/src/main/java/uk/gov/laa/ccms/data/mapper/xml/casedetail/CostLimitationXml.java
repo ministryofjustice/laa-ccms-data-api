@@ -1,13 +1,16 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public final class CostLimitationXml {
@@ -21,7 +24,7 @@ public final class CostLimitationXml {
   @JacksonXmlProperty(localName = "CostCategory", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String costCategory;
   @JacksonXmlProperty(localName = "PaidToDate", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String paidToDate;
+  private BigDecimal paidToDate;
   @JacksonXmlProperty(localName = "Amount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String amount;
+  private BigDecimal amount;
 }

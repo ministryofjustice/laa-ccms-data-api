@@ -4,18 +4,20 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public final class ProceedingXml {
 
   @JacksonXmlProperty(localName = "OtherParties", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String proceedingCaseID;
+  private String proceedingCaseId;
 
   @JacksonXmlProperty(localName = "DateApplied", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private LocalDate dateApplied;

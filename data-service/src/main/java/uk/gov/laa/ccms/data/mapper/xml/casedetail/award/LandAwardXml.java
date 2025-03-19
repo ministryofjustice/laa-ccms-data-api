@@ -4,14 +4,16 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.OtherPartyXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.PropertyAddressXml;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public final class LandAwardXml {

@@ -1,7 +1,9 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.CostLimitationXml;
  */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public final class CategoryOfLawXml {
@@ -29,6 +32,6 @@ public final class CategoryOfLawXml {
   private String grantedAmount;
   @JacksonXmlProperty(localName = "TotalPaidToDate", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String totalPaidToDate;
-  @JacksonXmlProperty(localName = "CostLimitation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private CostLimitationXml costLimitation;
+  @JacksonXmlProperty(localName = "CostLimitations", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private List<CostLimitationXml> costLimitations;
 }
