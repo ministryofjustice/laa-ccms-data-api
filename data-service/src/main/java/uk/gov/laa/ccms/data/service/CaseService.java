@@ -1,11 +1,16 @@
 package uk.gov.laa.ccms.data.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml;
+import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
+import uk.gov.laa.ccms.data.repository.CaseDetailRepository;
 import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 
 /**
@@ -20,11 +25,24 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
  * @author Jamie Briggs
  */
 @Service
-@RequiredArgsConstructor
 public class CaseService {
 
+  private final CaseDetailRepository caseDetailRepository;
+  private final CaseDetailsMapper caseDetailsMapper;
   private final TransactionStatusRepository transactionStatusRepository;
   private final TransactionStatusMapper transactionStatusMapper;
+
+  public CaseService(CaseDetailRepository caseDetailRepository, CaseDetailsMapper caseDetailsMapper,
+      TransactionStatusRepository transactionStatusRepository,
+      TransactionStatusMapper transactionStatusMapper) {
+    this.caseDetailRepository = caseDetailRepository;
+    this.caseDetailsMapper = caseDetailsMapper;
+    this.transactionStatusMapper = transactionStatusMapper;
+    this.transactionStatusRepository = transactionStatusRepository;
+  }
+
+
+
 
   /**
    * Retrieves the transaction status for a given transaction ID. If the transaction
@@ -46,5 +64,13 @@ public class CaseService {
     }
     return transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
+  }
+
+  public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
+      String clientFirstName)
+      throws JsonProcessingException, SQLException {
+    CaseInqRSXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
+        clientFirstName);
+    return Optional.of(caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail()));
   }
 }

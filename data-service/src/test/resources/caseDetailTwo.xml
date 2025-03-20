@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CaseInqRS xmlns:msg="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIM"
+  xmlns:oracle-xsl-mapper="http://www.oracle.com/xsl/mapper/schemas"
+  xmlns="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIM"
+  xmlns:common="http://legalservices.gov.uk/Enterprise/Common/1.0/Common"
+  xmlns:header="http://legalservices.gov.uk/Enterprise/Common/1.0/Header"
+  xmlns:case="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIO">
+  <msg:Case></case:CaseDetails>
+</msg:Case></CaseInqRS>

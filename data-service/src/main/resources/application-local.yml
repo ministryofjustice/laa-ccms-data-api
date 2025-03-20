@@ -11,6 +11,7 @@ spring:
     database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
       ddl-auto: none
+    show-sql: true
 
 server:
   port: 8009

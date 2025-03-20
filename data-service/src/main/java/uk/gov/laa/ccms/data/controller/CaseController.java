@@ -2,10 +2,12 @@ package uk.gov.laa.ccms.data.controller;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.CasesApi;
+import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.service.CaseSearchService;
@@ -56,7 +58,15 @@ public class CaseController implements CasesApi {
           providerCaseReference, caseStatus, clientSurname, feeEarnerId,
           officeId, pageable);
     return cases.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
 
+  @SneakyThrows
+  @Override
+  public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber) {
+    // "300001643905", 26517L, "Tracey"
+    // "300001651062", 26517L, "Ski"
+    Optional<CaseDetail> tracey = caseService.getCaseDetails("300001651062", 26517L, "Monday");
+    return tracey.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @Override
