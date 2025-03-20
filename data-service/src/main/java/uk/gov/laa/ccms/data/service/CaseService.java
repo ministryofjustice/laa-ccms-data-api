@@ -66,10 +66,11 @@ public class CaseService {
         .map(transactionStatusMapper::toTransactionStatus);
   }
 
-  public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber)
+  public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
+      String clientFirstName)
       throws JsonProcessingException, SQLException {
-    CaseInqRSXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, 26517L,
-        "Tracey");
+    CaseInqRSXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
+        clientFirstName);
     return Optional.of(caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail()));
   }
 }

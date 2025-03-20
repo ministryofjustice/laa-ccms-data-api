@@ -40,14 +40,4 @@ class CaseDetailsMapperImplTest {
     assertEquals(BigDecimal.valueOf(150L), result.getUndertakingAmount());
   }
 
-  // TODO Map SubmittedApplicationDetails
-  // TODO Map LinkedCases
-  // TODO Map Awards
-  // TODO Map Prior Authorities
-  // TODO Map Discharge
-  // TODO Map Available functions
-  // TODO Map Case status
-  // TODO Map Record History
-  // TODO Map Case Docs
-
 }

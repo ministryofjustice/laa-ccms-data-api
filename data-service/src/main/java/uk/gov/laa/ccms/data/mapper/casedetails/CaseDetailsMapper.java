@@ -7,7 +7,7 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses =
-    SubmittedApplicationDetailsMapper.class)
+    {SubmittedApplicationDetailsMapper.class, LinkedCaseMapper.class})
 public interface CaseDetailsMapper {
 
   @Mapping(target = "certificateType", source = "caseDetails.certificateType")

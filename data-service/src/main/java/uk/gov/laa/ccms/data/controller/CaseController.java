@@ -63,7 +63,9 @@ public class CaseController implements CasesApi {
   @SneakyThrows
   @Override
   public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber) {
-    Optional<CaseDetail> tracey = caseService.getCaseDetails(caseReferenceNumber);
+    // "300001643905", 26517L, "Tracey"
+    // "300001651062", 26517L, "Ski"
+    Optional<CaseDetail> tracey = caseService.getCaseDetails("300001651062", 26517L, "Monday");
     return tracey.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
