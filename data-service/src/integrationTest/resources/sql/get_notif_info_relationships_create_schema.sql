@@ -36,10 +36,14 @@ INSERT INTO XXCCMS.XXCCMS_NOTIFICATION_NOTES_V (NOTE_ID,
                                                 NOTE_DATE,
                                                 NOTE_TEXT,
                                                 NOTE_BY)
-VALUES(1, 1,
-       TO_DATE('2025-01-01', 'YYYY-MM-DD'),
-       'Here is the body of text for this note',
-       'Jamie Briggs');
+VALUES (1, 1,
+        TO_DATE('2025-01-01', 'YYYY-MM-DD'),
+        'Here is the body of text for this note',
+        'Jamie Briggs'),
+       (2, 1,
+        TO_DATE('2025-01-01 10:00:00', 'YYYY-MM-DD hh24:mi:ss'),
+        'Here is the body of text for this note 2',
+        'Arun Kumar');
 
 INSERT INTO XXCCMS.XXCCMS_NOTIFICATION_DOCS_V (DOCUMENT_ID,
                                                NOTIFICATION_ID,

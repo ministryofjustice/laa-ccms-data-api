@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
@@ -104,6 +105,7 @@ public class NotificationInfo {
   private Boolean isOpen;
 
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
+  @OrderBy("noteDate DESC")
   private List<NotificationNote> notes;
 
   @OneToMany(mappedBy = "notificationId", fetch = FetchType.LAZY)
