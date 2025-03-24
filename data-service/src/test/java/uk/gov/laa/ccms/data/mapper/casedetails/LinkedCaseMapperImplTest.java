@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.LinkedCaseXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.model.BaseClient;
-import uk.gov.laa.ccms.data.model.ClientDetails;
 import uk.gov.laa.ccms.data.model.LinkedCase;
 
 @DisplayName("Linked case mapper implementation test")

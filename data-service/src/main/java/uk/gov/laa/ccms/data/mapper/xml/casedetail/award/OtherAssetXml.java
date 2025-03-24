@@ -51,9 +51,15 @@ public final class OtherAssetXml {
   @JacksonXmlProperty(localName = "Recovery", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String recovery;
 
+  @JacksonXmlProperty(localName = "NoRecoveryDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String noRecoveryDetails;
+
   @JacksonXmlProperty(localName = "HeldBy", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private List<OtherPartyXml> heldBy;
 
   @JacksonXmlProperty(localName = "TimeRelatedAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private TimeRelatedAwardXml timeRelatedAward;
+
+  @JacksonXmlProperty(localName = "StatChargeExemptReason", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String statChargeExemptReason;
 }

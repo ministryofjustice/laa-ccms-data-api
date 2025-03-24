@@ -1,7 +1,6 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,15 +12,15 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class PropertyAddressXml {
+public final class ServiceAddressXml {
 
   @JacksonXmlProperty(localName = "AddressLine1", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private LocalDate addressLineOne;
+  private String addressLine1;
 
   @JacksonXmlProperty(localName = "AddressLine2", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private LocalDate addressLineTwo;
+  private String addressLine2;
 
   @JacksonXmlProperty(localName = "AddressLine3", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private LocalDate addressLineThree;
+  private String addressLine3;
 
 }

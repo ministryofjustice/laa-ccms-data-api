@@ -21,5 +21,5 @@ public final class DischargeStatusXml {
   private Boolean clientContinuePvtInd;
 
   @JacksonXmlProperty(localName = "OtherDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private Boolean otherDetails;
+  private String otherDetails;
 }

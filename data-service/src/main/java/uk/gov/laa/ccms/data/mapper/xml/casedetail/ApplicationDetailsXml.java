@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,4 +62,16 @@ public final class ApplicationDetailsXml {
   @JacksonXmlProperty(localName = "LARDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private LARDetailsXml larDetails;
 
+  // Just added
+  @JacksonXmlProperty(localName = "DateOfFirstAttendance", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LocalDate dateOfFirstAttendance;
+
+  @JacksonXmlProperty(localName = "DateOfHearing", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LocalDate dateOfHearing;
+
+  @JacksonXmlProperty(localName = "DevolvedPowersDate", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LocalDate devolvedPowersDate;
+
+  @JacksonXmlProperty(localName = "CertificateType", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String certificateType;
 }

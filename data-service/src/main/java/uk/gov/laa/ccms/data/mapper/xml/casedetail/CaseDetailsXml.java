@@ -33,6 +33,9 @@ public final class CaseDetailsXml {
   @JacksonXmlProperty(localName = "LegalHelpCosts", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Long legalHelpCosts;
 
+  @JacksonXmlProperty(localName = "UndertakingAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private Long undertakingAmount;
+
   @JacksonXmlProperty(localName = "LinkedCases", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private List<LinkedCaseXml> linkedCases;
 
@@ -52,6 +55,6 @@ public final class CaseDetailsXml {
   private CaseStatusXml caseStatus;
 
   @JacksonXmlProperty(localName = "RecordHistory", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private RecordHistoryXml recordHistoryXml;
+  private RecordHistoryXml recordHistory;
 
 }

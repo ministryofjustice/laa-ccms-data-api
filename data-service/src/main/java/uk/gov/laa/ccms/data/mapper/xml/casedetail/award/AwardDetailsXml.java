@@ -14,6 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public final class AwardDetailsXml {
 
+  @JacksonXmlProperty(localName = "AwardCategory", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String awardCategory;
+
   @JacksonXmlProperty(localName = "CostAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private CostAwardXml costAward;
 

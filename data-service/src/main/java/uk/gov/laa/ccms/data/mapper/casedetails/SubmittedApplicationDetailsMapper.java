@@ -11,12 +11,12 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.ContactUserIDXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CostLimitationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.OrganisationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CategoryOfLawXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CorrespondenceAddressXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProviderDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.PersonXml;
 import uk.gov.laa.ccms.data.mapper.xml.common.AddressXml;
 import uk.gov.laa.ccms.data.model.AddressDetail;
@@ -33,9 +33,15 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
 import uk.gov.laa.ccms.data.model.ScopeLimitation;
 import uk.gov.laa.ccms.data.model.SubmittedApplicationDetails;
 
+/**
+ * Mapper interface for transforming XML application details related objects to their associated
+ * domain classes. This interface utilizes MapStruct for mapping properties.
+ */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SubmittedApplicationDetailsMapper {
 
+  @Mapping(target = "fixedHearingDateInd", source = "fixedHearingDateIndicator")
+  @Mapping(target = "highProfileCaseInd", source = "highProfileCaseIndicator")
   @Mapping(target = "preferredAddress", source = "preferredAddress")
   SubmittedApplicationDetails mapToSubmittedApplicationDetails(
       ApplicationDetailsXml submittedApplicationDetails);

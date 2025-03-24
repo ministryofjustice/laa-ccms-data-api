@@ -59,6 +59,12 @@ class SubmittedApplicationDetailsMapperImplTest {
         .purposeOfApplication("Purpose of app")
         .purposeOfHearing("Purpose of hear")
         .applicationAmendmentType("Amendment type")
+        .fixedHearingDateIndicator(true)
+        .highProfileCaseIndicator(true)
+        .dateOfFirstAttendance(LocalDate.of(2010, 1, 10))
+        .dateOfHearing(LocalDate.of(2011, 2, 11))
+        .devolvedPowersDate(LocalDate.of(2012, 3, 12))
+        .certificateType("Cert type")
         .build();
     // When
     SubmittedApplicationDetails result = mapper

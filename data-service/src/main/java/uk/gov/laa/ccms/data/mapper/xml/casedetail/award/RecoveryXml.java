@@ -21,13 +21,13 @@ public final class RecoveryXml {
   private RecoveredAmountXml recoveredAmount;
 
   @JacksonXmlProperty(localName = "UnRecoveredAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String unrecoveredAmount;
+  private String unRecoveredAmount;
 
   @JacksonXmlProperty(localName = "LeaveOfCourtReqdInd", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Boolean leaveOfCourtRequiredIndicator;
 
   @JacksonXmlProperty(localName = "OfferedAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private AmountXml offeredAmount;
+  private OfferedAmountXml offeredAmount;
 
   @JacksonXmlProperty(localName = "Amount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String amount;

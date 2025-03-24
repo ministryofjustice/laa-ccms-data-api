@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.ServiceAddressXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.PropertyAddressXml;
 
 @Getter
 @Setter
@@ -28,7 +28,7 @@ public final class LandAwardXml {
   private String titleNo;
 
   @JacksonXmlProperty(localName = "PropertyAddress", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private PropertyAddressXml propertyAddress;
+  private ServiceAddressXml propertyAddress;
 
   @JacksonXmlProperty(localName = "Valuation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private ValuationXml valuation;
@@ -50,6 +50,18 @@ public final class LandAwardXml {
 
   @JacksonXmlProperty(localName = "Recovery", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String recovery;
+
+  @JacksonXmlProperty(localName = "NoRecoveryDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String noRecoveryDetails;
+
+  @JacksonXmlProperty(localName = "StatChargeExemptReason", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String statChargeExemptReason;
+
+  @JacksonXmlProperty(localName = "LandChargeRegistration", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String landChargeRegistration;
+
+  @JacksonXmlProperty(localName = "RegistrationRef", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String registrationRef;
 
   @JacksonXmlProperty(localName = "OtherProprietors", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private List<OtherPartyXml> otherProprietors;

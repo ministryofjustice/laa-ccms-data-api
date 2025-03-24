@@ -8,6 +8,12 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.LinkedCase;
 
+/**
+ * Mapper interface for transforming XML linked case objects to their associated domain classes.
+ * This interface utilizes MapStruct for mapping properties.
+ *
+ * @author Jamie Briggs
+ */
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface LinkedCaseMapper {
 

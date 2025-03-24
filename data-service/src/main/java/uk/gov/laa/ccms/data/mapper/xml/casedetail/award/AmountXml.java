@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper.xml.casedetail.award;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,4 +20,7 @@ public final class AmountXml {
 
   @JacksonXmlProperty(localName = "PaidToLSC", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Long paidToLsc;
+
+  @JacksonXmlProperty(localName = "DateReceived", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LocalDate dateReceived;
 }

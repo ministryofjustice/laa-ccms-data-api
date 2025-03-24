@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.ServiceAddressXml;
 
 @Getter
 @Setter
@@ -31,12 +32,23 @@ public final class FinancialAwardXml {
   @JacksonXmlProperty(localName = "OtherDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String otherDetails;
 
+  @JacksonXmlProperty(localName = "AwardJustifications", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String awardJustifications;
+
+  @JacksonXmlProperty(localName = "StatutoryChangeReason", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String statutoryChangeReason;
+
+  @JacksonXmlProperty(localName = "OrderDateServed", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private LocalDate orderDateServed;
+
   @JacksonXmlProperty(localName = "LiableParties", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private List<LiablePartyXml> liableParties;
 
   @JacksonXmlProperty(localName = "Recovery", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private RecoveryXml recovery;
 
+  @JacksonXmlProperty(localName = "ServiceAddress", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private ServiceAddressXml serviceAddress;
 
 }
 

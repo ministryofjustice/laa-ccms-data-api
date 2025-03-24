@@ -2341,12 +2341,12 @@ components:
           $ref: '#/components/schemas/userDetail'
         date_created:
           type: 'string'
-          format: date
+          format: date-time
         last_updated_by:
           $ref: '#/components/schemas/userDetail'
         date_last_updated:
           type: 'string'
-          format: date
+          format: date-time
     caseDoc:
       type: 'object'
       properties:
