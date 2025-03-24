@@ -484,6 +484,19 @@ paths:
           schema:
             type: 'string'
             example: '1234567890'
+        - name: 'provider-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'integer'
+            format: 'int64'
+          example: '123456789'
+        - name: 'client-first-name'
+          in: 'query'
+          required: true
+          schema:
+            type: 'string'
+          example: 'John'
       responses:
         '200':
           description: 'Successful operation'

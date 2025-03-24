@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains award information found in a case details.
+ *
+ * @author Jamie Briggs
+ * @see uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailsXml
+ */
 @Getter
 @Setter
 @Builder

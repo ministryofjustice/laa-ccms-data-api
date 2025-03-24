@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains other party details for a case.
+ *
+ * @see uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

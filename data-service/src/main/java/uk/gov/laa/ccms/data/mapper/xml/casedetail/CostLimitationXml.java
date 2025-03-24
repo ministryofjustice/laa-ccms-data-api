@@ -8,6 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains details about the cost limitations of a case.
+ *
+ * @see CaseDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -18,7 +24,7 @@ public final class CostLimitationXml {
   @JacksonXmlProperty(localName = "CostLimitID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String costLimitId;
   @JacksonXmlProperty(localName = "BillingProviderID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private String billingProviderID;
+  private String billingProviderId;
   @JacksonXmlProperty(localName = "BillingProviderName", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String billingProviderName;
   @JacksonXmlProperty(localName = "CostCategory", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")

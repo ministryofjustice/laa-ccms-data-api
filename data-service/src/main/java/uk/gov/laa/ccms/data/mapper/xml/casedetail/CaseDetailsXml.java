@@ -11,6 +11,20 @@ import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AwardXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityXml;
 
+/**
+ * Contains various details regarding a case.
+ *
+ * @see ApplicationDetailsXml
+ * @see LinkedCaseXml
+ * @see AwardXml
+ * @see PriorAuthorityXml
+ * @see DischargeStatusXml
+ * @see AvailableFunctionsXml
+ * @see CaseStatusXml
+ * @see RecordHistoryXml
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

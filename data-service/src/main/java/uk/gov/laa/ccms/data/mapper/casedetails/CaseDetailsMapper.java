@@ -8,13 +8,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.AvailableFunctionsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.LiablePartyXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 
 /**
  * Mapper interface for transforming XML case details objects to their associated domain classes.
  * This interface utilizes MapStruct for mapping properties.
  *
- * <p>Also utilizes other mappers to map the complete case detail object such as:
+ * <p>Also utilizes other mappers to map the complete case detail object such as:</p>
  * <ul>
  *   <li>{@link SubmittedApplicationDetailsMapper}</li>
  *   <li>{@link LinkedCaseMapper}</li>
@@ -22,12 +23,12 @@ import uk.gov.laa.ccms.data.model.CaseDetail;
  *   <li>{@link PriorAuthorityMapper}</li>
  *   <li>{@link RecordHistoryMapper}</li>
  * </ul>
- * </p>
+ *
  *
  * @author Jamie Briggs
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses =
-    {SubmittedApplicationDetailsMapper.class, LinkedCaseMapper.class, AwardMapper.class,
+      {SubmittedApplicationDetailsMapper.class, LinkedCaseMapper.class, AwardMapper.class,
     PriorAuthorityMapper.class, RecordHistoryMapper.class},
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface CaseDetailsMapper {
@@ -45,8 +46,17 @@ public interface CaseDetailsMapper {
   @Mapping(target = "availableFunctions", source = "caseDetails.availableFunctions")
   @Mapping(target = "caseStatus", source = "caseDetails.caseStatus")
   @Mapping(target = "recordHistory", source = "caseDetails.recordHistory")
-  CaseDetail mapToCaseDetail(CaseDetailXml caseInqRSXml);
+  CaseDetail mapToCaseDetail(CaseDetailXml caseXml);
 
+
+  /**
+   * Fetches a list of strings related to available functions found within passed parameter.
+   *
+   * @param availableFunctionsXml a list of {@link String} objects representing the available
+   *                              functions.
+   * @return a list of strings containing the available functions values from the input list.
+   *     If the input list is null, an empty list is returned.
+   */
   default List<String> mapToAvailableFunctions(AvailableFunctionsXml availableFunctionsXml) {
     if (availableFunctionsXml == null || availableFunctionsXml.getFunctions() == null) {
       return Collections.emptyList();

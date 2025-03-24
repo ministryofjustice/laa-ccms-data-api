@@ -11,11 +11,22 @@ import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CategoryOfLawXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CorrespondenceAddressXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.LARDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.LarDetailsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProviderDetailsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 
+/**
+ * Contains the application details for a case.
+ *
+ * @see CorrespondenceAddressXml
+ * @see ProviderDetailsXml
+ * @see CategoryOfLawXml
+ * @see OtherPartyXml
+ * @see ProceedingXml
+ * @see LarDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -60,9 +71,8 @@ public final class ApplicationDetailsXml {
   private String applicationAmendmentType;
 
   @JacksonXmlProperty(localName = "LARDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
-  private LARDetailsXml larDetails;
+  private LarDetailsXml larDetails;
 
-  // Just added
   @JacksonXmlProperty(localName = "DateOfFirstAttendance", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private LocalDate dateOfFirstAttendance;
 

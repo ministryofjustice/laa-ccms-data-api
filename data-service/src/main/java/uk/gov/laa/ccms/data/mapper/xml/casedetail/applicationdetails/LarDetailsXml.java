@@ -7,13 +7,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains LAR scope flag information for the application details section of a case.
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class LARDetailsXml {
+public final class LarDetailsXml {
 
-  @JacksonXmlProperty(localName = "LARScopeFlag", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "LARScopeFlag",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Boolean larScopeFlag;
 }

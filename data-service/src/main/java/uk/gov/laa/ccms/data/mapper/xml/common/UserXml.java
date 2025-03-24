@@ -7,6 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains information regarding a user.
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -14,11 +19,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public final class UserXml {
 
-  @JacksonXmlProperty(localName = "UserLoginID", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
+  @JacksonXmlProperty(localName = "UserLoginID",
+      namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private Integer userLoginId;
-  @JacksonXmlProperty(localName = "UserName", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
+  @JacksonXmlProperty(localName = "UserName",
+      namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private String userName;
-  @JacksonXmlProperty(localName = "UserType", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
+  @JacksonXmlProperty(localName = "UserType",
+      namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private String userType;
 
 

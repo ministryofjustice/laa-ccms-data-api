@@ -7,12 +7,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains the contact information regarding a case.
+ *
+ * @author Jamie Briggs
+ * @see CaseDetailsXml
+ */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public final class ContactUserIDXml {
+public final class ContactUserIdXml {
 
   @JacksonXmlProperty(localName = "UserLoginID", namespace = "http://legalservices.gov.uk/Enterprise/Common/1.0/Common")
   private Integer userLoginId;

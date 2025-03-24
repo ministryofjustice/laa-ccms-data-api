@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.ServiceAddressXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.ServiceAddressXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AmountXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AwardDetailsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.AwardXml;

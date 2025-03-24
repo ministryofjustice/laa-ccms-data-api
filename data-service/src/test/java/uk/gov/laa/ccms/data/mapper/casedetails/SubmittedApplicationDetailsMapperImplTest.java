@@ -10,7 +10,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ApplicationDetailsXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.ContactUserIDXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.ContactUserIdXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CostLimitationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.OrganisationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
@@ -376,7 +376,7 @@ class SubmittedApplicationDetailsMapperImplTest {
         .totalPaidToDate("50")
         .costLimitations(Collections.singletonList(CostLimitationXml.builder()
             .costLimitId("10")
-            .billingProviderID("20")
+            .billingProviderId("20")
             .billingProviderName("Billing name")
             .costCategory("Cost category")
             .paidToDate(BigDecimal.valueOf(40))
@@ -398,9 +398,9 @@ class SubmittedApplicationDetailsMapperImplTest {
   private static ProviderDetailsXml getProviderDetails() {
     return ProviderDetailsXml.builder()
         .providerCaseReferenceNumber("Case ref")
-        .providerFirmID(789)
-        .providerOfficeID(456)
-        .contactUserID(ContactUserIDXml.builder()
+        .providerFirmId(789)
+        .providerOfficeId(456)
+        .contactUserId(ContactUserIdXml.builder()
             .userLoginId(123)
             .userName("UserName")
             .build())

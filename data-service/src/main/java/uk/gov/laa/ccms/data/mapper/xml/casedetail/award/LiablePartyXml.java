@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains liable party ID used for various award sections.
+ *
+ * @see AwardDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

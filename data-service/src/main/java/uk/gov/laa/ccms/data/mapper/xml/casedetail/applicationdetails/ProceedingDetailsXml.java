@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
 
+/**
+ * Contains Proceeding details section for a proceeding.
+ *
+ * @see ProceedingXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

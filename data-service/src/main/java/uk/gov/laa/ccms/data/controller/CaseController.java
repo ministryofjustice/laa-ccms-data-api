@@ -60,15 +60,34 @@ public class CaseController implements CasesApi {
     return cases.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Retrieves the details of a specific case based on the provided criteria.
+   *
+   * @param caseReferenceNumber the unique identifier of the case.
+   * @param providerId the unique identifier of the provider.
+   * @param clientFirstName the first name of the client associated with the case.
+   * @return a {@code ResponseEntity} containing the {@code CaseDetail} if found,
+   *         or a {@code ResponseEntity} with a not found status if no case matches the criteria.
+   */
   @SneakyThrows
   @Override
-  public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber) {
-    // "300001643905", 26517L, "Tracey"
-    // "300001651062", 26517L, "Ski"
-    Optional<CaseDetail> tracey = caseService.getCaseDetails("300001643905", 26517L, "Tracey");
+  public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber, Long providerId,
+      String clientFirstName) {
+    Optional<CaseDetail> tracey = caseService.getCaseDetails(caseReferenceNumber, providerId,
+        clientFirstName);
     return tracey.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Retrieves the transaction status for a specific case based on the given transaction
+   *     request identifier.
+   *
+   * @param transactionRequestId the unique identifier of the transaction request.
+   * @return a {@code ResponseEntity} containing the {@code TransactionStatus} if found,
+   *         a {@code ResponseEntity} with a not found status if the transaction is not found,
+   *         or a {@code ResponseEntity} with an internal server error status if an exception
+   *         occurs.
+   */
   @Override
   public ResponseEntity<TransactionStatus> getCaseTransactionStatus(String transactionRequestId) {
     try {

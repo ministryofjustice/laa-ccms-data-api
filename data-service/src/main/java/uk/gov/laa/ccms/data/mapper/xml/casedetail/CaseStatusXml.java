@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains information regarding the status of a case.
+ *
+ * @see CaseDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

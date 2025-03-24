@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains offered amount details for award recovery details.
+ *
+ * @see RecoveryXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

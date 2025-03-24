@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains award details for an award.
+ *
+ * @see AwardXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

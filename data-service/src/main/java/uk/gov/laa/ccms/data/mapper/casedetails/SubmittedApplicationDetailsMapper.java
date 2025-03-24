@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ApplicationDetailsXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.ContactUserIDXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.ContactUserIdXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.CostLimitationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.OrganisationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
@@ -36,6 +36,8 @@ import uk.gov.laa.ccms.data.model.SubmittedApplicationDetails;
 /**
  * Mapper interface for transforming XML application details related objects to their associated
  * domain classes. This interface utilizes MapStruct for mapping properties.
+ *
+ * @author Jamie Briggs
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SubmittedApplicationDetailsMapper {
@@ -55,11 +57,21 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "addressLine4", source = "addressLineFour")
   AddressDetail mapToAddressDetail(CorrespondenceAddressXml address);
 
-  @Mapping(target = "id", source = "providerFirmID")
-  @Mapping(target = "offices", source = "providerOfficeID", qualifiedByName = "mapOfficeDetail")
-  @Mapping(target = "contactNames", source = "contactUserID", qualifiedByName = "mapContactDetail")
+  @Mapping(target = "house", source = "houseOrTitle")
+  AddressDetail mapToAddressDetail(AddressXml address);
+
+  @Mapping(target = "id", source = "providerFirmId")
+  @Mapping(target = "offices", source = "providerOfficeId", qualifiedByName = "mapOfficeDetail")
+  @Mapping(target = "contactNames", source = "contactUserId", qualifiedByName = "mapContactDetail")
   ProviderDetail mapToProviderDetail(ProviderDetailsXml provider);
 
+  /**
+   * Converts an integer into a list with one value relating to the office ID.
+   *
+   * @param providerOfficeId the provider office ID.
+   *
+   * @return a list containing one office detail including the provided office ID.
+   */
   @Named("mapOfficeDetail")
   default List<OfficeDetail> mapPreferredAddress(Integer providerOfficeId) {
     OfficeDetail officeDetail = new OfficeDetail();
@@ -67,16 +79,23 @@ public interface SubmittedApplicationDetailsMapper {
     return Collections.singletonList(officeDetail);
   }
 
+  /**
+   * Maps a single {@link ContactUserIdXml} to a list containing a singular {@link ContactDetail}.
+   *
+   * @param contactUserId the contact user ID to map.
+   *
+   * @return a list containing one contact detail relating to the provider contacter user details.
+   */
   @Named("mapContactDetail")
-  default List<ContactDetail> mapContactDetails(ContactUserIDXml contactUserID) {
+  default List<ContactDetail> mapContactDetails(ContactUserIdXml contactUserId) {
     ContactDetail contact = new ContactDetail();
-    contact.setId(contactUserID.getUserLoginId());
-    contact.setName(contactUserID.getUserName());
+    contact.setId(contactUserId.getUserLoginId());
+    contact.setName(contactUserId.getUserName());
     return Collections.singletonList(contact);
   }
 
   CategoryOfLaw mapToCategoryOfLaw(CategoryOfLawXml categoryOfLaw);
-  @Mapping(target = "billingProviderId", source = "billingProviderID")
+
   CostLimitation mapToCostLimitation(CostLimitationXml costLimitation);
 
   @Mapping(target = "sharedInd", source = "sharedIndicator")
@@ -90,8 +109,6 @@ public interface SubmittedApplicationDetailsMapper {
 
   OtherPartyOrganisation mapToOtherPartyOrganisation(OrganisationXml organisation);
 
-  @Mapping(target = "house", source = "houseOrTitle")
-  AddressDetail mapToAddressDetail(AddressXml address);
 
   @Mapping(target = "proceedingType", source = "proceedingDetails.proceedingType")
   @Mapping(target = "proceedingDescription", source = "proceedingDetails.proceedingDescription")

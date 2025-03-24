@@ -2,27 +2,31 @@ package uk.gov.laa.ccms.data.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import java.sql.CallableStatement;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.sql.Clob;
 import java.sql.SQLException;
-import java.sql.Struct;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRSXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRsXml;
 
+/**
+ * Repository class for retrieving case details using database functions.
+ *
+ * <p>This class provides methods for interacting with stored database functions
+ * to retrieve detailed information about cases. It utilizes Spring's
+ * {@link JdbcTemplate}, Jackson's {@link XmlMapper}, and custom database
+ * functions to fetch case information in XML format and map it to objects.</p>
+ *
+ * @author Jamie Briggs
+ */
 @Slf4j
 @Repository
 public class CaseDetailRepository {
@@ -30,59 +34,46 @@ public class CaseDetailRepository {
   private final JdbcTemplate jdbcTemplate;
   private final XmlMapper xmlMapper;
 
-  public CaseDetailRepository(JdbcTemplate jdbcTemplate){
+  /**
+   * Constructs a new instance of {@link CaseDetailRepository}, which is responsible for
+   * initializing the required database access components and configuring the XML mapper
+   * for deserializing XML data into Java objects.
+   *
+   * @param jdbcTemplate the {@link JdbcTemplate} instance used for interacting with the database.
+   */
+  public CaseDetailRepository(JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
     this.xmlMapper = new XmlMapper();
     this.xmlMapper.registerModule(new JavaTimeModule());
     this.xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  public CaseInqRSXml getCaseDetailXml(String caseReference, Long providerId, String clientFirstName)
-      throws SQLException, JsonProcessingException {
+  /**
+   * Retrieves case details in XML format by invoking a database function and mapping the result
+   *     to a {@code CaseInqRsXml} object.
+   *
+   * <p>This method uses a stored database function to fetch case details based on the
+   *     provided case reference, provider ID, and client first name. The resulting XML
+   *     data is deserialized into a {@code CaseInqRsXml} object.</p>
+   *
+   * @param caseReference the unique reference identifier for the case
+   * @param providerId the identifier of the provider associated with the case
+   * @param clientFirstName the first name of the client associated with the case
+   * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data
+   * @throws SQLException if a database access error occurs or there is an error with the
+   *     SQL function invocation
+   * @throws JsonProcessingException if an error occurs while deserializing the XML response
+   *     into the {@code CaseInqRsXml} object
+   */
+  public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId,
+      String clientFirstName) throws SQLException, JsonProcessingException {
     String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId,
         clientFirstName);
-    //String objectFunction = getCaseDetailObjectViaFunction(caseReference, providerId, clientFirstName);
-    return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRSXml.class);
+    return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRsXml.class);
   }
 
-
-  @SneakyThrows
-  @Deprecated
-  private String getCaseDetailObjectViaFunction(String caseReference, Long providerId, String clientFirstName) {
-    SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-        .withSchemaName("XXCCMS")
-        .withCatalogName("XXCCMS_SOA_REPLACE_PKG")
-        .withFunctionName("GET_CASE_DETAILS_OBJECT")
-        .declareParameters(
-            new SqlOutParameter("result", Types.STRUCT, "XXCCMS.XXCCMS_CASE_TYPE"),
-            new SqlParameter("p_case_reference_number", Types.VARCHAR),
-            new SqlParameter("l_provider_firm_party_id", Types.NUMERIC),
-            new SqlParameter("p_user_name", Types.VARCHAR)
-        );
-
-
-    Map<String, Object> params = new HashMap<>();
-    params.put("p_case_reference_number", caseReference);
-    params.put("l_provider_firm_party_id", providerId);
-    params.put("p_user_name", clientFirstName);
-
-    Struct result = jdbcCall.executeFunction(Struct.class, params);
-
-    //ObjectMapper objectMapper = new ObjectMapper();
-    //String jsonResult = objectMapper.writeValueAsString(result.getAttributes());
-    return result.toString();
-  }
-
-  @Getter
-  @Setter
-  @org.hibernate.annotations.Struct(name = "xxccms_case_type")
-  public static class CaseStruct{
-    private String caseReferenceNumber;
-
-  }
-
-  private String getCaseDetailViaFunction(String caseReference, Long providerId, String clientFirstName)
-      throws SQLException {
+  private String getCaseDetailViaFunction(String caseReference, Long providerId,
+      String clientFirstName) throws SQLException {
     SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         .withSchemaName("XXCCMS")
         .withCatalogName("XXCCMS_SOA_REPLACE_PKG")
@@ -102,8 +93,6 @@ public class CaseDetailRepository {
 
     Clob result = jdbcCall.executeFunction(Clob.class, params);
 
-    // TODO: Temporarily removing Awards as for some reason the DB adds a rogue closing tag
-    //  for awards
     return result.getSubString(1, (int) result.length());
   }
 

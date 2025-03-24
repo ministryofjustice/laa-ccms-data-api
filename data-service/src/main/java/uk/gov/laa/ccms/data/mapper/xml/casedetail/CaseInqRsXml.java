@@ -7,12 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Parent XML object for case details.
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public final class CaseInqRSXml {
+public final class CaseInqRsXml {
 
   @JacksonXmlProperty(localName = "Case", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIM")
   private CaseDetailXml caseDetail;

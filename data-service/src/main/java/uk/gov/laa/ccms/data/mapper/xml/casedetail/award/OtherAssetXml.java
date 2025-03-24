@@ -11,6 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 
+/**
+ * Contains other asset information for award details.
+ *
+ * @see AwardDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -18,48 +24,63 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 @AllArgsConstructor
 public final class OtherAssetXml {
 
-  @JacksonXmlProperty(localName = "OrderDate", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "OrderDate",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private LocalDate orderDate;
 
-  @JacksonXmlProperty(localName = "Description", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Description",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String description;
 
-  @JacksonXmlProperty(localName = "Valuation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Valuation",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private ValuationXml valuation;
 
-  @JacksonXmlProperty(localName = "AwardedAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "AwardedAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String awardedAmount;
 
-  @JacksonXmlProperty(localName = "AwardedPercentage", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "AwardedPercentage",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String awardedPercentage;
 
-  @JacksonXmlProperty(localName = "RecoveredAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "RecoveredAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String recoveredAmount;
 
-  @JacksonXmlProperty(localName = "RecoveredPercentage", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "RecoveredPercentage",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String recoveredPercentage;
 
-  @JacksonXmlProperty(localName = "DisputedAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "DisputedAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String disputedAmount;
 
-  @JacksonXmlProperty(localName = "DisputedPercentage", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "DisputedPercentage",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String disputedPercentage;
 
-  @JacksonXmlProperty(localName = "AwardedBy", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "AwardedBy",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String awardedBy;
 
-  @JacksonXmlProperty(localName = "Recovery", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Recovery",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String recovery;
 
-  @JacksonXmlProperty(localName = "NoRecoveryDetails", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "NoRecoveryDetails",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String noRecoveryDetails;
 
-  @JacksonXmlProperty(localName = "HeldBy", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "HeldBy",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private List<OtherPartyXml> heldBy;
 
-  @JacksonXmlProperty(localName = "TimeRelatedAward", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "TimeRelatedAward",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private TimeRelatedAwardXml timeRelatedAward;
 
-  @JacksonXmlProperty(localName = "StatChargeExemptReason", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "StatChargeExemptReason",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String statChargeExemptReason;
 }

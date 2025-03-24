@@ -8,6 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains valuation details for various award sections.
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

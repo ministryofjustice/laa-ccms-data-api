@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains recovered amount details for the recovery section.
+ *
+ * @see RecoveryXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -14,10 +20,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public final class RecoveredAmountXml {
 
-  @JacksonXmlProperty(localName = "Solicitor", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Solicitor",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private AmountXml solicitor;
-  @JacksonXmlProperty(localName = "Court", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Court",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private AmountXml court;
-  @JacksonXmlProperty(localName = "Client", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Client",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private AmountXml client;
 }

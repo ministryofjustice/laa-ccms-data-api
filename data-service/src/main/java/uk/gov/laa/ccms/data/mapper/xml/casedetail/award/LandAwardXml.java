@@ -8,9 +8,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.ServiceAddressXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 
+/**
+ * Contains land award information found in award details.
+ *
+ * @see AwardDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

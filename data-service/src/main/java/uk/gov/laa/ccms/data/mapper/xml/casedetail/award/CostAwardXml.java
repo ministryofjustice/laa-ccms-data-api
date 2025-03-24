@@ -8,8 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.ServiceAddressXml;
 
+/**
+ * Contains cost award information found in award details.
+ *
+ * @see AwardDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

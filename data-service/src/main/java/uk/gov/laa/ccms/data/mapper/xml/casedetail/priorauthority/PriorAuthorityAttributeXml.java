@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains details about an attribute associated with a prior authority.
+ *
+ * @see PriorAuthorityXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

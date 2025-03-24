@@ -7,6 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains name details for other party section.
+ *
+ * @see OtherPartyXml
+ * @see OtherPartyDetailXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

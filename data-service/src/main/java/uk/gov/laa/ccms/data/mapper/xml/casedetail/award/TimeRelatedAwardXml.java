@@ -8,6 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains time related award details for various award sections of a case.
+ *
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

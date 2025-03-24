@@ -8,6 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains details about a prior authority for a case detail.
+ *
+ * @see uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder

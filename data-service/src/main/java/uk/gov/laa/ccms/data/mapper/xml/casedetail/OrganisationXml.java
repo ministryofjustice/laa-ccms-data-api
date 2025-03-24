@@ -8,6 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.xml.common.AddressXml;
 
+/**
+ * Contains information regarding an Organisation which is linked to a case.
+ *
+ * @see CaseDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -23,7 +29,8 @@ public final class OrganisationXml {
 
   @JacksonXmlProperty(localName = "CurrentlyTrading", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String currentlyTradingFlag;
-  public boolean getCurrentlyTrading(){
+
+  public boolean getCurrentlyTrading() {
     return "Y".equals(currentlyTradingFlag);
   }
 

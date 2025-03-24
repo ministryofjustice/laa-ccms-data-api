@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Contains recovery details for various award sections.
+ *
+ * @see AwardDetailsXml
+ * @author Jamie Briggs
+ */
 @Getter
 @Setter
 @Builder
@@ -14,21 +20,27 @@ import lombok.Setter;
 @AllArgsConstructor
 public final class RecoveryXml {
 
-  @JacksonXmlProperty(localName = "AwardValue", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "AwardValue",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String awardValue;
 
-  @JacksonXmlProperty(localName = "RecoveredAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "RecoveredAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private RecoveredAmountXml recoveredAmount;
 
-  @JacksonXmlProperty(localName = "UnRecoveredAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "UnRecoveredAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String unRecoveredAmount;
 
-  @JacksonXmlProperty(localName = "LeaveOfCourtReqdInd", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "LeaveOfCourtReqdInd",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private Boolean leaveOfCourtRequiredIndicator;
 
-  @JacksonXmlProperty(localName = "OfferedAmount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "OfferedAmount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private OfferedAmountXml offeredAmount;
 
-  @JacksonXmlProperty(localName = "Amount", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "Amount",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String amount;
 }
