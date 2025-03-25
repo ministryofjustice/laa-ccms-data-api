@@ -1476,6 +1476,32 @@ components:
         name:
           type: 'string'
           example: 'a name'
+    baseContact:
+      type: 'object'
+      properties:
+        telephone_home:
+          type: 'string'
+        telephone_work:
+          type: 'string'
+        mobile_number:
+          type: 'string'
+        email_address:
+          type: 'string'
+        fax:
+          type: 'string'
+    contactDetails:
+      allOf:
+        - $ref: '#/components/schemas/baseContact'
+      type: 'object'
+      properties:
+        password:
+          type: 'string'
+        password_reminder:
+          type: 'string'
+        correspondence_method:
+          type: 'string'
+        correspondence_language:
+          type: 'string'
     amendmentTypeLookupDetail:
       allOf:
         - $ref: "#/components/schemas/page"
@@ -1974,7 +2000,7 @@ components:
         contact_user_id:
           $ref: '#/components/schemas/userDetail'
         contact_details:
-          $ref: '#/components/schemas/contactDetail'
+          $ref: '#/components/schemas/contactDetails'
         supervisor_contact_id:
           type: 'string'
         fee_earner_contact_id:
@@ -2443,7 +2469,7 @@ components:
         contact_name:
           type: 'string'
         contact_details:
-          $ref: '#/components/schemas/contactDetail'
+          $ref: '#/components/schemas/contactDetails'
         organisation_name:
           type: 'string'
         employers_name:
@@ -2489,7 +2515,7 @@ components:
         contact_name:
           type: 'string'
         contact_details:
-          $ref: '#/components/schemas/contactDetail'
+          $ref: '#/components/schemas/contactDetails'
         other_information:
           type: 'string'
     larDetails:

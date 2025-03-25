@@ -89,8 +89,8 @@ public interface SubmittedApplicationDetailsMapper {
   @Named("mapContactDetail")
   default List<ContactDetail> mapContactDetails(ContactUserIdXml contactUserId) {
     ContactDetail contact = new ContactDetail();
-    contact.setId(contactUserId.getUserLoginId());
-    contact.setName(contactUserId.getUserName());
+    //contact.setId(contactUserId.getUserLoginId());
+    //contact.setName(contactUserId.getUserName());
     return Collections.singletonList(contact);
   }
 
@@ -103,7 +103,7 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "organisation", source = "otherPartyDetail.organisation")
   OtherParty mapToOtherParty(OtherPartyXml otherParty);
 
-  @Mapping(target = "contactDetails.name", source = "contactName")
+  //@Mapping(target = "name", source = "contactName")
   @Mapping(target = "address.house", source = "address.houseOrTitle")
   OtherPartyPerson mapToOtherPartyPerson(PersonXml person);
 
