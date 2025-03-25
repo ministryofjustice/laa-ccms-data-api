@@ -1916,7 +1916,7 @@ components:
         correspondence_address:
           $ref: '#/components/schemas/addressDetail'
         provider_details:
-          $ref: '#/components/schemas/providerDetail'
+          $ref: '#/components/schemas/providerDetails'
         category_of_law:
           $ref: '#/components/schemas/categoryOfLaw'
         other_parties:
@@ -1961,6 +1961,23 @@ components:
         lar_details:
           $ref: '#/components/schemas/larDetails'
         certificate_type:
+          type: 'string'
+    providerDetails:
+      type: object
+      properties:
+        provider_case_reference_number:
+          type: 'string'
+        provider_firm_id:
+          type: 'string'
+        provider_office_id:
+          type: 'string'
+        contact_user_id:
+          $ref: '#/components/schemas/userDetail'
+        contact_details:
+          $ref: '#/components/schemas/contactDetail'
+        supervisor_contact_id:
+          type: 'string'
+        fee_earner_contact_id:
           type: 'string'
     proceeding:
       type: object
