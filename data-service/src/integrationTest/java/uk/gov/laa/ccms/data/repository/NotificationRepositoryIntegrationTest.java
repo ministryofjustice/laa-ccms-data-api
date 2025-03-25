@@ -1,10 +1,12 @@
 package uk.gov.laa.ccms.data.repository;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,18 +68,36 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with notes")
-  public void shouldReturnNotificationWithNotes(){
+  public void shouldReturnNotificationWithNotes() {
     // Given
     long notificationId = 1L;
     // When
-    NotificationInfo result = repository.findById(notificationId).orElse(null);
+    Optional<NotificationInfo> result = repository.findById(notificationId);
     // Then
-    NotificationNote note = result.getNotes().getFirst();
-    assertEquals(1, note.getNoteId());
-    assertEquals(1, note.getNotificationId());
-    assertEquals(LocalDateTime.of(2025, 1, 1, 0,0,0,0), note.getNoteDate());
-    assertEquals("Here is the body of text for this note", note.getNoteText());
-    assertEquals("Jamie Briggs", note.getNoteBy());
+    NotificationNote note1 =  NotificationNote.builder()
+            .noteId(1)
+            .notificationId(1)
+            .noteDate(LocalDateTime.of(2025, 1, 1, 0,0,0,0))
+            .noteBy("Jamie Briggs")
+            .noteText("Here is the body of text for this note")
+            .build();
+    NotificationNote note2 =  NotificationNote.builder()
+            .noteId(2)
+            .notificationId(1)
+            .noteDate(LocalDateTime.of(2025, 1, 1, 10,0,0,0))
+            .noteBy("Arun Kumar")
+            .noteText("Here is the body of text for this note 2")
+            .build();
+
+    assertThat(result)
+            .isPresent()
+            .hasValueSatisfying(notificationInfo ->
+                    assertThat(notificationInfo
+                            .getNotes())
+                            .hasSize(2)
+                            .usingRecursiveFieldByFieldElementComparator()
+                            .containsExactly(note2, note1));
+
   }
 
   @Test
