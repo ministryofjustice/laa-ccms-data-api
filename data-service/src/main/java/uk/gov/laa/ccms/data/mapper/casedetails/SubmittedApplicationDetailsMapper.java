@@ -14,8 +14,10 @@ import uk.gov.laa.ccms.data.mapper.xml.casedetail.ScopeLimitationXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CategoryOfLawXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.CorrespondenceAddressXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.LarDetailsXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProceedingXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ProviderDetailsXml;
+import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.NameXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.OtherPartyXml;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.otherparty.PersonXml;
 import uk.gov.laa.ccms.data.mapper.xml.common.AddressXml;
@@ -24,15 +26,17 @@ import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.CategoryOfLaw;
 import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.CostLimitation;
+import uk.gov.laa.ccms.data.model.LarDetails;
+import uk.gov.laa.ccms.data.model.NameDetail;
 import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.OtherParty;
 import uk.gov.laa.ccms.data.model.OtherPartyOrganisation;
 import uk.gov.laa.ccms.data.model.OtherPartyPerson;
 import uk.gov.laa.ccms.data.model.Proceeding;
-import uk.gov.laa.ccms.data.model.ProviderDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetails;
 import uk.gov.laa.ccms.data.model.ScopeLimitation;
 import uk.gov.laa.ccms.data.model.SubmittedApplicationDetails;
+import uk.gov.laa.ccms.data.model.UserDetail;
 
 /**
  * Mapper interface for transforming XML application details related objects to their associated
@@ -46,6 +50,9 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "fixedHearingDateInd", source = "fixedHearingDateIndicator")
   @Mapping(target = "highProfileCaseInd", source = "highProfileCaseIndicator")
   @Mapping(target = "preferredAddress", source = "preferredAddress")
+  @Mapping(target = "externalResources", ignore = true)
+  @Mapping(target = "meansAssessments", ignore = true)
+  @Mapping(target = "meritsAssessments", ignore = true)
   SubmittedApplicationDetails mapToSubmittedApplicationDetails(
       ApplicationDetailsXml submittedApplicationDetails);
 
@@ -58,12 +65,23 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "addressLine4", source = "addressLineFour")
   AddressDetail mapToAddressDetail(CorrespondenceAddressXml address);
 
+  @Mapping(target = "careOfName", constant = "")
   @Mapping(target = "house", source = "houseOrTitle")
   AddressDetail mapToAddressDetail(AddressXml address);
 
-  @Mapping(target = "contactUserId.loginId", source = "contactUserId.userLoginId")
-  @Mapping(target = "contactUserId.username", source = "contactUserId.userName")
+  @Mapping(target = "contactDetails", ignore = true)
+  @Mapping(target = "supervisorContactId", ignore = true)
+  @Mapping(target = "feeEarnerContactId", ignore = true)
   ProviderDetails mapToProviderDetail(ProviderDetailsXml provider);
+
+  @Mapping(target = "loginId", source = "userLoginId")
+  @Mapping(target = "username", source = "userName")
+  @Mapping(target = "provider", ignore = true)
+  @Mapping(target = "firms", ignore = true)
+  @Mapping(target = "functions", ignore = true)
+  @Mapping(target = "userId", ignore = true)
+  @Mapping(target = "userType", ignore = true)
+  UserDetail mapToUserDetail(ContactUserIdXml contactUserId);
 
   /**
    * Converts an integer into a list with one value relating to the office ID.
@@ -103,9 +121,14 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "organisation", source = "otherPartyDetail.organisation")
   OtherParty mapToOtherParty(OtherPartyXml otherParty);
 
-  @Mapping(target = "address.house", source = "address.houseOrTitle")
+  @Mapping(target = "contactDetails", ignore = true)
   OtherPartyPerson mapToOtherPartyPerson(PersonXml person);
 
+  @Mapping(target = "middleName", ignore = true)
+  @Mapping(target = "surnameAtBirth", ignore = true)
+  NameDetail mapToNameDetail(NameXml person);
+
+  @Mapping(target = "contactDetails", ignore = true)
   OtherPartyOrganisation mapToOtherPartyOrganisation(OrganisationXml organisation);
 
 
@@ -119,7 +142,16 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "clientInvolvementType", source = "proceedingDetails.clientInvolvementType")
   @Mapping(target = "scopeLimitations", source = "proceedingDetails.scopeLimitations")
   @Mapping(target = "availableFunctions", source = "availableFunctions")
+  @Mapping(target = "scopeLimitationApplied", ignore = true)
+  @Mapping(target = "devolvedPowersInd", ignore = true)
+  @Mapping(target = "dateDevolvedPowersUsed", ignore = true)
+  @Mapping(target = "dateGranted", ignore = true)
+  @Mapping(target = "outcome", ignore = true)
   Proceeding mapToProceedingDetail(ProceedingXml proceeding);
 
   ScopeLimitation mapToScopeLimitation(ScopeLimitationXml scopeLimitation);
+
+  @Mapping(target = "legalHelpOfficeCode", constant = "")
+  @Mapping(target = "legalHelpUfn", constant = "")
+  LarDetails mapToLarsDetails(LarDetailsXml larDetails);
 }

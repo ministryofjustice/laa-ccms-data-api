@@ -25,6 +25,9 @@ public final class CorrespondenceAddressXml {
   @JacksonXmlProperty(localName = "HouseOrTitle",
       namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String houseOrTitle;
+  @JacksonXmlProperty(localName = "CoffName",
+      namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  private String careOfName;
   @JacksonXmlProperty(localName = "AddressLineOne",
       namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String addressLineOne;

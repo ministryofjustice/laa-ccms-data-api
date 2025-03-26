@@ -19,5 +19,9 @@ public interface RecordHistoryMapper {
 
   @Mapping(target = "userId", source = "userLoginId")
   @Mapping(target = "username", source = "userName")
+  @Mapping(target = "provider", ignore = true)
+  @Mapping(target = "firms", ignore = true)
+  @Mapping(target = "functions", ignore = true)
+  @Mapping(target = "loginId", ignore = true)
   UserDetail mapToUserDetail(UserXml userId);
 }

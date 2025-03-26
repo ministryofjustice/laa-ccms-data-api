@@ -46,6 +46,7 @@ public interface CaseDetailsMapper {
   @Mapping(target = "availableFunctions", source = "caseDetails.availableFunctions")
   @Mapping(target = "caseStatus", source = "caseDetails.caseStatus")
   @Mapping(target = "recordHistory", source = "caseDetails.recordHistory")
+  @Mapping(target = "caseDocs", ignore = true)
   CaseDetail mapToCaseDetail(CaseDetailXml caseXml);
 
 
