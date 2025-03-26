@@ -73,9 +73,9 @@ public class CaseController implements CasesApi {
   @Override
   public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber, Long providerId,
       String clientFirstName) {
-    Optional<CaseDetail> tracey = caseService.getCaseDetails(caseReferenceNumber, providerId,
+    Optional<CaseDetail> caseDetail = caseService.getCaseDetails(caseReferenceNumber, providerId,
         clientFirstName);
-    return tracey.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    return caseDetail.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   /**

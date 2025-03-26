@@ -64,7 +64,7 @@ public class PersonXml {
       namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private BigDecimal assessedIncome;
 
-  @JacksonXmlProperty(localName = "AssessedAssets",
+  @JacksonXmlProperty(localName = "AssessedAsstes",
       namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private BigDecimal assessedAssets;
 

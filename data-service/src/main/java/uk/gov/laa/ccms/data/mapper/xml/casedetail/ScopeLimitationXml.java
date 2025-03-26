@@ -22,7 +22,7 @@ public final class ScopeLimitationXml {
 
   @JacksonXmlProperty(localName = "ScopeLimitationID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String scopeLimitationId;
-  @JacksonXmlProperty(localName = "ScopeLimitations", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "ScopeLimitation", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String scopeLimitation;
   @JacksonXmlProperty(localName = "ScopeLimitationWording", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String scopeLimitationWording;

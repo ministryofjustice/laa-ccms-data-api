@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public final class ProceedingXml {
 
-  @JacksonXmlProperty(localName = "OtherParties", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
+  @JacksonXmlProperty(localName = "ProceedingCaseID", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")
   private String proceedingCaseId;
 
   @JacksonXmlProperty(localName = "DateApplied", namespace = "http://legalservices.gov.uk/CCMS/CaseManagement/CaseBIO")

@@ -118,6 +118,7 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "stage", source = "proceedingDetails.stage")
   @Mapping(target = "clientInvolvementType", source = "proceedingDetails.clientInvolvementType")
   @Mapping(target = "scopeLimitations", source = "proceedingDetails.scopeLimitations")
+  @Mapping(target = "availableFunctions", source = "availableFunctions")
   Proceeding mapToProceedingDetail(ProceedingXml proceeding);
 
   ScopeLimitation mapToScopeLimitation(ScopeLimitationXml scopeLimitation);

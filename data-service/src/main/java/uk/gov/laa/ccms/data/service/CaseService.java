@@ -93,7 +93,8 @@ public class CaseService {
     CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
         clientFirstName);
     if(caseXml != null && caseXml.getCaseDetail() != null){
-      return Optional.of(caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail()));
+      CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
+      return Optional.of(caseDetail);
     }
     return Optional.empty();
   }
