@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.mapper.casedetails;
 
+import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityAttributeXml;
@@ -19,4 +20,15 @@ public interface PriorAuthorityMapper {
   PriorAuthority mapToPriorAuthority(PriorAuthorityXml priorAuthority);
 
   PriorAuthorityAttribute mapToPriorAuthorityAttribute(PriorAuthorityAttributeXml priorAuthority);
+
+  /**
+   * Ensures strings are not empty, which helps support mapping to parsed values such as
+   *     {@code BigDecimal}.
+   * @param value The string which is currently being mapped.
+   * @return Returns true if the string is not empty or null.
+   */
+  @Condition
+  default boolean isNotEmpty(String value) {
+    return value != null && !value.isEmpty();
+  }
 }

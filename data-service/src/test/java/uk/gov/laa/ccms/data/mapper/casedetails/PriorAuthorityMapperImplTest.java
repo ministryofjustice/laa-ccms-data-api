@@ -51,6 +51,23 @@ class PriorAuthorityMapperImplTest {
     });
   }
 
+  @Test
+  @DisplayName("Should not map empty string")
+  void shouldNotMapEmptyString(){
+    // Given
+    PriorAuthorityXml priorAuthorityXml = PriorAuthorityXml.builder()
+        .assessedAmount("")
+        .requestAmount("")
+        .build();
+    // When
+    PriorAuthority result = mapper.mapToPriorAuthority(priorAuthorityXml);
+    // Then
+    SoftAssertions.assertSoftly(softly -> {
+      softly.assertThat(result.getAssessedAmount()).isNull();
+      softly.assertThat(result.getRequestAmount()).isNull();
+    });
+  }
+
   private static PriorAuthorityXml getPriorAuthorityXml() {
     return PriorAuthorityXml.builder()
         .priorAuthorityType("Prior authority type")
