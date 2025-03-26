@@ -30,6 +30,7 @@ import uk.gov.laa.ccms.data.model.OtherPartyOrganisation;
 import uk.gov.laa.ccms.data.model.OtherPartyPerson;
 import uk.gov.laa.ccms.data.model.Proceeding;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
+import uk.gov.laa.ccms.data.model.ProviderDetails;
 import uk.gov.laa.ccms.data.model.ScopeLimitation;
 import uk.gov.laa.ccms.data.model.SubmittedApplicationDetails;
 
@@ -60,10 +61,9 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "house", source = "houseOrTitle")
   AddressDetail mapToAddressDetail(AddressXml address);
 
-  @Mapping(target = "id", source = "providerFirmId")
-  @Mapping(target = "offices", source = "providerOfficeId", qualifiedByName = "mapOfficeDetail")
-  @Mapping(target = "contactNames", source = "contactUserId", qualifiedByName = "mapContactDetail")
-  ProviderDetail mapToProviderDetail(ProviderDetailsXml provider);
+  @Mapping(target = "contactUserId.loginId", source = "contactUserId.userLoginId")
+  @Mapping(target = "contactUserId.username", source = "contactUserId.userName")
+  ProviderDetails mapToProviderDetail(ProviderDetailsXml provider);
 
   /**
    * Converts an integer into a list with one value relating to the office ID.
@@ -103,7 +103,6 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "organisation", source = "otherPartyDetail.organisation")
   OtherParty mapToOtherParty(OtherPartyXml otherParty);
 
-  //@Mapping(target = "name", source = "contactName")
   @Mapping(target = "address.house", source = "address.houseOrTitle")
   OtherPartyPerson mapToOtherPartyPerson(PersonXml person);
 
