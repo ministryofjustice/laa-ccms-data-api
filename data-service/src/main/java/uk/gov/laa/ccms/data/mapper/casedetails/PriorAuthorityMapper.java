@@ -3,8 +3,8 @@ package uk.gov.laa.ccms.data.mapper.casedetails;
 import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityAttributeXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.PriorAuthorityAttributeXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.PriorAuthorityXml;
 import uk.gov.laa.ccms.data.model.PriorAuthority;
 import uk.gov.laa.ccms.data.model.PriorAuthorityAttribute;
 

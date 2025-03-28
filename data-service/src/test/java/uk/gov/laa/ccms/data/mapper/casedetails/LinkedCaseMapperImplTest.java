@@ -3,8 +3,8 @@ package uk.gov.laa.ccms.data.mapper.casedetails;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.LinkedCaseXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.LinkedCaseXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.LinkedCase;
 

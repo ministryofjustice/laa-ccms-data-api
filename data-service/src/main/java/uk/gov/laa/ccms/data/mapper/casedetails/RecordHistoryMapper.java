@@ -3,8 +3,8 @@ package uk.gov.laa.ccms.data.mapper.casedetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.RecordHistoryXml;
-import uk.gov.laa.ccms.data.mapper.xml.common.UserXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.RecordHistoryXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.UserXml;
 import uk.gov.laa.ccms.data.model.RecordHistory;
 import uk.gov.laa.ccms.data.model.UserDetail;
 

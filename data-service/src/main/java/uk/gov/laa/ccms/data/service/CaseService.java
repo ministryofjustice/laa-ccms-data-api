@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseInqRsXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.CaseDetailRepository;

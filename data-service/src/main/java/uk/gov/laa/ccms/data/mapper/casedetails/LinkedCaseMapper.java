@@ -3,8 +3,8 @@ package uk.gov.laa.ccms.data.mapper.casedetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.LinkedCaseXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.applicationdetails.ClientXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.LinkedCaseXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.LinkedCase;
 

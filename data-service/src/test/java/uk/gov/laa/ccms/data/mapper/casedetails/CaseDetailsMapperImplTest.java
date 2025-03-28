@@ -8,11 +8,11 @@ import java.util.Arrays;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.AvailableFunctionsXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailsXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseStatusXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.DischargeStatusXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.AvailableFunctionsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseStatusXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.DischargeStatusXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.CaseStatus;
 

@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseInqRsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseInqRsXml;
 
 /**
  * Repository class for retrieving case details using database functions.

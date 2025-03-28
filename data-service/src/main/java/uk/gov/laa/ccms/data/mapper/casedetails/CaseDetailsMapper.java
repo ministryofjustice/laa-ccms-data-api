@@ -6,9 +6,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.AvailableFunctionsXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.CaseDetailXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.award.LiablePartyXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.AvailableFunctionsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 
 /**

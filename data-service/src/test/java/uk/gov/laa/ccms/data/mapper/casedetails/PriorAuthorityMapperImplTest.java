@@ -5,8 +5,8 @@ import java.util.Collections;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityAttributeXml;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.priorauthority.PriorAuthorityXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.PriorAuthorityAttributeXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.PriorAuthorityXml;
 import uk.gov.laa.ccms.data.model.PriorAuthority;
 import uk.gov.laa.ccms.data.model.PriorAuthorityAttribute;
 

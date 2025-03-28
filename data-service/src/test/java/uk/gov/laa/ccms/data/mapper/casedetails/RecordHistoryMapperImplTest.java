@@ -6,8 +6,8 @@ import java.time.LocalTime;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.xml.casedetail.RecordHistoryXml;
-import uk.gov.laa.ccms.data.mapper.xml.common.UserXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.RecordHistoryXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.UserXml;
 import uk.gov.laa.ccms.data.model.RecordHistory;
 
 @DisplayName("Record history mapper implementation test")
