@@ -6,7 +6,6 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.AvailableFunctionsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 
@@ -49,19 +48,5 @@ public interface CaseDetailsMapper {
   CaseDetail mapToCaseDetail(CaseDetailXml caseXml);
 
 
-  /**
-   * Fetches a list of strings related to available functions found within passed parameter.
-   *
-   * @param availableFunctionsXml a list of {@link String} objects representing the available
-   *                              functions.
-   * @return a list of strings containing the available functions values from the input list.
-   *     If the input list is null, an empty list is returned.
-   */
-  default List<String> mapToAvailableFunctions(AvailableFunctionsXml availableFunctionsXml) {
-    if (availableFunctionsXml == null || availableFunctionsXml.getFunctions() == null) {
-      return Collections.emptyList();
-    }
-    return availableFunctionsXml.getFunctions();
-  }
 
 }

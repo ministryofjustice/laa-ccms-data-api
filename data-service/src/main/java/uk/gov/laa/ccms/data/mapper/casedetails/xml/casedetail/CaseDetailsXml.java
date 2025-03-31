@@ -75,7 +75,7 @@ public final class CaseDetailsXml {
 
   @JacksonXmlProperty(localName = "AvailableFunctions",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
-  private AvailableFunctionsXml availableFunctions;
+  private List<String> availableFunctions;
 
   @JacksonXmlProperty(localName = "CaseStatus",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)

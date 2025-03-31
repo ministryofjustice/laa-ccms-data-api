@@ -8,7 +8,6 @@ import java.util.Arrays;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.AvailableFunctionsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseStatusXml;
@@ -81,9 +80,7 @@ class CaseDetailsMapperImplTest {
     // Given
     CaseDetailXml caseDetailXml = CaseDetailXml.builder()
         .caseDetails(CaseDetailsXml.builder()
-            .availableFunctions(AvailableFunctionsXml.builder()
-                .functions(Arrays.asList("Func 1", "Func 2"))
-                .build())
+            .availableFunctions(Arrays.asList("Func 1", "Func 2"))
             .build())
         .build();
     // When

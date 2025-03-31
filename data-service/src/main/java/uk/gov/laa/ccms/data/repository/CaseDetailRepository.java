@@ -53,12 +53,13 @@ public class CaseDetailRepository {
    *     to a {@code CaseInqRsXml} object.
    *
    * <p>This method uses a stored database function to fetch case details based on the
-   *     provided case reference, provider ID, and client first name. The resulting XML
+   *     provided case reference, provider ID, and username. The resulting XML
    *     data is deserialized into a {@code CaseInqRsXml} object.</p>
    *
    * @param caseReference the unique reference identifier for the case
    * @param providerId the identifier of the provider associated with the case
-   * @param clientFirstName the first name of the client associated with the case
+   * @param userName the username of the user accessing this case. Dictates what available
+   *                     functions are returned alongside the case.
    * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data
    * @throws SQLException if a database access error occurs or there is an error with the
    *     SQL function invocation
@@ -66,9 +67,9 @@ public class CaseDetailRepository {
    *     into the {@code CaseInqRsXml} object
    */
   public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId,
-      String clientFirstName) throws SQLException {
+      String userName) throws SQLException {
     String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId,
-        clientFirstName);
+        userName);
     try {
       return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRsXml.class);
     } catch (JsonProcessingException e) {
@@ -79,7 +80,7 @@ public class CaseDetailRepository {
   }
 
   private String getCaseDetailViaFunction(String caseReference, Long providerId,
-      String clientFirstName) throws SQLException {
+      String userName) throws SQLException {
     SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         .withSchemaName("XXCCMS")
         .withCatalogName("XXCCMS_SOA_REPLACE_PKG")
@@ -95,7 +96,7 @@ public class CaseDetailRepository {
     Map<String, Object> params = new HashMap<>();
     params.put("p_case_reference_number", caseReference);
     params.put("p_user_providerfirm_id", providerId);
-    params.put("p_user_name", clientFirstName);
+    params.put("p_user_name", userName);
 
     Clob result = jdbcCall.executeFunction(Clob.class, params);
 

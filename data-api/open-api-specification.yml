@@ -491,7 +491,7 @@ paths:
             type: 'integer'
             format: 'int64'
           example: '123456789'
-        - name: 'client-first-name'
+        - name: 'user-name'
           in: 'query'
           required: true
           schema:

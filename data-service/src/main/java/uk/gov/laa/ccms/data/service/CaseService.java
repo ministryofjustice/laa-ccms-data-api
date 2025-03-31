@@ -77,21 +77,22 @@ public class CaseService {
 
   /**
    * Retrieves the details of a case based on the provided case reference number, provider ID,
-   * and client's first name.
+   * and the username of the user fetching this case.
    *
    * @param caseReferenceNumber the unique reference number of the case
    * @param providerId the ID of the provider associated with the case
-   * @param clientFirstName the first name of the client linked to the case
+   * @param userName the username of the user accessing this case. Dictates what available
+   *                     functions are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found,
    *         or an empty {@code Optional} if no details are available
    * @throws JsonProcessingException if there is an error processing XML data related to the case
    * @throws SQLException if an error occurs while interacting with the database
    */
   public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
-      String clientFirstName)
+      String userName)
       throws SQLException {
     CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
-        clientFirstName);
+        userName);
     if (caseXml != null && caseXml.getCaseDetail() != null) {
       CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
       return Optional.of(caseDetail);
