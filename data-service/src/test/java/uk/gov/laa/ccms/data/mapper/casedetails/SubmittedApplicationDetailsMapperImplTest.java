@@ -74,10 +74,7 @@ class SubmittedApplicationDetailsMapperImplTest {
       softly.assertThat(result.getProviderDetails()).isNotNull();
       softly.assertThat(result.getCategoryOfLaw()).isNotNull();
       softly.assertThat(result.getOtherParties()).hasSize(2);
-      //softly.assertThat(result.getExternalResources()).isNotEmpty();
       softly.assertThat(result.getProceedings()).hasSize(1);
-      //softly.assertThat(result.getMeansAssessments()).isNotEmpty();
-      //softly.assertThat(result.getMeritsAssessments()).isNotEmpty();
       // Check based values
       softly.assertThat(result.getPreferredAddress()).isEqualTo("Preferred address");
       softly.assertThat(result.getDateOfFirstAttendance()).isEqualTo(LocalDate.of(2010, 1, 10));
@@ -147,6 +144,8 @@ class SubmittedApplicationDetailsMapperImplTest {
       softly.assertThat(result.getProviderOfficeId()).isEqualTo("456");
       softly.assertThat(result.getContactUserId().getLoginId()).isEqualTo("123");
       softly.assertThat(result.getContactUserId().getUsername()).isEqualTo("UserName");
+      softly.assertThat(result.getFeeEarnerContactId()).isEqualTo("123456");
+      softly.assertThat(result.getSupervisorContactId()).isEqualTo("654321");
     });
   }
 
@@ -382,6 +381,8 @@ class SubmittedApplicationDetailsMapperImplTest {
             .userLoginId(123)
             .userName("UserName")
             .build())
+        .feeEarnerContactId("123456")
+        .supervisorContactId("654321")
         .build();
   }
 

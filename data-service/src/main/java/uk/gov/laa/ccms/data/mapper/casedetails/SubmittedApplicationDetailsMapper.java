@@ -70,8 +70,6 @@ public interface SubmittedApplicationDetailsMapper {
   AddressDetail mapToAddressDetail(AddressXml address);
 
   @Mapping(target = "contactDetails", ignore = true)
-  @Mapping(target = "supervisorContactId", ignore = true)
-  @Mapping(target = "feeEarnerContactId", ignore = true)
   ProviderDetails mapToProviderDetail(ProviderDetailsXml provider);
 
   @Mapping(target = "loginId", source = "userLoginId")
