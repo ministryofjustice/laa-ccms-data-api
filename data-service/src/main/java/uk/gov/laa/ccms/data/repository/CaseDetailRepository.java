@@ -60,7 +60,8 @@ public class CaseDetailRepository {
    * @param providerId the identifier of the provider associated with the case
    * @param userName the username of the user accessing this case. Dictates what available
    *                     functions are returned alongside the case.
-   * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data
+   * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data,
+   *     or null if the case cannot be found or cannot be mapped.
    * @throws SQLException if a database access error occurs or there is an error with the
    *     SQL function invocation
    */
