@@ -39,11 +39,11 @@ public final class ProviderDetailsXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ContactUserIdXml contactUserId;
 
-  @JacksonXmlProperty(localName = "FeeEarnerID",
+  @JacksonXmlProperty(localName = "FeeEarnerContactID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String feeEarnerContactId;
 
-  @JacksonXmlProperty(localName = "SupervisorID",
+  @JacksonXmlProperty(localName = "SupervisorContactID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String supervisorContactId;
 
