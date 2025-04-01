@@ -63,8 +63,6 @@ public class CaseDetailRepository {
    * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data
    * @throws SQLException if a database access error occurs or there is an error with the
    *     SQL function invocation
-   * @throws JsonProcessingException if an error occurs while deserializing the XML response
-   *     into the {@code CaseInqRsXml} object
    */
   public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId,
       String userName) throws SQLException {

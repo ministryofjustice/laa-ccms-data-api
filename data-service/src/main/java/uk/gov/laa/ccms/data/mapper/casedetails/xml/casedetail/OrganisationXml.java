@@ -34,7 +34,7 @@ public final class OrganisationXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String currentlyTradingFlag;
 
-  public boolean getCurrentlyTrading() {
+  public boolean isCurrentlyTrading() {
     return "Y".equals(currentlyTradingFlag);
   }
 
