@@ -53,7 +53,7 @@ public class PersonXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean partyLegalAidedInd;
 
-  @JacksonXmlProperty(localName = "CourtOrderedMeansAssesment",
+  @JacksonXmlProperty(localName = "CourtOrderedMeansAssessment",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean courtOrderedMeansAssessment;
 
@@ -65,7 +65,7 @@ public class PersonXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal assessedIncome;
 
-  @JacksonXmlProperty(localName = "AssessedAsstes",
+  @JacksonXmlProperty(localName = "AssessedAssets",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal assessedAssets;
 

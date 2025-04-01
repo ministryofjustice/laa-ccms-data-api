@@ -26,7 +26,7 @@ public final class CorrespondenceAddressXml {
   @JacksonXmlProperty(localName = "HouseOrTitle",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String houseOrTitle;
-  @JacksonXmlProperty(localName = "CoffName",
+  @JacksonXmlProperty(localName = "CareOfName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String careOfName;
   @JacksonXmlProperty(localName = "AddressLineOne",
