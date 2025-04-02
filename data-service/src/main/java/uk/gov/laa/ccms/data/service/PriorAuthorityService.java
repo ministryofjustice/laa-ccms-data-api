@@ -7,7 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.entity.PriorAuthorityType;
-import uk.gov.laa.ccms.data.mapper.PriorAuthorityMapper;
+import uk.gov.laa.ccms.data.mapper.PriorAuthorityDetailMapper;
 import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 import uk.gov.laa.ccms.data.repository.PriorAuthorityRepository;
 import uk.gov.laa.ccms.data.repository.ProviderRepository;
@@ -31,7 +31,7 @@ public class PriorAuthorityService extends AbstractEbsDataService {
 
   private final PriorAuthorityRepository priorAuthorityRepository;
 
-  private final PriorAuthorityMapper priorAuthorityMapper;
+  private final PriorAuthorityDetailMapper priorAuthorityDetailMapper;
 
   /**
    * Get a List of PriorAuthorityTypes for the provided code and valueRequired values.
@@ -47,7 +47,7 @@ public class PriorAuthorityService extends AbstractEbsDataService {
     example.setCode(code);
     example.setValueRequired(valueRequired);
 
-    return priorAuthorityMapper.toPriorAuthorityTypeDetails(
+    return priorAuthorityDetailMapper.toPriorAuthorityTypeDetails(
         priorAuthorityRepository.findAll(Example.of(example), pageable));
   }
 }

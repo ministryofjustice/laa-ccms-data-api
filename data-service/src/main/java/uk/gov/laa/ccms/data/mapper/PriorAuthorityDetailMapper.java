@@ -23,7 +23,7 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
  * @see ProviderDetail
  */
 @Mapper(componentModel = "spring")
-public interface PriorAuthorityMapper {
+public interface PriorAuthorityDetailMapper {
 
   PriorAuthorityTypeDetails toPriorAuthorityTypeDetails(
       Page<PriorAuthorityType> priorAuthorityTypes);

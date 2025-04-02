@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import uk.gov.laa.ccms.data.entity.PriorAuthority;
 import uk.gov.laa.ccms.data.entity.PriorAuthorityType;
-import uk.gov.laa.ccms.data.mapper.PriorAuthorityMapper;
+import uk.gov.laa.ccms.data.mapper.PriorAuthorityDetailMapper;
 import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 import uk.gov.laa.ccms.data.repository.PriorAuthorityRepository;
 
@@ -27,7 +27,7 @@ class PriorAuthorityServiceTest {
     private PriorAuthorityRepository priorAuthorityRepository;
 
     @Mock
-    private PriorAuthorityMapper priorAuthorityMapper;
+    private PriorAuthorityDetailMapper priorAuthorityDetailMapper;
 
     @InjectMocks
     private PriorAuthorityService priorAuthorityService;
@@ -48,7 +48,7 @@ class PriorAuthorityServiceTest {
 
         when(priorAuthorityRepository.findAll(example, pageable))
             .thenReturn(expectedPage);
-        when(priorAuthorityMapper.toPriorAuthorityTypeDetails(expectedPage)).thenReturn(
+        when(priorAuthorityDetailMapper.toPriorAuthorityTypeDetails(expectedPage)).thenReturn(
             expectedResponse);
 
         PriorAuthorityTypeDetails actualResponse = priorAuthorityService.getPriorAuthorityTypes(

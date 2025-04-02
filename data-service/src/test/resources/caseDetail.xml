@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CaseInqRS xmlns:msg="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIM"
+  xmlns:oracle-xsl-mapper="http://www.oracle.com/xsl/mapper/schemas"
+  xmlns="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIM"
+  xmlns:common="http://legalservices.gov.uk/Enterprise/Common/1.0/Common"
+  xmlns:header="http://legalservices.gov.uk/Enterprise/Common/1.0/Header"
+  xmlns:case="http://legalservices.gov.uk/CCMS/CaseManagement/Case/1.0/CaseBIO">
+  <msg:Case>
+    <case:CaseReferenceNumber>300001643905
+    </case:CaseReferenceNumber>
+    <case:CaseDetails>
+      <case:ApplicationDetails>
+        <case:Client>
+          <case:ClientReferenceNumber>62478031</case:ClientReferenceNumber>
+          <case:FirstName>Tracey</case:FirstName>
+          <case:Surname>Rhodes</case:Surname>
+        </case:Client>
+        <case:PreferredAddress>PROVIDER</case:PreferredAddress>
+        <case:ProviderDetails>
+          <case:ProviderCaseReferenceNumber>AJK/565323/1.Rhodes</case:ProviderCaseReferenceNumber>
+          <case:ProviderFirmID>26517</case:ProviderFirmID>
+          <case:ProviderOfficeID>145514
+          </case:ProviderOfficeID>
+          <case:ContactUserID>
+            <common:UserLoginID>2024773</common:UserLoginID>
+            <common:UserName>VIKKI.RANGELEY@SWITALSKIS.COM</common:UserName>
+          </case:ContactUserID>
+        </case:ProviderDetails>
+        <case:CategoryOfLaw>
+          <case:CategoryOfLawCode>COM
+          </case:CategoryOfLawCode>
+          <case:CategoryOfLawDescription>Community Care</case:CategoryOfLawDescription>
+          <case:RequestedAmount>5000</case:RequestedAmount>
+          <case:GrantedAmount>0</case:GrantedAmount>
+          <case:TotalPaidToDate>0</case:TotalPaidToDate>
+          <case:CostLimitations></case:CostLimitations>
+        </case:CategoryOfLaw>
+        <case:OtherParties>
+          <case:OtherParty>
+            <case:OtherPartyID>62478303</case:OtherPartyID>
+            <case:SharedInd>false</case:SharedInd>
+            <case:OtherPartyDetail>
+              <case:Organization>
+                <case:OrganizationName>Leeds City Council
+                </case:OrganizationName>
+                <case:OrganizationType>LA</case:OrganizationType>
+                <case:CurrentlyTrading>Y</case:CurrentlyTrading>
+                <case:RelationToClient>NONE</case:RelationToClient>
+                <case:RelationToCase>OPP</case:RelationToCase>
+                <case:Address>
+                  <common:AddressID>2222304
+                  </common:AddressID>
+                  <common:AddressLine1>Civic Hall</common:AddressLine1>
+                  <common:AddressLine2></common:AddressLine2>
+                  <common:City>Leeds</common:City>
+                  <common:Country>GBR</common:Country>
+                  <common:County></common:County>
+                  <common:PostalCode>LS1 1UR</common:PostalCode>
+                </case:Address>
+                <case:ContactName>Not Available</case:ContactName>
+              </case:Organization>
+            </case:OtherPartyDetail>
+          </case:OtherParty>
+        </case:OtherParties>
+        <case:Proceedings>
+          <case:Proceeding>
+            <case:ProceedingCaseID>2105949</case:ProceedingCaseID>
+            <case:DateApplied></case:DateApplied>
+            <case:Status>DRAFT</case:Status>
+            <case:LeadProceedingIndicator>true</case:LeadProceedingIndicator>
+            <case:OutcomeCourtCaseNumber></case:OutcomeCourtCaseNumber>
+            <case:AvailableFunctions>
+              <case:Function>ADDPROC</case:Function>
+              <case:Function>DELPROC
+              </case:Function>
+              <case:Function>UPDPROC</case:Function>
+              <case:Function>VIEWPROC</case:Function>
+            </case:AvailableFunctions>
+            <case:ProceedingDetails>
+              <case:ProceedingType>CC024</case:ProceedingType>
+              <case:ProceedingDescription>CourtofProtection -Deprivation of Libert
+                y - Community Care
+              </case:ProceedingDescription>
+              <case:DateCostsValid></case:DateCostsValid>
+              <case:MatterType>NCARE</case:MatterType>
+              <case:LevelOfService>3</case:LevelOfService>
+              <case:Stage>3</case:Stage>
+              <case:ClientInvolvementType>A
+              </case:ClientInvolvementType>
+              <case:ScopeLimitations>
+                <case:ScopeLimitation>
+                  <case:ScopeLimitationID>3818499</case:ScopeLimitationID>
+                  <case:ScopeLimitation>CV118</case:ScopeLimitation>
+                  <case:ScopeLimitationWording>Limited to all steps up to and including the initial
+                    hearing in the Cou
+                    rt of Protection
+                  </case:ScopeLimitationWording>
+                  <case:DelegatedFunctionsApply>false</case:DelegatedFunctionsApply>
+                </case:ScopeLimitation>
+                <case:ScopeLimitation>
+                  <case:ScopeLimitationID>3818500</case:ScopeLimitationID>
+                  <case:ScopeLimitation>CV125
+                  </case:ScopeLimitation>
+                  <case:ScopeLimitationWording>Limited to all steps up to and including trial/final
+                    hearing and any action to implement (but not enforce) the judgment or order.
+                  </case:ScopeLimitationWording>
+                  <case:DelegatedFunctionsApply>false
+                  </case:DelegatedFunctionsApply>
+                </case:ScopeLimitation>
+              </case:ScopeLimitations>
+              <case:ScopeLimitationApplied>CV125</case:ScopeLimitationApplied>
+              <case:DevolvedPowersInd>true</case:DevolvedPowersInd>
+              <case:DateDevolvedPowersUsed>0020-06-23</case:DateDevolvedPowersUsed>
+              <case:DateGranted></case:DateGranted>
+            </case:ProceedingDetails>
+          </case:Proceeding>
+        </case:Proceedings>
+        <case:PurposeOfApplication>NA</case:PurposeOfApplication>
+        <case:FixedHearingDateInd>false</case:FixedHearingDateInd>
+        <case:PurposeOfHearing>NA</case:PurposeOfHearing>
+        <case:HighProfileCaseInd>false
+        </case:HighProfileCaseInd>
+        <case:ApplicationAmendmentType>SUBDP</case:ApplicationAmendmentType>
+        <case:LARDetails>
+          <case:LARScopeFlag>true</case:LARScopeFlag>
+        </case:LARDetails>
+      </case:ApplicationDetails>
+      <case:CertificateType></case:CertificateType>
+      <case:CertificateDate>1900-01-01</case:CertificateDate>
+      <case:PreCertificateCosts>0</case:PreCertificateCosts>
+      <case:LegalHelpCosts>0</case:LegalHelpCosts>
+      <case:LinkedCases></case:LinkedCases>
+      <case:DischargeStatus>
+        <case:ClientContinuePvtInd>false
+        </case:ClientContinuePvtInd>
+      </case:DischargeStatus>
+      <case:AvailableFunctions></case:AvailableFunctions>
+      <case:CaseStatus>
+        <case:ActualCaseStatus>LSC Review</case:ActualCaseStatus>
+        <case:DisplayCaseStatus>Submitted</case:DisplayCaseStatus>
+        <case:StatusUpdateInd>false
+        </case:StatusUpdateInd>
+      </case:CaseStatus>
+      <case:RecordHistory>
+        <common:CreatedBy>
+          <common:UserLoginID>30626</common:UserLoginID>
+          <common:UserName>VIKKI.RANGELEY@SWITALSKIS.COM</common:UserName>
+        </common:CreatedBy>
+        <common:DateCreated>2023-0
+          6-20T14:27:43.0Z
+        </common:DateCreated>
+        <common:LastUpdatedBy>
+          <common:UserLoginID>30626</common:UserLoginID>
+          <common:UserName>VIKKI.RANGELEY@SWITALSKIS.COM</common:UserName>
+        </common:LastUpdatedBy>
+      </case:RecordHistory>
+    </case:CaseDetails>
+  </msg:Case>
+</CaseInqRS>

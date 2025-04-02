@@ -16,9 +16,9 @@ import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetail;
 import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 
 @ExtendWith(MockitoExtension.class)
-class PriorAuthorityMapperImplTest {
+class PriorAuthorityDetailMapperImplTest {
 
-    PriorAuthorityMapperImpl mapper = new PriorAuthorityMapperImpl();
+    PriorAuthorityDetailMapperImpl mapper = new PriorAuthorityDetailMapperImpl();
     
     // Tests
     @Test
