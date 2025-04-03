@@ -17,7 +17,7 @@ jobs:
     if: ${{ github.event.pull_request.merged == true }}
     uses: ministryofjustice/laa-ccms-common-workflows/.github/workflows/gradle-build-and-publish.yml@v1
     permissions:
-      contents: read
+      contents: write
       packages: write
     with:
       integration_test_task: "integrationTest"
@@ -26,8 +26,12 @@ jobs:
       junit_report_path: 'data-service/build/reports/tests'
       checkstyle_report_path: 'data-service/build/reports/checkstyle'
       jacoco_coverage_report_path: 'data-service/build/reports/jacoco'
+      github_bot_username: 'laa-ccms-caab-service'
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
+      github_app_id: ${{ vars.LAA_CCMS_CAAB_SERVICE_APP_ID }}
+      github_app_private_key: ${{ secrets.LAA_CCMS_CAAB_SERVICE_KEY }}
+      github_app_organisation: 'ministryofjustice'
 
   vulnerability-report:
     if: ${{ github.event.pull_request.merged == true }}
