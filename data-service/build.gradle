@@ -5,7 +5,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'uk.gov.laa.ccms.springboot:laa-ccms-spring-boot-starter-govuk-metrics'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     //Enable access token authentication
