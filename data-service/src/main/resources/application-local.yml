@@ -40,10 +40,6 @@ laa:
       unprotected-uris: [ "/actuator/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico",
                           "/open-api-specification.yml" ]
     metrics:
-      health-exposed: true
-      info-exposed: true
-      metrics-exposed: true
-      prometheus-exposed: true
       mappings-exposed: true
       env-exposed: true
 

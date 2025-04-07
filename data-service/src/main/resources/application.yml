@@ -23,8 +23,3 @@ laa:
       authorized-clients: ${AUTHORIZED_CLIENTS}
       authorized-roles: ${AUTHORIZED_ROLES}
       unprotected-uris: ${UNPROTECTED_URIS}
-    metrics:
-      health-exposed: true
-      info-exposed: true
-      metrics-exposed: true
-      prometheus-exposed: true
