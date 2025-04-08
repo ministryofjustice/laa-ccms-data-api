@@ -18,6 +18,11 @@ spring:
 
 laa:
   ccms:
+    metrics:
+      health-exposed: true
+      info-exposed: true
+      prometheus-exposed: true
+      metrics-exposed: true
     springboot.starter.auth:
       authentication-header: "Authorization"
       authorized-clients: ${AUTHORIZED_CLIENTS}
