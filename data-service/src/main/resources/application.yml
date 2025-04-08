@@ -16,6 +16,7 @@ spring:
     virtual:
       enabled: true
 
+
 laa:
   ccms:
     metrics:
@@ -28,3 +29,12 @@ laa:
       authorized-clients: ${AUTHORIZED_CLIENTS}
       authorized-roles: ${AUTHORIZED_ROLES}
       unprotected-uris: ${UNPROTECTED_URIS}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
