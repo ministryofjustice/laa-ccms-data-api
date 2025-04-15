@@ -12,7 +12,6 @@ spring:
       minimum-idle: 5
       data-source-properties:
         oracle.jdbc.defaultConnectionValidation: LOCAL
-      data-source-class-name: oracle.jdbc.pool.OracleDataSource
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
