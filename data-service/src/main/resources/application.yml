@@ -7,7 +7,12 @@ spring:
     username: ${CAAB_DATA_API_DATASOURCE_USERNAME}
     password: ${CAAB_DATA_API_DATASOURCE_PASSWORD}
     hikari:
-      maxLifeTime: 300000 # 5 minutes
+      maxLifeTime: 300000 # 5 minutes - @Todo Needs review
+      maximum-pool-size: 10
+      minimum-idle: 5
+      data-source-properties:
+        oracle.jdbc.defaultConnectionValidation: LOCAL
+      data-source-class-name: oracle.jdbc.pool.OracleDataSource
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
