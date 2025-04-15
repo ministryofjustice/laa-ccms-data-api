@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -60,6 +61,18 @@ class UserServiceTest {
         Optional<UserDetail> actualUser = userService.getUser(userId);
 
         assertEquals(Optional.empty(), actualUser);
+    }
+
+
+    @Test
+    void existsUserById_returnsTrue() {
+        String loginId = "testLoginId";
+
+        when(userRepository.existsUserByLoginId(loginId)).thenReturn(true);
+
+        boolean result = userService.existsUserById(loginId);
+
+        assertTrue(result);
     }
 
     @Test

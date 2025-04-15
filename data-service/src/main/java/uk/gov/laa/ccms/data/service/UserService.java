@@ -39,10 +39,21 @@ public class UserService extends AbstractEbsDataService {
    * @return Optional UserDetail.
    */
 
-  @Transactional
+  @Transactional(readOnly = true)
   public Optional<UserDetail> getUser(String id) {
+
     return userRepository.findById(id)
         .map(userMapper::toUserDetail);
+  }
+
+  /**
+   * Returns true If user exists.
+   *
+   * @param loginId = the id of the User.
+   * @return boolean
+   */
+  public boolean existsUserById(String loginId) {
+    return userRepository.existsUserByLoginId(loginId);
   }
 
   /**

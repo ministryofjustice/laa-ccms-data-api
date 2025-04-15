@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.laa.ccms.data.entity.NotificationCount;
 import uk.gov.laa.ccms.data.entity.NotificationInfo;
@@ -50,16 +49,15 @@ public class NotificationService {
   /**
    * Retrieves the summary of notifications for a specific user.
    *
-   * @param userId the unique identifier of the user for whom to retrieve the notification summary
+   * @param loginId the unique identifier of the user for whom to retrieve the notification summary
    * @return a NotificationSummary object representing the summary of notifications for the
    *     specified user
    */
-  @Transactional
-  public Optional<NotificationSummary> getUserNotificationSummary(String userId) {
+  public Optional<NotificationSummary> getUserNotificationSummary(String loginId) {
     // Check if user exists
-    if (userService.getUser(userId).isPresent()) {
+    if (userService.existsUserById(loginId)) {
       List<NotificationCount> allByIdUserLoginId =
-          notificationCountRepository.findAllByIdUserLoginId(userId);
+          notificationCountRepository.findAllByIdUserLoginId(loginId);
       return Optional.ofNullable(
           notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId));
     }
