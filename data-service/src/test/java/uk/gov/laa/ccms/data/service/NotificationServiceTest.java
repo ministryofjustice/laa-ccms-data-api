@@ -1,11 +1,8 @@
 package uk.gov.laa.ccms.data.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -32,7 +30,6 @@ import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
-import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
@@ -74,7 +71,7 @@ class NotificationServiceTest {
     void getUserNotificationSummary_returnsNotificationSummary() {
       // Given
       String userId = "123456";
-      when(userService.getUser(userId)).thenReturn(Optional.of(new UserDetail()));
+      when(userService.existsUserById(userId)).thenReturn(true);
       List<NotificationCount> notificationCounts = List.of(new NotificationCount());
       when(notificationCountRepository.findAllByIdUserLoginId(userId)).thenReturn(
           notificationCounts);
@@ -86,7 +83,8 @@ class NotificationServiceTest {
           notificationService.getUserNotificationSummary(
               userId);
       // Then
-      assertEquals(expected, userNotificationSummary.get());
+      assertThat(userNotificationSummary).isPresent().hasValue(expected);
+
     }
 
     @Test
@@ -99,7 +97,7 @@ class NotificationServiceTest {
           notificationService.getUserNotificationSummary(
               userId);
       // Then
-      assertFalse(userNotificationSummary.isPresent());
+      assertThat(userNotificationSummary).isNotPresent();
     }
   }
 
@@ -133,8 +131,7 @@ class NotificationServiceTest {
           LocalDate.of(2000, 1, 1),
           LocalDate.of(2024, 1, 1), Pageable.ofSize(10).withPage(0));
       // Then
-      assertTrue(result.isPresent());
-      assertEquals(expected, result.get());
+      assertThat(result).isPresent().hasValue(expected);
     }
 
     @Test
@@ -153,7 +150,7 @@ class NotificationServiceTest {
           LocalDate.of(2000, 1, 1),
           LocalDate.of(2024, 1, 1), Pageable.ofSize(10).withPage(0));
       // Then
-      assertFalse(result.isPresent());
+      assertThat(result).isNotPresent();
     }
   }
 
@@ -175,8 +172,7 @@ class NotificationServiceTest {
       // When
       Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
       // Then
-      assertTrue(result.isPresent());
-      assertEquals(expected, result.get());
+      assertThat(result).isPresent().hasValue(expected);
       verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(1)).mapToNotification(notificationInfo);
     }
@@ -190,7 +186,7 @@ class NotificationServiceTest {
       // When
       Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
       // Then
-      assertTrue(result.isEmpty());
+      assertThat(result).isEmpty();
       verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(0)).mapToNotification(any());
     }

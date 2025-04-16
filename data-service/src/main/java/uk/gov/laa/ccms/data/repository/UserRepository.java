@@ -19,4 +19,5 @@ public interface UserRepository extends ReadOnlyRepository<User, String> {
 
   Page<User> findByFirmsId(Integer providerId, Pageable pageable);
 
+  boolean existsUserByLoginId(String loginId);
 }
