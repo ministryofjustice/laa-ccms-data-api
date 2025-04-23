@@ -61,7 +61,7 @@ class NotificationsMapperImplTest {
     // When
     Notifications result = mapper.mapToNotificationsList(input);
     // Then
-    uk.gov.laa.ccms.data.model.NotificationInfo notificationResult = result.getContent().get(0);
+    uk.gov.laa.ccms.data.model.NotificationInfo notificationResult = result.getContent().getFirst();
     assertEquals("User Login Id", notificationResult.getUser().getLoginId());
     assertEquals("User Name", notificationResult.getUser().getUsername());
     assertEquals("Client Name", notificationResult.getClientName());

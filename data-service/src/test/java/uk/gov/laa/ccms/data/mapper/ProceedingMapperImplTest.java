@@ -31,7 +31,7 @@ class ProceedingMapperImplTest {
         assertEquals(1, result.getTotalPages());
         assertNotNull(result.getContent());
         assertEquals(1, result.getContent().size());
-        assertEquals(proceeding.getCode(), result.getContent().get(0).getCode());
+        assertEquals(proceeding.getCode(), result.getContent().getFirst().getCode());
     }
 
     @Test

@@ -60,7 +60,7 @@ class CaseSearchMapperImplTest {
     CaseSummary expectedTwo = mapper.toCaseSummary(searchTwo);
     // Then
     assertEquals(2, details.getTotalElements());
-    assertEquals(expectedOne, details.getContent().get(0));
+    assertEquals(expectedOne, details.getContent().getFirst());
     assertEquals(expectedTwo, details.getContent().get(1));
   }
 

@@ -87,7 +87,7 @@ class NotificationMapperImplTest {
         Notification notificationResult = mapper.mapToNotification(notificationInfo);
         // Then
         assertEquals(2, notificationResult.getNotes().size());
-        Note noteResultOne = notificationResult.getNotes().get(0);
+        Note noteResultOne = notificationResult.getNotes().getFirst();
         assertEquals("1", noteResultOne.getNotesId());
         assertEquals("User Name", noteResultOne.getUser().getUsername());
         assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0, 0), noteResultOne.getDate());
@@ -113,7 +113,7 @@ class NotificationMapperImplTest {
         Notification notificationResult = mapper.mapToNotification(notificationInfo);
         // Then
         assertEquals(2, notificationResult.getUploadedDocuments().size());
-        Document resultOne = notificationResult.getUploadedDocuments().get(0);
+        Document resultOne = notificationResult.getUploadedDocuments().getFirst();
         assertEquals("1", resultOne.getDocumentId());
         assertEquals("Channel", resultOne.getChannel());
         assertEquals("ADV_FRM", resultOne.getDocumentType());
@@ -141,7 +141,7 @@ class NotificationMapperImplTest {
         Notification notificationResult = mapper.mapToNotification(notificationInfo);
         // Then
         assertEquals(2, notificationResult.getAttachedDocuments().size());
-        Document resultOne = notificationResult.getAttachedDocuments().get(0);
+        Document resultOne = notificationResult.getAttachedDocuments().getFirst();
         assertEquals("1", resultOne.getDocumentId());
         assertEquals("One", resultOne.getText());
         Document resultTwo = notificationResult.getAttachedDocuments().get(1);
@@ -164,7 +164,7 @@ class NotificationMapperImplTest {
         Notification notificationResult = mapper.mapToNotification(notificationInfo);
         // Then
         assertEquals(2, notificationResult.getAvailableResponses().size());
-        assertEquals("Action one", notificationResult.getAvailableResponses().get(0));
+        assertEquals("Action one", notificationResult.getAvailableResponses().getFirst());
         assertEquals("Action two", notificationResult.getAvailableResponses().get(1));
     }
 

@@ -166,7 +166,7 @@ class UserMapperImplTest {
         firms.add(new Firm());
 
         List<BaseProvider> expectedDetails = new ArrayList<>();
-        expectedDetails.add(mapper.toBaseProvider(firms.get(0)));
+        expectedDetails.add(mapper.toBaseProvider(firms.getFirst()));
 
         List<BaseProvider> actualDetails = mapper.firmListToBaseProviderList(firms);
 
