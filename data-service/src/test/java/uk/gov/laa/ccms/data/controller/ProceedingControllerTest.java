@@ -41,8 +41,8 @@ class ProceedingControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
+  @BeforeEach
+  void setup() {
         mockMvc = standaloneSetup(proceedingController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();

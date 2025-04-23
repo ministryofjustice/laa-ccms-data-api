@@ -40,8 +40,8 @@ class ScopeLimitationControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
+  @BeforeEach
+  void setup() {
         mockMvc = standaloneSetup(scopeLimitationController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();

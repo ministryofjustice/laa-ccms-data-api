@@ -23,7 +23,7 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Case Service Test")
-public class CaseServiceTest {
+class CaseServiceTest {
 
   @Mock
   CaseDetailRepository caseDetailRepository;

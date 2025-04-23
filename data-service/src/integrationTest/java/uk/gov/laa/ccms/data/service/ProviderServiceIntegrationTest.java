@@ -23,14 +23,14 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/providers_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/providers_drop_schema.sql")
-public class ProviderServiceIntegrationTest implements OracleIntegrationTestInterface {
+class ProviderServiceIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ProviderService providerService;
 
   @Test
   @Sql(scripts = "/sql/providers_data.sql")
-  public void testGetProvider() {
+  void getProvider() {
     Integer providerId = 1000;
 
     // Call the service method

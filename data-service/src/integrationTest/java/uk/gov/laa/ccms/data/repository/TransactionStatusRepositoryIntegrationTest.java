@@ -21,7 +21,7 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus;
 @DataJpaTest
 @ActiveProfiles("h2-test")
 @DisplayName("Transaction Status Repository Integration Test")
-public class TransactionStatusRepositoryIntegrationTest {
+class TransactionStatusRepositoryIntegrationTest {
 
   @Autowired
   private TransactionStatusRepository transactionStatusRepository;

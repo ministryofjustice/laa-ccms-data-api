@@ -59,7 +59,7 @@ class ScopeLimitationMapperImplTest {
 
     // Tests
     @Test
-    void testToScopeLimitationDetail() {
+    void toScopeLimitationDetail() {
         List<ScopeLimitation> scopeLimitations = new ArrayList<>();
         List<ScopeLimitationDetail> expectedContent = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -83,7 +83,7 @@ class ScopeLimitationMapperImplTest {
     }
 
     @Test
-    void testToScopeLimitation() {
+    void toScopeLimitation() {
         ScopeLimitationDetail scopeLimitationDetail = createScopeLimitationDetail("1");
         ScopeLimitation expected = createScopeLimitation("1");
 

@@ -30,32 +30,32 @@ import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
 
 @SpringBootTest
 @SqlMergeMode(MERGE)
-@Sql(executionPhase=BEFORE_TEST_METHOD,scripts="/sql/lookup_create_schema.sql" )
-@Sql(executionPhase=AFTER_TEST_METHOD,scripts="/sql/lookup_drop_schema.sql")
-public class LookupServiceIntegrationTest implements OracleIntegrationTestInterface {
+@Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/lookup_create_schema.sql")
+@Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/lookup_drop_schema.sql")
+class LookupServiceIntegrationTest implements OracleIntegrationTestInterface {
 
     @Autowired
     private LookupService lookupService;
 
-    @ParameterizedTest
-    @Sql(statements = {
-            "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
-                    "VALUES ('DP', 'Del. Functions', '1350.00', 'Y', 'Y');",
-            "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
-                    "VALUES ('ECF', 'ECF', NULL, NULL, 'Y');",
-            "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
-                    "VALUES ('EMER', 'Emergency', '1350.00', NULL, 'Y');",
-            "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
-                    "VALUES ('SUB', 'Substantive', NULL, NULL, 'Y');",
-            "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
-                    "VALUES ('SUBDP', 'Substantive with Delegated Function', NULL, 'Y', 'Y');"
-    })
-    @CsvSource({"DP, Del. Functions",
-                "ECF, ECF",
-                "EMER, Emergency",
-                "SUB, Substantive",
-                "SUBDP, Substantive with Delegated Function"})
-    public void testGetAmendmentTypes(String code, String expectedDescription) {
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
+          "VALUES ('DP', 'Del. Functions', '1350.00', 'Y', 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
+          "VALUES ('ECF', 'ECF', NULL, NULL, 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
+          "VALUES ('EMER', 'Emergency', '1350.00', NULL, 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
+          "VALUES ('SUB', 'Substantive', NULL, NULL, 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_AMEND_TYPES_V (APP_TYPE_CODE, APP_TYPE_DESCRIPTION, COST_LIMIT_CAP, DEVOLVED_POWERS_IND, DEFAULT_LAR_SCOPE_FLAG) " +
+          "VALUES ('SUBDP', 'Substantive with Delegated Function', NULL, 'Y', 'Y');"
+  })
+  @CsvSource({"DP, Del. Functions",
+      "ECF, ECF",
+      "EMER, Emergency",
+      "SUB, Substantive",
+      "SUBDP, Substantive with Delegated Function"})
+  void getAmendmentTypes(String code, String expectedDescription) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -69,17 +69,17 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedDescription, result.getContent().getFirst().getApplicationTypeDescription());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
-            "VALUES ('S1', 'Status One', 'N');",
-        "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
-            "VALUES ('S2', 'Status Two', 'Y');",
-        "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
-            "VALUES ('S3', 'Status Three', 'N');",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
+          "VALUES ('S1', 'Status One', 'N');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
+          "VALUES ('S2', 'Status Two', 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_APP_CASE_STATUS_V (STATUS_CODE, STATUS_DESCRIPTION, COPY_ALLOWED_IND) " +
+          "VALUES ('S3', 'Status Three', 'N');",
     })
-    @CsvSource({"true, 1", "false, 2"})
-    public void testGetCaseStatusValues(Boolean copyAllowed, Integer expectedResults) {
+  @CsvSource({"true, 1", "false, 2"})
+  void getCaseStatusValues(Boolean copyAllowed, Integer expectedResults) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -92,25 +92,25 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedResults, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_COMMON_LOV_V (LOV_TYPE, CODE, DESCRIPTION, START_DATE_ACTIVE) " +
-            "VALUES ('type1', 'code1', 'Description 1', CURRENT_TIMESTAMP)",
-        "INSERT INTO XXCCMS.XXCCMS_COMMON_LOV_V (LOV_TYPE, CODE, DESCRIPTION, START_DATE_ACTIVE) " +
-            "VALUES ('type1', 'code2', 'Description 2', CURRENT_TIMESTAMP)",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_COMMON_LOV_V (LOV_TYPE, CODE, DESCRIPTION, START_DATE_ACTIVE) " +
+          "VALUES ('type1', 'code1', 'Description 1', CURRENT_TIMESTAMP)",
+      "INSERT INTO XXCCMS.XXCCMS_COMMON_LOV_V (LOV_TYPE, CODE, DESCRIPTION, START_DATE_ACTIVE) " +
+          "VALUES ('type1', 'code2', 'Description 2', CURRENT_TIMESTAMP)",
         // Add more INSERT statements as needed
     })
-    @CsvSource(value= {
-        "type1, null, null, 2",
-        "type2, null, null, 0",
-        "null, code1, null, 1",
-        "null, null, Description 1, 1",
-        "type1, *ode*, null, 2",
-        "type*, *ode*, , 2",
-        "null, null, Desc*, 2",
-    }, nullValues={"null"})
-    public void testGetCommonValues(String type, String code, String desc,
-        Integer expectedElements) {
+  @CsvSource(value = {
+      "type1, null, null, 2",
+      "type2, null, null, 0",
+      "null, code1, null, 1",
+      "null, null, Description 1, 1",
+      "type1, *ode*, null, 2",
+      "type*, *ode*, , 2",
+      "null, null, Desc*, 2",
+    }, nullValues = {"null"})
+  void getCommonValues(String type, String code, String desc,
+                      Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -123,19 +123,19 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_COUNTRY_V (CODE, DESCRIPTION) " +
-            "VALUES ('code1', 'Description 1')",
-        "INSERT INTO XXCCMS.XXCCMS_COUNTRY_V (CODE, DESCRIPTION) " +
-            "VALUES ('code2', 'Description 2')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_COUNTRY_V (CODE, DESCRIPTION) " +
+          "VALUES ('code1', 'Description 1')",
+      "INSERT INTO XXCCMS.XXCCMS_COUNTRY_V (CODE, DESCRIPTION) " +
+          "VALUES ('code2', 'Description 2')",
     })
-    @CsvSource(value= {
-        "code1, 1",
-        "code2, 1",
-        "null, 2"},
-        nullValues={"null"})
-    public void testGetCountries(String code, Integer expectedElements) {
+  @CsvSource(value = {
+      "code1, 1",
+      "code2, 1",
+      "null, 2"},
+      nullValues = {"null"})
+  void getCountries(String code, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -147,21 +147,21 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
-            + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
-            "VALUES ('code1', 'Result 1', 'Desc 1', 'Lov 1', 'Y')",
-        "INSERT INTO XXCCMS.XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
-            + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
-            "VALUES ('code1', 'Result 2', 'Desc 2', 'Lov 2', 'N')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
+          + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
+          "VALUES ('code1', 'Result 1', 'Desc 1', 'Lov 1', 'Y')",
+      "INSERT INTO XXCCMS.XXCCMS_OUTCOME_RESULTS_V (PROCEEDING_CODE, OUTCOME_RESULT, "
+          + "OUTCOME_RESULT_DESCRIPTION, OUTCOME_RESULT_LOV, ENABLED_FLAG) " +
+          "VALUES ('code1', 'Result 2', 'Desc 2', 'Lov 2', 'N')",
     })
-    @CsvSource(value= {
-        "code1, null, 2",
-        "code1, Result 2, 1",
-        "null, null, 2"},
-        nullValues={"null"})
-    public void testGetOutcomeResults(String code, String results, Integer expectedElements) {
+  @CsvSource(value = {
+      "code1, null, 2",
+      "code1, Result 2, 1",
+      "null, null, 2"},
+      nullValues = {"null"})
+  void getOutcomeResults(String code, String results, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -174,21 +174,21 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
-            + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
-            "VALUES ('code1', 'StageEnd 1', 'Desc 1', 'Lov 1', 'Y')",
-        "INSERT INTO XXCCMS.XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
-            + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
-            "VALUES ('code1', 'StageEnd 2', 'Desc 2', 'Lov 2', 'N')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
+          + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
+          "VALUES ('code1', 'StageEnd 1', 'Desc 1', 'Lov 1', 'Y')",
+      "INSERT INTO XXCCMS.XXCCMS_STAGE_END_V (PROCEEDING_CODE, STAGE_END, "
+          + "STAGE_END_DESCRIPTION, STAGE_END_LOV, ENABLED_FLAG) " +
+          "VALUES ('code1', 'StageEnd 2', 'Desc 2', 'Lov 2', 'N')",
     })
-    @CsvSource(value= {
-        "code1, null, 2",
-        "code1, StageEnd 2, 1",
-        "null, null, 2"},
-        nullValues={"null"})
-    public void testGetStageEnds(String code, String stageEnd, Integer expectedElements) {
+  @CsvSource(value = {
+      "code1, null, 2",
+      "code1, StageEnd 2, 1",
+      "null, null, 2"},
+      nullValues = {"null"})
+  void getStageEnds(String code, String stageEnd, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -201,23 +201,23 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'N', 'Y');",
-        "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'Y', 'N');",
-        "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
-            "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N', 'N');"
-    })
-    @CsvSource(value = {
-        "REL1, Relationship 1, 1",
-        "REL2, Relationship 2, 1",
-        "REL3, Relationship 3, 1",
-        "REL4, null, 0",
-        "null, null, 3"},
-        nullValues={"null"})
-    public void testGetPersonRelationshipsToCase(String code, String description, Integer expectedElements) {
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+          "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'N', 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+          "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'Y', 'N');",
+      "INSERT INTO XXCCMS.XXCCMS_PER_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, DOB_MANDATORY, COPY_PARTY) " +
+          "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N', 'N');"
+  })
+  @CsvSource(value = {
+      "REL1, Relationship 1, 1",
+      "REL2, Relationship 2, 1",
+      "REL3, Relationship 3, 1",
+      "REL4, null, 0",
+      "null, null, 3"},
+      nullValues = {"null"})
+  void getPersonRelationshipsToCase(String code, String description, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -230,23 +230,23 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
-            "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'Y');",
-        "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
-            "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'N');",
-        "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
-            "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N');"
-    })
-    @CsvSource(value = {
-        "REL1, Relationship 1, 1",
-        "REL2, Relationship 2, 1",
-        "REL3, Relationship 3, 1",
-        "REL4, null, 0",
-        "null, null, 3"},
-        nullValues={"null"})
-    public void testGetOrganisationRelationshipsToCase(String code, String description, Integer expectedElements) {
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+          "VALUES ('REL1', 'Relationship 1', 'Y', 'N', 'Y');",
+      "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+          "VALUES ('REL2', 'Relationship 2', 'N', 'Y', 'N');",
+      "INSERT INTO XXCCMS.XXCCMS_ORG_RELTOCASE_V (CODE, DESCRIPTION, DEFAULT_CODE, OPPONENT_IND, COPY_PARTY) " +
+          "VALUES ('REL3', 'Relationship 3', 'N', 'N', 'N');"
+  })
+  @CsvSource(value = {
+      "REL1, Relationship 1, 1",
+      "REL2, Relationship 2, 1",
+      "REL3, Relationship 3, 1",
+      "REL4, null, 0",
+      "null, null, 3"},
+      nullValues = {"null"})
+  void getOrganisationRelationshipsToCase(String code, String description, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -260,24 +260,24 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
     }
 
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
-            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
-            "VALUES ('COST', 'AwardType 1', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
-        "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
-            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
-            "VALUES ('COST_AGR', 'AwardType 2', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
-        "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
-            + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
-            "VALUES ('DAMAGE', 'AwardType 3', 'AWARD2', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+          + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+          "VALUES ('COST', 'AwardType 1', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+      "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+          + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+          "VALUES ('COST_AGR', 'AwardType 2', 'AWARD1', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
+      "INSERT INTO XXCCMS.XXCCMS_AWARD_TYPE_V (CODE, DESCRIPTION, AWARD_TYPE, "
+          + "START_DATE_ACTIVE, END_DATE_ACTIVE, ENABLED_FLAG) " +
+          "VALUES ('DAMAGE', 'AwardType 3', 'AWARD2', TO_DATE('1900-01-01', 'YYYY-MM-DD'), null, 'Y')",
     })
-    @CsvSource(value= {
-        "COST, null, 1",
-        "null, AWARD1, 2",
-        "null, null, 3"},
-        nullValues={"null"})
-    public void testGetAwardTypes(String code, String awardType, Integer expectedElements) {
+  @CsvSource(value = {
+      "COST, null, 1",
+      "null, AWARD1, 2",
+      "null, null, 3"},
+      nullValues = {"null"})
+  void getAwardTypes(String code, String awardType, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -290,21 +290,21 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
-            "VALUES ('CAT1', 'Mat 1', 'Y')",
-        "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
-            "VALUES ('CAT2', 'Mat 1', 'N')",
-        "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
-            "VALUES ('CAT3', 'Mat 2', 'Y')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+          "VALUES ('CAT1', 'Mat 1', 'Y')",
+      "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+          "VALUES ('CAT2', 'Mat 1', 'N')",
+      "INSERT INTO XXCCMS.XXCCMS_CATEGORY_OF_LAW_V (CATEGORY_OF_LAW_CODE, MATTER_TYPE_DESCRIPTION, COPY_COST_LIMIT_IND) " +
+          "VALUES ('CAT3', 'Mat 2', 'Y')",
     })
-    @CsvSource(value= {
-        "CAT1, null, null, 1",
-        "null, Mat 1, null, 2",
-        "null, null, false, 1"},
-        nullValues={"null"})
-    public void testGetCategoriesOfLaw(String code, String desc, Boolean copyCostLimit, Integer expectedElements) {
+  @CsvSource(value = {
+      "CAT1, null, null, 1",
+      "null, Mat 1, null, 2",
+      "null, null, false, 1"},
+      nullValues = {"null"})
+  void getCategoriesOfLaw(String code, String desc, Boolean copyCostLimit, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -317,21 +317,21 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
-            "VALUES ('TYPE1', 'CODE1', 'description 1')",
-        "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
-            "VALUES ('TYPE1', 'CODE2', 'description 2')",
-        "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
-            "VALUES ('TYPE2', 'CODE2', 'description 3')",
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+          "VALUES ('TYPE1', 'CODE1', 'description 1')",
+      "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+          "VALUES ('TYPE1', 'CODE2', 'description 2')",
+      "INSERT INTO XXCCMS.XXCCMS_EVIDENCE_DOC_TYPE_V (LOV_TYPE, CODE, DESCRIPTION) " +
+          "VALUES ('TYPE2', 'CODE2', 'description 3')",
     })
-    @CsvSource(value= {
-        "TYPE1, null, 2",
-        "TYPE1, CODE2, 1",
-        "null, CODE2, 2"},
-        nullValues={"null"})
-    public void testGetEvidenceDocumentTypes(String type, String code, Integer expectedElements) {
+  @CsvSource(value = {
+      "TYPE1, null, 2",
+      "TYPE1, CODE2, 1",
+      "null, CODE2, 2"},
+      nullValues = {"null"})
+  void getEvidenceDocumentTypes(String type, String code, Integer expectedElements) {
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -344,15 +344,15 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(scripts = {"/sql/insert_opa_lookup_data.sql"})
-    @CsvSource(value= {
-        "PARENT, 1",
-        "CHILD, 2",
-        "UNKNOWN, 3",
-        "null, 3"},
-        nullValues={"null"})
-    public void testGetAssessmentSummaryAttributes(String summaryType, Integer expectedElements) {
+  @ParameterizedTest
+  @Sql(scripts = {"/sql/insert_opa_lookup_data.sql"})
+  @CsvSource(value = {
+      "PARENT, 1",
+      "CHILD, 2",
+      "UNKNOWN, 3",
+      "null, 3"},
+      nullValues = {"null"})
+  void getAssessmentSummaryAttributes(String summaryType, Integer expectedElements) {
 
         // Create a pageable object
         Pageable pageable = PageRequest.of(0, 10);
@@ -366,18 +366,18 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedElements, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
-            "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
-        "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
-            "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
-    })
-    @CsvSource({
-        "true, 1",
-        "false, 1"
-    })
-    public void testGetProviderRequestTypeLookupValues(Boolean isCaseRelated, Integer expectedResults) {
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+          "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
+      "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+          "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
+  })
+  @CsvSource({
+      "true, 1",
+      "false, 1"
+  })
+  void getProviderRequestTypeLookupValues(Boolean isCaseRelated, Integer expectedResults) {
         Pageable pageable = PageRequest.of(0, 10);
 
         ProviderRequestTypeLookupDetail result = lookupService.getProviderRequestTypeLookupValues(isCaseRelated, null, pageable);
@@ -386,18 +386,18 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         assertEquals(expectedResults, result.getTotalElements());
     }
 
-    @ParameterizedTest
-    @Sql(statements = {
-        "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
-            "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
-        "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
-            "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
-    })
-    @CsvSource({
-        "TYPE1, Provider Type 1",
-        "TYPE2, Provider Type 2"
-    })
-    public void testGetProviderRequestTypeLookupValuesByType(String type, String expectedName) {
+  @ParameterizedTest
+  @Sql(statements = {
+      "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+          "VALUES ('TYPE1', 'Provider Type 1', 'Y', 'Prompt 1', '101', 'Y', 'ACC1', 'Upload Prompt 1');",
+      "INSERT INTO XXCCMS.XXCCMS_PROVIDER_REQTYPES_V (REQUEST_TYPE, REQUEST_NAME, CASE_RELATED_FLAG, ADDITIONAL_INFO_PROMPT, TASK_TYPE_ID, FILE_UPLD_ENABLED, ACCESS_FUNC_CODE, FILE_UPLD_PROMPT) " +
+          "VALUES ('TYPE2', 'Provider Type 2', 'N', 'Prompt 2', '102', 'N', 'ACC2', 'Upload Prompt 2');"
+  })
+  @CsvSource({
+      "TYPE1, Provider Type 1",
+      "TYPE2, Provider Type 2"
+  })
+  void getProviderRequestTypeLookupValuesByType(String type, String expectedName) {
         Pageable pageable = PageRequest.of(0, 10);
 
         ProviderRequestTypeLookupDetail

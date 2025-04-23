@@ -33,7 +33,7 @@ import uk.gov.laa.ccms.data.entity.NotificationNote;
     "/sql/get_notif_info_relationships_drop_schema.sql",
 })
 @DisplayName("Notification Repository Integration Tests")
-public class NotificationRepositoryIntegrationTest implements OracleIntegrationTestInterface {
+class NotificationRepositoryIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private NotificationRepository repository;
@@ -68,7 +68,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with notes")
-  public void shouldReturnNotificationWithNotes() {
+  void shouldReturnNotificationWithNotes() {
     // Given
     long notificationId = 1L;
     // When
@@ -103,7 +103,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with documents")
-  public void shouldReturnNotificationWithDocuments(){
+  void shouldReturnNotificationWithDocuments(){
     // Given
     long notificationId = 1L;
     // When
@@ -122,7 +122,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with attachments")
-  public void shouldReturnNotificationWithAttachments(){
+  void shouldReturnNotificationWithAttachments(){
     // Given
     long notificationId = 1L;
     // When
@@ -138,7 +138,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with actions")
-  public void shouldReturnNotificationWithActions(){
+  void shouldReturnNotificationWithActions(){
     long notificationId = 1L;
     // When
     NotificationInfo result = repository.findById(notificationId).orElse(null);

@@ -38,8 +38,8 @@ class ProviderControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
+  @BeforeEach
+  void setup() {
         mockMvc = standaloneSetup(providerController).build();
     }
 

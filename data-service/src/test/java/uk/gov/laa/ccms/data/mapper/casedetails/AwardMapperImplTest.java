@@ -34,7 +34,7 @@ import uk.gov.laa.ccms.data.model.TimeRelatedAward;
 import uk.gov.laa.ccms.data.model.Valuation;
 
 @DisplayName("Award mapper implementation test")
-public class AwardMapperImplTest {
+class AwardMapperImplTest {
 
   AwardMapper mapper = new AwardMapperImpl();
 

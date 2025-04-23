@@ -43,13 +43,13 @@ class UserControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
+  @BeforeEach
+  void setup() {
         mockMvc = standaloneSetup(userController).build();
     }
 
-    @Test
-    public void getUser_isOk() throws Exception{
+  @Test
+  void getUser_isOk() throws Exception{
         String loginId = "test";
 
         UserDetail userDetail = new UserDetail();
@@ -64,8 +64,8 @@ class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void getUser_notFound() throws Exception{
+  @Test
+  void getUser_notFound() throws Exception{
         String loginId = "test";
 
         when(userService.getUser(loginId)).thenReturn(Optional.empty());

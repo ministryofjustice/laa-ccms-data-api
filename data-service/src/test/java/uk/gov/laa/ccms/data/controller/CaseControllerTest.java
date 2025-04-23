@@ -53,7 +53,7 @@ class CaseControllerTest {
   WebApplicationContext webApplicationContext;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     mockMvc = standaloneSetup(caseController)
         .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
         .build();

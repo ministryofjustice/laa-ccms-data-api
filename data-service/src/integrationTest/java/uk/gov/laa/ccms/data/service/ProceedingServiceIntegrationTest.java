@@ -22,7 +22,7 @@ import uk.gov.laa.ccms.data.model.ProceedingDetails;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/proceedings_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/proceedings_drop_schema.sql")
-public class ProceedingServiceIntegrationTest implements OracleIntegrationTestInterface {
+class ProceedingServiceIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ProceedingService proceedingService;
@@ -35,7 +35,7 @@ public class ProceedingServiceIntegrationTest implements OracleIntegrationTestIn
       "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
           + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
           "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"})
-  public void testGetProceeding() {
+  void getProceeding() {
     String code = "PROC1";
 
     // Call the service method
@@ -66,7 +66,7 @@ public class ProceedingServiceIntegrationTest implements OracleIntegrationTestIn
       "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
           + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
           "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"})
-  public void testGetProceedings() {
+  void getProceedings() {
     String categoryOfLawCode = "CAT2";
 
     // Call the service method

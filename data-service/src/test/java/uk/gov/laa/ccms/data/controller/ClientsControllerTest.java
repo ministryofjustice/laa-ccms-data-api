@@ -50,7 +50,7 @@ class ClientsControllerTest {
   WebApplicationContext webApplicationContext;
 
   @BeforeEach
-  public void setup(){
+  void setup(){
     mockMvc = standaloneSetup(clientsController)
         .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
         .build();

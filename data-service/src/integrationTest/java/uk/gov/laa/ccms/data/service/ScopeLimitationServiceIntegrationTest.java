@@ -19,7 +19,7 @@ import uk.gov.laa.ccms.data.model.ScopeLimitationDetails;
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/scope_limitations_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/scope_limitations_drop_schema.sql")
-public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationTestInterface {
+class ScopeLimitationServiceIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ScopeLimitationService scopeLimitationService;
@@ -42,7 +42,7 @@ public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationT
           + "'MAT2', 'PROC2', 'LOS2', 2, 'N', "
           + "'N', 150.00, 'N', 'N', "
           + "'Y', 'Default wording 2', 2350.00);"})
-  public void testGetScopeLimitations_MultiMatch() {
+  void getScopeLimitationsMultiMatch() {
     uk.gov.laa.ccms.data.model.ScopeLimitationDetail scopeLimitationDetail =
         new uk.gov.laa.ccms.data.model.ScopeLimitationDetail()
         .scopeLimitations("scopelimit1");
@@ -80,7 +80,7 @@ public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationT
           + "'MAT2', 'PROC2', 'LOS2', 2, 'N', "
           + "'N', 150.00, 'N', 'N', "
           + "'Y', 'Default wording 2', 2350.00);"})
-  public void testGetScopeLimitations_SingleMatch() {
+  void getScopeLimitationsSingleMatch() {
     uk.gov.laa.ccms.data.model.ScopeLimitationDetail scopeLimitationDetail =
         new uk.gov.laa.ccms.data.model.ScopeLimitationDetail()
             .scopeLimitations("scopelimit1")

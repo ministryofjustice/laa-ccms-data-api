@@ -40,7 +40,7 @@ class CaseReferenceControllerTest {
   WebApplicationContext webApplicationContext;
 
   @BeforeEach
-  public void setup(){
+  void setup(){
     mockMvc = standaloneSetup(caseReferenceController).build();
     objectMapper = new ObjectMapper();
   }

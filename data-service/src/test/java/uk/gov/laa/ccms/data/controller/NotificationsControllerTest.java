@@ -50,7 +50,7 @@ class NotificationsControllerTest {
   private ObjectMapper objectMapper;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     mockMvc = standaloneSetup(notificationsController)
         .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
         .build();

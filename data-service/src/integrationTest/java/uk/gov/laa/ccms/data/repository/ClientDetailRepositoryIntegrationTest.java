@@ -29,7 +29,7 @@ import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
     "/sql/get_client_details_drop_schema.sql"
 })
 @DisplayName("Client search repository integration tests")
-public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationTestInterface {
+class ClientDetailRepositoryIntegrationTest implements OracleIntegrationTestInterface {
 
   @Autowired
   private ClientDetailRepository repository;

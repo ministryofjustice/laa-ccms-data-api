@@ -53,8 +53,8 @@ class LookupControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
+  @BeforeEach
+  void setup() {
         mockMvc = standaloneSetup(lookupController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();

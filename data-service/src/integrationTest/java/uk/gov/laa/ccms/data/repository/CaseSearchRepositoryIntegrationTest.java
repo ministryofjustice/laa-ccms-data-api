@@ -44,8 +44,8 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
-    assertEquals(result.getContent().get(1).getLscCaseReference(), "3002");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
+    assertEquals("3002", result.getContent().get(1).getLscCaseReference());
   }
 
   @Test
@@ -62,7 +62,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
             null),
         Pageable.ofSize(1).withPage(0));
     // Then
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
     assertEquals(2, result.getTotalElements());
     assertEquals(2, result.getTotalPages());
     assertEquals(1, result.getNumberOfElements());
@@ -101,7 +101,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
   }
 
   @Test
@@ -136,7 +136,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
     
   }
 
@@ -155,8 +155,8 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
-    assertEquals(result.getContent().get(1).getLscCaseReference(), "3002");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
+    assertEquals("3002", result.getContent().get(1).getLscCaseReference());
   }
 
   @Test
@@ -174,7 +174,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
   }
 
   @Test
@@ -192,7 +192,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3002");
+    assertEquals("3002", result.getContent().getFirst().getLscCaseReference());
   }
 
   @Test
@@ -227,8 +227,8 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3002");
+
+    assertEquals("3002", result.getContent().getFirst().getLscCaseReference());
   }
 
   @Test
@@ -246,8 +246,8 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(2, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
-    assertEquals(result.getContent().get(1).getLscCaseReference(), "3002");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
+    assertEquals("3002", result.getContent().get(1).getLscCaseReference());
   }
 
   @Test
@@ -265,8 +265,8 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3002");
+
+    assertEquals("3002", result.getContent().getFirst().getLscCaseReference());
   }
 
   @Test
@@ -284,7 +284,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
     
   }
 
@@ -324,7 +324,7 @@ class CaseSearchRepositoryIntegrationTest implements OracleIntegrationTestInterf
         Pageable.ofSize(10).withPage(0));
     // Then
     assertEquals(1, result.getTotalElements());
-    assertEquals(result.getContent().getFirst().getLscCaseReference(), "3001");
+    assertEquals("3001", result.getContent().getFirst().getLscCaseReference());
     
   }
 
