@@ -93,7 +93,8 @@ public class CaseService {
       throws SQLException {
     CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
         userName);
-    if (caseXml != null && caseXml.getCaseDetail() != null) {
+    if (caseXml != null && caseXml.getCaseDetail() != null
+        && caseXml.getCaseDetail().getCaseReferenceNumber() != null) {
       CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
       return Optional.of(caseDetail);
     }
