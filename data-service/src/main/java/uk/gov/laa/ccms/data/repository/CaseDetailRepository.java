@@ -66,16 +66,12 @@ public class CaseDetailRepository {
    *     SQL function invocation
    */
   public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId,
-      String userName) throws SQLException {
+      String userName) throws SQLException, JsonProcessingException {
     String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId,
         userName);
-    try {
+
       return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRsXml.class);
-    } catch (JsonProcessingException e) {
-      // Due to how the EBS function works, if the case can't be found, XML is still returned but
-      //  in a bad format. Just return null if this is the case.
-      return null;
-    }
+
   }
 
   private String getCaseDetailViaFunction(String caseReference, Long providerId,

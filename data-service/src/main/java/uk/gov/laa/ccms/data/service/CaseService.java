@@ -90,9 +90,9 @@ public class CaseService {
    */
   public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
       String userName)
-      throws SQLException {
+      throws SQLException, JsonProcessingException {
     CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
-        userName);
+          userName);
     if (caseXml != null && caseXml.getCaseDetail() != null) {
       CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
       return Optional.of(caseDetail);

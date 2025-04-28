@@ -30,5 +30,7 @@ public final class CaseDetailXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private CaseDetailsXml caseDetails;
 
+  @JacksonXmlProperty(localName = "Message")
+  private MessageXml message;
 
 }
