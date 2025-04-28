@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseInqRsXml;
@@ -58,7 +59,7 @@ public class CaseService {
    *
    * @param transactionId the unique identifier of the transaction whose status is to be retrieved
    * @return an {@code Optional} containing the {@link TransactionStatus} if found, or an empty
-   *     {@code Optional} if not found
+   * {@code Optional} if not found
    * @throws ClientServiceException throws exception when there was an error found with the
    *                                associated transaction ID
    */
@@ -82,27 +83,40 @@ public class CaseService {
    * @param userName            the username of the user accessing this case. Dictates what
    *                            available functions are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
-   *     an empty {@code Optional} if no details are available
-   * @throws SQLException            if an error occurs while interacting with the database
+   * an empty {@code Optional} if no details are available
    */
   public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
-      String userName)
-      throws SQLException {
-    CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
-        userName);
-    if (caseXml != null && caseXml.getCaseDetail() != null) {
-      // Check status codes
-      MessageXml messageXml = caseXml.getCaseDetail().message();
-      if ("200".equals(messageXml.code())) {
-        CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
-        return Optional.of(caseDetail);
-      } else if ("404".equals(messageXml.code())) {
-        return Optional.empty();
-      } else {
-        throw new SQLException("Error occurred in EBS: %s - %s".formatted(messageXml.code(),
-            messageXml.text()));
-      }
+      String userName) {
+    try {
+      CaseInqRsXml caseInqRsXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber,
+          providerId, userName);
+      validateCaseXmlObject(caseInqRsXml);
+      return handleResponseStatus(caseInqRsXml.getCaseDetail().message(), caseInqRsXml);
+    } catch (SQLException | JsonProcessingException e) {
+      throw new EbsApiRuntimeException("Could not retrieve case details from EBS", e);
     }
-    throw new RuntimeException("Could not retrieve case details from EBS");
   }
+
+  private void validateCaseXmlObject(CaseInqRsXml caseInqRsXml) {
+    if (caseInqRsXml == null ||
+        caseInqRsXml.getCaseDetail() == null ||
+        caseInqRsXml.getCaseDetail().message() == null) {
+      throw new EbsApiRuntimeException("Could not retrieve case details from EBS");
+    }
+  }
+
+  private Optional<CaseDetail> handleResponseStatus(MessageXml messageXml,
+      CaseInqRsXml caseInqRsXml) {
+    String code = messageXml.code();
+    if ("200".equals(code)) {
+      CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseInqRsXml.getCaseDetail());
+      return Optional.of(caseDetail);
+    } else if ("404".equals(code)) {
+      return Optional.empty();
+    } else {
+      throw new EbsApiRuntimeException(
+          "Error occurred in EBS: %s - %s".formatted(code, messageXml.text()));
+    }
+  }
+
 }

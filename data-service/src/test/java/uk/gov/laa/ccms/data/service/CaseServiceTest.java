@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.sql.SQLException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
 import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
@@ -149,7 +151,7 @@ public class CaseServiceTest {
 
     @Test
     @DisplayName("Should return case details")
-    void shouldReturnCaseDetails() throws SQLException {
+    void shouldReturnCaseDetails() throws SQLException, JsonProcessingException {
       // Given
       CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
           .caseDetail(CaseDetailXml.builder()
@@ -171,7 +173,7 @@ public class CaseServiceTest {
 
     @Test
     @DisplayName("Should return empty optional")
-    void shouldReturnEmptyOptional() throws SQLException {
+    void shouldReturnEmptyOptional() throws SQLException, JsonProcessingException {
       // Given
       CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
           .caseDetail(CaseDetailXml.builder()
@@ -188,7 +190,7 @@ public class CaseServiceTest {
 
     @Test
     @DisplayName("Should throw exception when message contains error")
-    void shouldThrowExceptionWhenMessageContainsError() throws SQLException {
+    void shouldThrowExceptionWhenMessageContainsError() throws SQLException, JsonProcessingException {
       // Given
       CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
           .caseDetail(CaseDetailXml.builder()
@@ -197,7 +199,7 @@ public class CaseServiceTest {
       when(caseDetailRepository.getCaseDetailXml("123", 1L, "user"))
           .thenReturn(caseInqRsXml);
       // When
-      SQLException result = assertThrows(SQLException.class,
+      EbsApiRuntimeException result = assertThrows(EbsApiRuntimeException.class,
           () -> caseService.getCaseDetails("123",
           1L, "user"));
       // Then
