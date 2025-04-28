@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseInqRsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.MessageXml;
 import uk.gov.laa.ccms.data.model.CaseDetail;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
 import uk.gov.laa.ccms.data.repository.CaseDetailRepository;
@@ -17,12 +18,12 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
  * Service class responsible for handling case-related operations.
  *
  * <p>This class provides methods to retrieve transaction statuses for case-related
- * transactions. It utilizes a repository for database access and a mapper for converting
- * database entities to objects used in the application.</p>
+ * transactions. It utilizes a repository for database access and a mapper for converting database
+ * entities to objects used in the application.</p>
  *
+ * @author Jamie Briggs
  * @see TransactionStatusRepository
  * @see TransactionStatusMapper
- * @author Jamie Briggs
  */
 @Service
 public class CaseService {
@@ -35,11 +36,11 @@ public class CaseService {
   /**
    * Constructs an instance of {@code CaseService}.
    *
-   * @param caseDetailRepository the repository used for accessing case details
-   * @param caseDetailsMapper the mapper used for mapping case detail entities to models
+   * @param caseDetailRepository        the repository used for accessing case details
+   * @param caseDetailsMapper           the mapper used for mapping case detail entities to models
    * @param transactionStatusRepository the repository used for accessing transaction statuses
-   * @param transactionStatusMapper the mapper used for mapping transaction status entities
-   *                                to models
+   * @param transactionStatusMapper     the mapper used for mapping transaction status entities to
+   *                                    models
    */
   public CaseService(CaseDetailRepository caseDetailRepository, CaseDetailsMapper caseDetailsMapper,
       TransactionStatusRepository transactionStatusRepository,
@@ -51,18 +52,15 @@ public class CaseService {
   }
 
 
-
-
   /**
-   * Retrieves the transaction status for a given transaction ID. If the transaction
-   *     is not found, an empty {@code Optional} is returned.
+   * Retrieves the transaction status for a given transaction ID. If the transaction is not found,
+   * an empty {@code Optional} is returned.
    *
-   * @param transactionId the unique identifier of the transaction whose status
-   *     is to be retrieved
-   * @return an {@code Optional} containing the {@link TransactionStatus} if found,
-   *     or an empty {@code Optional} if not found
-   * @throws ClientServiceException throws exception when there was an error found
-   *     with the associated transaction ID
+   * @param transactionId the unique identifier of the transaction whose status is to be retrieved
+   * @return an {@code Optional} containing the {@link TransactionStatus} if found, or an empty
+   *     {@code Optional} if not found
+   * @throws ClientServiceException throws exception when there was an error found with the
+   *                                associated transaction ID
    */
   public Optional<TransactionStatus> getTransactionStatus(String transactionId) {
     List<uk.gov.laa.ccms.data.entity.TransactionStatus> userFuncStatus =
@@ -76,28 +74,35 @@ public class CaseService {
   }
 
   /**
-   * Retrieves the details of a case based on the provided case reference number, provider ID,
-   * and the username of the user fetching this case.
+   * Retrieves the details of a case based on the provided case reference number, provider ID, and
+   * the username of the user fetching this case.
    *
    * @param caseReferenceNumber the unique reference number of the case
-   * @param providerId the ID of the provider associated with the case
-   * @param userName the username of the user accessing this case. Dictates what available
-   *                     functions are returned alongside the case.
-   * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found,
-   *         or an empty {@code Optional} if no details are available
-   * @throws JsonProcessingException if there is an error processing XML data related to the case
-   * @throws SQLException if an error occurs while interacting with the database
+   * @param providerId          the ID of the provider associated with the case
+   * @param userName            the username of the user accessing this case. Dictates what
+   *                            available functions are returned alongside the case.
+   * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
+   *     an empty {@code Optional} if no details are available
+   * @throws SQLException            if an error occurs while interacting with the database
    */
   public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
       String userName)
       throws SQLException {
     CaseInqRsXml caseXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId,
         userName);
-    if (caseXml != null && caseXml.getCaseDetail() != null
-        && caseXml.getCaseDetail().getCaseReferenceNumber() != null) {
-      CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
-      return Optional.of(caseDetail);
+    if (caseXml != null && caseXml.getCaseDetail() != null) {
+      // Check status codes
+      MessageXml messageXml = caseXml.getCaseDetail().message();
+      if ("200".equals(messageXml.code())) {
+        CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseXml.getCaseDetail());
+        return Optional.of(caseDetail);
+      } else if ("404".equals(messageXml.code())) {
+        return Optional.empty();
+      } else {
+        throw new SQLException("Error occurred in EBS: %s - %s".formatted(messageXml.code(),
+            messageXml.text()));
+      }
     }
-    return Optional.empty();
+    throw new RuntimeException("Could not retrieve case details from EBS");
   }
 }
