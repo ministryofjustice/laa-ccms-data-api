@@ -1,5 +1,11 @@
 package uk.gov.laa.ccms.data.exception;
 
+/**
+ * Represents a custom runtime exception used for handling errors in the EBS API.
+ * This class extends {@link RuntimeException}.
+ *
+ * @author Jamie Briggs
+ */
 public class EbsApiRuntimeException extends RuntimeException {
 
   public EbsApiRuntimeException() {

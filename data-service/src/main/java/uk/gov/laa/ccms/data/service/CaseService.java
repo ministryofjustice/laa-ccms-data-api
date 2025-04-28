@@ -3,6 +3,7 @@ package uk.gov.laa.ccms.data.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
@@ -59,7 +60,7 @@ public class CaseService {
    *
    * @param transactionId the unique identifier of the transaction whose status is to be retrieved
    * @return an {@code Optional} containing the {@link TransactionStatus} if found, or an empty
-   * {@code Optional} if not found
+   *     {@code Optional} if not found
    * @throws ClientServiceException throws exception when there was an error found with the
    *                                associated transaction ID
    */
@@ -83,7 +84,7 @@ public class CaseService {
    * @param userName            the username of the user accessing this case. Dictates what
    *                            available functions are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
-   * an empty {@code Optional} if no details are available
+   *     an empty {@code Optional} if no details are available
    */
   public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
       String userName) {
@@ -98,9 +99,9 @@ public class CaseService {
   }
 
   private void validateCaseXmlObject(CaseInqRsXml caseInqRsXml) {
-    if (caseInqRsXml == null ||
-        caseInqRsXml.getCaseDetail() == null ||
-        caseInqRsXml.getCaseDetail().message() == null) {
+    if (Objects.isNull(caseInqRsXml)
+        || Objects.isNull(caseInqRsXml.getCaseDetail())
+        || Objects.isNull(caseInqRsXml.getCaseDetail().message())) {
       throw new EbsApiRuntimeException("Could not retrieve case details from EBS");
     }
   }
