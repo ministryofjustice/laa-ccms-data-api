@@ -81,7 +81,7 @@ class PriorAuthorityDetailMapperImplTest {
             .description(priorAuthorityType.getDescription())
             .valueRequired(priorAuthorityType.getValueRequired())
             .addPriorAuthoritiesItem(
-                createPriorAuthorityDetail(priorAuthorityType.getPriorAuthorities().get(0)));
+                createPriorAuthorityDetail(priorAuthorityType.getPriorAuthorities().getFirst()));
     }
 
     private PriorAuthorityDetail createPriorAuthorityDetail(PriorAuthority priorAuthority) {

@@ -65,7 +65,7 @@ public abstract class AbstractEbsDataService {
           }
         }
       } catch (IllegalAccessException e) {
-        throw new RuntimeException(String.format("Failed to access example property: %s",
+        throw new RuntimeException("Failed to access example property: %s".formatted(
             field.getName()), e);
       }
     }

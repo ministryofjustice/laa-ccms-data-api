@@ -77,6 +77,6 @@ public class ProceedingServiceIntegrationTest implements OracleIntegrationTestIn
     assertNotNull(result);
     assertEquals(1, result.getTotalElements());
 
-    assertEquals("PROC2", result.getContent().get(0).getCode());
+    assertEquals("PROC2", result.getContent().getFirst().getCode());
   }
 }

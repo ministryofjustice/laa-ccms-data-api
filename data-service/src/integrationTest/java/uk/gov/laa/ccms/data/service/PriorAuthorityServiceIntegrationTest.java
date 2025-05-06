@@ -53,8 +53,8 @@ public class PriorAuthorityServiceIntegrationTest implements OracleIntegrationTe
         // Assert the result
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        assertEquals(code, result.getContent().get(0).getCode());
-        assertNotNull(result.getContent().get(0).getPriorAuthorities());
-        assertEquals(expectedSubElements, result.getContent().get(0).getPriorAuthorities().size());
+        assertEquals(code, result.getContent().getFirst().getCode());
+        assertNotNull(result.getContent().getFirst().getPriorAuthorities());
+        assertEquals(expectedSubElements, result.getContent().getFirst().getPriorAuthorities().size());
     }
 }

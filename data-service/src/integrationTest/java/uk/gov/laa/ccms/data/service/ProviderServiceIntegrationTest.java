@@ -45,7 +45,7 @@ public class ProviderServiceIntegrationTest implements OracleIntegrationTestInte
     // Check Offices
     assertNotNull(provider.getOffices());
     assertEquals(2, provider.getOffices().size());
-    OfficeDetail office1 = provider.getOffices().get(0);
+    OfficeDetail office1 = provider.getOffices().getFirst();
     OfficeDetail office2 = provider.getOffices().get(1);
     assertEquals(100, office1.getId());
     assertEquals(101, office2.getId());
@@ -53,13 +53,13 @@ public class ProviderServiceIntegrationTest implements OracleIntegrationTestInte
     // Check FeeEarners
     assertNotNull(office1.getFeeEarners());
     assertEquals(2, office1.getFeeEarners().size());
-    assertEquals(1, office1.getFeeEarners().get(0).getId());
+    assertEquals(1, office1.getFeeEarners().getFirst().getId());
     assertEquals(2, office1.getFeeEarners().get(1).getId());
 
     // Check ContactNames
     assertNotNull(provider.getContactNames());
     assertEquals(2, provider.getContactNames().size());
-    ContactDetail providerContact1 = provider.getContactNames().get(0);
+    ContactDetail providerContact1 = provider.getContactNames().getFirst();
     ContactDetail providerContact2 = provider.getContactNames().get(1);
     assertEquals(128, providerContact1.getId());
     assertEquals(256, providerContact2.getId());

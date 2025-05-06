@@ -31,14 +31,14 @@ class ProviderMapperImplTest {
         assertEquals(provider.getName(), result.getName());
         assertNotNull(result.getOffices());
         assertEquals(1, result.getOffices().size());
-        assertEquals(provider.getOffices().get(0).getId(), result.getOffices().get(0).getId());
-        assertEquals(provider.getOffices().get(0).getName(), result.getOffices().get(0).getName());
-        assertNotNull(provider.getOffices().get(0).getFeeEarners());
-        assertEquals(1, provider.getOffices().get(0).getFeeEarners().size());
-        assertEquals(provider.getOffices().get(0).getFeeEarners().get(0).getId(), provider.getOffices().get(0).getFeeEarners().get(0).getId());
-        assertEquals(provider.getOffices().get(0).getFeeEarners().get(0).getName(), provider.getOffices().get(0).getFeeEarners().get(0).getName());
-        assertEquals(provider.getContactNames().get(0).getId(), result.getContactNames().get(0).getId());
-        assertEquals(provider.getContactNames().get(0).getName(), result.getContactNames().get(0).getName());
+        assertEquals(provider.getOffices().getFirst().getId(), result.getOffices().getFirst().getId());
+        assertEquals(provider.getOffices().getFirst().getName(), result.getOffices().getFirst().getName());
+        assertNotNull(provider.getOffices().getFirst().getFeeEarners());
+        assertEquals(1, provider.getOffices().getFirst().getFeeEarners().size());
+        assertEquals(provider.getOffices().getFirst().getFeeEarners().getFirst().getId(), provider.getOffices().getFirst().getFeeEarners().getFirst().getId());
+        assertEquals(provider.getOffices().getFirst().getFeeEarners().getFirst().getName(), provider.getOffices().getFirst().getFeeEarners().getFirst().getName());
+        assertEquals(provider.getContactNames().getFirst().getId(), result.getContactNames().getFirst().getId());
+        assertEquals(provider.getContactNames().getFirst().getName(), result.getContactNames().getFirst().getName());
     }
 
     // Helper methods to create objects

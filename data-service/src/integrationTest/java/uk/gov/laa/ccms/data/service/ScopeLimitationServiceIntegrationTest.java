@@ -56,8 +56,8 @@ public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationT
 
     assertEquals(2, result.getSize());
     assertNotNull(result.getContent());
-    assertEquals(scopeLimitationDetail.getScopeLimitations(), result.getContent().get(0).getScopeLimitations());
-    assertEquals("CAT1", result.getContent().get(0).getCategoryOfLaw());
+    assertEquals(scopeLimitationDetail.getScopeLimitations(), result.getContent().getFirst().getScopeLimitations());
+    assertEquals("CAT1", result.getContent().getFirst().getCategoryOfLaw());
     assertEquals(scopeLimitationDetail.getScopeLimitations(), result.getContent().get(1).getScopeLimitations());
     assertEquals("CAT2", result.getContent().get(1).getCategoryOfLaw());
   }
@@ -95,7 +95,7 @@ public class ScopeLimitationServiceIntegrationTest implements OracleIntegrationT
 
     assertEquals(1, result.getSize());
     assertNotNull(result.getContent());
-    assertEquals(scopeLimitationDetail.getScopeLimitations(), result.getContent().get(0).getScopeLimitations());
-    assertEquals("CAT2", result.getContent().get(0).getCategoryOfLaw());
+    assertEquals(scopeLimitationDetail.getScopeLimitations(), result.getContent().getFirst().getScopeLimitations());
+    assertEquals("CAT2", result.getContent().getFirst().getCategoryOfLaw());
   }
 }

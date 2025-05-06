@@ -66,7 +66,7 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
         // Assert the result
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        assertEquals(expectedDescription, result.getContent().get(0).getApplicationTypeDescription());
+        assertEquals(expectedDescription, result.getContent().getFirst().getApplicationTypeDescription());
     }
 
     @ParameterizedTest
@@ -405,7 +405,7 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        assertEquals(expectedName, result.getContent().get(0).getName());
+        assertEquals(expectedName, result.getContent().getFirst().getName());
     }
 
 
