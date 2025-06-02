@@ -7,14 +7,16 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * various contact information fields to facilitate serialization or deserialization
  * of XML data.
  *
- * The fields in this record include:
- * - Home telephone number.
- * - Work telephone number.
- * - Mobile number.
- * - Email address.
- * - Fax number.
+ * <p>The fields in this record include:</p>
+ * <ul>
+ *   <li>Home telephone number.</li>
+ *   <li>Work telephone number.</li>
+ *   <li>Mobile number.</li>
+ *   <li>Email address.</li>
+ *   <li>Fax number.</li>
+ * </ul>
  *
- * Each field is annotated with {@code @JacksonXmlProperty} for XML mapping.
+ * @author Jamie Briggs
  */
 public record ContactDetailsXml(
     @JacksonXmlProperty(localName = "TelephoneHome")

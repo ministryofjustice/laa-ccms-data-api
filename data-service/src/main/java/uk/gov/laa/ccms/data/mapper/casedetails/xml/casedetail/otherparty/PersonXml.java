@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
-import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.AddressXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.ContactDetailsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.AddressXml;
 
 /**
  * Contains details about a person regarding an other party.
