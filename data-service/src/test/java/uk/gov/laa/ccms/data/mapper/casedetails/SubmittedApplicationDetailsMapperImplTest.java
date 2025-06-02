@@ -8,6 +8,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.ApplicationDetailsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.ContactDetailsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.ContactUserIdXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CostLimitationXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.OrganisationXml;
@@ -26,6 +27,7 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.AddressXml;
 import uk.gov.laa.ccms.data.model.AddressDetail;
 import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.CategoryOfLaw;
+import uk.gov.laa.ccms.data.model.ContactDetails;
 import uk.gov.laa.ccms.data.model.CostLimitation;
 import uk.gov.laa.ccms.data.model.NameDetail;
 import uk.gov.laa.ccms.data.model.OtherParty;
@@ -208,6 +210,12 @@ class SubmittedApplicationDetailsMapperImplTest {
       softly.assertThat(person.getRelationToCase()).isEqualTo("Relation to case");
       softly.assertThat(person.getNiNumber()).isEqualTo("123456");
       softly.assertThat(person.getContactName()).isEqualTo("Contact name");
+      ContactDetails contactDetails = person.getContactDetails();
+      softly.assertThat(contactDetails.getTelephoneHome()).isEqualTo("123");
+      softly.assertThat(contactDetails.getTelephoneWork()).isEqualTo("456");
+      softly.assertThat(contactDetails.getMobileNumber()).isEqualTo("789");
+      softly.assertThat(contactDetails.getEmailAddress()).isEqualTo("email@email.com");
+      softly.assertThat(contactDetails.getFax()).isEqualTo("246");
       softly.assertThat(person.getOrganisationName()).isEqualTo("Org Name");
       softly.assertThat(person.getEmployersName()).isEqualTo("Employers Name");
       softly.assertThat(person.getEmploymentStatus()).isEqualTo("Employment Status");
@@ -392,6 +400,7 @@ class SubmittedApplicationDetailsMapperImplTest {
         .name(NameXml.builder()
             .title("Title")
             .firstName("First name")
+            .middleName("Middle name")
             .surname("Surname")
             .build())
         .address(AddressXml.builder().addressId("1")
@@ -407,6 +416,8 @@ class SubmittedApplicationDetailsMapperImplTest {
             .province("Province")
             .postalCode("Postal code")
             .build())
+        .contactDetails(new ContactDetailsXml("123", "456",
+            "789","email@email.com","246"))
         .dateOfBirth(LocalDate.of(2010, 1, 1))
         .relationToClient("Relation to client")
         .relationToCase("Relation to case")

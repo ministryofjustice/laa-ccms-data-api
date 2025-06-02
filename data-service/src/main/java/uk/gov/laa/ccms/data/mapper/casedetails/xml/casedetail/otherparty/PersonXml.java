@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.AddressXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.ContactDetailsXml;
 
 /**
  * Contains details about a person regarding an other party.
@@ -45,6 +46,14 @@ public class PersonXml {
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String relationToCase;
 
+  @JacksonXmlProperty(localName = "NINumber",
+      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  private String niNumber;
+
+  @JacksonXmlProperty(localName = "ContactDetails",
+      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  private ContactDetailsXml contactDetails;
+
   @JacksonXmlProperty(localName = "ContactName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String contactName;
@@ -76,10 +85,6 @@ public class PersonXml {
   @JacksonXmlProperty(localName = "PublicFundingAppliedInd",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean publicFundingAppliedInd;
-
-  @JacksonXmlProperty(localName = "NINumber",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
-  private String niNumber;
 
   @JacksonXmlProperty(localName = "OrganizationName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
