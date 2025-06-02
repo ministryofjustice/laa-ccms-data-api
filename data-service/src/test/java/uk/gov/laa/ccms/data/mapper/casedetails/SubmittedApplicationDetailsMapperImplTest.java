@@ -191,6 +191,7 @@ class SubmittedApplicationDetailsMapperImplTest {
       NameDetail name = person.getName();
       softly.assertThat(name.getTitle()).isEqualTo("Title");
       softly.assertThat(name.getFirstName()).isEqualTo("First name");
+      softly.assertThat(name.getMiddleName()).isEqualTo("Middle name");
       softly.assertThat(name.getSurname()).isEqualTo("Surname");
       softly.assertThat(person.getDateOfBirth()).isEqualTo(LocalDate.of(2010, 1, 1));
       AddressDetail address = person.getAddress();
@@ -404,7 +405,7 @@ class SubmittedApplicationDetailsMapperImplTest {
             .surname("Surname")
             .build())
         .address(AddressXml.builder().addressId("1")
-            .houseOrTitle("House or title")
+            .house("House or title")
             .addressLine1("Line 1")
             .addressLine2("Line 2")
             .addressLine3("Line 3")
@@ -456,7 +457,7 @@ class SubmittedApplicationDetailsMapperImplTest {
                 .otherInformation("Other information")
                 .address(AddressXml.builder()
                     .addressId("1")
-                    .houseOrTitle("House or title")
+                    .house("House or title")
                     .addressLine1("Line 1")
                     .addressLine2("Line 2")
                     .addressLine3("Line 3")
