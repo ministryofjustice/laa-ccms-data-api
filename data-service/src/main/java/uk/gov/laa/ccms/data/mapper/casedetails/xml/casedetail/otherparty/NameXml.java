@@ -28,6 +28,9 @@ public class NameXml {
   @JacksonXmlProperty(localName = "Surname",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String surname;
+  @JacksonXmlProperty(localName = "MiddleName",
+      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  private String middleName;
   @JacksonXmlProperty(localName = "FirstName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String firstName;

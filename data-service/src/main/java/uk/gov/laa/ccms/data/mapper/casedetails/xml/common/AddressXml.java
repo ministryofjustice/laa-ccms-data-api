@@ -23,9 +23,9 @@ public final class AddressXml {
   @JacksonXmlProperty(localName = "AddressID",
       namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressId;
-  @JacksonXmlProperty(localName = "HouseOrTitle",
+  @JacksonXmlProperty(localName = "House",
       namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
-  private String houseOrTitle;
+  private String house;
   @JacksonXmlProperty(localName = "AddressLine1",
       namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressLine1;
