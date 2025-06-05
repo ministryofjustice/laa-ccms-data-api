@@ -14,6 +14,7 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.ClientXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.CorrespondenceAddressXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.LarDetailsXml;
+import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.OutcomeXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.ProceedingXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails.ProviderDetailsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.otherparty.NameXml;
@@ -32,6 +33,7 @@ import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.OtherParty;
 import uk.gov.laa.ccms.data.model.OtherPartyOrganisation;
 import uk.gov.laa.ccms.data.model.OtherPartyPerson;
+import uk.gov.laa.ccms.data.model.OutcomeDetail;
 import uk.gov.laa.ccms.data.model.Proceeding;
 import uk.gov.laa.ccms.data.model.ProviderDetails;
 import uk.gov.laa.ccms.data.model.ScopeLimitation;
@@ -137,11 +139,11 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "clientInvolvementType", source = "proceedingDetails.clientInvolvementType")
   @Mapping(target = "scopeLimitations", source = "proceedingDetails.scopeLimitations")
   @Mapping(target = "availableFunctions", source = "availableFunctions")
+  @Mapping(target = "outcome", source = "proceedingDetails.outcome")
   @Mapping(target = "scopeLimitationApplied", ignore = true)
   @Mapping(target = "devolvedPowersInd", ignore = true)
   @Mapping(target = "dateDevolvedPowersUsed", ignore = true)
   @Mapping(target = "dateGranted", ignore = true)
-  @Mapping(target = "outcome", ignore = true)
   Proceeding mapToProceedingDetail(ProceedingXml proceeding);
 
   ScopeLimitation mapToScopeLimitation(ScopeLimitationXml scopeLimitation);
@@ -149,4 +151,6 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "legalHelpOfficeCode", constant = "")
   @Mapping(target = "legalHelpUfn", constant = "")
   LarDetails mapToLarsDetails(LarDetailsXml larDetails);
+
+  OutcomeDetail mapToOutcomeDetail(OutcomeXml outcome);
 }

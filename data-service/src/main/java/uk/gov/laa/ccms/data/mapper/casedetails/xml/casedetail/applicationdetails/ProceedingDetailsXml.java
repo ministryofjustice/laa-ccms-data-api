@@ -59,4 +59,8 @@ public final class ProceedingDetailsXml {
   @JacksonXmlProperty(localName = "ScopeLimitations",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<ScopeLimitationXml> scopeLimitations;
+
+  @JacksonXmlProperty(localName = "Outcome",
+      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  private OutcomeXml outcome;
 }
