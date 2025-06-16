@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.controller;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,9 @@ public class CaseAssessmentController implements CaseAssessmentsApi {
   @Override
   public ResponseEntity<CaseAssessmentDetails> getCaseAssessment(String caseReferenceNumber,
       AssessmentType assessmentType) {
-    CaseAssessmentDetails caseAssessmentDetails = caseAssessmentService
+    Optional<CaseAssessmentDetails> caseAssessmentDetails = caseAssessmentService
         .getCaseAssessmentDetails(caseReferenceNumber, assessmentType);
-    return ResponseEntity.ok(caseAssessmentDetails);
+    return caseAssessmentDetails.map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 }

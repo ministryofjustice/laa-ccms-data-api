@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.service;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccms.data.model.AssessmentType;
@@ -14,13 +15,17 @@ public class CaseAssessmentService {
 
   private final CaseAssessmentRepository caseAssessmentRepository;
 
-  public CaseAssessmentDetails getCaseAssessmentDetails(String caseReference, AssessmentType assessmentType) {
+  public Optional<CaseAssessmentDetails> getCaseAssessmentDetails(String caseReference,
+      AssessmentType assessmentType) {
 
     List<CaseAssessmentDetail> assessmentDetails =
         caseAssessmentRepository.getCaseAssessmentDetails(caseReference, assessmentType);
+    if (assessmentDetails.isEmpty()) {
+      return Optional.empty();
+    }
     CaseAssessmentDetails result = new CaseAssessmentDetails();
     result.setAssessmentDetails(assessmentDetails);
     result.setCaseReference(caseReference);
-    return result;
+    return Optional.of(result);
   }
 }
