@@ -20,7 +20,6 @@ spring:
     virtual:
       enabled: true
 
-
 laa:
   ccms:
     springboot.starter.auth:
@@ -41,4 +40,3 @@ management:
           - info
           - metrics
           - prometheus
-
