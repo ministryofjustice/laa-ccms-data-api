@@ -1,21 +1,19 @@
 package uk.gov.laa.ccms.data.repository;
 
+import java.io.Reader;
 import java.sql.Array;
-import java.sql.Connection;
+import java.sql.Clob;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.Struct;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlOutParameter;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccms.data.dbtypes.AssessmentDetailObjectSqlType;
+import org.springframework.transaction.annotation.Transactional;
+import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
 import uk.gov.laa.ccms.data.model.AssessmentType;
 import uk.gov.laa.ccms.data.model.CaseAssessmentDetail;
 
@@ -26,56 +24,61 @@ public class CaseAssessmentRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public List<CaseAssessmentDetail> getCaseAssessmentDetails(String caseReference,
+  @Transactional(readOnly = true)
+  public List<CaseAssessmentDetail> getCaseAssessmentDetailsTwo(String caseReference,
       AssessmentType assessmentType) {
-    final String ASSESSMENT_TAB_TYPE = "xxccms_assessment_tab";
-    jdbcTemplate.setFetchSize(500);
-    SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-        .withSchemaName("XXCCMS")
-        .withCatalogName("XXCCMS_SOA_REPLACE_PKG")
-        .withFunctionName("GET_ASSESSMENT_DETAILS")
-        .withoutProcedureColumnMetaDataAccess()
-        .declareParameters(
-            new SqlOutParameter(ASSESSMENT_TAB_TYPE, Types.ARRAY,
-                "XXCCMS.XXCCMS_ASSESSMENT_TAB",
-                (cs, paramIndex, sqlType, typeName) -> {
-                  Connection conn = cs.getConnection();
-                  Map<String, Class<?>> typeMap = new HashMap<>();
-                  typeMap.put("XXCCMS.XXCCMS_ASSESSMENT_OBJ", AssessmentDetailObjectSqlType.class);
-                  conn.setTypeMap(typeMap);
-                  return cs.getObject(paramIndex);
-                }),
-            new SqlParameter("p_case_ref_number", Types.VARCHAR),
-            new SqlParameter("p_assessment_type", Types.VARCHAR));
 
-    Map<String, Object> params = new HashMap<>();
-    params.put("p_case_ref_number", caseReference);
-    params.put("p_assessment_type", assessmentType.getValue());
+    log.info("Get case assessment details for case reference {}", caseReference);
+    Array arrayType = jdbcTemplate.queryForObject("""
+        SELECT XXCCMS_SOA_REPLACE_PKG.GET_ASSESSMENT_DETAILS(?,?) FROM dual
+        """, Array.class, caseReference, assessmentType.getValue());
 
-    Map<String, Object> result = jdbcCall.execute(params);
+    try {
+      Object[] myArrayElement = (Object[]) arrayType.getArray();
 
-    // Map result to list of CaseAssessmentDetail
-    List<CaseAssessmentDetail> assessmentDetails = new ArrayList<>();
-    if ((result.containsKey(ASSESSMENT_TAB_TYPE)
-        && result.get(ASSESSMENT_TAB_TYPE) != null)) {
-        log.debug("Found assessment details for case {}", caseReference);
+      return Arrays.stream(myArrayElement)
+          .filter(Struct.class::isInstance) // Filter only Struct objects
+          .map(obj -> mapStructToCaseAssessmentDetail((Struct) obj))
+          .toList();
 
-      try {
-        Object[] resultArray = (Object[]) ((Array) result.get(ASSESSMENT_TAB_TYPE)).getArray();
-        for (Object obj : resultArray) {
-          if (obj instanceof AssessmentDetailObjectSqlType detailSqlType) {
-            assessmentDetails.add(detailSqlType);
-          } else {
-            log.warn("Encountered unsupported object type: {}", obj.getClass().getName());
-          }
-        }
-
-      } catch (SQLException e) {
-        log.error("Error occurred", e);
-      }
-
-      log.debug("Finished mapping assessment details for case {}", caseReference);
+    } catch (Exception e) {
+      throw new EbsApiRuntimeException(e);
     }
-    return assessmentDetails;
+  }
+
+  private CaseAssessmentDetail mapStructToCaseAssessmentDetail(Struct struct) {
+    try {
+      CaseAssessmentDetail caseAssessmentDetail = new CaseAssessmentDetail();
+      caseAssessmentDetail.setEntityName((String) struct.getAttributes()[0]);
+      caseAssessmentDetail.setInstanceLabel((String) struct.getAttributes()[1]);
+      caseAssessmentDetail.setAttributeName((String) struct.getAttributes()[2]);
+      caseAssessmentDetail.setAttributeValue(getAssessmentValue(struct));
+      caseAssessmentDetail.setAttributeType((String) struct.getAttributes()[4]);
+      caseAssessmentDetail.setAttributeUserDefinedIndicator(Boolean.valueOf(
+          (String) struct.getAttributes()[5]));
+      return caseAssessmentDetail;
+    } catch (Exception e) {
+      throw new EbsApiRuntimeException(e);
+    }
+  }
+
+  private static String getAssessmentValue(Struct struct) throws SQLException {
+    Clob assessmentValueClob = (Clob) struct.getAttributes()[3]; // Attribute 3 holds the Clob
+    if (Objects.isNull(assessmentValueClob)) {
+      return ""; // Return empty string if Clob is null
+    }
+
+    // Use getCharacterStream() to read the Clob content
+    try (Reader reader = assessmentValueClob.getCharacterStream()) {
+      StringBuilder result = new StringBuilder();
+      char[] buffer = new char[5125];
+      int bytesRead;
+      while ((bytesRead = reader.read(buffer)) != -1) {
+        result.append(buffer, 0, bytesRead);
+      }
+      return result.toString(); // Return the full Clob content as a String
+    } catch (Exception e) {
+      throw new SQLException("Error reading Clob data", e); // Handle errors
+    }
   }
 }
