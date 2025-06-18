@@ -21,7 +21,7 @@ public class CaseAssessmentService {
       AssessmentType assessmentType) {
 
     List<CaseAssessmentDetail> details =
-        caseAssessmentRepository.getCaseAssessmentDetailsTwo(caseReference, assessmentType);
+        caseAssessmentRepository.getCaseAssessmentDetails(caseReference, assessmentType);
 
     if (details.isEmpty()) {
       return Optional.empty();

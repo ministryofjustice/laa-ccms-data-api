@@ -25,7 +25,7 @@ public class CaseAssessmentRepository {
   private final JdbcTemplate jdbcTemplate;
 
   @Transactional(readOnly = true)
-  public List<CaseAssessmentDetail> getCaseAssessmentDetailsTwo(String caseReference,
+  public List<CaseAssessmentDetail> getCaseAssessmentDetails(String caseReference,
       AssessmentType assessmentType) {
 
     log.info("Get case assessment details for case reference {}", caseReference);
@@ -41,7 +41,7 @@ public class CaseAssessmentRepository {
           .map(obj -> mapStructToCaseAssessmentDetail((Struct) obj))
           .toList();
 
-    } catch (Exception e) {
+    } catch (SQLException e) {
       throw new EbsApiRuntimeException(e);
     }
   }
