@@ -17,6 +17,15 @@ import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
 import uk.gov.laa.ccms.data.model.AssessmentType;
 import uk.gov.laa.ccms.data.model.CaseAssessmentDetail;
 
+/**
+ * {@link CaseAssessmentRepository} is a data access class for retrieving case assessment details
+ * from the database. It uses {@link JdbcTemplate} to interact with the "XXCCMS_SOA_REPLACE"
+ * package to utilize the "GET_ASSESSMENT_DETAILS" function.
+ *
+ * @see JdbcTemplate
+ * @see CaseAssessmentDetail
+ * @author Jamie Briggs
+ */
 @Slf4j
 @Repository
 @RequiredArgsConstructor
@@ -24,6 +33,19 @@ public class CaseAssessmentRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
+  /**
+   * Retrieves a list of case assessment details associated with a specific case reference
+   * and assessment type. The details are fetched using a database call to the "XXCCMS_SOA_REPLACE"
+   * package, containing the "GET_ASSESSMENT_DETAILS" function.
+   *
+   * @param caseReference The unique identifier of the case for which assessment details
+   *                      are required.
+   * @param assessmentType The type of assessment, specifying the kind of details to retrieve.
+   * @return A list of {@link CaseAssessmentDetail} objects, each containing detailed case
+   *          assessment information. If no details are found, an empty list is returned.
+   * @throws EbsApiRuntimeException If there is an error retrieving or processing the assessment
+   *          details from the database.
+   */
   @Transactional(readOnly = true)
   public List<CaseAssessmentDetail> getCaseAssessmentDetails(String caseReference,
       AssessmentType assessmentType) {
