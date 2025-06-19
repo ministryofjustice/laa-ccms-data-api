@@ -20,7 +20,7 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
  * <p>This controller serves as an interface to return requested case information. It
  * delegates the business logic to the {@link CaseSearchService} and {@link CaseService}.</p>
  *
- * <p>This class implemented the {@CasesApi} interface and provides endpoints for retrieving
+ * <p>This class implements the {@link CasesApi} interface and provides endpoints for retrieving
  * case information.</p>
  *
  * @see CaseDetails
