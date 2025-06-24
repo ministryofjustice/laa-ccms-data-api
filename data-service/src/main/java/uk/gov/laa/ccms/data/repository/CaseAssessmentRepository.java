@@ -52,7 +52,7 @@ public class CaseAssessmentRepository {
 
     log.info("Get case assessment details for case reference {}", caseReference);
     Array arrayType = jdbcTemplate.queryForObject("""
-        SELECT XXCCMS_SOA_REPLACE_PKG.GET_ASSESSMENT_DETAILS(?,?) FROM dual
+        SELECT XXCCMS.XXCCMS_SOA_REPLACE_PKG.GET_ASSESSMENT_DETAILS(?,?) FROM dual
         """, Array.class, caseReference, assessmentType.getValue());
 
     try {
