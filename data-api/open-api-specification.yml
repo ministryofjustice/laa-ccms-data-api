@@ -544,6 +544,41 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+  /cases/assessments:
+    get:
+      tags:
+        - caseAssessments
+      summary: 'Get Case Assessment'
+      operationId: 'getCaseAssessment'
+      parameters:
+        - name: 'case-reference-number'
+          in: 'query'
+          required: true
+          schema:
+            type: 'string'
+            example: '1234567890'
+        - name: 'assessment-type'
+          in: 'query'
+          required: true
+          schema:
+            $ref: "#/components/schemas/assessmentType"
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/caseAssessmentDetails"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
   /lookup/case-status:
     get:
       tags:
@@ -2661,6 +2696,40 @@ components:
           type: 'string'
 
     # End of case detail!
+    assessmentType:
+      type: 'string'
+      enum:
+        - MEANS
+        - MERITS
+    caseAssessmentDetails:
+      type: 'object'
+      properties:
+        caseReference:
+          type: 'string'
+        assessmentDetails:
+          type: 'array'
+          default: [ ]
+          items:
+            $ref: "#/components/schemas/caseAssessmentDetail"
+
+    caseAssessmentDetail:
+      type: 'object'
+      properties:
+        entityName:
+          type: 'string'
+        instanceLabel:
+          type: 'string'
+        attributeName:
+          type: 'string'
+        attributeValue:
+          type: 'string'
+        attributeType:
+          type: 'string'
+        attributeUserDefinedIndicator:
+          type: 'boolean'
+
+
+
 
     commonLookupValueDetail:
       type: 'object'
