@@ -35,8 +35,8 @@ class CaseDetailsMapperImplTest {
         .caseDetails(CaseDetailsXml.builder()
             .certificateType("Type")
             .certificateDate(LocalDate.of(2000, 1, 1))
-            .preCertificateCosts(50L)
-            .legalHelpCosts(100L)
+            .preCertificateCosts(new BigDecimal(50))
+            .legalHelpCosts(new BigDecimal(100))
             .undertakingAmount(150L)
             .build())
         .build();

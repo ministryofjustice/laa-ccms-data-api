@@ -1,6 +1,7 @@
 package uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -47,11 +48,11 @@ public final class CaseDetailsXml {
 
   @JacksonXmlProperty(localName = "PreCertificateCosts",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
-  private Long preCertificateCosts;
+  private BigDecimal preCertificateCosts;
 
   @JacksonXmlProperty(localName = "LegalHelpCosts",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
-  private Long legalHelpCosts;
+  private BigDecimal legalHelpCosts;
 
   @JacksonXmlProperty(localName = "UndertakingAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
