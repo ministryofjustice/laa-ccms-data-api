@@ -93,7 +93,7 @@ public class CaseDetailRepository {
 
     Clob result = jdbcCall.executeFunction(Clob.class, params);
 
-    return result.getSubString(1, (int) result.length());
+    return result.getSubString(1, (int) result.length()).replace("&", "&amp;");
   }
 
 
