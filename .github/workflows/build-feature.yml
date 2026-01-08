@@ -39,7 +39,7 @@ jobs:
       id-token: write
     with:
       image_version: ${{ format('{0}-{1}', vars.IMAGE_PREFIX, needs.build-and-publish-snapshot.outputs.published_artifact_version) }}
-      publish: false
+      jar_subproject: 'data-service'
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
       ecr_repository: ${{ vars.ECR_REPOSITORY }}
