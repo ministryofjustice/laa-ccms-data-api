@@ -57,11 +57,6 @@ clean {
     delete "$rootDir/data-api/generated"
 }
 
-// disable for overall project when running a build
-tasks.named('bootJar') {
-    enabled = false
-}
-
 tasks.named('bootRun') {
     enabled = false
 }
