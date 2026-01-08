@@ -22,12 +22,7 @@ jobs:
       packages: write
     with:
       integration_test_task: "integrationTest"
-      publish_package: 'true'
-      is_snapshot: 'true'
-      junit_results_path: 'data-service/build/test-results'
-      junit_report_path: 'data-service/build/reports/tests'
-      checkstyle_report_path: 'data-service/build/reports/checkstyle'
-      jacoco_coverage_report_path: 'data-service/build/reports/jacoco'
+      publish_package: 'false'
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -39,7 +34,7 @@ jobs:
       id-token: write
     with:
       image_version: ${{ format('{0}-{1}', vars.IMAGE_PREFIX, needs.build-and-publish-snapshot.outputs.published_artifact_version) }}
-      jar_subproject: 'data-service'
+      publish: false
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
       ecr_repository: ${{ vars.ECR_REPOSITORY }}
