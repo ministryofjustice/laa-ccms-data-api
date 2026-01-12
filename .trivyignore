@@ -1,0 +1,31 @@
+# org.apache.tomcat.embed:tomcat-embed-core (tomcat-embed-core-10.1.40.jar)
+CVE-2025-48988
+CVE-2025-49125
+CVE-2025-46701
+CVE-2025-48989
+CVE-2025-55752
+CVE-2025-49124
+CVE-2025-61795
+CVE-2025-55754
+
+# org.springframework:spring-web (spring-web-6.2.6.jar)
+CVE-2025-41234
+
+# org.springframework:spring-core (spring-core-6.2.6.jar)
+CVE-2025-41249
+
+# org.springframework:spring-context (spring-context-6.2.6.jar)
+CVE-2025-22233
+
+# org.apache.commons:commons-lang3 (commons-lang3-3.17.0.jar)
+CVE-2025-48924
+
+# org.springframework.security:spring-security-core (spring-security-core-6.4.5.jar)
+CVE-2025-41232
+CVE-2025-41248
+
+# ch.qos.logback:logback-core (logback-core-1.5.18.jar)
+CVE-2025-11226
+
+# org.springframework:spring-webmvc (spring-webmvc-6.2.6.jar)
+CVE-2025-41242
