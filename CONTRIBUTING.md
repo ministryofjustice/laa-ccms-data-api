@@ -1,4 +1,4 @@
-# Contributing to the laa-ccms-caab-ui
+# Contributing to the laa-ccms-data-api
 
 ## Signing your commits
 
