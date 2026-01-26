@@ -1,3 +1,5 @@
+To add the compliance badge to your README file, you can use the following markdown snippet: [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/laa-ccms-data-api/badge)](https://github-community.service.justice.gov.uk/repository-standards/laa-ccms-data-api)
+
 # laa-ccms-data-api
 
 This API is made up of multiple projects:
@@ -79,3 +81,6 @@ snyk monitor --org=legal-aid-agency --all-projects --exclude=build,generated --t
 
 You should then see the new vulnerability in the LAA Dashboard, otherwise it is a new
 vulnerability introduced on the feature branch that needs to be resolved.
+
+## Contributing
+Follow the [contribution guide](./CONTRIBUTING.md) to make code changes.

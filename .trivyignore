@@ -29,3 +29,6 @@ CVE-2025-11226
 
 # org.springframework:spring-webmvc (spring-webmvc-6.2.6.jar)
 CVE-2025-41242
+
+# ch.qos.logback:logback-core:1.5.20 (ch.qos.logback:logback-core@1.5.20)
+CVE-2026-1225
