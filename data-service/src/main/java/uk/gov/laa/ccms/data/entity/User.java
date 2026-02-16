@@ -16,7 +16,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 /**
  * Represents a user entity.
@@ -65,7 +65,7 @@ public class User {
    */
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_LOGIN_ID")
-  @Where(clause = "user_end_date IS NULL OR user_end_date > TRUNC(SYSDATE)")
+  @SQLRestriction("user_end_date IS NULL OR user_end_date > TRUNC(SYSDATE)")
   private List<Firm> firms;
 
   /**

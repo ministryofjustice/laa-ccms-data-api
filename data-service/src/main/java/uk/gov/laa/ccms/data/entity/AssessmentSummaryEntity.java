@@ -15,7 +15,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.Immutable;
 
 /**
@@ -62,7 +62,7 @@ public class AssessmentSummaryEntity {
   private String entityDisplaySequence;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "entity", fetch = FetchType.EAGER)
-  @Where(clause = "SUMMARY_DISPLAY_FLAG = 'Y' ")
+  @SQLRestriction("SUMMARY_DISPLAY_FLAG = 'Y' ")
   @OrderBy("displaySequence")
   private List<AssessmentSummaryAttribute> attributes;
 
