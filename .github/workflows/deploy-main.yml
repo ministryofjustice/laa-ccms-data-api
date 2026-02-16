@@ -28,6 +28,8 @@ jobs:
       junit_report: 'false'
       checkstyle_report: 'false'
       jacoco_coverage_report: 'false'
+      java_version: '25'
+      java_distribution: 'corretto'
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
 

@@ -28,6 +28,8 @@ jobs:
       junit_report_path: 'data-service/build/reports/tests'
       checkstyle_report_path: 'data-service/build/reports/checkstyle'
       jacoco_coverage_report_path: 'data-service/build/reports/jacoco'
+      java_version: '25'
+      java_distribution: 'corretto'
     secrets:
       gh_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,6 +54,7 @@ jobs:
     permissions:
       contents: read
     with:
+      java_version: '25'
       snyk_organisation: 'legal-aid-agency'
       snyk_test_exclude: 'build,generated'
       snyk_target_reference: 'main'
