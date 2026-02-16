@@ -16,14 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.CaseSummary;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
@@ -31,9 +27,7 @@ import uk.gov.laa.ccms.data.service.CaseSearchService;
 import uk.gov.laa.ccms.data.service.CaseService;
 import uk.gov.laa.ccms.data.service.ClientServiceException;
 
-@ExtendWith({SpringExtension.class})
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Case Controller Test")
 class CaseControllerTest {
 
@@ -48,9 +42,6 @@ class CaseControllerTest {
   private MockMvc mockMvc;
 
   private ObjectMapper objectMapper;
-
-  @Autowired
-  WebApplicationContext webApplicationContext;
 
   @BeforeEach
   public void setup() {

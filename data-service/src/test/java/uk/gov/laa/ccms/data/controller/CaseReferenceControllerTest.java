@@ -12,19 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.CaseReferenceSummary;
 import uk.gov.laa.ccms.data.service.NewCaseReferenceService;
 
-@ExtendWith({SpringExtension.class})
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 class CaseReferenceControllerTest {
 
   @Mock
@@ -35,9 +29,6 @@ class CaseReferenceControllerTest {
 
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
-
-  @Autowired
-  WebApplicationContext webApplicationContext;
 
   @BeforeEach
   public void setup(){

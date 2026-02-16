@@ -13,23 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.service.UserService;
 
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
     @Mock
@@ -39,9 +33,6 @@ class UserControllerTest {
     private UserController userController;
 
     private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     public void setup() {

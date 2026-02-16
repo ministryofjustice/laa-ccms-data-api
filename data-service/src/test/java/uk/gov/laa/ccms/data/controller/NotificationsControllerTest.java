@@ -16,24 +16,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.server.ResponseStatusException;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationInfo;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
 import uk.gov.laa.ccms.data.service.NotificationService;
 
-@ExtendWith({SpringExtension.class})
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 class NotificationsControllerTest {
 
   @Mock
@@ -43,9 +37,6 @@ class NotificationsControllerTest {
   private NotificationsController notificationsController;
 
   private MockMvc mockMvc;
-
-  @Autowired
-  private WebApplicationContext webApplicationContext;
 
   private ObjectMapper objectMapper;
 

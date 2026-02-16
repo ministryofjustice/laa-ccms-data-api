@@ -13,18 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 import uk.gov.laa.ccms.data.service.ProviderService;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 class ProviderControllerTest {
 
     @Mock
@@ -34,9 +28,6 @@ class ProviderControllerTest {
     private ProviderController providerController;
 
     private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     public void setup() {

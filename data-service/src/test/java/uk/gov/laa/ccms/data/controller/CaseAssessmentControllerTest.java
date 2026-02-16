@@ -18,22 +18,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
-import org.springframework.web.context.WebApplicationContext;
 import uk.gov.laa.ccms.data.model.AssessmentType;
 import uk.gov.laa.ccms.data.model.CaseAssessmentDetail;
 import uk.gov.laa.ccms.data.model.CaseAssessmentDetails;
 import uk.gov.laa.ccms.data.service.CaseAssessmentService;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration
-@WebAppConfiguration
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Case Assessment Controller Test")
 class CaseAssessmentControllerTest {
 
@@ -46,14 +39,12 @@ class CaseAssessmentControllerTest {
   protected MockMvcTester mockMvc;
 
   @BeforeEach
-  void setup(@Autowired WebApplicationContext webApplicationContext) {
+  void setup() {
     MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new
         MappingJackson2HttpMessageConverter();
     mappingJackson2HttpMessageConverter.setObjectMapper(new ObjectMapper());
-    mockMvc = MockMvcTester.from(webApplicationContext)
-        .create(standaloneSetup(caseAssessmentController)
+    mockMvc = MockMvcTester.create(standaloneSetup(caseAssessmentController)
             .build()).withHttpMessageConverters(singletonList(mappingJackson2HttpMessageConverter));
-    ;
   }
 
   @Nested
