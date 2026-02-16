@@ -1,4 +1,4 @@
-apply plugin: 'uk.gov.laa.ccms.springboot.laa-ccms-spring-boot-gradle-plugin'
+apply plugin: 'uk.gov.laa.springboot.laa-spring-boot-gradle-plugin'
 
 dependencies {
 
@@ -12,7 +12,7 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
     //Enable access token authentication
-    implementation 'uk.gov.laa.ccms.springboot:laa-ccms-spring-boot-starter-auth'
+    implementation 'uk.gov.laa.springboot:laa-spring-boot-starter-auth'
 
     //Enable Swagger UI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12'
@@ -30,9 +30,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //Used for integration tests
-    testImplementation 'org.testcontainers:testcontainers'
-    testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.testcontainers:oracle-free'
+    testImplementation 'org.testcontainers:testcontainers:1.20.4'
+    testImplementation 'org.testcontainers:junit-jupiter:1.20.4'
+    testImplementation 'org.testcontainers:oracle-free:1.20.4'
     testImplementation 'com.h2database:h2'
 }
 
