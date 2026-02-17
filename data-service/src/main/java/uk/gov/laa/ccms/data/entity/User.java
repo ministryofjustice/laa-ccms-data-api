@@ -65,7 +65,7 @@ public class User {
    */
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_LOGIN_ID")
-  @SQLRestriction("user_end_date IS NULL OR user_end_date > TRUNC(SYSDATE)")
+  @SQLRestriction("user_end_date IS NULL OR user_end_date > TRUNC(CURRENT_DATE)")
   private List<Firm> firms;
 
   /**
