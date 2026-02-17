@@ -35,16 +35,10 @@ dependencies {
     integrationTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
 
     //Used for integration tests (Testcontainers 2.0+ required for Spring Boot 4)
-    testImplementation 'org.testcontainers:testcontainers:2.0.2'
-    testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
-    testImplementation 'org.testcontainers:testcontainers-oracle-free:2.0.2'
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+    testImplementation 'org.testcontainers:testcontainers-oracle-free'
     testImplementation 'com.h2database:h2'
-
-    // Explicitly add integration test dependencies to ensure availability on CI runners
-    integrationTestImplementation 'org.testcontainers:testcontainers:2.0.2'
-    integrationTestImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
-    integrationTestImplementation 'org.testcontainers:testcontainers-oracle-free:2.0.2'
-    integrationTestImplementation 'com.h2database:h2'
 }
 
 test {
