@@ -9,4 +9,10 @@ subprojects {
     release {
         tagTemplate = '$name-$version'
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'org.assertj:assertj-core:3.27.7'
+        }
+    }
 }
