@@ -33,17 +33,6 @@ CVE-2025-41242
 # ch.qos.logback:logback-core:1.5.20 (ch.qos.logback:logback-core@1.5.20)
 CVE-2026-1225
 
-# ch.qos.logback:logback-classic (logback-classic-1.5.25.jar) - License issues
-# Dual license: EPL-1.0, LGPL-2.1 - acceptable for our use
-
-# ch.qos.logback:logback-core (logback-core-1.5.25.jar) - License issues
-# Dual license: EPL-1.0, LGPL-2.1 - acceptable for our use
-
-# Cloud Native Buildpacks (CNB) - Build-time only, not runtime vulnerabilities
-# These are Go binaries used during image building, not part of the application runtime
-# cnb/lifecycle/launcher
-# layers/paketo-buildpacks_bellsoft-liberica/helper/helper
-# layers/paketo-buildpacks_ca-certificates/helper/helper
-# layers/paketo-buildpacks_spring-boot/helper/helper
-# layers/sbom/launch/buildpacksio_lifecycle/launcher/sbom.spdx.json
-
+# Cloud Native Buildpacks (CNB) Go stdlib - Build-time only, not runtime
+# crypto/tls vulnerability in CNB buildpack Go binaries (lifecycle, helpers)
+CVE-2025-68121
