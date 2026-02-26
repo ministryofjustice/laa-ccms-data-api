@@ -20,8 +20,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccms.data.exception.EbsApiRuntimeException;
-import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.TransactionStatusMapper;
+import uk.gov.laa.ccms.data.mapper.casedetails.CaseDetailsMapper;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseInqRsXml;
 import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.MessageXml;
@@ -34,27 +34,26 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 @DisplayName("Case Service Test")
 public class CaseServiceTest {
 
-  @Mock
-  CaseDetailRepository caseDetailRepository;
-  @Mock
-  CaseDetailsMapper caseDetailsMapper;
-  @Mock
-  TransactionStatusMapper transactionStatusMapper;
-  @Mock
-  TransactionStatusRepository transactionStatusRepository;
+  @Mock CaseDetailRepository caseDetailRepository;
+  @Mock CaseDetailsMapper caseDetailsMapper;
+  @Mock TransactionStatusMapper transactionStatusMapper;
+  @Mock TransactionStatusRepository transactionStatusRepository;
 
   CaseService caseService;
 
   @BeforeEach
-  void beforeEach(){
+  void beforeEach() {
     caseService =
-        new CaseService(caseDetailRepository, caseDetailsMapper,
-            transactionStatusRepository, transactionStatusMapper);
+        new CaseService(
+            caseDetailRepository,
+            caseDetailsMapper,
+            transactionStatusRepository,
+            transactionStatusMapper);
   }
 
   @Test
   @DisplayName("Should return empty case transaction status")
-  void shouldReturnEmptyCaseTransactionStatus(){
+  void shouldReturnEmptyCaseTransactionStatus() {
     // Given
     String transactionId = "123";
     // When
@@ -71,21 +70,21 @@ public class CaseServiceTest {
     uk.gov.laa.ccms.data.entity.TransactionStatus entity =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("CreateCaseApplication").status("Success").build();
+            .processName("CreateCaseApplication")
+            .status("Success")
+            .build();
     when(transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId))
         .thenReturn(Optional.of(entity));
-    TransactionStatus result = new TransactionStatus().submissionStatus("Success")
-        .referenceNumber("123");
-    when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
-        result);
+    TransactionStatus result =
+        new TransactionStatus().submissionStatus("Success").referenceNumber("123");
+    when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(result);
     // When
-    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(
-        transactionId);
+    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(transactionId);
     // Then
-    verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-        transactionId);
-    verify(transactionStatusRepository, times(1)).findCaseApplicationTransactionByTransactionId(
-        transactionId);
+    verify(transactionStatusRepository, times(1))
+        .findAllUserFunctionTransactionsByTransactionId(transactionId);
+    verify(transactionStatusRepository, times(1))
+        .findCaseApplicationTransactionByTransactionId(transactionId);
     assertTrue(transactionStatus.isPresent());
     assertEquals(result, transactionStatus.get());
   }
@@ -98,29 +97,31 @@ public class CaseServiceTest {
     uk.gov.laa.ccms.data.entity.TransactionStatus successTransaction =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH").status("Success").build();
+            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+            .status("Success")
+            .build();
     when(transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId))
         .thenReturn(singletonList(successTransaction));
     uk.gov.laa.ccms.data.entity.TransactionStatus entity =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("CreateCaseApplication").status("Success").build();
+            .processName("CreateCaseApplication")
+            .status("Success")
+            .build();
     when(transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId))
         .thenReturn(Optional.of(entity));
-    TransactionStatus result = new TransactionStatus().submissionStatus("Success")
-        .referenceNumber("123");
-    when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
-        result);
+    TransactionStatus result =
+        new TransactionStatus().submissionStatus("Success").referenceNumber("123");
+    when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(result);
 
     // When
-    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(
-        transactionId);
+    Optional<TransactionStatus> transactionStatus = caseService.getTransactionStatus(transactionId);
 
     // Then
-    verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-        transactionId);
-    verify(transactionStatusRepository, times(1)).findCaseApplicationTransactionByTransactionId(
-        transactionId);
+    verify(transactionStatusRepository, times(1))
+        .findAllUserFunctionTransactionsByTransactionId(transactionId);
+    verify(transactionStatusRepository, times(1))
+        .findCaseApplicationTransactionByTransactionId(transactionId);
     assertTrue(transactionStatus.isPresent());
     assertEquals(result, transactionStatus.get());
   }
@@ -133,16 +134,19 @@ public class CaseServiceTest {
     uk.gov.laa.ccms.data.entity.TransactionStatus successTransaction =
         uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
             .requestId(transactionId)
-            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH").status("Error").build();
+            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+            .status("Error")
+            .build();
     when(transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId))
         .thenReturn(singletonList(successTransaction));
 
     // When & Then
-    assertThrows(ClientServiceException.class, () -> caseService.getTransactionStatus(transactionId));
-    verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-        transactionId);
-    verify(transactionStatusRepository, times(0)).findCaseApplicationTransactionByTransactionId(
-        transactionId);
+    assertThrows(
+        ClientServiceException.class, () -> caseService.getTransactionStatus(transactionId));
+    verify(transactionStatusRepository, times(1))
+        .findAllUserFunctionTransactionsByTransactionId(transactionId);
+    verify(transactionStatusRepository, times(0))
+        .findCaseApplicationTransactionByTransactionId(transactionId);
   }
 
   @Nested
@@ -153,19 +157,17 @@ public class CaseServiceTest {
     @DisplayName("Should return case details")
     void shouldReturnCaseDetails() throws SQLException, JsonProcessingException {
       // Given
-      CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
-          .caseDetail(CaseDetailXml.builder()
-              .message(new MessageXml("200", "status", "text"))
-              .build()).build();
+      CaseInqRsXml caseInqRsXml =
+          CaseInqRsXml.builder()
+              .caseDetail(
+                  CaseDetailXml.builder().message(new MessageXml("200", "status", "text")).build())
+              .build();
       CaseDetail caseDetail = new CaseDetail();
       caseDetail.setCaseReferenceNumber("123");
-      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user"))
-          .thenReturn(caseInqRsXml);
-      when(caseDetailsMapper.mapToCaseDetail(caseInqRsXml.getCaseDetail()))
-          .thenReturn(caseDetail);
+      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user")).thenReturn(caseInqRsXml);
+      when(caseDetailsMapper.mapToCaseDetail(caseInqRsXml.getCaseDetail())).thenReturn(caseDetail);
       // When
-      Optional<CaseDetail> result = caseService.getCaseDetails("123",
-          1L, "user");
+      Optional<CaseDetail> result = caseService.getCaseDetails("123", 1L, "user");
       // Then
       assertThat(result).isPresent();
       assertThat(result.get().getCaseReferenceNumber()).isEqualTo("123");
@@ -175,36 +177,39 @@ public class CaseServiceTest {
     @DisplayName("Should return empty optional")
     void shouldReturnEmptyOptional() throws SQLException, JsonProcessingException {
       // Given
-      CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
-          .caseDetail(CaseDetailXml.builder()
-              .message(new MessageXml("404", "status", "not found"))
-              .build()).build();
-      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user"))
-          .thenReturn(caseInqRsXml);
+      CaseInqRsXml caseInqRsXml =
+          CaseInqRsXml.builder()
+              .caseDetail(
+                  CaseDetailXml.builder()
+                      .message(new MessageXml("404", "status", "not found"))
+                      .build())
+              .build();
+      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user")).thenReturn(caseInqRsXml);
       // When
-      Optional<CaseDetail> result = caseService.getCaseDetails("123",
-          1L, "user");
+      Optional<CaseDetail> result = caseService.getCaseDetails("123", 1L, "user");
       // Then
       assertThat(result).isEmpty();
     }
 
     @Test
     @DisplayName("Should throw exception when message contains error")
-    void shouldThrowExceptionWhenMessageContainsError() throws SQLException, JsonProcessingException {
+    void shouldThrowExceptionWhenMessageContainsError()
+        throws SQLException, JsonProcessingException {
       // Given
-      CaseInqRsXml caseInqRsXml = CaseInqRsXml.builder()
-          .caseDetail(CaseDetailXml.builder()
-            .message(new MessageXml("ORA-12345", "status", "SQL Error"))
-              .build()).build();
-      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user"))
-          .thenReturn(caseInqRsXml);
+      CaseInqRsXml caseInqRsXml =
+          CaseInqRsXml.builder()
+              .caseDetail(
+                  CaseDetailXml.builder()
+                      .message(new MessageXml("ORA-12345", "status", "SQL Error"))
+                      .build())
+              .build();
+      when(caseDetailRepository.getCaseDetailXml("123", 1L, "user")).thenReturn(caseInqRsXml);
       // When
-      EbsApiRuntimeException result = assertThrows(EbsApiRuntimeException.class,
-          () -> caseService.getCaseDetails("123",
-          1L, "user"));
+      EbsApiRuntimeException result =
+          assertThrows(
+              EbsApiRuntimeException.class, () -> caseService.getCaseDetails("123", 1L, "user"));
       // Then
-      assertThat(result.getMessage())
-          .isEqualTo("Error occurred in EBS: ORA-12345 - SQL Error");
+      assertThat(result.getMessage()).isEqualTo("Error occurred in EBS: ORA-12345 - SQL Error");
     }
 
     @Test
@@ -212,13 +217,10 @@ public class CaseServiceTest {
     void shouldThrowRuntimeExceptionWhenNoCase() throws SQLException {
       // Given
       // When
-      RuntimeException result = assertThrows(RuntimeException.class,
-          () -> caseService.getCaseDetails("123",
-              1L, "user"));
+      RuntimeException result =
+          assertThrows(RuntimeException.class, () -> caseService.getCaseDetails("123", 1L, "user"));
       // Then
-      assertThat(result.getMessage())
-          .isEqualTo("Could not retrieve case details from EBS");
+      assertThat(result.getMessage()).isEqualTo("Could not retrieve case details from EBS");
     }
-
   }
 }

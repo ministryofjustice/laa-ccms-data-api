@@ -23,4 +23,3 @@ public interface OracleIntegrationTestInterface {
     registry.add("spring.datasource.password", oracleContainer::getPassword);
   }
 }
-

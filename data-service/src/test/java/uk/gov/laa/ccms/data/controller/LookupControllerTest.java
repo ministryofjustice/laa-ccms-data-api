@@ -42,341 +42,346 @@ import uk.gov.laa.ccms.data.service.LookupService;
 @ExtendWith(MockitoExtension.class)
 class LookupControllerTest {
 
-    @Mock
-    private LookupService lookupService;
+  @Mock private LookupService lookupService;
 
-    @InjectMocks
-    private LookupController lookupController;
+  @InjectMocks private LookupController lookupController;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+  @Autowired private WebApplicationContext webApplicationContext;
 
-    @BeforeEach
-    public void setup() {
-        mockMvc = standaloneSetup(lookupController)
+  @BeforeEach
+  public void setup() {
+    mockMvc =
+        standaloneSetup(lookupController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();
-    }
+  }
 
-    @Test
-    void getCommonValues_returnsCommonValuesList() {
-        String type = "type";
-        String code = "code";
-        String desc = "desc";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getCommonValues_returnsCommonValuesList() {
+    String type = "type";
+    String code = "code";
+    String desc = "desc";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        CommonLookupDetail expectedResponse = new CommonLookupDetail();
+    CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
-        when(lookupService.getCommonLookupValues(type, code, desc, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getCommonLookupValues(type, code, desc, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<CommonLookupDetail> responseEntity =
-            lookupController.getCommonLookupValues(type, code, desc, pageable);
+    ResponseEntity<CommonLookupDetail> responseEntity =
+        lookupController.getCommonLookupValues(type, code, desc, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getCaseStatusValues_returnsCaseStatusValuesList() {
-        String code = "code";
-        Boolean copyAllowed = Boolean.TRUE;
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getCaseStatusValues_returnsCaseStatusValuesList() {
+    String code = "code";
+    Boolean copyAllowed = Boolean.TRUE;
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        CaseStatusLookupDetail expectedResponse = new CaseStatusLookupDetail();
+    CaseStatusLookupDetail expectedResponse = new CaseStatusLookupDetail();
 
-        when(lookupService.getCaseStatusLookupValues(code, copyAllowed, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getCaseStatusLookupValues(code, copyAllowed, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<CaseStatusLookupDetail> responseEntity =
-            lookupController.getCaseStatusLookupValues(code, copyAllowed, pageable);
+    ResponseEntity<CaseStatusLookupDetail> responseEntity =
+        lookupController.getCaseStatusLookupValues(code, copyAllowed, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getAmendmentTypeValues_returnAmendmentTypeValuesList(){
-        String code = "code";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getAmendmentTypeValues_returnAmendmentTypeValuesList() {
+    String code = "code";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
+    AmendmentTypeLookupDetail expectedResponse = new AmendmentTypeLookupDetail();
 
-        when(lookupService.getAmendmentTypeLookupValues(code, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getAmendmentTypeLookupValues(code, pageable)).thenReturn(expectedResponse);
 
-        ResponseEntity<AmendmentTypeLookupDetail> responseEntity =
-                lookupController.getAmendmentTypeLookupValues(code, pageable);
+    ResponseEntity<AmendmentTypeLookupDetail> responseEntity =
+        lookupController.getAmendmentTypeLookupValues(code, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getCountriesValues_returnsCommonValuesList() {
-        String code = "country_code";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getCountriesValues_returnsCommonValuesList() {
+    String code = "country_code";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        CommonLookupDetail expectedResponse = new CommonLookupDetail();
+    CommonLookupDetail expectedResponse = new CommonLookupDetail();
 
-        when(lookupService.getCountryLookupValues(code, pageable)).thenReturn(expectedResponse);
+    when(lookupService.getCountryLookupValues(code, pageable)).thenReturn(expectedResponse);
 
-        ResponseEntity<CommonLookupDetail> responseEntity =
-            lookupController.getCountriesLookupValues(code, pageable);
+    ResponseEntity<CommonLookupDetail> responseEntity =
+        lookupController.getCountriesLookupValues(code, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getOutcomeResultValues_returnsOutcomeResultValuesList() {
-        String code = "code";
-        String result = "result";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getOutcomeResultValues_returnsOutcomeResultValuesList() {
+    String code = "code";
+    String result = "result";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
+    OutcomeResultLookupDetail expectedResponse = new OutcomeResultLookupDetail();
 
-        when(lookupService.getOutcomeResultLookupValues(code, result, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getOutcomeResultLookupValues(code, result, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<OutcomeResultLookupDetail> responseEntity =
-            lookupController.getOutcomeResultLookupValues(code, result, pageable);
+    ResponseEntity<OutcomeResultLookupDetail> responseEntity =
+        lookupController.getOutcomeResultLookupValues(code, result, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getStageEndValues_returnsStageEndValuesList() {
-        String code = "code";
-        String stageEnd = "stageEnd";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getStageEndValues_returnsStageEndValuesList() {
+    String code = "code";
+    String stageEnd = "stageEnd";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
+    StageEndLookupDetail expectedResponse = new StageEndLookupDetail();
 
-        when(lookupService.getStageEndLookupValues(code, stageEnd, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getStageEndLookupValues(code, stageEnd, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<StageEndLookupDetail> responseEntity =
-            lookupController.getStageEndLookupValues(code, stageEnd, pageable);
+    ResponseEntity<StageEndLookupDetail> responseEntity =
+        lookupController.getStageEndLookupValues(code, stageEnd, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getPersonToCaseRelationshipLookupValues() {
-        String code = "code";
-        String description = "description";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getPersonToCaseRelationshipLookupValues() {
+    String code = "code";
+    String description = "description";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
+    RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
 
-        when(lookupService.getPersonToCaseRelationshipLookupValues(code, description, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getPersonToCaseRelationshipLookupValues(code, description, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
-            lookupController.getPersonToCaseRelationshipLookupValues(code, description, pageable);
+    ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
+        lookupController.getPersonToCaseRelationshipLookupValues(code, description, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getAwardTypeValues_returnsAwardTypeValuesList() {
-        String code = "code";
-        String awardType = "awardType";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getAwardTypeValues_returnsAwardTypeValuesList() {
+    String code = "code";
+    String awardType = "awardType";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        AwardTypeLookupDetail expectedResponse = new AwardTypeLookupDetail();
+    AwardTypeLookupDetail expectedResponse = new AwardTypeLookupDetail();
 
-        when(lookupService.getAwardTypeLookupValues(code, awardType, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getAwardTypeLookupValues(code, awardType, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<AwardTypeLookupDetail> responseEntity =
-            lookupController.getAwardTypeLookupValues(code, awardType, pageable);
+    ResponseEntity<AwardTypeLookupDetail> responseEntity =
+        lookupController.getAwardTypeLookupValues(code, awardType, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getOrganisationToCaseRelationshipLookupValues() {
-        String code = "code";
-        String description = "description";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getOrganisationToCaseRelationshipLookupValues() {
+    String code = "code";
+    String description = "description";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
+    RelationshipToCaseLookupDetail expectedResponse = new RelationshipToCaseLookupDetail();
 
-        when(lookupService.getOrganisationToCaseRelationshipLookupValues(code, description, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getOrganisationToCaseRelationshipLookupValues(code, description, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
-            lookupController.getOrganisationToCaseRelationshipLookupValues(code, description, pageable);
+    ResponseEntity<RelationshipToCaseLookupDetail> responseEntity =
+        lookupController.getOrganisationToCaseRelationshipLookupValues(code, description, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getCategoryOfLawValues_returnsCategoryOfLawValuesList() {
-        String code = "code";
-        String desc = "desc";
-        Boolean copyCostLimit = Boolean.TRUE;
+  @Test
+  void getCategoryOfLawValues_returnsCategoryOfLawValuesList() {
+    String code = "code";
+    String desc = "desc";
+    Boolean copyCostLimit = Boolean.TRUE;
 
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
+    CategoryOfLawLookupDetail expectedResponse = new CategoryOfLawLookupDetail();
 
-        when(lookupService.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<CategoryOfLawLookupDetail> responseEntity =
-            lookupController.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable);
+    ResponseEntity<CategoryOfLawLookupDetail> responseEntity =
+        lookupController.getCategoryOfLawLookupValues(code, desc, copyCostLimit, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    void getLevelOfServiceLookupValues_returnsData() throws Exception {
-        String proceedingCode = "proc1";
-        String matterType = "mat1";
-        String categoryOfLaw = "cat1";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getLevelOfServiceLookupValues_returnsData() throws Exception {
+    String proceedingCode = "proc1";
+    String matterType = "mat1";
+    String categoryOfLaw = "cat1";
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(lookupService.getLevelOfServiceLookupValues(proceedingCode, matterType, categoryOfLaw, pageable))
-            .thenReturn(new LevelOfServiceLookupDetail());
+    when(lookupService.getLevelOfServiceLookupValues(
+            proceedingCode, matterType, categoryOfLaw, pageable))
+        .thenReturn(new LevelOfServiceLookupDetail());
 
-        this.mockMvc.perform(get("/lookup/level-of-service")
+    this.mockMvc
+        .perform(
+            get("/lookup/level-of-service")
                 .param("proceeding-code", proceedingCode)
                 .param("matter-type", matterType)
                 .param("category-of-law", categoryOfLaw))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getLevelOfServiceLookupValues(proceedingCode, matterType, categoryOfLaw, pageable);
-    }
+    verify(lookupService)
+        .getLevelOfServiceLookupValues(proceedingCode, matterType, categoryOfLaw, pageable);
+  }
 
-    @Test
-    void getMatterTypeLookupValues_returnsData() throws Exception {
-        String description = "desc1";
-        String matterType = "mat1";
-        String categoryOfLaw = "cat1";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getMatterTypeLookupValues_returnsData() throws Exception {
+    String description = "desc1";
+    String matterType = "mat1";
+    String categoryOfLaw = "cat1";
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(lookupService.getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable))
-            .thenReturn(new MatterTypeLookupDetail());
+    when(lookupService.getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable))
+        .thenReturn(new MatterTypeLookupDetail());
 
-        mockMvc.perform(get("/lookup/matter-types")
+    mockMvc
+        .perform(
+            get("/lookup/matter-types")
                 .param("description", description)
                 .param("matter-type", matterType)
                 .param("category-of-law", categoryOfLaw))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable);
-    }
+    verify(lookupService)
+        .getMatterTypeLookupValues(description, matterType, categoryOfLaw, pageable);
+  }
 
-    @Test
-    void getProceedingClientInvolvementTypeLookupValues_returnsData() throws Exception {
-        String proceedingCode = "proc1";
-        String clientInvolvementType = "client1";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getProceedingClientInvolvementTypeLookupValues_returnsData() throws Exception {
+    String proceedingCode = "proc1";
+    String clientInvolvementType = "client1";
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(lookupService.getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable))
-            .thenReturn(new ClientInvolvementTypeLookupDetail());
+    when(lookupService.getClientInvolvementTypeLookupValues(
+            proceedingCode, clientInvolvementType, pageable))
+        .thenReturn(new ClientInvolvementTypeLookupDetail());
 
-        mockMvc.perform(get("/lookup/proceeding-client-involvement-types")
+    mockMvc
+        .perform(
+            get("/lookup/proceeding-client-involvement-types")
                 .param("proceeding-code", proceedingCode)
                 .param("client-involvement-type", clientInvolvementType))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable);
-    }
+    verify(lookupService)
+        .getClientInvolvementTypeLookupValues(proceedingCode, clientInvolvementType, pageable);
+  }
 
-    @Test
-    void getEvidenceDocumentTypeLookupValues_returnsData() throws Exception {
-        String type = "type1";
-        String code = "code1";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getEvidenceDocumentTypeLookupValues_returnsData() throws Exception {
+    String type = "type1";
+    String code = "code1";
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(lookupService.getEvidenceDocumentTypeLookupValues(type, code, pageable))
-            .thenReturn(new EvidenceDocumentTypeLookupDetail());
+    when(lookupService.getEvidenceDocumentTypeLookupValues(type, code, pageable))
+        .thenReturn(new EvidenceDocumentTypeLookupDetail());
 
-        mockMvc.perform(get("/lookup/evidence-document-types")
-                .param("type", type)
-                .param("code", code))
-            .andDo(print())
-            .andExpect(status().isOk());
+    mockMvc
+        .perform(get("/lookup/evidence-document-types").param("type", type).param("code", code))
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getEvidenceDocumentTypeLookupValues(type, code, pageable);
-    }
+    verify(lookupService).getEvidenceDocumentTypeLookupValues(type, code, pageable);
+  }
 
-    @Test
-    void getAssessmentSummaryAttributes_returnsData() throws Exception {
-        String summaryType = "summaryType";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+  @Test
+  void getAssessmentSummaryAttributes_returnsData() throws Exception {
+    String summaryType = "summaryType";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        AssessmentSummaryEntityLookupDetail expectedResponse = new AssessmentSummaryEntityLookupDetail();
+    AssessmentSummaryEntityLookupDetail expectedResponse =
+        new AssessmentSummaryEntityLookupDetail();
 
-        when(lookupService.getAssessmentSummaryAttributes(summaryType, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getAssessmentSummaryAttributes(summaryType, pageable))
+        .thenReturn(expectedResponse);
 
-        ResponseEntity<AssessmentSummaryEntityLookupDetail> responseEntity =
-            lookupController.getAssessmentSummaryAttributes(summaryType, pageable);
+    ResponseEntity<AssessmentSummaryEntityLookupDetail> responseEntity =
+        lookupController.getAssessmentSummaryAttributes(summaryType, pageable);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(expectedResponse, responseEntity.getBody());
-    }
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(expectedResponse, responseEntity.getBody());
+  }
 
-    @Test
-    @DisplayName("getDeclarations returns DeclarationLookupDetail")
-    void getDeclarations_returnsDeclarationLookupDetail() throws Exception {
-        String type = "type1";
-        String billType = "bill1";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  @DisplayName("getDeclarations returns DeclarationLookupDetail")
+  void getDeclarations_returnsDeclarationLookupDetail() throws Exception {
+    String type = "type1";
+    String billType = "bill1";
+    Pageable pageable = Pageable.ofSize(20);
 
-        DeclarationLookupDetail expectedResponse = new DeclarationLookupDetail();
+    DeclarationLookupDetail expectedResponse = new DeclarationLookupDetail();
 
-        when(lookupService.getDeclarationLookupValues(type, billType, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getDeclarationLookupValues(type, billType, pageable))
+        .thenReturn(expectedResponse);
 
-        mockMvc.perform(get("/lookup/declarations")
-                .param("type", type)
-                .param("bill-type", billType))
-            .andDo(print())
-            .andExpect(status().isOk());
+    mockMvc
+        .perform(get("/lookup/declarations").param("type", type).param("bill-type", billType))
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getDeclarationLookupValues(type, billType, pageable);
-    }
+    verify(lookupService).getDeclarationLookupValues(type, billType, pageable);
+  }
 
-    @Test
-    @DisplayName("getProviderRequestTypeLookupValues returns ProviderRequestTypeLookupDetail")
-    void getProviderRequestTypeLookupValues_returnsProviderRequestTypeLookupDetail() throws Exception {
-        Boolean isCaseRelated = Boolean.TRUE;
-        String type = "providerType";
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  @DisplayName("getProviderRequestTypeLookupValues returns ProviderRequestTypeLookupDetail")
+  void getProviderRequestTypeLookupValues_returnsProviderRequestTypeLookupDetail()
+      throws Exception {
+    Boolean isCaseRelated = Boolean.TRUE;
+    String type = "providerType";
+    Pageable pageable = Pageable.ofSize(20);
 
-        ProviderRequestTypeLookupDetail expectedResponse = new ProviderRequestTypeLookupDetail();
+    ProviderRequestTypeLookupDetail expectedResponse = new ProviderRequestTypeLookupDetail();
 
-        when(lookupService.getProviderRequestTypeLookupValues(isCaseRelated, type, pageable))
-            .thenReturn(expectedResponse);
+    when(lookupService.getProviderRequestTypeLookupValues(isCaseRelated, type, pageable))
+        .thenReturn(expectedResponse);
 
-        mockMvc.perform(get("/lookup/provider-request-types")
+    mockMvc
+        .perform(
+            get("/lookup/provider-request-types")
                 .param("is-case-related", isCaseRelated.toString())
                 .param("type", type))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(lookupService).getProviderRequestTypeLookupValues(isCaseRelated, type, pageable);
-    }
-
-
-
-
-
+    verify(lookupService).getProviderRequestTypeLookupValues(isCaseRelated, type, pageable);
+  }
 }

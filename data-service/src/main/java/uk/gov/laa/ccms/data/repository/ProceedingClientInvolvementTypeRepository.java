@@ -9,11 +9,10 @@ import uk.gov.laa.ccms.data.entity.ProceedingClientInvolvementTypeId;
  * ReadOnlyRepository interface for providing basic read-only operations on
  * ProceedingClientInvolvementType entities. The primary key for ProceedingClientInvolvementType
  * entity is ProceedingClientInvolvementTypeId. It is annotated with @Repository, which makes it a
- * part of the Spring framework's persistence layer.
- *
- * @Repository allows for exception translation into Spring's DataAccessException hierarchy.
+ * part of the Spring framework's persistence layer. @Repository allows for exception translation
+ * into Spring's DataAccessException hierarchy.
  */
 @Repository
-public interface ProceedingClientInvolvementTypeRepository extends
-    ReadOnlyRepository<ProceedingClientInvolvementType, ProceedingClientInvolvementTypeId> {
-}
+public interface ProceedingClientInvolvementTypeRepository
+    extends ReadOnlyRepository<
+        ProceedingClientInvolvementType, ProceedingClientInvolvementTypeId> {}

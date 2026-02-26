@@ -17,10 +17,9 @@ import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Abstract base class for implementing repositories using an EntityManager to interact
- * with the database. This class provides a method for allowing search queries using
- * an associated {@link Specification} to filter and {@link Pageable} for paginating results.
- *
+ * Abstract base class for implementing repositories using an EntityManager to interact with the
+ * database. This class provides a method for allowing search queries using an associated {@link
+ * Specification} to filter and {@link Pageable} for paginating results.
  *
  * @param <T> the entity type managed by this repository
  * @author Jamie Briggs
@@ -37,28 +36,25 @@ public abstract class BaseEntityManagerRepository<T> {
    */
   protected BaseEntityManagerRepository(EntityManager entityManager) {
     this.entityManager = entityManager;
-    this.entityClazz = (Class<T>) ((ParameterizedType) getClass()
-        .getGenericSuperclass())
-        .getActualTypeArguments()[0];
-
+    this.entityClazz =
+        (Class<T>)
+            ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
   }
 
   /**
-   * Finds all entities of type {@code T} that match the provided {@link Specification}
-   * and are paginated according to the given pageable parameter.
+   * Finds all entities of type {@code T} that match the provided {@link Specification} and are
+   * paginated according to the given pageable parameter.
    *
-   * <p>This method executes two asynchronous database queries: one for fetching the results
-   * that match the specification, and another for retrieving the total count of records
-   * matching the same specification. The results are then combined into
-   * a {@link Page} object.</p>
+   * <p>This method executes two asynchronous database queries: one for fetching the results that
+   * match the specification, and another for retrieving the total count of records matching the
+   * same specification. The results are then combined into a {@link Page} object.
    *
-   * @param specification the specification to filter the entities. Represents the predicate
-   *                      for filtering results, which can include conditions on entity attributes.
-   * @param pageable      the pagination and sorting information. Contains information
-   *                      about page size, current page, and sorting.
-   * @return a {@link Page} object containing the results that match the
-   *                      {@link Specification} within the bounds of the pagination, and the
-   *                      total count of matching records.
+   * @param specification the specification to filter the entities. Represents the predicate for
+   *     filtering results, which can include conditions on entity attributes.
+   * @param pageable the pagination and sorting information. Contains information about page size,
+   *     current page, and sorting.
+   * @return a {@link Page} object containing the results that match the {@link Specification}
+   *     within the bounds of the pagination, and the total count of matching records.
    */
   @Transactional(readOnly = true)
   public Page<T> findAll(final Specification<T> specification, final Pageable pageable) {
@@ -66,8 +62,8 @@ public abstract class BaseEntityManagerRepository<T> {
 
     // Get all results
     CompletableFuture<List<T>> resultListFuture =
-        CompletableFuture.supplyAsync(() -> getResultList(specification, pageable,
-            criteriaBuilder));
+        CompletableFuture.supplyAsync(
+            () -> getResultList(specification, pageable, criteriaBuilder));
 
     // Build the count query
     CompletableFuture<Long> countFuture =
@@ -76,15 +72,15 @@ public abstract class BaseEntityManagerRepository<T> {
     // Wait for both tasks to complete
     try {
       List<T> resultList = resultListFuture.get(); // Main query results
-      long totalCount = countFuture.get();  // Count query results
+      long totalCount = countFuture.get(); // Count query results
       return new PageImpl<>(resultList, pageable, totalCount);
     } catch (Exception e) {
       throw new RuntimeException("Error executing queries", e);
     }
   }
 
-  private List<T> getResultList(Specification<T> specification, Pageable pageable,
-      CriteriaBuilder criteriaBuilder) {
+  private List<T> getResultList(
+      Specification<T> specification, Pageable pageable, CriteriaBuilder criteriaBuilder) {
     CriteriaQuery<T> mainQuery = criteriaBuilder.createQuery(entityClazz);
     Root<T> mainQueryRoot = mainQuery.from(entityClazz);
     applyWhereClause(mainQuery, specification, criteriaBuilder, mainQueryRoot);
@@ -97,8 +93,11 @@ public abstract class BaseEntityManagerRepository<T> {
     return resultList;
   }
 
-  private void applyWhereClause(CriteriaQuery<?> query, Specification<T> specification,
-      CriteriaBuilder criteriaBuilder, Root<T> root) {
+  private void applyWhereClause(
+      CriteriaQuery<?> query,
+      Specification<T> specification,
+      CriteriaBuilder criteriaBuilder,
+      Root<T> root) {
     if (specification != null) {
       Predicate predicate = specification.toPredicate(root, query, criteriaBuilder);
       if (predicate != null) {
@@ -107,8 +106,8 @@ public abstract class BaseEntityManagerRepository<T> {
     }
   }
 
-  private void applySortingClause(CriteriaQuery<T> query, Pageable pageable,
-      CriteriaBuilder criteriaBuilder, Root<T> root) {
+  private void applySortingClause(
+      CriteriaQuery<T> query, Pageable pageable, CriteriaBuilder criteriaBuilder, Root<T> root) {
     if (pageable.getSort().isSorted()) {
       query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, criteriaBuilder));
     }
@@ -127,11 +126,8 @@ public abstract class BaseEntityManagerRepository<T> {
         .filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class))
         .findFirst()
         .map(java.lang.reflect.Field::getName)
-        .orElseThrow(() -> new RuntimeException(
-            "No @Id annotation found in class: " + entityClazz.getName()));
+        .orElseThrow(
+            () ->
+                new RuntimeException("No @Id annotation found in class: " + entityClazz.getName()));
   }
-  
-  
-
-
 }

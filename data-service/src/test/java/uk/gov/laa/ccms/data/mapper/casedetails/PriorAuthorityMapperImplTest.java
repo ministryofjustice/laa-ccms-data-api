@@ -23,49 +23,47 @@ class PriorAuthorityMapperImplTest {
     // When
     PriorAuthority result = mapper.mapToPriorAuthority(priorAuthorityXml);
     // Then
-    SoftAssertions.assertSoftly(softly -> {
-      softly.assertThat(result.getPriorAuthorityType()).isEqualTo("Prior authority type");
-      softly.assertThat(result.getDescription()).isEqualTo("Description");
-      softly.assertThat(result.getReasonForRequest()).isEqualTo("Reason for request");
-      softly.assertThat(result.getRequestAmount()).isEqualTo(BigDecimal.valueOf(100L));
-      softly.assertThat(result.getDecisionStatus()).isEqualTo("Decision status");
-      softly.assertThat(result.getAssessedAmount()).isEqualTo(BigDecimal.valueOf(200L));
-      softly.assertThat(result.getDetails()).size().isEqualTo(1);
-    });
+    SoftAssertions.assertSoftly(
+        softly -> {
+          softly.assertThat(result.getPriorAuthorityType()).isEqualTo("Prior authority type");
+          softly.assertThat(result.getDescription()).isEqualTo("Description");
+          softly.assertThat(result.getReasonForRequest()).isEqualTo("Reason for request");
+          softly.assertThat(result.getRequestAmount()).isEqualTo(BigDecimal.valueOf(100L));
+          softly.assertThat(result.getDecisionStatus()).isEqualTo("Decision status");
+          softly.assertThat(result.getAssessedAmount()).isEqualTo(BigDecimal.valueOf(200L));
+          softly.assertThat(result.getDetails()).size().isEqualTo(1);
+        });
   }
-
 
   @Test
   @DisplayName("Should map prior authority attribute")
-  void shouldMapPriorAuthorityAttribute(){
+  void shouldMapPriorAuthorityAttribute() {
     // Given
-    PriorAuthorityAttributeXml authorityAttributeXml =
-        getAttributeXml();
+    PriorAuthorityAttributeXml authorityAttributeXml = getAttributeXml();
     // When
-    PriorAuthorityAttribute result
-        = mapper.mapToPriorAuthorityAttribute(authorityAttributeXml);
+    PriorAuthorityAttribute result = mapper.mapToPriorAuthorityAttribute(authorityAttributeXml);
     // Then
-    SoftAssertions.assertSoftly(softly -> {
-      softly.assertThat(result.getName()).isEqualTo("Name");
-      softly.assertThat(result.getValue()).isEqualTo("Value");
-    });
+    SoftAssertions.assertSoftly(
+        softly -> {
+          softly.assertThat(result.getName()).isEqualTo("Name");
+          softly.assertThat(result.getValue()).isEqualTo("Value");
+        });
   }
 
   @Test
   @DisplayName("Should not map empty string")
-  void shouldNotMapEmptyString(){
+  void shouldNotMapEmptyString() {
     // Given
-    PriorAuthorityXml priorAuthorityXml = PriorAuthorityXml.builder()
-        .assessedAmount("")
-        .requestAmount("")
-        .build();
+    PriorAuthorityXml priorAuthorityXml =
+        PriorAuthorityXml.builder().assessedAmount("").requestAmount("").build();
     // When
     PriorAuthority result = mapper.mapToPriorAuthority(priorAuthorityXml);
     // Then
-    SoftAssertions.assertSoftly(softly -> {
-      softly.assertThat(result.getAssessedAmount()).isNull();
-      softly.assertThat(result.getRequestAmount()).isNull();
-    });
+    SoftAssertions.assertSoftly(
+        softly -> {
+          softly.assertThat(result.getAssessedAmount()).isNull();
+          softly.assertThat(result.getRequestAmount()).isNull();
+        });
   }
 
   private static PriorAuthorityXml getPriorAuthorityXml() {
@@ -83,5 +81,4 @@ class PriorAuthorityMapperImplTest {
   private static PriorAuthorityAttributeXml getAttributeXml() {
     return PriorAuthorityAttributeXml.builder().name("Name").value("Value").build();
   }
-
 }

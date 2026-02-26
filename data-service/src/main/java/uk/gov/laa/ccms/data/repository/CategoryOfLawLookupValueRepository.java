@@ -6,15 +6,13 @@ import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 /**
  * Repository interface for accessing {@link CategoryOfLawLookupValue} entities.
  *
- * <p>This repository extends the {@link ReadOnlyRepository} interface, it supports
- * read-only operations for the {@code CategoryOfLawLookupValue} entity, identified by a
- * primary key of type {@code String}.</p>
+ * <p>This repository extends the {@link ReadOnlyRepository} interface, it supports read-only
+ * operations for the {@code CategoryOfLawLookupValue} entity, identified by a primary key of type
+ * {@code String}.
  *
  * @see CategoryOfLawLookupValue
  * @see ReadOnlyRepository
  */
 @Repository
-public interface CategoryOfLawLookupValueRepository extends
-        ReadOnlyRepository<CategoryOfLawLookupValue, String> {
-
-}
+public interface CategoryOfLawLookupValueRepository
+    extends ReadOnlyRepository<CategoryOfLawLookupValue, String> {}

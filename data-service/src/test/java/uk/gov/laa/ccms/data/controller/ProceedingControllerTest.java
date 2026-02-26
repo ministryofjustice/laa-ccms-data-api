@@ -24,87 +24,94 @@ import uk.gov.laa.ccms.data.service.ProceedingService;
 @ExtendWith(MockitoExtension.class)
 class ProceedingControllerTest {
 
-    @Mock
-    private ProceedingService proceedingService;
+  @Mock private ProceedingService proceedingService;
 
-    @InjectMocks
-    private ProceedingController proceedingController;
+  @InjectMocks private ProceedingController proceedingController;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        mockMvc = standaloneSetup(proceedingController)
+  @BeforeEach
+  public void setup() {
+    mockMvc =
+        standaloneSetup(proceedingController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();
-    }
+  }
 
-    @Test
-    void getProceeding_returnsData() throws Exception {
-        String code = "proc1";
+  @Test
+  void getProceeding_returnsData() throws Exception {
+    String code = "proc1";
 
-        when(proceedingService.getProceeding(code)).thenReturn(Optional.of(new ProceedingDetail()));
+    when(proceedingService.getProceeding(code)).thenReturn(Optional.of(new ProceedingDetail()));
 
-        this.mockMvc.perform(get("/proceedings/{proceeding-code}", code))
-            .andDo(print())
-            .andExpect(status().isOk());
+    this.mockMvc
+        .perform(get("/proceedings/{proceeding-code}", code))
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(proceedingService).getProceeding(code);
-    }
+    verify(proceedingService).getProceeding(code);
+  }
 
-    @Test
-    void getProceeding_notFound() throws Exception{
-        String code = "proc1";
+  @Test
+  void getProceeding_notFound() throws Exception {
+    String code = "proc1";
 
-        when(proceedingService.getProceeding(code)).thenReturn(Optional.empty());
+    when(proceedingService.getProceeding(code)).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/proceedings/{proceeding-code}", code))
-            .andDo(print())
-            .andExpect(status().isNotFound());
+    this.mockMvc
+        .perform(get("/proceedings/{proceeding-code}", code))
+        .andDo(print())
+        .andExpect(status().isNotFound());
 
-        verify(proceedingService).getProceeding(code);
-    }
+    verify(proceedingService).getProceeding(code);
+  }
 
-    @Test
-    void getProceedings_returnsData() throws Exception {
-        String categoryOfLawCode = "cat1";
-        String matterType = "mat1";
-        Boolean amendOnly = true;
-        Boolean enabled = true;
-        Boolean larScope = true;
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getProceedings_returnsData() throws Exception {
+    String categoryOfLawCode = "cat1";
+    String matterType = "mat1";
+    Boolean amendOnly = true;
+    Boolean enabled = true;
+    Boolean larScope = true;
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(proceedingService.getProceedings(categoryOfLawCode, matterType, amendOnly,
-            enabled, pageable)).thenReturn(new ProceedingDetails());
+    when(proceedingService.getProceedings(
+            categoryOfLawCode, matterType, amendOnly, enabled, pageable))
+        .thenReturn(new ProceedingDetails());
 
-        this.mockMvc.perform(get("/proceedings")
+    this.mockMvc
+        .perform(
+            get("/proceedings")
                 .param("category-of-law", categoryOfLawCode)
                 .param("matter-type", matterType)
                 .param("amendment-only", amendOnly.toString())
                 .param("enabled", enabled.toString())
                 .param("lar-scope", larScope.toString()))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(proceedingService).getProceedings(
-            categoryOfLawCode, matterType, amendOnly, enabled, pageable);
-    }
+    verify(proceedingService)
+        .getProceedings(categoryOfLawCode, matterType, amendOnly, enabled, pageable);
+  }
 
-    @Test
-    void getProceedings_leadProceedings_returnsData() throws Exception {
-        String categoryOfLaw = "cat1";
-        String matterType = "mat1";
-        Boolean amendOnly = true;
-        Boolean enabled = true;
-        String applicationType = "app1";
-        Boolean larScope = true;
-        Boolean lead = true;
-        Pageable pageable = Pageable.ofSize(20);
+  @Test
+  void getProceedings_leadProceedings_returnsData() throws Exception {
+    String categoryOfLaw = "cat1";
+    String matterType = "mat1";
+    Boolean amendOnly = true;
+    Boolean enabled = true;
+    String applicationType = "app1";
+    Boolean larScope = true;
+    Boolean lead = true;
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(proceedingService.getLeadProceedings(categoryOfLaw, matterType, amendOnly,
-            enabled, applicationType, larScope, pageable)).thenReturn(new ProceedingDetails());
+    when(proceedingService.getLeadProceedings(
+            categoryOfLaw, matterType, amendOnly, enabled, applicationType, larScope, pageable))
+        .thenReturn(new ProceedingDetails());
 
-        this.mockMvc.perform(get("/proceedings")
+    this.mockMvc
+        .perform(
+            get("/proceedings")
                 .param("category-of-law", categoryOfLaw)
                 .param("matter-type", matterType)
                 .param("amendment-only", amendOnly.toString())
@@ -112,10 +119,11 @@ class ProceedingControllerTest {
                 .param("application-type", applicationType)
                 .param("lar-scope-flag", larScope.toString())
                 .param("lead", lead.toString()))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(proceedingService).getLeadProceedings(
+    verify(proceedingService)
+        .getLeadProceedings(
             categoryOfLaw, matterType, amendOnly, enabled, applicationType, larScope, pageable);
-    }
+  }
 }

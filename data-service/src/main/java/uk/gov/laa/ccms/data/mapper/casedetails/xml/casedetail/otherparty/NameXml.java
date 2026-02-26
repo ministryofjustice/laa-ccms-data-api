@@ -22,19 +22,18 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public class NameXml {
 
-  @JacksonXmlProperty(localName = "Title",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Title", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String title;
-  @JacksonXmlProperty(localName = "Surname",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Surname", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String surname;
-  @JacksonXmlProperty(localName = "MiddleName",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "MiddleName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String middleName;
-  @JacksonXmlProperty(localName = "FirstName",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "FirstName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String firstName;
-  @JacksonXmlProperty(localName = "FullName",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "FullName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String fullName;
 }

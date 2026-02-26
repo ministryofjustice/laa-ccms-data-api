@@ -10,10 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
-/**
- * Represents a Matter type entity.
- */
+/** Represents a Matter type entity. */
 @Entity
 @Data
 @NoArgsConstructor
@@ -22,30 +19,20 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MatterType {
 
-  /**
-   * The unique identifier for the matter type.
-   */
+  /** The unique identifier for the matter type. */
   @Id
   @Column(name = "MATTER_TYPE")
   private String matterType;
 
-  /**
-   * The matter type's description.
-   */
+  /** The matter type's description. */
   @Column(name = "DESCRIPTION")
   private String description;
 
-  /**
-   * The category of law code.
-   */
+  /** The category of law code. */
   @Column(name = "CATEGORY_OF_LAW_CODE")
   private String categoryOfLawCode;
 
-  /**
-   * The category of law code.
-   */
+  /** The category of law code. */
   @Column(name = "ACTIVE_FLAG")
   private String activeFlag;
-
-
 }

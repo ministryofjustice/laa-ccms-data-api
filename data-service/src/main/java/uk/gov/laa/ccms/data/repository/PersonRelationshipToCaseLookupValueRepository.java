@@ -9,7 +9,5 @@ import uk.gov.laa.ccms.data.entity.PersonRelationshipToCaseLookupValue;
  * entities.
  */
 @Repository
-public interface PersonRelationshipToCaseLookupValueRepository extends
-    ReadOnlyRepository<PersonRelationshipToCaseLookupValue, String> {
-
-}
+public interface PersonRelationshipToCaseLookupValueRepository
+    extends ReadOnlyRepository<PersonRelationshipToCaseLookupValue, String> {}

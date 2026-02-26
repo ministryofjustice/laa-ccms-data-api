@@ -15,8 +15,8 @@ import org.hibernate.annotations.Immutable;
 
 /**
  * Represents a provider request type entity, mapped to the database view
- * XXCCMS_PROVIDER_REQTYPES_V. This class is immutable and uses
- * SnakeCaseStrategy for JSON serialization.
+ * XXCCMS_PROVIDER_REQTYPES_V. This class is immutable and uses SnakeCaseStrategy for JSON
+ * serialization.
  */
 @Entity
 @Data
@@ -42,11 +42,11 @@ public class ProviderRequestType {
   @Column(name = "TASK_TYPE_ID")
   private String taskTypeId;
 
-  //renamed to distinguish the difference between a claim upload and a document upload request
+  // renamed to distinguish the difference between a claim upload and a document upload request
   @Column(name = "FILE_UPLD_ENABLED")
   private Boolean claimUploadEnabled;
 
-  //renamed to distinguish the difference between a claim upload and a document upload request
+  // renamed to distinguish the difference between a claim upload and a document upload request
   @Column(name = "FILE_UPLD_PROMPT")
   private String claimUploadPrompt;
 
@@ -55,6 +55,4 @@ public class ProviderRequestType {
 
   @OneToMany(mappedBy = "providerRequestType", fetch = FetchType.EAGER)
   private List<ProviderRequestData> providerRequestData;
-
-
 }

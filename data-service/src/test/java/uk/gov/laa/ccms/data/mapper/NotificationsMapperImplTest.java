@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.mapper;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -21,10 +20,10 @@ class NotificationsMapperImplTest {
 
   @Test
   @DisplayName("Should map page attributes")
-  void shouldMapPageAttributes(){
+  void shouldMapPageAttributes() {
     // Given
-    Page<NotificationInfo> input = new PageImpl<>(Collections.emptyList(),
-        PageRequest.of(1, 100), 150);
+    Page<NotificationInfo> input =
+        new PageImpl<>(Collections.emptyList(), PageRequest.of(1, 100), 150);
     // When
     Notifications result = mapper.mapToNotificationsList(input);
     // Then
@@ -36,28 +35,29 @@ class NotificationsMapperImplTest {
 
   @Test
   @DisplayName("Should map single notification")
-  void shouldMapSingleNotification(){
+  void shouldMapSingleNotification() {
     // Given
-    NotificationInfo notificationInfo = NotificationInfo.builder()
-        .assignedTo("User Name")
-        .userLoginId("User Login Id")
-        .clientName("Client Name")
-        .feeEarner("Fee Earner")
-        .notificationId(1L)
-        .providerFirmId(2L)
-        .subject("NotificationInfo Subject")
-        .dateAssigned(LocalDate.of(2024, 1, 1))
-        .dueDate(LocalDate.of(2025, 2, 1))
-        .status("Status")
-        .isOpen(true)
-        .actionNotificationInd("N")
-        .lscCaseRefReference("LSC Case Ref")
-        .providerCaseReference("Provider Case Ref")
-        .feeEarnerPartyId(4L)
-        .evidenceAllowedIndicator(true)
-        .build();
-    Page<NotificationInfo> input = new PageImpl<>(Arrays.asList(notificationInfo),
-        PageRequest.of(0, 1), 1);
+    NotificationInfo notificationInfo =
+        NotificationInfo.builder()
+            .assignedTo("User Name")
+            .userLoginId("User Login Id")
+            .clientName("Client Name")
+            .feeEarner("Fee Earner")
+            .notificationId(1L)
+            .providerFirmId(2L)
+            .subject("NotificationInfo Subject")
+            .dateAssigned(LocalDate.of(2024, 1, 1))
+            .dueDate(LocalDate.of(2025, 2, 1))
+            .status("Status")
+            .isOpen(true)
+            .actionNotificationInd("N")
+            .lscCaseRefReference("LSC Case Ref")
+            .providerCaseReference("Provider Case Ref")
+            .feeEarnerPartyId(4L)
+            .evidenceAllowedIndicator(true)
+            .build();
+    Page<NotificationInfo> input =
+        new PageImpl<>(Arrays.asList(notificationInfo), PageRequest.of(0, 1), 1);
     // When
     Notifications result = mapper.mapToNotificationsList(input);
     // Then
@@ -74,8 +74,7 @@ class NotificationsMapperImplTest {
     assertEquals("N", notificationResult.getNotificationType());
     assertEquals("Status", notificationResult.getStatus());
     assertEquals(true, notificationResult.getNotificationOpenIndicator());
-    assertEquals("Provider Case Ref",notificationResult.getProviderCaseReferenceNumber());
+    assertEquals("Provider Case Ref", notificationResult.getProviderCaseReferenceNumber());
     assertEquals("LSC Case Ref", notificationResult.getCaseReferenceNumber());
   }
-
 }

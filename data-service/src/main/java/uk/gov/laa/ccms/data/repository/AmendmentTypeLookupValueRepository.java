@@ -7,8 +7,8 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
  * Repository interface for accessing {@link AmendmentTypeLookupValue} entities.
  *
  * <p>This repository extends the {@link ReadOnlyRepository} interface,it supports read-only
- * operations for the {@code AmendmentTypeLookupValue} entity, with the primary key of type
- * {@code String}.</p>
+ * operations for the {@code AmendmentTypeLookupValue} entity, with the primary key of type {@code
+ * String}.
  *
  * @author Your Name (optional)
  * @version 1.0
@@ -16,6 +16,5 @@ import uk.gov.laa.ccms.data.entity.AmendmentTypeLookupValue;
  * @see ReadOnlyRepository
  */
 @Repository
-public interface AmendmentTypeLookupValueRepository extends
-        ReadOnlyRepository<AmendmentTypeLookupValue, String> {
-}
+public interface AmendmentTypeLookupValueRepository
+    extends ReadOnlyRepository<AmendmentTypeLookupValue, String> {}

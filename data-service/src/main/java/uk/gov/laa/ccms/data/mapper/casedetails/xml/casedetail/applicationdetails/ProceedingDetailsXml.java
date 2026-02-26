@@ -24,43 +24,45 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.ScopeLimitationXml
 @AllArgsConstructor
 public final class ProceedingDetailsXml {
 
-  @JacksonXmlProperty(localName = "ProceedingType",
+  @JacksonXmlProperty(
+      localName = "ProceedingType",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String proceedingType;
 
-  @JacksonXmlProperty(localName = "ProceedingDescription",
+  @JacksonXmlProperty(
+      localName = "ProceedingDescription",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String proceedingDescription;
 
-  @JacksonXmlProperty(localName = "DateCostsValid",
+  @JacksonXmlProperty(
+      localName = "DateCostsValid",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate dateCostsValid;
 
-  @JacksonXmlProperty(localName = "OrderType",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "OrderType", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String orderType;
 
-  @JacksonXmlProperty(localName = "MatterType",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "MatterType", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String matterType;
 
-  @JacksonXmlProperty(localName = "LevelOfService",
+  @JacksonXmlProperty(
+      localName = "LevelOfService",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String levelOfService;
 
-  @JacksonXmlProperty(localName = "Stage",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Stage", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String stage;
 
-  @JacksonXmlProperty(localName = "ClientInvolvementType",
+  @JacksonXmlProperty(
+      localName = "ClientInvolvementType",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String clientInvolvementType;
 
-  @JacksonXmlProperty(localName = "ScopeLimitations",
+  @JacksonXmlProperty(
+      localName = "ScopeLimitations",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<ScopeLimitationXml> scopeLimitations;
 
-  @JacksonXmlProperty(localName = "Outcome",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Outcome", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private OutcomeXml outcome;
 }

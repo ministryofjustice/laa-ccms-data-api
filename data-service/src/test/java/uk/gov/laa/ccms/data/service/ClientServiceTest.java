@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,28 +32,26 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 @DisplayName("Client Service Test")
 class ClientServiceTest {
 
-  @Mock
-  TransactionStatusRepository transactionStatusRepository;
-  @Mock
-  ClientDetailRepository clientDetailRepository;
-  @Mock
-  TransactionStatusMapper transactionStatusMapper;
-  @Mock
-  ClientDetailsMapper clientDetailsMapper;
+  @Mock TransactionStatusRepository transactionStatusRepository;
+  @Mock ClientDetailRepository clientDetailRepository;
+  @Mock TransactionStatusMapper transactionStatusMapper;
+  @Mock ClientDetailsMapper clientDetailsMapper;
 
   ClientService clientService;
 
   @BeforeEach
   void beforeEach() {
     clientService =
-        new ClientService(clientDetailRepository, transactionStatusRepository,
-            clientDetailsMapper, transactionStatusMapper);
+        new ClientService(
+            clientDetailRepository,
+            transactionStatusRepository,
+            clientDetailsMapper,
+            transactionStatusMapper);
   }
 
   @Nested
   @DisplayName("GetTransactionStatus() Tests")
   class GetTransactionStatusTest {
-
 
     @Test
     @DisplayName("Should return empty client transaction status")
@@ -62,8 +59,8 @@ class ClientServiceTest {
       // Given
       String transactionId = "123";
       // When
-      Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
-          transactionId);
+      Optional<TransactionStatus> transactionStatus =
+          clientService.getTransactionStatus(transactionId);
       // Then
       assertTrue(transactionStatus.isEmpty());
     }
@@ -76,21 +73,22 @@ class ClientServiceTest {
       uk.gov.laa.ccms.data.entity.TransactionStatus entity =
           uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
               .requestId(transactionId)
-              .processName("CreateClient").status("Success").build();
+              .processName("CreateClient")
+              .status("Success")
+              .build();
       when(transactionStatusRepository.findClientTransactionByTransactionId(transactionId))
           .thenReturn(Optional.of(entity));
-      TransactionStatus result = new TransactionStatus().submissionStatus("Success")
-          .referenceNumber("123");
-      when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
-          result);
+      TransactionStatus result =
+          new TransactionStatus().submissionStatus("Success").referenceNumber("123");
+      when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(result);
       // When
-      Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
-          transactionId);
+      Optional<TransactionStatus> transactionStatus =
+          clientService.getTransactionStatus(transactionId);
       // Then
-      verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-          transactionId);
-      verify(transactionStatusRepository, times(1)).findClientTransactionByTransactionId(
-          transactionId);
+      verify(transactionStatusRepository, times(1))
+          .findAllUserFunctionTransactionsByTransactionId(transactionId);
+      verify(transactionStatusRepository, times(1))
+          .findClientTransactionByTransactionId(transactionId);
       assertTrue(transactionStatus.isPresent());
       assertEquals(result, transactionStatus.get());
     }
@@ -103,30 +101,33 @@ class ClientServiceTest {
       uk.gov.laa.ccms.data.entity.TransactionStatus successTransaction =
           uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
               .requestId(transactionId)
-              .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH").status("Success").build();
-      when(
-          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId))
+              .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+              .status("Success")
+              .build();
+      when(transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
+              transactionId))
           .thenReturn(singletonList(successTransaction));
       uk.gov.laa.ccms.data.entity.TransactionStatus entity =
           uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
               .requestId(transactionId)
-              .processName("CreateClient").status("Success").build();
+              .processName("CreateClient")
+              .status("Success")
+              .build();
       when(transactionStatusRepository.findClientTransactionByTransactionId(transactionId))
           .thenReturn(Optional.of(entity));
-      TransactionStatus result = new TransactionStatus().submissionStatus("Success")
-          .referenceNumber("123");
-      when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(
-          result);
+      TransactionStatus result =
+          new TransactionStatus().submissionStatus("Success").referenceNumber("123");
+      when(transactionStatusMapper.toTransactionStatus(entity)).thenReturn(result);
 
       // When
-      Optional<TransactionStatus> transactionStatus = clientService.getTransactionStatus(
-          transactionId);
+      Optional<TransactionStatus> transactionStatus =
+          clientService.getTransactionStatus(transactionId);
 
       // Then
-      verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-          transactionId);
-      verify(transactionStatusRepository, times(1)).findClientTransactionByTransactionId(
-          transactionId);
+      verify(transactionStatusRepository, times(1))
+          .findAllUserFunctionTransactionsByTransactionId(transactionId);
+      verify(transactionStatusRepository, times(1))
+          .findClientTransactionByTransactionId(transactionId);
       assertTrue(transactionStatus.isPresent());
       assertEquals(result, transactionStatus.get());
     }
@@ -139,18 +140,20 @@ class ClientServiceTest {
       uk.gov.laa.ccms.data.entity.TransactionStatus successTransaction =
           uk.gov.laa.ccms.data.entity.TransactionStatus.builder()
               .requestId(transactionId)
-              .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH").status("Error").build();
-      when(
-          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId))
+              .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+              .status("Error")
+              .build();
+      when(transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
+              transactionId))
           .thenReturn(singletonList(successTransaction));
 
       // When & Then
-      assertThrows(ClientServiceException.class,
-          () -> clientService.getTransactionStatus(transactionId));
-      verify(transactionStatusRepository, times(1)).findAllUserFunctionTransactionsByTransactionId(
-          transactionId);
-      verify(transactionStatusRepository, times(0)).findClientTransactionByTransactionId(
-          transactionId);
+      assertThrows(
+          ClientServiceException.class, () -> clientService.getTransactionStatus(transactionId));
+      verify(transactionStatusRepository, times(1))
+          .findAllUserFunctionTransactionsByTransactionId(transactionId);
+      verify(transactionStatusRepository, times(0))
+          .findClientTransactionByTransactionId(transactionId);
     }
   }
 
@@ -160,24 +163,21 @@ class ClientServiceTest {
 
     @Test
     @DisplayName("Should return client details")
-    void shouldReturnClientDetails(){
+    void shouldReturnClientDetails() {
       // Given
       ClientDetail clientDetail = new ClientDetail();
-      PageImpl<ClientDetail> pagedResult = new PageImpl<>(singletonList(
-          clientDetail
-      ));
+      PageImpl<ClientDetail> pagedResult = new PageImpl<>(singletonList(clientDetail));
       when(clientDetailRepository.findAll(any(), any())).thenReturn(pagedResult);
-      when(clientDetailsMapper.mapToClientDetails(pagedResult)).thenReturn(new ClientDetails()
-          .size(1).totalPages(20));
+      when(clientDetailsMapper.mapToClientDetails(pagedResult))
+          .thenReturn(new ClientDetails().size(1).totalPages(20));
       // When
-      Optional<ClientDetails> result = clientService.getClients("First", "Last",
-          LocalDate.of(2000, 1, 1), "", "", "",
-          "", Pageable.unpaged());
+      Optional<ClientDetails> result =
+          clientService.getClients(
+              "First", "Last", LocalDate.of(2000, 1, 1), "", "", "", "", Pageable.unpaged());
       // Then
       assertTrue(result.isPresent());
       assertEquals(1, result.get().getSize());
       assertEquals(20, result.get().getTotalPages());
     }
-
   }
 }

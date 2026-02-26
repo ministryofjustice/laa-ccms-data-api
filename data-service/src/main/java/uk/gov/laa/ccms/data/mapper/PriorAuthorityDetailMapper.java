@@ -14,9 +14,9 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
  * DTO representations.
  *
  * <p>This interface provides methods for transforming {@code PriorAuthorityType} entities to
- * detailed data transfer objects(DTOs) like {@code PriorAuthorityTypeDetail}.
- * It leverages the MapStruct library, with the Spring component model, for automatic generation
- * of the implementation at compile-time.</p>
+ * detailed data transfer objects(DTOs) like {@code PriorAuthorityTypeDetail}. It leverages the
+ * MapStruct library, with the Spring component model, for automatic generation of the
+ * implementation at compile-time.
  *
  * @see Mapper
  * @see PriorAuthorityType

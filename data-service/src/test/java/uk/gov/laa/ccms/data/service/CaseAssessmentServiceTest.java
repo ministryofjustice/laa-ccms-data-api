@@ -21,8 +21,7 @@ import uk.gov.laa.ccms.data.repository.CaseAssessmentRepository;
 @DisplayName("Case assessment service test")
 class CaseAssessmentServiceTest {
 
-  @Mock
-  private CaseAssessmentRepository caseAssessmentRepository;
+  @Mock private CaseAssessmentRepository caseAssessmentRepository;
 
   private CaseAssessmentService caseAssessmentService;
 
@@ -35,14 +34,13 @@ class CaseAssessmentServiceTest {
   @DisplayName("Should return assessment details object")
   void shouldReturnAssessmentDetailsObject() {
     // Given
-    CaseAssessmentDetail caseAssessmentDetail = new CaseAssessmentDetail().entityName("Question one")
-        .attributeValue("Answer");
+    CaseAssessmentDetail caseAssessmentDetail =
+        new CaseAssessmentDetail().entityName("Question one").attributeValue("Answer");
     when(caseAssessmentRepository.getCaseAssessmentDetails("123", AssessmentType.MEANS))
-        .thenReturn(List.of(
-            caseAssessmentDetail));
+        .thenReturn(List.of(caseAssessmentDetail));
     // When
-    Optional<CaseAssessmentDetails> result
-        = caseAssessmentService.getCaseAssessmentDetails("123", AssessmentType.MEANS);
+    Optional<CaseAssessmentDetails> result =
+        caseAssessmentService.getCaseAssessmentDetails("123", AssessmentType.MEANS);
     // Then
     assertThat(result.isPresent()).isTrue();
     assertThat(result.get().getCaseReference()).isEqualTo("123");
@@ -56,8 +54,8 @@ class CaseAssessmentServiceTest {
     when(caseAssessmentRepository.getCaseAssessmentDetails("123", AssessmentType.MEANS))
         .thenReturn(Collections.emptyList());
     // When
-    Optional<CaseAssessmentDetails> result
-        = caseAssessmentService.getCaseAssessmentDetails("123", AssessmentType.MEANS);
+    Optional<CaseAssessmentDetails> result =
+        caseAssessmentService.getCaseAssessmentDetails("123", AssessmentType.MEANS);
     // Then
     assertThat(result.isPresent()).isFalse();
   }

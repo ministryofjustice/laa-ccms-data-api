@@ -7,8 +7,8 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
 /**
  * Repository interface for managing read-only access to {@link NotificationInfo} entities.
  *
- * <p>Extends the {@link ReadOnlyRepository} interface which enforces read-only access
- * to entities and includes default query capabilities.</p>
+ * <p>Extends the {@link ReadOnlyRepository} interface which enforces read-only access to entities
+ * and includes default query capabilities.
  *
  * @author Jamie Briggs
  * @see NotificationInfo
@@ -18,8 +18,8 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
 public interface NotificationRepository extends ReadOnlyRepository<NotificationInfo, Long> {
 
   /**
-   * Finds and returns a {@link NotificationInfo} object matching both the notification ID and
-   *     user ID.
+   * Finds and returns a {@link NotificationInfo} object matching both the notification ID and user
+   * ID.
    *
    * @param notificationId notification identifier
    * @param userId the user assigned to the notification

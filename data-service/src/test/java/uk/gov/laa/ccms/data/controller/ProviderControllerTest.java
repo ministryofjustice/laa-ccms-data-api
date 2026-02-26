@@ -21,42 +21,42 @@ import uk.gov.laa.ccms.data.service.ProviderService;
 @ExtendWith(MockitoExtension.class)
 class ProviderControllerTest {
 
-    @Mock
-    private ProviderService providerService;
+  @Mock private ProviderService providerService;
 
-    @InjectMocks
-    private ProviderController providerController;
+  @InjectMocks private ProviderController providerController;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        mockMvc = standaloneSetup(providerController).build();
-    }
+  @BeforeEach
+  public void setup() {
+    mockMvc = standaloneSetup(providerController).build();
+  }
 
-    @Test
-    void getProvider_returnsData() throws Exception {
-        Integer providerId = 123;
+  @Test
+  void getProvider_returnsData() throws Exception {
+    Integer providerId = 123;
 
-        when(providerService.getProvider(providerId)).thenReturn(Optional.of(new ProviderDetail()));
+    when(providerService.getProvider(providerId)).thenReturn(Optional.of(new ProviderDetail()));
 
-        this.mockMvc.perform(get("/providers/{providerId}", providerId))
-            .andDo(print())
-            .andExpect(status().isOk());
+    this.mockMvc
+        .perform(get("/providers/{providerId}", providerId))
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(providerService).getProvider(providerId);
-    }
+    verify(providerService).getProvider(providerId);
+  }
 
-    @Test
-    void getProvider_notFound() throws Exception{
-        Integer providerId = 123;
+  @Test
+  void getProvider_notFound() throws Exception {
+    Integer providerId = 123;
 
-        when(providerService.getProvider(providerId)).thenReturn(Optional.empty());
+    when(providerService.getProvider(providerId)).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/providers/{providerId}", providerId))
-            .andDo(print())
-            .andExpect(status().isNotFound());
+    this.mockMvc
+        .perform(get("/providers/{providerId}", providerId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
 
-        verify(providerService).getProvider(providerId);
-    }
+    verify(providerService).getProvider(providerId);
+  }
 }

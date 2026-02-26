@@ -18,15 +18,13 @@ import uk.gov.laa.ccms.data.model.ContactDetail;
 import uk.gov.laa.ccms.data.model.OfficeDetail;
 import uk.gov.laa.ccms.data.model.ProviderDetail;
 
-
 @SpringBootTest
 @SqlMergeMode(MERGE)
 @Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "/sql/providers_create_schema.sql")
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/providers_drop_schema.sql")
 public class ProviderServiceIntegrationTest implements OracleIntegrationTestInterface {
 
-  @Autowired
-  private ProviderService providerService;
+  @Autowired private ProviderService providerService;
 
   @Test
   @Sql(scripts = "/sql/providers_data.sql")

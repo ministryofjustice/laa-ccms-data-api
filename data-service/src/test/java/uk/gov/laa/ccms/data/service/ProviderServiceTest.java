@@ -25,72 +25,69 @@ import uk.gov.laa.ccms.data.repository.ProviderRepository;
 @ExtendWith(MockitoExtension.class)
 class ProviderServiceTest {
 
-    @Mock
-    private ProviderRepository providerRepository;
+  @Mock private ProviderRepository providerRepository;
 
-    @Mock
-    private ProviderMapper providerMapper;
+  @Mock private ProviderMapper providerMapper;
 
-    @InjectMocks
-    private ProviderService providerService;
+  @InjectMocks private ProviderService providerService;
 
-    @Test
-    void getProvider_returnsProviderDetail() {
-        Provider provider = buildProvider();
+  @Test
+  void getProvider_returnsProviderDetail() {
+    Provider provider = buildProvider();
 
-        ProviderDetail providerDetail = new ProviderDetail();
+    ProviderDetail providerDetail = new ProviderDetail();
 
-        when(providerRepository.findById(provider.getId())).thenReturn(Optional.of(provider));
-        when(providerMapper.toProviderDetail(provider)).thenReturn(providerDetail);
+    when(providerRepository.findById(provider.getId())).thenReturn(Optional.of(provider));
+    when(providerMapper.toProviderDetail(provider)).thenReturn(providerDetail);
 
-        Optional<ProviderDetail> result = providerService.getProvider(provider.getId());
+    Optional<ProviderDetail> result = providerService.getProvider(provider.getId());
 
-        verify(providerMapper).toProviderDetail(provider);
+    verify(providerMapper).toProviderDetail(provider);
 
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals(providerDetail, result.get());
-    }
+    assertNotNull(result);
+    assertTrue(result.isPresent());
+    assertEquals(providerDetail, result.get());
+  }
 
-    @Test
-    void getProvider_handlesNotFound() {
-        Provider provider = new Provider();
-        provider.setId(123);
+  @Test
+  void getProvider_handlesNotFound() {
+    Provider provider = new Provider();
+    provider.setId(123);
 
-        when(providerRepository.findById(provider.getId())).thenReturn(Optional.empty());
+    when(providerRepository.findById(provider.getId())).thenReturn(Optional.empty());
 
-        Optional<ProviderDetail> result = providerService.getProvider(provider.getId());
+    Optional<ProviderDetail> result = providerService.getProvider(provider.getId());
 
-        verifyNoInteractions(providerMapper);
+    verifyNoInteractions(providerMapper);
 
-        assertNotNull(result);
-        assertFalse(result.isPresent());
-    }
+    assertNotNull(result);
+    assertFalse(result.isPresent());
+  }
 
-    // Helper methods to create objects
-    private FeeEarner buildFeeEarner() {
-        FeeEarner feeEarner = new FeeEarner();
-        feeEarner.setId(10);
-        feeEarner.setName("feeearnername");
-        return feeEarner;
-    }
+  // Helper methods to create objects
+  private FeeEarner buildFeeEarner() {
+    FeeEarner feeEarner = new FeeEarner();
+    feeEarner.setId(10);
+    feeEarner.setName("feeearnername");
+    return feeEarner;
+  }
 
-    private Provider buildProvider() {
-        Provider provider = new Provider();
-        provider.setId(20);
-        provider.setName("provname");
-        provider.setOffices(new ArrayList<>());
-        provider.getOffices().add(buildOffice());
-        return provider;
-    }
+  private Provider buildProvider() {
+    Provider provider = new Provider();
+    provider.setId(20);
+    provider.setName("provname");
+    provider.setOffices(new ArrayList<>());
+    provider.getOffices().add(buildOffice());
+    return provider;
+  }
 
-    private Office buildOffice() {
-        Office office = new Office();
-        office.setId(30);
-        office.setName("officename");
-        office.setFeeEarners(new ArrayList<>());
-        office.getFeeEarners().add(buildFeeEarner());
+  private Office buildOffice() {
+    Office office = new Office();
+    office.setId(30);
+    office.setName("officename");
+    office.setFeeEarners(new ArrayList<>());
+    office.getFeeEarners().add(buildFeeEarner());
 
-        return office;
-    }
+    return office;
+  }
 }

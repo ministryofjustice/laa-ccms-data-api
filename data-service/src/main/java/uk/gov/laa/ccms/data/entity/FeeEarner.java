@@ -17,16 +17,14 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a Fee Earner entity within the system.
  *
- * <p>This entity corresponds to a join between "XXCCMS_FEE_EARNERS_V"
- * and "XXCCMS_FEE_EARNER_OFFICES_V" table in the database. It captures
- * details of individuals or entities that earn fees for the services they provide, such as legal
- * professionals.</p>
+ * <p>This entity corresponds to a join between "XXCCMS_FEE_EARNERS_V" and
+ * "XXCCMS_FEE_EARNER_OFFICES_V" table in the database. It captures details of individuals or
+ * entities that earn fees for the services they provide, such as legal professionals.
  *
  * <p>The JSON representation of this entity uses the snake case naming strategy. A Fee Earner is
- * uniquely identified by its ID, and it also contains a reference to the {@link Provider}
- * entity.</p>
+ * uniquely identified by its ID, and it also contains a reference to the {@link Provider} entity.
  *
- * <p>This entity is marked as immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is marked as immutable, meaning its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  * @see Provider
@@ -39,22 +37,16 @@ import org.hibernate.annotations.Immutable;
 @SecondaryTable(name = "XXCCMS_FEE_EARNERS_V", schema = "XXCCMS")
 @Immutable
 public class FeeEarner implements Serializable {
-  /**
-   * The unique identifier for the FeeEarner.
-   */
+  /** The unique identifier for the FeeEarner. */
   @Id
   @Column(name = "CONTACT_ID")
   private Integer id;
 
-  /**
-   * The name for the Fee Earner.
-   */
+  /** The name for the Fee Earner. */
   @Column(name = "CONTACT_NAME", table = "XXCCMS_FEE_EARNERS_V")
   private String name;
 
-  /**
-   * The Fee Earner's related Office.
-   */
+  /** The Fee Earner's related Office. */
   @ManyToOne
   @JoinColumn(name = "OFFICE_ID")
   private Office office;

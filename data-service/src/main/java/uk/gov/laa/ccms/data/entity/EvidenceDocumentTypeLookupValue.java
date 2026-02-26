@@ -12,15 +12,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
 /**
  * Represents a evidence document type lookup value entity.
  *
  * <p>This entity corresponds to the "XXCCMS_EVIDENCE_DOC_TYPE_V" view in the database and is used
  * for evidence document type lookup values. Each record is uniquely identified by its type and
- * code, both serving as composite primary keys.</p>
+ * code, both serving as composite primary keys.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -32,8 +31,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 public class EvidenceDocumentTypeLookupValue implements Serializable {
 
-  @EmbeddedId
-  private EvidenceDocumentTypeLookupValueId id;
+  @EmbeddedId private EvidenceDocumentTypeLookupValueId id;
 
   @Column(name = "DESCRIPTION")
   private String description;
@@ -44,4 +42,3 @@ public class EvidenceDocumentTypeLookupValue implements Serializable {
   @Column(name = "END_DATE_ACTIVE")
   private LocalDateTime endDateActive;
 }
-

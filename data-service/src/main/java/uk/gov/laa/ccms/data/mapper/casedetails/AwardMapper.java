@@ -22,7 +22,7 @@ import uk.gov.laa.ccms.data.model.Recovery;
 
 /**
  * Mapper interface for transforming XML award related objects into their corresponding domain
- *  objects. This interface utilizes MapStruct for mapping properties.
+ * objects. This interface utilizes MapStruct for mapping properties.
  *
  * @author Jamie Briggs
  */
@@ -40,12 +40,12 @@ public interface AwardMapper {
 
   /**
    * Transforms a list of LiablePartyXml objects into a list of their corresponding OtherPartyId
-   *     values.
+   * values.
    *
    * @param liablePartyXmls a list of {@link LiablePartyXml} objects representing the liable
-   *                        parties. If null, an empty list is returned.
-   * @return a list of strings containing the OtherPartyId values from the input list of
-   *     {@link LiablePartyXml} objects. If the input list is null, an empty list is returned.
+   *     parties. If null, an empty list is returned.
+   * @return a list of strings containing the OtherPartyId values from the input list of {@link
+   *     LiablePartyXml} objects. If the input list is null, an empty list is returned.
    */
   default List<String> mapToLiableParties(List<LiablePartyXml> liablePartyXmls) {
     if (liablePartyXmls == null) {
@@ -60,11 +60,10 @@ public interface AwardMapper {
    * Transforms a list of {@link OtherPartyXml} objects into a list of their corresponding
    * OtherPartyId values.
    *
-   * @param otherProprietors a list of {@link OtherPartyXml} objects. If null, an
-   *                         empty list is returned.
-   * @return a list of strings containing the OtherPartyId values from the input
-   *         list of {@link OtherPartyXml} objects. If the input list is null, an
-   *         empty list is returned.
+   * @param otherProprietors a list of {@link OtherPartyXml} objects. If null, an empty list is
+   *     returned.
+   * @return a list of strings containing the OtherPartyId values from the input list of {@link
+   *     OtherPartyXml} objects. If the input list is null, an empty list is returned.
    */
   default List<String> mapToOtherProprietors(List<OtherPartyXml> otherProprietors) {
     if (otherProprietors == null) {

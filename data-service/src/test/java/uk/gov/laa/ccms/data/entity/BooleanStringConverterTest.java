@@ -14,8 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class BooleanStringConverterTest {
 
-  @InjectMocks
-  BooleanStringConverter booleanStringConverter;
+  @InjectMocks BooleanStringConverter booleanStringConverter;
 
   @Nested
   @DisplayName("Test ConvertToDb")
@@ -23,40 +22,39 @@ public class BooleanStringConverterTest {
 
     @Test
     @DisplayName("Should return true")
-    void shouldReturnTrue(){
+    void shouldReturnTrue() {
       assertTrue(booleanStringConverter.convertToEntityAttribute("True"));
     }
 
     @Test
     @DisplayName("Should return true lowercase")
-    void shouldReturnTrueLowercase(){
+    void shouldReturnTrueLowercase() {
       assertTrue(booleanStringConverter.convertToEntityAttribute("true"));
     }
 
     @Test
     @DisplayName("Should return true uppercase")
-    void shouldReturnTrueUppercase(){
+    void shouldReturnTrueUppercase() {
       assertTrue(booleanStringConverter.convertToEntityAttribute("TRUE"));
     }
 
     @Test
     @DisplayName("Should return false")
-    void shouldReturnFalse(){
+    void shouldReturnFalse() {
       assertFalse(booleanStringConverter.convertToEntityAttribute("False"));
     }
 
     @Test
     @DisplayName("Should return false lowercase")
-    void shouldReturnFalseLowercase(){
+    void shouldReturnFalseLowercase() {
       assertFalse(booleanStringConverter.convertToEntityAttribute("false"));
     }
 
     @Test
     @DisplayName("Should return false uppercase")
-    void shouldReturnFalseUppercase(){
+    void shouldReturnFalseUppercase() {
       assertFalse(booleanStringConverter.convertToEntityAttribute("FALSE"));
     }
-
   }
 
   @Nested
@@ -65,13 +63,13 @@ public class BooleanStringConverterTest {
 
     @Test
     @DisplayName("Should return true")
-    void shouldReturnTrue(){
+    void shouldReturnTrue() {
       assertEquals("true", booleanStringConverter.convertToDatabaseColumn(true));
     }
 
     @Test
     @DisplayName("Should return false")
-    void shouldReturnFalse(){
+    void shouldReturnFalse() {
       assertEquals("false", booleanStringConverter.convertToDatabaseColumn(false));
     }
   }

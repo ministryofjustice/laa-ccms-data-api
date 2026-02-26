@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.CaseSummary;
 import uk.gov.laa.ccms.data.model.TransactionStatus;
@@ -31,13 +31,10 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
 @DisplayName("Case Controller Test")
 class CaseControllerTest {
 
-  @Mock
-  private CaseSearchService caseSearchService;
-  @Mock
-  private CaseService caseService;
+  @Mock private CaseSearchService caseSearchService;
+  @Mock private CaseService caseService;
 
-  @InjectMocks
-  private CaseController caseController;
+  @InjectMocks private CaseController caseController;
 
   private MockMvc mockMvc;
 
@@ -45,9 +42,10 @@ class CaseControllerTest {
 
   @BeforeEach
   public void setup() {
-    mockMvc = standaloneSetup(caseController)
-        .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-        .build();
+    mockMvc =
+        standaloneSetup(caseController)
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+            .build();
     objectMapper = new ObjectMapper();
   }
 
@@ -61,13 +59,20 @@ class CaseControllerTest {
       // Given
       CaseSummary caseSummary = new CaseSummary().caseReferenceNumber("123");
       CaseDetails caseDetails = new CaseDetails().addContentItem(caseSummary);
-      when(caseSearchService.getCases(Mockito.eq(123L), Mockito.any(),
-          Mockito.any(), Mockito.any(), Mockito.any(),
-          Mockito.any(), Mockito.any(), Mockito.any()))
+      when(caseSearchService.getCases(
+              Mockito.eq(123L),
+              Mockito.any(),
+              Mockito.any(),
+              Mockito.any(),
+              Mockito.any(),
+              Mockito.any(),
+              Mockito.any(),
+              Mockito.any()))
           .thenReturn(Optional.of(caseDetails));
       // Then
       String jsonContent = objectMapper.writeValueAsString(caseDetails);
-      mockMvc.perform(get("/cases?provider-id=123"))
+      mockMvc
+          .perform(get("/cases?provider-id=123"))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().json(jsonContent));
@@ -77,16 +82,15 @@ class CaseControllerTest {
     @DisplayName("Should return bad request")
     void shouldReturnBadRequest() throws Exception {
       // Then
-      mockMvc.perform(get("/cases"))
-          .andDo(print())
-          .andExpect(status().isBadRequest());
+      mockMvc.perform(get("/cases")).andDo(print()).andExpect(status().isBadRequest());
     }
 
     @Test
     @DisplayName("Should return not found")
     void shouldReturnNotFound() throws Exception {
       // Then
-      mockMvc.perform(get("/cases?provider-id=123"))
+      mockMvc
+          .perform(get("/cases?provider-id=123"))
           .andDo(print())
           .andExpect(status().isNotFound());
     }
@@ -99,11 +103,13 @@ class CaseControllerTest {
     @DisplayName("Should return data")
     void shouldReturnData() throws Exception {
       // Given
-      TransactionStatus status = new TransactionStatus().submissionStatus("status").referenceNumber("123");
+      TransactionStatus status =
+          new TransactionStatus().submissionStatus("status").referenceNumber("123");
       when(caseService.getTransactionStatus("ABCDEF")).thenReturn(Optional.of(status));
       String jsonContent = objectMapper.writeValueAsString(status);
       // Then
-      mockMvc.perform(get("/cases/status/ABCDEF"))
+      mockMvc
+          .perform(get("/cases/status/ABCDEF"))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().json(jsonContent));
@@ -113,18 +119,18 @@ class CaseControllerTest {
     @DisplayName("Should return not found")
     void shouldReturnNotFound() throws Exception {
       // Then
-      mockMvc.perform(get("/cases/status/ABCDEF"))
-          .andDo(print())
-          .andExpect(status().isNotFound());
+      mockMvc.perform(get("/cases/status/ABCDEF")).andDo(print()).andExpect(status().isNotFound());
     }
 
     @Test
     @DisplayName("Should return 500 error")
     void shouldReturn500Error() throws Exception {
       // When
-      when(caseService.getTransactionStatus("ABCDEF")).thenThrow(new ClientServiceException("error"));
+      when(caseService.getTransactionStatus("ABCDEF"))
+          .thenThrow(new ClientServiceException("error"));
       // Then
-      mockMvc.perform(get("/cases/status/ABCDEF"))
+      mockMvc
+          .perform(get("/cases/status/ABCDEF"))
           .andDo(print())
           .andExpect(status().is5xxServerError());
     }

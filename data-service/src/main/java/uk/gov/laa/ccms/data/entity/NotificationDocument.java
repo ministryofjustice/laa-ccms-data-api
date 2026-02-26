@@ -12,13 +12,13 @@ import org.hibernate.annotations.Immutable;
 
 /**
  * Represents a notification document entity from the <b>XXCCMS_NOTIFICATION_DOCS_V</b> database
- *     view.
+ * view.
  *
- * <p>This entity captures details about a notification's document. It provides fields relating
- *     to the document including the channel it came from, the type of document, a description
- *     which details the document, and it's status.</p>
+ * <p>This entity captures details about a notification's document. It provides fields relating to
+ * the document including the channel it came from, the type of document, a description which
+ * details the document, and it's status.
  *
- * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>This class is immutable, and its instances can be created using the builder pattern.
  *
  * @author Jamie Briggs
  * @see NotificationInfo
@@ -53,6 +53,4 @@ public class NotificationDocument {
 
   @Column(name = "EDRMS_DOCUMENT_ID", length = 50)
   private String edrmsDocumentid;
-
-
 }

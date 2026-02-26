@@ -5,9 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 import org.hibernate.annotations.Immutable;
 
-/**
- * Represents the composite primary key for the AssessmentSummaryEntity entity.
- */
+/** Represents the composite primary key for the AssessmentSummaryEntity entity. */
 @Data
 @Immutable
 public class AssessmentSummaryEntityId implements Serializable {
@@ -21,4 +19,3 @@ public class AssessmentSummaryEntityId implements Serializable {
   @Column(name = "ENTITY_LEVEL")
   private Integer entityLevel;
 }
-

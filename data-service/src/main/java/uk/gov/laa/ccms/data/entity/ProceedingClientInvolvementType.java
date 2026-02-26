@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 /**
- * Represents the ProceedingClientInvolvementType entity in the database.
- * This entity is used to store information about the type of client involvement in a proceeding.
+ * Represents the ProceedingClientInvolvementType entity in the database. This entity is used to
+ * store information about the type of client involvement in a proceeding.
  */
 @Entity
 @Data
@@ -23,15 +23,12 @@ import org.hibernate.annotations.Immutable;
 public class ProceedingClientInvolvementType {
 
   /**
-   * The ID of the ProceedingClientInvolvementType.
-   * This is an embedded ID, meaning it's a composite primary key.
+   * The ID of the ProceedingClientInvolvementType. This is an embedded ID, meaning it's a composite
+   * primary key.
    */
-  @EmbeddedId
-  private ProceedingClientInvolvementTypeId id;
+  @EmbeddedId private ProceedingClientInvolvementTypeId id;
 
-  /**
-   * The name of the client involvement type.
-   */
+  /** The name of the client involvement type. */
   @Column(name = "CLIENT_INVOLVEMENT_TYPE_NAME")
   private String clientInvolvementTypeName;
 }

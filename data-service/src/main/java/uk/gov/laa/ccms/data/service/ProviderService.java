@@ -13,8 +13,8 @@ import uk.gov.laa.ccms.data.repository.ProviderRepository;
 /**
  * Service class responsible for managing {@link Provider} entities.
  *
- * <p>This service provides methods to retrieve and manipulate {@code Provider} entities,
- * primarily through interactions with the {@link ProviderRepository}.</p>
+ * <p>This service provides methods to retrieve and manipulate {@code Provider} entities, primarily
+ * through interactions with the {@link ProviderRepository}.
  *
  * @see Service
  * @see Provider
@@ -31,7 +31,6 @@ public class ProviderService extends AbstractEbsDataService {
   private final ProviderMapper providerMapper;
 
   public Optional<ProviderDetail> getProvider(Integer providerId) {
-    return providerRepository.findById(providerId)
-        .map(providerMapper::toProviderDetail);
+    return providerRepository.findById(providerId).map(providerMapper::toProviderDetail);
   }
 }

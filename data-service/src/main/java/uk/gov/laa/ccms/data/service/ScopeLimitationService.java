@@ -16,7 +16,7 @@ import uk.gov.laa.ccms.data.repository.ScopeLimitationRepository;
  * Service class responsible for managing {@link ScopeLimitation} entities.
  *
  * <p>This service provides methods to retrieve and manipulate {@code ScopeLimitation} entities,
- * primarily through interactions with the {@link ScopeLimitationRepository}.</p>
+ * primarily through interactions with the {@link ScopeLimitationRepository}.
  *
  * @see Service
  * @see ScopeLimitation

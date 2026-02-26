@@ -14,11 +14,11 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
 /**
  * Controller class responsible for handling client-related requests.
  *
- * <p>This controller serves as an interface to return requested client
- * information. It delegates the business logic to the {@link ClientService}.</p>
+ * <p>This controller serves as an interface to return requested client information. It delegates
+ * the business logic to the {@link ClientService}.
  *
- * <p>This class implements the {@link ClientsApi} interface and provides endpoints
- * for retrieving client based information for users.</p>
+ * <p>This class implements the {@link ClientsApi} interface and provides endpoints for retrieving
+ * client based information for users.
  *
  * @see ClientsApi
  * @see ClientService
@@ -42,22 +42,35 @@ public class ClientsController implements ClientsApi {
   @Override
   public ResponseEntity<TransactionStatus> getClientTransactionStatus(String transactionRequestId) {
     try {
-      return clientService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+      return clientService
+          .getTransactionStatus(transactionRequestId)
+          .map(ResponseEntity::ok)
+          .orElse(ResponseEntity.notFound().build());
     } catch (ClientServiceException e) {
       return ResponseEntity.internalServerError().build();
     }
   }
 
   @Override
-  public ResponseEntity<ClientDetails> getClients(String firstName, String surname,
-      LocalDate dateOfBirth, String gender, String clientReferenceNumber,
-      String homeOfficeReference, String nationalInsuranceNumber,
+  public ResponseEntity<ClientDetails> getClients(
+      String firstName,
+      String surname,
+      LocalDate dateOfBirth,
+      String gender,
+      String clientReferenceNumber,
+      String homeOfficeReference,
+      String nationalInsuranceNumber,
       Pageable pageable) {
-    Optional<ClientDetails> clients = clientService.getClients(firstName, surname, dateOfBirth,
-        gender,
-        clientReferenceNumber, homeOfficeReference, nationalInsuranceNumber,
-        pageable);
+    Optional<ClientDetails> clients =
+        clientService.getClients(
+            firstName,
+            surname,
+            dateOfBirth,
+            gender,
+            clientReferenceNumber,
+            homeOfficeReference,
+            nationalInsuranceNumber,
+            pageable);
     return clients.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 }

@@ -12,7 +12,8 @@ public class NotificationInfoTypeConverterTest {
   @Test
   @DisplayName("Should convert NotificationInfo DB Value to Entity value")
   public void shouldConvertNotificationDbValuetoEntityValue() {
-    assertEquals(NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("Notification"));
+    assertEquals(
+        NotificationType.NOTIFICATIONS, converter.convertToEntityAttribute("Notification"));
   }
 
   @Test
@@ -30,7 +31,8 @@ public class NotificationInfoTypeConverterTest {
   @Test
   @DisplayName("Should convert NotificationInfo Entity value to DB value")
   public void shouldConvertNotificationEntityValuetoDBValue() {
-    assertEquals("NotificationInfo", converter.convertToDatabaseColumn(NotificationType.NOTIFICATIONS));
+    assertEquals(
+        "NotificationInfo", converter.convertToDatabaseColumn(NotificationType.NOTIFICATIONS));
   }
 
   @Test
@@ -44,5 +46,4 @@ public class NotificationInfoTypeConverterTest {
   public void shouldConvertOverdueEntityValuetoDBValue() {
     assertEquals("Overdue", converter.convertToDatabaseColumn(NotificationType.OVERDUE));
   }
-
 }

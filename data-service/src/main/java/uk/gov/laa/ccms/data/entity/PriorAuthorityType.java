@@ -16,7 +16,7 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a Prior Authority Type entity from the "XXCCMS_PRIOR_AUTHORITY_TYPE_V" database table.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  */
 @Entity
 @Data
@@ -26,29 +26,20 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PriorAuthorityType {
 
-  /**
-   * The code for the Prior Auth Type.
-   */
+  /** The code for the Prior Auth Type. */
   @Id
   @Column(name = "CODE")
   private String code;
 
-  /**
-   * The description of the Prior Auth Type.
-   */
+  /** The description of the Prior Auth Type. */
   @Column(name = "DESCRIPTION")
   private String description;
 
-  /**
-   * The value required flag.
-   */
+  /** The value required flag. */
   @Column(name = "VALUE_REQUIRED_FLAG")
   private Boolean valueRequired;
 
-  /**
-   * The related prior authority details for this type.
-   */
+  /** The related prior authority details for this type. */
   @OneToMany(mappedBy = "type", fetch = FetchType.EAGER)
   private List<PriorAuthority> priorAuthorities;
-
 }

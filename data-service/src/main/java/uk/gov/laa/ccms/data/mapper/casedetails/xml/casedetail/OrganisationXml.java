@@ -22,15 +22,18 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.AddressXml;
 @NoArgsConstructor
 public final class OrganisationXml {
 
-  @JacksonXmlProperty(localName = "OrganizationName",
+  @JacksonXmlProperty(
+      localName = "OrganizationName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String organisationName;
 
-  @JacksonXmlProperty(localName = "OrganizationType",
+  @JacksonXmlProperty(
+      localName = "OrganizationType",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String organisationType;
 
-  @JacksonXmlProperty(localName = "CurrentlyTrading",
+  @JacksonXmlProperty(
+      localName = "CurrentlyTrading",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String currentlyTradingFlag;
 
@@ -38,24 +41,24 @@ public final class OrganisationXml {
     return "Y".equals(currentlyTradingFlag);
   }
 
-  @JacksonXmlProperty(localName = "RelationToClient",
+  @JacksonXmlProperty(
+      localName = "RelationToClient",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String relationToClient;
 
-  @JacksonXmlProperty(localName = "RelationToCase",
+  @JacksonXmlProperty(
+      localName = "RelationToCase",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String relationToCase;
 
-  @JacksonXmlProperty(localName = "Address",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Address", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private AddressXml address;
 
-  @JacksonXmlProperty(localName = "ContactName",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "ContactName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String contactName;
 
-  @JacksonXmlProperty(localName = "OtherInformation",
+  @JacksonXmlProperty(
+      localName = "OtherInformation",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherInformation;
-
 }

@@ -8,15 +8,14 @@ import uk.gov.laa.ccms.data.entity.CommonLookupValueId;
 /**
  * Repository interface for accessing {@link AwardTypeLookupValue} entities.
  *
- * <p>This repository extends the {@link ReadOnlyRepository} interface, providing
- * read-only operations for the {@code AwardTypeLookupValue} entity. The entity is uniquely
- * identified by a primary key of type {@code String}.</p>
+ * <p>This repository extends the {@link ReadOnlyRepository} interface, providing read-only
+ * operations for the {@code AwardTypeLookupValue} entity. The entity is uniquely identified by a
+ * primary key of type {@code String}.
  *
  * @see CommonLookupValue
  * @see CommonLookupValueId
  * @see ReadOnlyRepository
  */
 @Repository
-public interface AwardTypeLookupValueRepository extends
-        ReadOnlyRepository<AwardTypeLookupValue, String> {
-}
+public interface AwardTypeLookupValueRepository
+    extends ReadOnlyRepository<AwardTypeLookupValue, String> {}

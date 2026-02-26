@@ -20,17 +20,14 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class ClientXml {
 
-  @JacksonXmlProperty(localName = "ClientReferenceNumber",
+  @JacksonXmlProperty(
+      localName = "ClientReferenceNumber",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String clientReferenceNumber;
 
-  @JacksonXmlProperty(localName = "FirstName",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "FirstName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String firstName;
 
-  @JacksonXmlProperty(localName = "Surname",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Surname", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String surname;
-
-
 }

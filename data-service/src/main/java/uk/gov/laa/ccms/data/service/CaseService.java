@@ -19,9 +19,9 @@ import uk.gov.laa.ccms.data.repository.TransactionStatusRepository;
 /**
  * Service class responsible for handling case-related operations.
  *
- * <p>This class provides methods to retrieve transaction statuses for case-related
- * transactions. It utilizes a repository for database access and a mapper for converting database
- * entities to objects used in the application.</p>
+ * <p>This class provides methods to retrieve transaction statuses for case-related transactions. It
+ * utilizes a repository for database access and a mapper for converting database entities to
+ * objects used in the application.
  *
  * @author Jamie Briggs
  * @see TransactionStatusRepository
@@ -38,13 +38,15 @@ public class CaseService {
   /**
    * Constructs an instance of {@code CaseService}.
    *
-   * @param caseDetailRepository        the repository used for accessing case details
-   * @param caseDetailsMapper           the mapper used for mapping case detail entities to models
+   * @param caseDetailRepository the repository used for accessing case details
+   * @param caseDetailsMapper the mapper used for mapping case detail entities to models
    * @param transactionStatusRepository the repository used for accessing transaction statuses
-   * @param transactionStatusMapper     the mapper used for mapping transaction status entities to
-   *                                    models
+   * @param transactionStatusMapper the mapper used for mapping transaction status entities to
+   *     models
    */
-  public CaseService(CaseDetailRepository caseDetailRepository, CaseDetailsMapper caseDetailsMapper,
+  public CaseService(
+      CaseDetailRepository caseDetailRepository,
+      CaseDetailsMapper caseDetailsMapper,
       TransactionStatusRepository transactionStatusRepository,
       TransactionStatusMapper transactionStatusMapper) {
     this.caseDetailRepository = caseDetailRepository;
@@ -52,7 +54,6 @@ public class CaseService {
     this.transactionStatusMapper = transactionStatusMapper;
     this.transactionStatusRepository = transactionStatusRepository;
   }
-
 
   /**
    * Retrieves the transaction status for a given transaction ID. If the transaction is not found,
@@ -62,16 +63,16 @@ public class CaseService {
    * @return an {@code Optional} containing the {@link TransactionStatus} if found, or an empty
    *     {@code Optional} if not found
    * @throws ClientServiceException throws exception when there was an error found with the
-   *                                associated transaction ID
+   *     associated transaction ID
    */
   public Optional<TransactionStatus> getTransactionStatus(String transactionId) {
     List<uk.gov.laa.ccms.data.entity.TransactionStatus> userFuncStatus =
         transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId);
-    if (userFuncStatus.stream().anyMatch(x -> x.getStatus()
-        .equalsIgnoreCase("ERROR"))) {
+    if (userFuncStatus.stream().anyMatch(x -> x.getStatus().equalsIgnoreCase("ERROR"))) {
       throw new ClientServiceException("Error found in user function");
     }
-    return transactionStatusRepository.findCaseApplicationTransactionByTransactionId(transactionId)
+    return transactionStatusRepository
+        .findCaseApplicationTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
   }
 
@@ -80,17 +81,17 @@ public class CaseService {
    * the username of the user fetching this case.
    *
    * @param caseReferenceNumber the unique reference number of the case
-   * @param providerId          the ID of the provider associated with the case
-   * @param userName            the username of the user accessing this case. Dictates what
-   *                            available functions are returned alongside the case.
+   * @param providerId the ID of the provider associated with the case
+   * @param userName the username of the user accessing this case. Dictates what available functions
+   *     are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
    *     an empty {@code Optional} if no details are available
    */
-  public Optional<CaseDetail> getCaseDetails(String caseReferenceNumber, Long providerId,
-      String userName) {
+  public Optional<CaseDetail> getCaseDetails(
+      String caseReferenceNumber, Long providerId, String userName) {
     try {
-      CaseInqRsXml caseInqRsXml = caseDetailRepository.getCaseDetailXml(caseReferenceNumber,
-          providerId, userName);
+      CaseInqRsXml caseInqRsXml =
+          caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId, userName);
       validateCaseXmlObject(caseInqRsXml);
       return handleResponseStatus(caseInqRsXml.getCaseDetail().message(), caseInqRsXml);
     } catch (SQLException | JsonProcessingException e) {
@@ -106,8 +107,8 @@ public class CaseService {
     }
   }
 
-  private Optional<CaseDetail> handleResponseStatus(MessageXml messageXml,
-      CaseInqRsXml caseInqRsXml) {
+  private Optional<CaseDetail> handleResponseStatus(
+      MessageXml messageXml, CaseInqRsXml caseInqRsXml) {
     String code = messageXml.code();
     if ("200".equals(code)) {
       CaseDetail caseDetail = caseDetailsMapper.mapToCaseDetail(caseInqRsXml.getCaseDetail());
@@ -119,5 +120,4 @@ public class CaseService {
           "Error occurred in EBS: %s - %s".formatted(code, messageXml.text()));
     }
   }
-
 }

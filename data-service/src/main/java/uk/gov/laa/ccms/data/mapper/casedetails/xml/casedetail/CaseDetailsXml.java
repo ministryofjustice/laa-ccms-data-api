@@ -24,7 +24,6 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.Pri
  * @see AvailableFunctionsXml
  * @see CaseStatusXml
  * @see RecordHistoryXml
- *
  * @author Jamie Briggs
  */
 @Getter
@@ -34,56 +33,62 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.priorauthority.Pri
 @NoArgsConstructor
 public final class CaseDetailsXml {
 
-  @JacksonXmlProperty(localName = "ApplicationDetails",
+  @JacksonXmlProperty(
+      localName = "ApplicationDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ApplicationDetailsXml applicationDetails;
 
-  @JacksonXmlProperty(localName = "CertificateType",
+  @JacksonXmlProperty(
+      localName = "CertificateType",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String certificateType;
 
-  @JacksonXmlProperty(localName = "CertificateDate",
+  @JacksonXmlProperty(
+      localName = "CertificateDate",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate certificateDate;
 
-  @JacksonXmlProperty(localName = "PreCertificateCosts",
+  @JacksonXmlProperty(
+      localName = "PreCertificateCosts",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal preCertificateCosts;
 
-  @JacksonXmlProperty(localName = "LegalHelpCosts",
+  @JacksonXmlProperty(
+      localName = "LegalHelpCosts",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal legalHelpCosts;
 
-  @JacksonXmlProperty(localName = "UndertakingAmount",
+  @JacksonXmlProperty(
+      localName = "UndertakingAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Long undertakingAmount;
 
-  @JacksonXmlProperty(localName = "LinkedCases",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "LinkedCases", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<LinkedCaseXml> linkedCases;
 
-  @JacksonXmlProperty(localName = "Awards",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Awards", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<AwardXml> outcomeAwards;
 
-  @JacksonXmlProperty(localName = "PriorAuthorities",
+  @JacksonXmlProperty(
+      localName = "PriorAuthorities",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<PriorAuthorityXml> priorAuthorities;
 
-  @JacksonXmlProperty(localName = "DischargeStatus",
+  @JacksonXmlProperty(
+      localName = "DischargeStatus",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private DischargeStatusXml dischargeStatus;
 
-  @JacksonXmlProperty(localName = "AvailableFunctions",
+  @JacksonXmlProperty(
+      localName = "AvailableFunctions",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<String> availableFunctions;
 
-  @JacksonXmlProperty(localName = "CaseStatus",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "CaseStatus", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private CaseStatusXml caseStatus;
 
-  @JacksonXmlProperty(localName = "RecordHistory",
+  @JacksonXmlProperty(
+      localName = "RecordHistory",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private RecordHistoryXml recordHistory;
-
 }

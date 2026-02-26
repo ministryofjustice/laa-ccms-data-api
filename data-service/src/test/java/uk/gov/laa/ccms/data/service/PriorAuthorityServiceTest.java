@@ -23,60 +23,54 @@ import uk.gov.laa.ccms.data.repository.PriorAuthorityRepository;
 @ExtendWith(MockitoExtension.class)
 class PriorAuthorityServiceTest {
 
-    @Mock
-    private PriorAuthorityRepository priorAuthorityRepository;
+  @Mock private PriorAuthorityRepository priorAuthorityRepository;
 
-    @Mock
-    private PriorAuthorityDetailMapper priorAuthorityDetailMapper;
+  @Mock private PriorAuthorityDetailMapper priorAuthorityDetailMapper;
 
-    @InjectMocks
-    private PriorAuthorityService priorAuthorityService;
+  @InjectMocks private PriorAuthorityService priorAuthorityService;
 
-    @Test
-    void getPriorAuthorityTypes_returnsData() {
-        PriorAuthorityType priorAuthorityType = buildPriorAuthorityType();
+  @Test
+  void getPriorAuthorityTypes_returnsData() {
+    PriorAuthorityType priorAuthorityType = buildPriorAuthorityType();
 
-        PriorAuthorityType exampleType = new PriorAuthorityType();
-        exampleType.setCode(priorAuthorityType.getCode());
-        exampleType.setValueRequired(priorAuthorityType.getValueRequired());
+    PriorAuthorityType exampleType = new PriorAuthorityType();
+    exampleType.setCode(priorAuthorityType.getCode());
+    exampleType.setValueRequired(priorAuthorityType.getValueRequired());
 
-        Example<PriorAuthorityType> example = Example.of(exampleType);
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
-        Page<PriorAuthorityType> expectedPage = new PageImpl<>(
-            Collections.singletonList(priorAuthorityType));
-        PriorAuthorityTypeDetails expectedResponse = new PriorAuthorityTypeDetails();
+    Example<PriorAuthorityType> example = Example.of(exampleType);
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Page<PriorAuthorityType> expectedPage =
+        new PageImpl<>(Collections.singletonList(priorAuthorityType));
+    PriorAuthorityTypeDetails expectedResponse = new PriorAuthorityTypeDetails();
 
-        when(priorAuthorityRepository.findAll(example, pageable))
-            .thenReturn(expectedPage);
-        when(priorAuthorityDetailMapper.toPriorAuthorityTypeDetails(expectedPage)).thenReturn(
-            expectedResponse);
+    when(priorAuthorityRepository.findAll(example, pageable)).thenReturn(expectedPage);
+    when(priorAuthorityDetailMapper.toPriorAuthorityTypeDetails(expectedPage))
+        .thenReturn(expectedResponse);
 
-        PriorAuthorityTypeDetails actualResponse = priorAuthorityService.getPriorAuthorityTypes(
-            priorAuthorityType.getCode(),
-            priorAuthorityType.getValueRequired(),
-            pageable);
+    PriorAuthorityTypeDetails actualResponse =
+        priorAuthorityService.getPriorAuthorityTypes(
+            priorAuthorityType.getCode(), priorAuthorityType.getValueRequired(), pageable);
 
-        assertEquals(expectedResponse, actualResponse);
+    assertEquals(expectedResponse, actualResponse);
+  }
 
-    }
+  // Helper methods to create objects
+  private PriorAuthorityType buildPriorAuthorityType() {
+    PriorAuthorityType priorAuthorityType = new PriorAuthorityType();
+    priorAuthorityType.setCode("code1");
+    priorAuthorityType.setDescription("desc1");
+    priorAuthorityType.setValueRequired(Boolean.TRUE);
+    priorAuthorityType.setPriorAuthorities(new ArrayList<>());
+    priorAuthorityType.getPriorAuthorities().add(buildPriorAuthority());
+    return priorAuthorityType;
+  }
 
-    // Helper methods to create objects
-    private PriorAuthorityType buildPriorAuthorityType() {
-        PriorAuthorityType priorAuthorityType = new PriorAuthorityType();
-        priorAuthorityType.setCode("code1");
-        priorAuthorityType.setDescription("desc1");
-        priorAuthorityType.setValueRequired(Boolean.TRUE);
-        priorAuthorityType.setPriorAuthorities(new ArrayList<>());
-        priorAuthorityType.getPriorAuthorities().add(buildPriorAuthority());
-        return priorAuthorityType;
-    }
-
-    private PriorAuthority buildPriorAuthority() {
-        PriorAuthority priorAuthority = new PriorAuthority();
-        priorAuthority.setCode("priorCode1");
-        priorAuthority.setDescription("priorDesc1");
-        priorAuthority.setLovCode("lovCode1");
-        priorAuthority.setDataType("dataType1");
-        return priorAuthority;
-    }
+  private PriorAuthority buildPriorAuthority() {
+    PriorAuthority priorAuthority = new PriorAuthority();
+    priorAuthority.setCode("priorCode1");
+    priorAuthority.setDescription("priorDesc1");
+    priorAuthority.setLovCode("lovCode1");
+    priorAuthority.setDataType("dataType1");
+    return priorAuthority;
+  }
 }

@@ -18,77 +18,78 @@ import uk.gov.laa.ccms.data.model.PriorAuthorityTypeDetails;
 @ExtendWith(MockitoExtension.class)
 class PriorAuthorityDetailMapperImplTest {
 
-    PriorAuthorityDetailMapperImpl mapper = new PriorAuthorityDetailMapperImpl();
-    
-    // Tests
-    @Test
-    void toPriorAuthorityTypeDetails() {
-        List<PriorAuthorityType> priorAuthorityTypes = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            priorAuthorityTypes.add(createPriorAuthorityType(String.valueOf(i)));
-        }
+  PriorAuthorityDetailMapperImpl mapper = new PriorAuthorityDetailMapperImpl();
 
-        Page<PriorAuthorityType> priorAuthorityTypePage = new PageImpl<>(priorAuthorityTypes);
-        PriorAuthorityTypeDetails expected =
-            createPriorAuthorityTypeDetails(priorAuthorityTypePage);
-
-        PriorAuthorityTypeDetails actual =
-            mapper.toPriorAuthorityTypeDetails(priorAuthorityTypePage);
-
-        assertEquals(expected, actual);
+  // Tests
+  @Test
+  void toPriorAuthorityTypeDetails() {
+    List<PriorAuthorityType> priorAuthorityTypes = new ArrayList<>();
+    for (int i = 0; i < 5; i++) {
+      priorAuthorityTypes.add(createPriorAuthorityType(String.valueOf(i)));
     }
 
+    Page<PriorAuthorityType> priorAuthorityTypePage = new PageImpl<>(priorAuthorityTypes);
+    PriorAuthorityTypeDetails expected = createPriorAuthorityTypeDetails(priorAuthorityTypePage);
 
-    // Helper methods to create objects
-    private PriorAuthorityType createPriorAuthorityType(String suffix) {
-        PriorAuthorityType priorAuthorityType = new PriorAuthorityType();
-        priorAuthorityType.setCode("code" + suffix);
-        priorAuthorityType.setDescription("description" + suffix);
-        priorAuthorityType.setValueRequired(Boolean.TRUE);
-        priorAuthorityType.setPriorAuthorities(new ArrayList<>());
-        priorAuthorityType.getPriorAuthorities().add(createPriorAuthority(suffix));
-        return priorAuthorityType;
-    }
+    PriorAuthorityTypeDetails actual = mapper.toPriorAuthorityTypeDetails(priorAuthorityTypePage);
 
-    private PriorAuthority createPriorAuthority(String suffix) {
-        PriorAuthority priorAuthority = new PriorAuthority();
-        priorAuthority.setCode("code" + suffix);
-        priorAuthority.setDescription("description" + suffix);
-        priorAuthority.setDataType("datatype" + suffix);
-        priorAuthority.setLovCode("lov" + suffix);
-        return priorAuthority;
-    }
+    assertEquals(expected, actual);
+  }
 
-    private PriorAuthorityTypeDetails createPriorAuthorityTypeDetails(
-        Page<PriorAuthorityType> priorAuthorityTypes) {
-        PriorAuthorityTypeDetails priorAuthorityTypeDetails = new PriorAuthorityTypeDetails()
+  // Helper methods to create objects
+  private PriorAuthorityType createPriorAuthorityType(String suffix) {
+    PriorAuthorityType priorAuthorityType = new PriorAuthorityType();
+    priorAuthorityType.setCode("code" + suffix);
+    priorAuthorityType.setDescription("description" + suffix);
+    priorAuthorityType.setValueRequired(Boolean.TRUE);
+    priorAuthorityType.setPriorAuthorities(new ArrayList<>());
+    priorAuthorityType.getPriorAuthorities().add(createPriorAuthority(suffix));
+    return priorAuthorityType;
+  }
+
+  private PriorAuthority createPriorAuthority(String suffix) {
+    PriorAuthority priorAuthority = new PriorAuthority();
+    priorAuthority.setCode("code" + suffix);
+    priorAuthority.setDescription("description" + suffix);
+    priorAuthority.setDataType("datatype" + suffix);
+    priorAuthority.setLovCode("lov" + suffix);
+    return priorAuthority;
+  }
+
+  private PriorAuthorityTypeDetails createPriorAuthorityTypeDetails(
+      Page<PriorAuthorityType> priorAuthorityTypes) {
+    PriorAuthorityTypeDetails priorAuthorityTypeDetails =
+        new PriorAuthorityTypeDetails()
             .number(priorAuthorityTypes.getNumber())
             .size(priorAuthorityTypes.getSize())
             .totalPages(priorAuthorityTypes.getTotalPages())
             .totalElements((int) priorAuthorityTypes.getTotalElements());
 
-        priorAuthorityTypes.getContent().forEach(
-            priorAuthorityType -> priorAuthorityTypeDetails.addContentItem(
-                createPriorAuthorityTypeDetail(priorAuthorityType)));
+    priorAuthorityTypes
+        .getContent()
+        .forEach(
+            priorAuthorityType ->
+                priorAuthorityTypeDetails.addContentItem(
+                    createPriorAuthorityTypeDetail(priorAuthorityType)));
 
-        return priorAuthorityTypeDetails;
-    }
+    return priorAuthorityTypeDetails;
+  }
 
-    private PriorAuthorityTypeDetail createPriorAuthorityTypeDetail(
-        PriorAuthorityType priorAuthorityType) {
-        return new PriorAuthorityTypeDetail()
-            .code(priorAuthorityType.getCode())
-            .description(priorAuthorityType.getDescription())
-            .valueRequired(priorAuthorityType.getValueRequired())
-            .addPriorAuthoritiesItem(
-                createPriorAuthorityDetail(priorAuthorityType.getPriorAuthorities().getFirst()));
-    }
+  private PriorAuthorityTypeDetail createPriorAuthorityTypeDetail(
+      PriorAuthorityType priorAuthorityType) {
+    return new PriorAuthorityTypeDetail()
+        .code(priorAuthorityType.getCode())
+        .description(priorAuthorityType.getDescription())
+        .valueRequired(priorAuthorityType.getValueRequired())
+        .addPriorAuthoritiesItem(
+            createPriorAuthorityDetail(priorAuthorityType.getPriorAuthorities().getFirst()));
+  }
 
-    private PriorAuthorityDetail createPriorAuthorityDetail(PriorAuthority priorAuthority) {
-        return new PriorAuthorityDetail()
-            .code(priorAuthority.getCode())
-            .description(priorAuthority.getDescription())
-            .dataType(priorAuthority.getDataType())
-            .lovCode(priorAuthority.getLovCode());
-    }
+  private PriorAuthorityDetail createPriorAuthorityDetail(PriorAuthority priorAuthority) {
+    return new PriorAuthorityDetail()
+        .code(priorAuthority.getCode())
+        .description(priorAuthority.getDescription())
+        .dataType(priorAuthority.getDataType())
+        .lovCode(priorAuthority.getLovCode());
+  }
 }

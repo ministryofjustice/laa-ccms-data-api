@@ -12,13 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 /**
- * Represents a notification note entity from the <b>XXCCMS_NOTIFICATION_NOTES_V</b> database
- *     view.
+ * Represents a notification note entity from the <b>XXCCMS_NOTIFICATION_NOTES_V</b> database view.
  *
- * <p>This entity captures details about a notification's note. It provides fields relating to
- *     a note including its text, who created the note, and when it was created.</p>
+ * <p>This entity captures details about a notification's note. It provides fields relating to a
+ * note including its text, who created the note, and when it was created.
  *
- * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>This class is immutable, and its instances can be created using the builder pattern.
  *
  * @author Jamie Briggs
  * @see NotificationInfo
@@ -47,6 +46,4 @@ public class NotificationNote {
 
   @Column(name = "NOTE_BY", length = 360)
   private String noteBy;
-
-
 }

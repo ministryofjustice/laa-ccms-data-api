@@ -22,19 +22,19 @@ import org.hibernate.annotations.Immutable;
  *
  * <p>This entity captures details about notifications, such as the user it is assigned to,
  * associated case references, client information, deadlines, and related metadata. It provides
- * essential fields to track the status, associated client, supporting documents, and notes.</p>
+ * essential fields to track the status, associated client, supporting documents, and notes.
  *
- * <p>This entity also includes four <i>one-to-many</i> relationships for other associated
- * content relating to the {@link NotificationInfo}:
- *     <ul>
- *       <li>Notes relating to this notification.</li>
- *       <li>Documents uploaded relating to this notification.</li>
- *       <li>Attachments relating to this notification.</li>
- *       <li>Actions relating to this notification.</li>
- *     </ul>
- * </p>
+ * <p>This entity also includes four <i>one-to-many</i> relationships for other associated content
+ * relating to the {@link NotificationInfo}:
  *
- * <p>The class is immutable, and its instances can be created using the builder pattern.</p>
+ * <ul>
+ *   <li>Notes relating to this notification.
+ *   <li>Documents uploaded relating to this notification.
+ *   <li>Attachments relating to this notification.
+ *   <li>Actions relating to this notification.
+ * </ul>
+ *
+ * <p>The class is immutable, and its instances can be created using the builder pattern.
  *
  * @author Jamie Briggs
  * @see NotificationNote
@@ -52,8 +52,7 @@ import org.hibernate.annotations.Immutable;
 @RequiredArgsConstructor
 public class NotificationInfo {
 
-  @Id
-  private long notificationId;
+  @Id private long notificationId;
 
   @Column(name = "USER_ID", length = 100)
   private String userId;
@@ -120,7 +119,4 @@ public class NotificationInfo {
   @Column(name = "EVIDENCE_ALLOWED_IND")
   @Convert(converter = BooleanStringConverter.class)
   private Boolean evidenceAllowedIndicator;
-
-
-
 }

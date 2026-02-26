@@ -13,12 +13,10 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a case search entity from the <b>XXCCMS_CASE_SEARCH_V</b> database view.
  *
- * <p>This entity captures various attributes associated with a legal case,
- * such as case references, provider information,
- * case status, and associated client information.</p>
+ * <p>This entity captures various attributes associated with a legal case, such as case references,
+ * provider information, case status, and associated client information.
  *
- * <p>The class is immutable, and it's instances can be created using the builder pattern.</p>
- *
+ * <p>The class is immutable, and it's instances can be created using the builder pattern.
  */
 @Entity
 @Table(name = "XXCCMS_CASE_SEARCH_V", schema = "XXCCMS")

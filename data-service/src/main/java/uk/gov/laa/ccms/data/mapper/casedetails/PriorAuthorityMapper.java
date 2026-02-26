@@ -22,8 +22,8 @@ public interface PriorAuthorityMapper {
   PriorAuthorityAttribute mapToPriorAuthorityAttribute(PriorAuthorityAttributeXml priorAuthority);
 
   /**
-   * Ensures strings are not empty, which helps support mapping to parsed values such as
-   *     {@code BigDecimal}.
+   * Ensures strings are not empty, which helps support mapping to parsed values such as {@code
+   * BigDecimal}.
    *
    * @param value The string which is currently being mapped.
    * @return Returns true if the string is not empty or null.

@@ -21,8 +21,8 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class LiablePartyXml {
 
-  @JacksonXmlProperty(localName = "OtherPartyID",
+  @JacksonXmlProperty(
+      localName = "OtherPartyID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherPartyId;
-
 }

@@ -12,10 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
-/**
- * Represents a user role in the system.
- */
+/** Represents a user role in the system. */
 @Entity
 @Immutable
 @Data
@@ -25,16 +22,12 @@ import org.hibernate.annotations.Immutable;
 @IdClass(UserRole.class)
 public class UserRole implements Serializable {
 
-  /**
-   * The login ID of the user.
-   */
+  /** The login ID of the user. */
   @Id
   @Column(name = "USER_LOGIN_ID")
   private String loginId;
 
-  /**
-   * The function associated with the user role.
-   */
+  /** The function associated with the user role. */
   @Id
   @Column(name = "FUNCTION")
   private String function;

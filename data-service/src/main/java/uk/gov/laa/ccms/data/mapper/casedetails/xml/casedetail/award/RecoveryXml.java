@@ -21,27 +21,29 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class RecoveryXml {
 
-  @JacksonXmlProperty(localName = "AwardValue",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardValue", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardValue;
 
-  @JacksonXmlProperty(localName = "RecoveredAmount",
+  @JacksonXmlProperty(
+      localName = "RecoveredAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private RecoveredAmountXml recoveredAmount;
 
-  @JacksonXmlProperty(localName = "UnRecoveredAmount",
+  @JacksonXmlProperty(
+      localName = "UnRecoveredAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String unRecoveredAmount;
 
-  @JacksonXmlProperty(localName = "LeaveOfCourtReqdInd",
+  @JacksonXmlProperty(
+      localName = "LeaveOfCourtReqdInd",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean leaveOfCourtRequiredIndicator;
 
-  @JacksonXmlProperty(localName = "OfferedAmount",
+  @JacksonXmlProperty(
+      localName = "OfferedAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private OfferedAmountXml offeredAmount;
 
-  @JacksonXmlProperty(localName = "Amount",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String amount;
 }

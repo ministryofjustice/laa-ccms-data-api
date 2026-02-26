@@ -25,11 +25,11 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.OrganisationXml;
 @AllArgsConstructor
 public final class OtherPartyDetailXml {
 
-  @JacksonXmlProperty(localName = "Person",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Person", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private PersonXml person;
-  @JacksonXmlProperty(localName = "Organization",
+
+  @JacksonXmlProperty(
+      localName = "Organization",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private OrganisationXml organisation;
-
 }

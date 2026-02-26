@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.entity;
 
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
@@ -16,9 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Immutable;
 
-/**
- * Represents an assessment summary attribute entity with various display properties.
- */
+/** Represents an assessment summary attribute entity with various display properties. */
 @Getter
 @Setter
 @Entity
@@ -66,6 +63,4 @@ public class AssessmentSummaryAttribute implements Serializable {
       insertable = false,
       updatable = false)
   private AssessmentSummaryEntity entity;
-
 }
-

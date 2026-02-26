@@ -3,7 +3,6 @@ package uk.gov.laa.ccms.data.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -26,36 +25,28 @@ import uk.gov.laa.ccms.data.repository.CaseSearchRepository;
 @DisplayName("Case search service test")
 class CaseSearchServiceTest {
 
-  @Mock
-  private CaseSearchRepository caseSearchRepository;
+  @Mock private CaseSearchRepository caseSearchRepository;
 
   private CaseSearchService caseSearchService;
 
   @BeforeEach
-  void setup(){
+  void setup() {
     caseSearchService = new CaseSearchService(caseSearchRepository, new CaseSearchMapperImpl());
   }
 
   @Test
   @DisplayName("Should return CaseSummary object")
-  void shouldReturnCaseSummaryObject(){
+  void shouldReturnCaseSummaryObject() {
     // Given
     new CaseSearch();
-    when(caseSearchRepository.findAll(
-        any(),
-        any(Pageable.class))).thenReturn(new PageImpl<>(List.of(
-        CaseSearch.builder().lscCaseReference("123").build())));
+    when(caseSearchRepository.findAll(any(), any(Pageable.class)))
+        .thenReturn(new PageImpl<>(List.of(CaseSearch.builder().lscCaseReference("123").build())));
     // When
-    Optional<CaseDetails> cases = caseSearchService.getCases(1L, "123",
-        "345",
-        "ACT",
-        "Surname",
-        1L,
-        2L,
-        PageRequest.of(1, 10));
+    Optional<CaseDetails> cases =
+        caseSearchService.getCases(
+            1L, "123", "345", "ACT", "Surname", 1L, 2L, PageRequest.of(1, 10));
     // Then
     assertTrue(cases.isPresent());
     assertEquals("123", cases.get().getContent().getFirst().getCaseReferenceNumber());
   }
-
 }

@@ -21,15 +21,12 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class ValuationXml {
 
-  @JacksonXmlProperty(localName = "Amount",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String amount;
 
-  @JacksonXmlProperty(localName = "Criteria",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Criteria", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String criteria;
 
-  @JacksonXmlProperty(localName = "Date",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Date", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate date;
 }

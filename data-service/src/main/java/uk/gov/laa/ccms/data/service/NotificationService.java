@@ -27,9 +27,9 @@ import uk.gov.laa.ccms.data.repository.specification.NotificationInfoSpecificati
 /**
  * Service class responsible for handling notification-related operations.
  *
- * <p>This class serves to manage the retrieval of notification summaries
- * for users, bridging the interactions between repositories, mappers,
- * and other services required to obtain and synthesize notification data.</p>
+ * <p>This class serves to manage the retrieval of notification summaries for users, bridging the
+ * interactions between repositories, mappers, and other services required to obtain and synthesize
+ * notification data.
  *
  * @author Jamie Briggs
  */
@@ -79,23 +79,32 @@ public class NotificationService {
    * @param pageable the pageable to describe the requested pagination format.
    * @return a paginated list of notifications.
    */
-  public Optional<Notifications> getNotifications(final long providerId,
+  public Optional<Notifications> getNotifications(
+      final long providerId,
       String caseReferenceNumber,
-      String providerCaseReference, String assignedToUserId, String clientSurname,
-      Integer feeEarnerId, boolean includeClosed, String notificationType, LocalDate dateFrom,
-      LocalDate dateTo, Pageable pageable) {
-    Page<NotificationInfo> byAssignedTo = notificationSearchRepository.findAll(
-        NotificationInfoSpecification.filterBy(providerId,
-        caseReferenceNumber,
-        providerCaseReference,
-        assignedToUserId,
-        clientSurname,
-        feeEarnerId,
-        includeClosed,
-        notificationType,
-        dateFrom,
-        dateTo),
-        pageable);
+      String providerCaseReference,
+      String assignedToUserId,
+      String clientSurname,
+      Integer feeEarnerId,
+      boolean includeClosed,
+      String notificationType,
+      LocalDate dateFrom,
+      LocalDate dateTo,
+      Pageable pageable) {
+    Page<NotificationInfo> byAssignedTo =
+        notificationSearchRepository.findAll(
+            NotificationInfoSpecification.filterBy(
+                providerId,
+                caseReferenceNumber,
+                providerCaseReference,
+                assignedToUserId,
+                clientSurname,
+                feeEarnerId,
+                includeClosed,
+                notificationType,
+                dateFrom,
+                dateTo),
+            pageable);
     Notifications notifications = notificationsMapper.mapToNotificationsList(byAssignedTo);
     return Optional.ofNullable(notifications);
   }
@@ -106,16 +115,15 @@ public class NotificationService {
    * @param notificationId the unique identifier of the notification to retrieve
    * @param userId the identifier of the user assigned to the notification to retrieve
    * @param providerFirmId the identifier of the provider firm to validate access
-   * @return an Optional containing the Notification if found and accessible,
-   *     otherwise an empty Optional
-   * @throws ResponseStatusException if the provider firm ID does not match,
-   *     returning a forbidden status
+   * @return an Optional containing the Notification if found and accessible, otherwise an empty
+   *     Optional
+   * @throws ResponseStatusException if the provider firm ID does not match, returning a forbidden
+   *     status
    */
-  public Optional<Notification> getNotification(final long notificationId,
-      final String userId,
-      final long providerFirmId) {
-    Optional<NotificationInfo> byId = notificationRepository
-        .findByNotificationIdAndUserId(notificationId, userId);
+  public Optional<Notification> getNotification(
+      final long notificationId, final String userId, final long providerFirmId) {
+    Optional<NotificationInfo> byId =
+        notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
 
     // Return empty if not found
     if (byId.isEmpty()) {
@@ -123,10 +131,9 @@ public class NotificationService {
     }
 
     // Return notification if exists, throw forbidden exception if provider firm ID mismatch
-    return Optional.ofNullable(byId
-        .filter(notification -> notification.getProviderFirmId() == providerFirmId)
-        .map(notificationMapper::mapToNotification)
-        .orElseThrow(() -> new ResponseStatusException(FORBIDDEN, "Access Denied")));
-
+    return Optional.ofNullable(
+        byId.filter(notification -> notification.getProviderFirmId() == providerFirmId)
+            .map(notificationMapper::mapToNotification)
+            .orElseThrow(() -> new ResponseStatusException(FORBIDDEN, "Access Denied")));
   }
 }

@@ -103,7 +103,7 @@ public interface LookupMapper {
 
   @Mapping(target = "devolvedPowersIndicator", source = "devolvedPowersInd")
   AmendmentTypeLookupValueDetail toAmendmentTypeLookupValueDetail(
-          AmendmentTypeLookupValue lookupValue);
+      AmendmentTypeLookupValue lookupValue);
 
   OutcomeResultLookupDetail toOutcomeResultLookupDetail(
       Page<OutcomeResultLookupValue> lookupValues);
@@ -113,20 +113,17 @@ public interface LookupMapper {
   OutcomeResultLookupValueDetail toOutcomeResultLookupValueDetail(
       OutcomeResultLookupValue outcomeResultLookupValue);
 
-  StageEndLookupDetail toStageEndLookupDetail(
-      Page<StageEndLookupValue> lookupValues);
+  StageEndLookupDetail toStageEndLookupDetail(Page<StageEndLookupValue> lookupValues);
 
   @Mapping(target = "proceedingCode", source = "id.proceedingCode")
   @Mapping(target = "stageEnd", source = "id.stageEnd")
-  StageEndLookupValueDetail toStageEndLookupValueDetail(
-      StageEndLookupValue stageEndLookupValue);
+  StageEndLookupValueDetail toStageEndLookupValueDetail(StageEndLookupValue stageEndLookupValue);
 
   RelationshipToCaseLookupDetail toRelationshipToCaseLookupDetail(
       Page<PersonRelationshipToCaseLookupValue> lookupValues);
 
   RelationshipToCaseLookupValueDetail toRelationshipToCaseLookupValueDetail(
       PersonRelationshipToCaseLookupValue personRelationshipToCaseLookupValue);
-
 
   RelationshipToCaseLookupDetail toOrgRelationshipToCaseLookupDetail(
       Page<OrganisationRelationshipToCaseLookupValue> lookupValues);
@@ -135,8 +132,7 @@ public interface LookupMapper {
   RelationshipToCaseLookupValueDetail toOrgRelationshipToCaseLookupValueDetail(
       OrganisationRelationshipToCaseLookupValue organisationRelationshipToCaseLookupValue);
 
-  AwardTypeLookupDetail toAwardTypeLookupDetail(
-      Page<AwardTypeLookupValue> awardTypeLookupValues);
+  AwardTypeLookupDetail toAwardTypeLookupDetail(Page<AwardTypeLookupValue> awardTypeLookupValues);
 
   AwardTypeLookupValueDetail toAwardTypeLookupValueDetail(
       AwardTypeLookupValue awardTypeLookupValue);
@@ -168,14 +164,12 @@ public interface LookupMapper {
   AssessmentSummaryAttributeLookupValueDetail toAssessmentSummaryAttributeLookupValueDetail(
       AssessmentSummaryAttribute assessmentSummaryAttribute);
 
-  DeclarationLookupDetail toDeclarationLookupDetail(
-      Page<Declaration> declarations);
+  DeclarationLookupDetail toDeclarationLookupDetail(Page<Declaration> declarations);
 
   @Mapping(target = "type", source = "declarationType")
   @Mapping(target = "number", source = "declarationNumber")
   @Mapping(target = "text", source = "declarationText")
-  DeclarationLookupValueDetail toDeclarationLookupValueDetail(
-      Declaration declaration);
+  DeclarationLookupValueDetail toDeclarationLookupValueDetail(Declaration declaration);
 
   ProviderRequestTypeLookupDetail toProviderRequestTypeLookupDetail(
       Page<ProviderRequestType> providerRequestTypes);
@@ -193,8 +187,4 @@ public interface LookupMapper {
   @Mapping(source = "dataItemSeq", target = "sequence")
   ProviderRequestDataLookupValueDetail toProviderRequestDataLookupValueDetail(
       ProviderRequestData providerRequestData);
-
-
-
-
 }

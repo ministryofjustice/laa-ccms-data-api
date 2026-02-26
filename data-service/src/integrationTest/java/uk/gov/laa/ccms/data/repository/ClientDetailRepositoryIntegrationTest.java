@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.repository;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -22,17 +21,16 @@ import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
 
 @SpringBootTest
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
-@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_CLASS, scripts = {
-    "/sql/get_client_details_create_schema.sql"
-})
-@Sql(executionPhase = ExecutionPhase.AFTER_TEST_CLASS, scripts = {
-    "/sql/get_client_details_drop_schema.sql"
-})
+@Sql(
+    executionPhase = ExecutionPhase.BEFORE_TEST_CLASS,
+    scripts = {"/sql/get_client_details_create_schema.sql"})
+@Sql(
+    executionPhase = ExecutionPhase.AFTER_TEST_CLASS,
+    scripts = {"/sql/get_client_details_drop_schema.sql"})
 @DisplayName("Client search repository integration tests")
 public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationTestInterface {
 
-  @Autowired
-  private ClientDetailRepository repository;
+  @Autowired private ClientDetailRepository repository;
 
   @ParameterizedTest
   @NullAndEmptySource
@@ -40,11 +38,17 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
   void shouldReturnTwoClientDetails(String emptyStringInput) {
     // Given
     // When
-    Page<ClientDetail> result = repository.findAll(
-        ClientDetailSpecification.filterBy(emptyStringInput, emptyStringInput,
-            null,
-            emptyStringInput, emptyStringInput, emptyStringInput, emptyStringInput),
-        PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                emptyStringInput,
+                emptyStringInput,
+                null,
+                emptyStringInput,
+                emptyStringInput,
+                emptyStringInput,
+                emptyStringInput),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getTotalElements());
   }
@@ -54,10 +58,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
   void shouldReturnSingleClientDetail() {
     // Given
     // When
-    Page<ClientDetail> result = repository.findAll(
-        ClientDetailSpecification.filterBy(null, null, null,
-            null, null, null, null),
-        PageRequest.of(0, 1));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, null, null, null, null, null, null),
+            PageRequest.of(0, 1));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals(2, result.getTotalPages());
@@ -70,9 +74,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String firstName = "john";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(firstName,
-        null, null, null, null,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(firstName, null, null, null, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals("John", result.getContent().getFirst().getFirstName());
@@ -84,9 +89,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String firstName = "j";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(firstName,
-        null, null, null, null,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(firstName, null, null, null, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
     assertEquals("John", result.getContent().getFirst().getFirstName());
@@ -99,9 +105,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String surname = "smithson";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null,
-        surname, null, null, null,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, surname, null, null, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals("Doe", result.getContent().getFirst().getSurname());
@@ -114,9 +121,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String surname = "smith";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null,
-        surname, null, null, null,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, surname, null, null, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
     assertEquals("Smithson", result.getContent().getFirst().getSurnameAtBirth());
@@ -129,10 +137,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     LocalDate dateOfBirth = LocalDate.of(1985, 06, 15);
     // When
-    Page<ClientDetail> result = repository.findAll(
-        ClientDetailSpecification.filterBy(null, null, dateOfBirth,
-            null, null, null, null),
-        PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, null, dateOfBirth, null, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals(dateOfBirth, result.getContent().getFirst().getDateOfBirth());
@@ -144,10 +152,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String gender = "male";
     // When
-    Page<ClientDetail> result = repository.findAll(
-        ClientDetailSpecification.filterBy(null, null, null,
-            gender, null, null, null),
-        PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, null, null, gender, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals("Male", result.getContent().getFirst().getGender());
@@ -159,9 +167,10 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String gender = "FEMALE";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-        null, gender, null, null,
-        null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, null, null, gender, null, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
     assertEquals("Female", result.getContent().getFirst().getGender());
@@ -173,13 +182,14 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String clientReferenceNumber = "100000000000001";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-        null, null, clientReferenceNumber,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, clientReferenceNumber, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
-    assertEquals(100000000000001L, result.getContent().getFirst()
-        .getClientReferenceNumber());
+    assertEquals(100000000000001L, result.getContent().getFirst().getClientReferenceNumber());
   }
 
   @Test
@@ -188,15 +198,15 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String clientReferenceNumber = "10000000000";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-        null, null, clientReferenceNumber,
-        null, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, clientReferenceNumber, null, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
-    assertEquals(100000000000001L, result.getContent().getFirst()
-        .getClientReferenceNumber());
-    assertEquals(100000000000002L, result.getContent().get(1)
-        .getClientReferenceNumber());
+    assertEquals(100000000000001L, result.getContent().getFirst().getClientReferenceNumber());
+    assertEquals(100000000000002L, result.getContent().get(1).getClientReferenceNumber());
   }
 
   @Test
@@ -205,14 +215,14 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String homeOfficeNumber = "HO123456";
     // When
-    Page<ClientDetail> result = repository.findAll(
-        ClientDetailSpecification.filterBy(null, null,
-            null, null, null,
-            homeOfficeNumber, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, null, homeOfficeNumber, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
-    assertEquals("HO123456", result.getContent().getFirst()
-        .getHomeOfficeNumber());
+    assertEquals("HO123456", result.getContent().getFirst().getHomeOfficeNumber());
   }
 
   @Test
@@ -221,15 +231,15 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String homeOfficeNumber = "HO";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-        null, null, null,
-        homeOfficeNumber, null), PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, null, homeOfficeNumber, null),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
-    assertEquals("HO123456", result.getContent().getFirst()
-        .getHomeOfficeNumber());
-    assertEquals("HO987654", result.getContent().get(1)
-        .getHomeOfficeNumber());
+    assertEquals("HO123456", result.getContent().getFirst().getHomeOfficeNumber());
+    assertEquals("HO987654", result.getContent().get(1).getHomeOfficeNumber());
   }
 
   @Test
@@ -238,14 +248,14 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String nationalInsuranceNumber = "AB123456C";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-            null, null, null,
-            null, nationalInsuranceNumber),
-        PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, null, null, nationalInsuranceNumber),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(1L, result.getContent().size());
-    assertEquals("AB123456C", result.getContent().getFirst()
-        .getNationalInsuranceNumber());
+    assertEquals("AB123456C", result.getContent().getFirst().getNationalInsuranceNumber());
   }
 
   @Test
@@ -254,16 +264,15 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
     // Given
     String nationalInsuranceNumber = "123";
     // When
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-            null, null, null,
-            null, nationalInsuranceNumber),
-        PageRequest.of(0, 10));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(
+                null, null, null, null, null, null, nationalInsuranceNumber),
+            PageRequest.of(0, 10));
     // Then
     assertEquals(2L, result.getContent().size());
-    assertEquals("AB123456C", result.getContent().getFirst()
-        .getNationalInsuranceNumber());
-    assertEquals("CD123654E", result.getContent().get(1)
-        .getNationalInsuranceNumber());
+    assertEquals("AB123456C", result.getContent().getFirst().getNationalInsuranceNumber());
+    assertEquals("CD123654E", result.getContent().get(1).getNationalInsuranceNumber());
   }
 
   @Test
@@ -271,18 +280,13 @@ public class ClientDetailRepositoryIntegrationTest implements OracleIntegrationT
   void shouldSortByFirstName() {
     // Given
     // When
-    PageRequest pageable = PageRequest.of(0, 10,
-        Sort.by(Sort.Order.asc("FirstName")));
-    Page<ClientDetail> result = repository.findAll(ClientDetailSpecification.filterBy(null, null,
-            null, null, null,
-            null, null),
-        pageable);
+    PageRequest pageable = PageRequest.of(0, 10, Sort.by(Sort.Order.asc("FirstName")));
+    Page<ClientDetail> result =
+        repository.findAll(
+            ClientDetailSpecification.filterBy(null, null, null, null, null, null, null), pageable);
     // Then
     assertEquals(2L, result.getContent().size());
-    assertEquals("Jane", result.getContent().getFirst()
-        .getFirstName());
-    assertEquals("John", result.getContent().get(1)
-        .getFirstName());
+    assertEquals("Jane", result.getContent().getFirst().getFirstName());
+    assertEquals("John", result.getContent().get(1).getFirstName());
   }
-
 }

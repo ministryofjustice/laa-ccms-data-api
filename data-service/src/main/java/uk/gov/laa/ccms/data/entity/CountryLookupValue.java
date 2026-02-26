@@ -14,10 +14,10 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a lookup value for countries.
  *
- * <p>This entity corresponds to the "XXCCMS_COUNTRY_TYPES_V" table in the database.
- * The JSON representation of this entity uses the snake case naming strategy.</p>
+ * <p>This entity corresponds to the "XXCCMS_COUNTRY_TYPES_V" table in the database. The JSON
+ * representation of this entity uses the snake case naming strategy.
  *
- * <p>It's an immutable entity, meaning that its state cannot be changed once it's created.</p>
+ * <p>It's an immutable entity, meaning that its state cannot be changed once it's created.
  *
  * @see com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -37,5 +37,4 @@ public class CountryLookupValue {
   @Id
   @Column(name = "DESCRIPTION")
   private String description;
-
 }

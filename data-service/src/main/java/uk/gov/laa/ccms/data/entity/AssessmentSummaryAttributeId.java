@@ -5,9 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 import org.hibernate.annotations.Immutable;
 
-/**
- * Represents the composite primary key for the AssessmentSummaryAttribute entity.
- */
+/** Represents the composite primary key for the AssessmentSummaryAttribute entity. */
 @Data
 @Immutable
 public class AssessmentSummaryAttributeId implements Serializable {
@@ -24,4 +22,3 @@ public class AssessmentSummaryAttributeId implements Serializable {
   @Column(name = "OPA_ATTRIBUTE_DISPLAY_NAME")
   private String opaAttributeDisplayName;
 }
-

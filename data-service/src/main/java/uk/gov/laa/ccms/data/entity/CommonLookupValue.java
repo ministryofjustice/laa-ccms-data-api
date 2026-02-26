@@ -13,15 +13,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
 /**
  * Represents a common lookup value entity.
  *
  * <p>This entity corresponds to the "XXCCMS_COMMON_LOV_V" table in the database and is used for
  * general-purpose lookup values. Each record is uniquely identified by its type and code, both
- * serving as composite primary keys.</p>
+ * serving as composite primary keys.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -59,6 +58,4 @@ public class CommonLookupValue implements Serializable {
 
   @Column(name = "DEFAULT_CODE")
   private String defaultCode;
-
 }
-

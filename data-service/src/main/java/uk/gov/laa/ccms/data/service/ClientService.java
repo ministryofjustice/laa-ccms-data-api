@@ -20,8 +20,8 @@ import uk.gov.laa.ccms.data.repository.specification.ClientDetailSpecification;
  * Service class responsible for handling client-related operations.
  *
  * <p>This class provides methods to retrieve transaction statuses for client-related transactions.
- * It utilizes a repository for database access and a mapper for converting database entities
- * to objects used in the application.</p>
+ * It utilizes a repository for database access and a mapper for converting database entities to
+ * objects used in the application.
  *
  * @see TransactionStatusRepository
  * @see TransactionStatusMapper
@@ -37,25 +37,24 @@ public class ClientService {
   private final TransactionStatusMapper transactionStatusMapper;
 
   /**
-   * Retrieves the transaction status for a given transaction ID. If the transaction
-   *     is not found, an empty {@code Optional} is returned.
+   * Retrieves the transaction status for a given transaction ID. If the transaction is not found,
+   * an empty {@code Optional} is returned.
    *
-   * @param transactionId the unique identifier of the transaction whose status
-   *     is to be retrieved
-   * @return an {@code Optional} containing the {@link TransactionStatus} if found,
-   *     or an empty {@code Optional} if not found
-   * @throws ClientServiceException throws exception when there was an error found
-   *     with the associated transaction ID
+   * @param transactionId the unique identifier of the transaction whose status is to be retrieved
+   * @return an {@code Optional} containing the {@link TransactionStatus} if found, or an empty
+   *     {@code Optional} if not found
+   * @throws ClientServiceException throws exception when there was an error found with the
+   *     associated transaction ID
    */
   public Optional<TransactionStatus> getTransactionStatus(String transactionId)
       throws ClientServiceException {
     List<uk.gov.laa.ccms.data.entity.TransactionStatus> userFuncStatus =
         transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(transactionId);
-    if (userFuncStatus.stream().anyMatch(x -> x.getStatus()
-        .equalsIgnoreCase("ERROR"))) {
+    if (userFuncStatus.stream().anyMatch(x -> x.getStatus().equalsIgnoreCase("ERROR"))) {
       throw new ClientServiceException("Error found in user function");
     }
-    return transactionStatusRepository.findClientTransactionByTransactionId(transactionId)
+    return transactionStatusRepository
+        .findClientTransactionByTransactionId(transactionId)
         .map(transactionStatusMapper::toTransactionStatus);
   }
 
@@ -70,20 +69,30 @@ public class ClientService {
    * @param homeOfficeReference the home office reference number of the client
    * @param nationalInsuranceNumber the national insurance number of the client
    * @param pageable the pagination information
-   * @return an {@code Optional} containing {@link ClientDetails} if found, or an empty
-   *     {@code Optional} if no matching data is found
+   * @return an {@code Optional} containing {@link ClientDetails} if found, or an empty {@code
+   *     Optional} if no matching data is found
    */
-  public Optional<ClientDetails> getClients(String firstName, String surname,
-      LocalDate dateOfBirth, String gender, String clientReferenceNumber,
-      String homeOfficeReference, String nationalInsuranceNumber, Pageable pageable) {
-    Page<ClientDetail> pagedClients = clientDetailRepository.findAll(
-        ClientDetailSpecification.filterBy(firstName, surname,
-        dateOfBirth, gender, clientReferenceNumber, homeOfficeReference,
-        nationalInsuranceNumber), pageable);
-    ClientDetails clientDetails = clientDetailsMapper.mapToClientDetails(
-        pagedClients);
+  public Optional<ClientDetails> getClients(
+      String firstName,
+      String surname,
+      LocalDate dateOfBirth,
+      String gender,
+      String clientReferenceNumber,
+      String homeOfficeReference,
+      String nationalInsuranceNumber,
+      Pageable pageable) {
+    Page<ClientDetail> pagedClients =
+        clientDetailRepository.findAll(
+            ClientDetailSpecification.filterBy(
+                firstName,
+                surname,
+                dateOfBirth,
+                gender,
+                clientReferenceNumber,
+                homeOfficeReference,
+                nationalInsuranceNumber),
+            pageable);
+    ClientDetails clientDetails = clientDetailsMapper.mapToClientDetails(pagedClients);
     return Optional.ofNullable(clientDetails);
   }
-
-
 }

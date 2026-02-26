@@ -13,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class BooleanCharConverterTest {
 
-  @InjectMocks
-  BooleanCharConverter booleanCharConverter;
+  @InjectMocks BooleanCharConverter booleanCharConverter;
 
   @Test
   public void testConvertDbToEntity_Y() {
@@ -50,5 +49,4 @@ public class BooleanCharConverterTest {
   public void testEntityToDb_NULL() {
     assertNull(booleanCharConverter.convertToDatabaseColumn(null));
   }
-
 }

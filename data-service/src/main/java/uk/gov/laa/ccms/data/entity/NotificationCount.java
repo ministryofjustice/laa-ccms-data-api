@@ -16,8 +16,8 @@ import org.hibernate.annotations.Immutable;
  * Represents an immutable notification count entity corresponding to the
  * "XXCCMS_NOTIFICATION_COUNT_V" database view.
  *
- * <p>The entity tracks the total number of notifications for a specific user login
- * and notification type.
+ * <p>The entity tracks the total number of notifications for a specific user login and notification
+ * type.
  */
 @Entity
 @Data
@@ -34,20 +34,16 @@ public class NotificationCount {
   public static final String NOTIFICATION_TYPE_OVERDUE = "Overdue";
 
   /**
-   * The composite key for the NotificationCount entity.
-   * This key is used to uniquely identify a notification count entry
-   * based on the user login ID and notification type.
+   * The composite key for the NotificationCount entity. This key is used to uniquely identify a
+   * notification count entry based on the user login ID and notification type.
    */
-  @EmbeddedId
-  private NotificationCountId id;
+  @EmbeddedId private NotificationCountId id;
 
   /**
-   * Represents the total number of notifications associated with a specific
-   * user login and notification type. This field is stored in the
-   * "NOTIFICATION_COUNT" column of the corresponding database view.
+   * Represents the total number of notifications associated with a specific user login and
+   * notification type. This field is stored in the "NOTIFICATION_COUNT" column of the corresponding
+   * database view.
    */
   @Column(name = "NOTIFICATION_COUNT")
   private Integer notificationCount;
-
-
 }

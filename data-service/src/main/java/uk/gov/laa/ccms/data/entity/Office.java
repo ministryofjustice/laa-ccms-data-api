@@ -12,9 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-/**
- * Represents an Office entity.
- */
+/** Represents an Office entity. */
 @Entity
 @Data
 @NoArgsConstructor
@@ -23,20 +21,15 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Office {
 
-  /**
-   * The office ID.
-   */
+  /** The office ID. */
   @Id
   @Column(name = "OFFICE_ID")
   private Integer id;
 
-  /**
-   * The name of the office.
-   */
+  /** The name of the office. */
   @Column(name = "OFFICE_NAME")
   private String name;
 
   @OneToMany(mappedBy = "office")
   private List<FeeEarner> feeEarners;
-
 }

@@ -19,47 +19,50 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class OutcomeXml {
 
-  @JacksonXmlProperty(localName = "IssueDate",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "IssueDate", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate issueDate;
 
-  @JacksonXmlProperty(localName = "FinalWorkDate",
+  @JacksonXmlProperty(
+      localName = "FinalWorkDate",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate finalWorkDate;
 
-  @JacksonXmlProperty(localName = "StageEnd",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "StageEnd", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String stageEnd;
 
-  @JacksonXmlProperty(localName = "ResolutionMethod",
+  @JacksonXmlProperty(
+      localName = "ResolutionMethod",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String resolutionMethod;
 
-  @JacksonXmlProperty(localName = "Result",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Result", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String result;
 
-  @JacksonXmlProperty(localName = "AdditionalResultInfo",
+  @JacksonXmlProperty(
+      localName = "AdditionalResultInfo",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String additionalResultInfo;
 
-  @JacksonXmlProperty(localName = "AltDisputeResolution",
+  @JacksonXmlProperty(
+      localName = "AltDisputeResolution",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String altDisputeResolution;
 
-  @JacksonXmlProperty(localName = "AltAcceptanceReason",
+  @JacksonXmlProperty(
+      localName = "AltAcceptanceReason",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String altAcceptanceReason;
 
-  @JacksonXmlProperty(localName = "CourtCode",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "CourtCode", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String courtCode;
 
-  @JacksonXmlProperty(localName = "WiderBenefits",
+  @JacksonXmlProperty(
+      localName = "WiderBenefits",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String widerBenefits;
 
-  @JacksonXmlProperty(localName = "OutcomeCourtCaseNumber",
+  @JacksonXmlProperty(
+      localName = "OutcomeCourtCaseNumber",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String outcomeCourtCaseNumber;
 }

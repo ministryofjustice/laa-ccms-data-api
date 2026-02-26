@@ -23,32 +23,34 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
 @AllArgsConstructor
 public final class PriorAuthorityXml {
 
-  @JacksonXmlProperty(localName = "PriorAuthorityType",
+  @JacksonXmlProperty(
+      localName = "PriorAuthorityType",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String priorAuthorityType;
 
-  @JacksonXmlProperty(localName = "Description",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Description", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String description;
 
-  @JacksonXmlProperty(localName = "ReasonForRequest",
+  @JacksonXmlProperty(
+      localName = "ReasonForRequest",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String reasonForRequest;
 
-  @JacksonXmlProperty(localName = "RequestAmount",
+  @JacksonXmlProperty(
+      localName = "RequestAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String requestAmount;
 
-  @JacksonXmlProperty(localName = "DecisionStatus",
+  @JacksonXmlProperty(
+      localName = "DecisionStatus",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String decisionStatus;
 
-  @JacksonXmlProperty(localName = "AssessedAmount",
+  @JacksonXmlProperty(
+      localName = "AssessedAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String assessedAmount;
 
-  @JacksonXmlProperty(localName = "Details",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Details", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<PriorAuthorityAttributeXml> details;
-
 }

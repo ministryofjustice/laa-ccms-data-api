@@ -15,22 +15,19 @@ import uk.gov.laa.ccms.data.repository.NewCaseReferenceRepository;
 @ExtendWith({MockitoExtension.class})
 class NewCaseReferenceServiceTest {
 
-  @Mock
-  private NewCaseReferenceRepository newCaseReferenceRepository;
+  @Mock private NewCaseReferenceRepository newCaseReferenceRepository;
 
-  @InjectMocks
-  private NewCaseReferenceService newCaseReferenceService;
+  @InjectMocks private NewCaseReferenceService newCaseReferenceService;
 
   @Test
   @DisplayName("Should return CaseReferenceSummary object")
-  void shouldReturnCaseReferenceSummaryObject(){
+  void shouldReturnCaseReferenceSummaryObject() {
     // Given
     when(newCaseReferenceRepository.getNextCaseReference()).thenReturn("123");
     // When
-    CaseReferenceSummary nextAvailableCaseReference
-        = newCaseReferenceService.getNextAvailableCaseReference();
+    CaseReferenceSummary nextAvailableCaseReference =
+        newCaseReferenceService.getNextAvailableCaseReference();
     // Then
     assertEquals("123", nextAvailableCaseReference.getCaseReferenceNumber());
   }
-
 }

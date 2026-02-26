@@ -21,7 +21,7 @@ class ClientDetailsMapperImplTest {
 
   @Test
   @DisplayName("Should map empty client summary")
-  void shouldMapEmptyClientSummary(){
+  void shouldMapEmptyClientSummary() {
     // Given
     ClientDetail entity = new ClientDetail();
     // When
@@ -30,10 +30,10 @@ class ClientDetailsMapperImplTest {
     assertNotNull(result);
     assertEquals("", result.getPostalCode());
   }
-  
+
   @Test
   @DisplayName("Should map client summary")
-  void shouldMapToClientSummary(){
+  void shouldMapToClientSummary() {
     // Given
     ClientDetail entity = getTestClientDetail();
     // When
@@ -50,7 +50,7 @@ class ClientDetailsMapperImplTest {
 
   @Test
   @DisplayName("Should map postcode from address")
-  void shouldMapPostcodeFromAddress(){
+  void shouldMapPostcodeFromAddress() {
     // Given
     ClientDetail entity = getTestClientDetail();
     // When
@@ -62,7 +62,7 @@ class ClientDetailsMapperImplTest {
 
   @Test
   @DisplayName("Should map multiple clients")
-  void shouldMapMultipleClients(){
+  void shouldMapMultipleClients() {
     // Given
     ClientDetail entity = getTestClientDetail();
     ClientDetail entityTwo = getTestClientDetail();
@@ -75,7 +75,7 @@ class ClientDetailsMapperImplTest {
 
   @Test
   @DisplayName("Should map pageable properties")
-  void shouldMapPageableProperties(){
+  void shouldMapPageableProperties() {
     // Given
     ClientDetail entity = getTestClientDetail();
     ClientDetail entityTwo = getTestClientDetail();
@@ -108,7 +108,8 @@ class ClientDetailsMapperImplTest {
         .noFixAbode("false")
         .nationalInsuranceNumber("NINO")
         .homeOfficeNumber("Home Office Number")
-        .address("<Address><AddressID>52731</AddressID><House>26</House><AddressLine1>26, Grange Avenue</AddressLine1><City>BILLINGHAM</City><Country>GBR</Country><PostalCode>TS23 1JH</PostalCode></Address>")
+        .address(
+            "<Address><AddressID>52731</AddressID><House>26</House><AddressLine1>26, Grange Avenue</AddressLine1><City>BILLINGHAM</City><Country>GBR</Country><PostalCode>TS23 1JH</PostalCode></Address>")
         .build();
   }
 }

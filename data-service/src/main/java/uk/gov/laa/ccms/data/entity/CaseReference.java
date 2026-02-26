@@ -12,13 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
 /**
  * Represents a case reference from the generate reference view.
  *
  * @author Jamie Briggs
  * @see CaseReference
- * */
+ */
 @Getter
 @EqualsAndHashCode
 @Entity
@@ -28,9 +27,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 public class CaseReference implements Serializable {
 
-  /**
-   * The next available case reference number.
-   */
+  /** The next available case reference number. */
   @Id
   @Column(name = "NEW_CASE_REFERENCE")
   private String caseReference;

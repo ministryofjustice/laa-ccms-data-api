@@ -15,17 +15,18 @@ class DocumentMapperImplTest {
 
   @Test
   @DisplayName("Should map notification document to document")
-  void shouldMapNotificationDocumentToDocument(){
+  void shouldMapNotificationDocumentToDocument() {
     // Given
-    NotificationDocument document = NotificationDocument.builder()
-        .documentId(1L)
-        .notificationId(2L)
-        .documentChannel("Channel")
-        .documentType("ADV_FRM")
-        .documentDescription("Description")
-        .documentStatus("Status")
-        .edrmsDocumentid("EDRMS")
-        .build();
+    NotificationDocument document =
+        NotificationDocument.builder()
+            .documentId(1L)
+            .notificationId(2L)
+            .documentChannel("Channel")
+            .documentType("ADV_FRM")
+            .documentDescription("Description")
+            .documentStatus("Status")
+            .edrmsDocumentid("EDRMS")
+            .build();
     // When
     Document result = mapper.mapToDocument(document);
     // Then
@@ -38,14 +39,15 @@ class DocumentMapperImplTest {
 
   @Test
   @DisplayName("Should map notification attachment to document")
-  void shouldMapNotificationAttachmentToDocument(){
+  void shouldMapNotificationAttachmentToDocument() {
     // Given
-    NotificationAttachment attachment = NotificationAttachment.builder()
-        .attachmentId(1L)
-        .notificationId(2L)
-        .attachmentTitle("Title")
-        .attachmentDescription("Description")
-        .build();
+    NotificationAttachment attachment =
+        NotificationAttachment.builder()
+            .attachmentId(1L)
+            .notificationId(2L)
+            .attachmentTitle("Title")
+            .attachmentDescription("Description")
+            .build();
     // When
     Document result = mapper.mapToAttachment(attachment);
     // Then
@@ -53,5 +55,4 @@ class DocumentMapperImplTest {
     assertEquals("Title", result.getTitle());
     assertEquals("Description", result.getText());
   }
-
 }

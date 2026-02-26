@@ -6,12 +6,11 @@ import uk.gov.laa.ccms.data.entity.NotificationNote;
 import uk.gov.laa.ccms.data.model.Note;
 
 /**
- * Interface responsible for mapping objects to {@link Note} objects. This interface
- *     utilizes MapStruct for mapping properties.
+ * Interface responsible for mapping objects to {@link Note} objects. This interface utilizes
+ * MapStruct for mapping properties.
  *
  * @see Note
  * @see NotificationNote
- *
  * @author Jamie Briggs
  */
 @Mapper(componentModel = "spring")

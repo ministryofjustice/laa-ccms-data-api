@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.mapper;
 
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
@@ -8,9 +7,9 @@ import uk.gov.laa.ccms.data.entity.NotificationInfo;
 import uk.gov.laa.ccms.data.model.Notifications;
 
 /**
- * Interface responsible for mapping notification-related data
- * entities and models to one another. This interface utilizes MapStruct
- * for transformation and supports advanced mappings with custom conversion logic.
+ * Interface responsible for mapping notification-related data entities and models to one another.
+ * This interface utilizes MapStruct for transformation and supports advanced mappings with custom
+ * conversion logic.
  *
  * @see Notifications
  * @see NotificationInfo
@@ -24,9 +23,9 @@ public interface NotificationsMapper {
    * Maps a {@link Page} of {@link NotificationInfo} objects to a {@link Notifications} object.
    *
    * @param notificationPage a {@link Page} containing {@link NotificationInfo} entities to be
-*        mapped
-   * @return a {@link Notifications} object containing the mapped notifications along
-   *     with pagination details
+   *     mapped
+   * @return a {@link Notifications} object containing the mapped notifications along with
+   *     pagination details
    */
   Notifications mapToNotificationsList(Page<NotificationInfo> notificationPage);
 
@@ -45,6 +44,4 @@ public interface NotificationsMapper {
   @Mapping(target = "notificationOpenIndicator", source = "isOpen")
   @Mapping(target = "evidenceAllowed", source = "evidenceAllowedIndicator")
   uk.gov.laa.ccms.data.model.NotificationInfo mapToNotification(NotificationInfo notificationInfo);
-
-
 }

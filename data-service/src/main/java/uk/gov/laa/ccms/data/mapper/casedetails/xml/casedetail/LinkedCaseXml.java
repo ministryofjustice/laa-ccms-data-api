@@ -22,43 +22,45 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.applicationdetails
 @AllArgsConstructor
 public final class LinkedCaseXml {
 
-  @JacksonXmlProperty(localName = "CaseReferenceNumber",
+  @JacksonXmlProperty(
+      localName = "CaseReferenceNumber",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String caseReferenceNumber;
 
-  @JacksonXmlProperty(localName = "ProviderReferenceNumber",
+  @JacksonXmlProperty(
+      localName = "ProviderReferenceNumber",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String providerReferenceNumber;
 
-  @JacksonXmlProperty(localName = "Client",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Client", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ClientXml client;
 
-  @JacksonXmlProperty(localName = "CategoryOfLawCode",
+  @JacksonXmlProperty(
+      localName = "CategoryOfLawCode",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String categoryOfLawCode;
 
-  @JacksonXmlProperty(localName = "CategoryOfLawDesc",
+  @JacksonXmlProperty(
+      localName = "CategoryOfLawDesc",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String categoryOfLawDescription;
 
-  @JacksonXmlProperty(localName = "FeeEarnerID",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "FeeEarnerID", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String feeEarnerId;
 
-  @JacksonXmlProperty(localName = "FeeEarnerName",
+  @JacksonXmlProperty(
+      localName = "FeeEarnerName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String feeEarnerName;
 
-  @JacksonXmlProperty(localName = "PublicFundingAppliedIndicator",
+  @JacksonXmlProperty(
+      localName = "PublicFundingAppliedIndicator",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean publicFundingAppliedIndicator;
 
-  @JacksonXmlProperty(localName = "LinkType",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "LinkType", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String linkType;
 
-  @JacksonXmlProperty(localName = "CaseStatus",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "CaseStatus", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String caseStatus;
 }

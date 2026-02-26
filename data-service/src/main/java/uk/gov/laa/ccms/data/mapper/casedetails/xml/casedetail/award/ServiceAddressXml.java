@@ -21,16 +21,18 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class ServiceAddressXml {
 
-  @JacksonXmlProperty(localName = "AddressLine1",
+  @JacksonXmlProperty(
+      localName = "AddressLine1",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLine1;
 
-  @JacksonXmlProperty(localName = "AddressLine2",
+  @JacksonXmlProperty(
+      localName = "AddressLine2",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLine2;
 
-  @JacksonXmlProperty(localName = "AddressLine3",
+  @JacksonXmlProperty(
+      localName = "AddressLine3",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLine3;
-
 }
