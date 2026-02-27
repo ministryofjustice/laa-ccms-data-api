@@ -35,8 +35,7 @@ public abstract class BaseEntityManagerRepository<T> {
    */
   protected BaseEntityManagerRepository(EntityManager entityManager, Class<T> entityClazz) {
     this.entityManager = entityManager;
-    this.entityClazz =
-        entityClazz;
+    this.entityClazz = entityClazz;
   }
 
   /**
@@ -127,5 +126,4 @@ public abstract class BaseEntityManagerRepository<T> {
             () ->
                 new RuntimeException("No @Id annotation found in class: " + entityClazz.getName()));
   }
-
 }

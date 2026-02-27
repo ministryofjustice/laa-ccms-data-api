@@ -3,11 +3,9 @@ package uk.gov.laa.ccms.data.controller;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +17,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import uk.gov.laa.ccms.data.model.AssessmentType;
 import uk.gov.laa.ccms.data.model.CaseAssessmentDetail;
@@ -37,10 +36,11 @@ class CaseAssessmentControllerTest {
 
   @BeforeEach
   void setup() {
-    JacksonJsonHttpMessageConverter mappingJackson2HttpMessageConverter = new
-        JacksonJsonHttpMessageConverter();
-    mockMvc = MockMvcTester.create(standaloneSetup(caseAssessmentController)
-            .build()).withHttpMessageConverters(singletonList(mappingJackson2HttpMessageConverter));
+    JacksonJsonHttpMessageConverter mappingJackson2HttpMessageConverter =
+        new JacksonJsonHttpMessageConverter();
+    mockMvc =
+        MockMvcTester.create(standaloneSetup(caseAssessmentController).build())
+            .withHttpMessageConverters(singletonList(mappingJackson2HttpMessageConverter));
   }
 
   @Nested
