@@ -58,20 +58,20 @@ public class CaseDetailRepository {
    *
    * @param caseReference the unique reference identifier for the case
    * @param providerId the identifier of the provider associated with the case
-   * @param userName the username of the user accessing this case. Dictates what available functions
-   *     are returned alongside the case.
+   * @param userLoginId the login id of the user accessing this case. Dictates what available
+   *     functions are returned alongside the case.
    * @return a {@code CaseInqRsXml} object containing the case details mapped from the XML data, or
    *     null if the case cannot be found or cannot be mapped.
    * @throws SQLException if a database access error occurs or there is an error with the SQL
    *     function invocation
    */
-  public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId, String userName)
+  public CaseInqRsXml getCaseDetailXml(String caseReference, Long providerId, String userLoginId)
       throws SQLException, JsonProcessingException {
-    String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId, userName);
+    String caseDetailViaFunction = getCaseDetailViaFunction(caseReference, providerId, userLoginId);
     return this.xmlMapper.readValue(caseDetailViaFunction, CaseInqRsXml.class);
   }
 
-  private String getCaseDetailViaFunction(String caseReference, Long providerId, String userName)
+  private String getCaseDetailViaFunction(String caseReference, Long providerId, String userLoginId)
       throws SQLException {
     SimpleJdbcCall jdbcCall =
         new SimpleJdbcCall(jdbcTemplate)
@@ -88,7 +88,7 @@ public class CaseDetailRepository {
     Map<String, Object> params = new HashMap<>();
     params.put("p_case_reference_number", caseReference);
     params.put("p_user_providerfirm_id", providerId);
-    params.put("p_user_name", userName);
+    params.put("p_user_name", userLoginId);
 
     Clob result = jdbcCall.executeFunction(Clob.class, params);
 

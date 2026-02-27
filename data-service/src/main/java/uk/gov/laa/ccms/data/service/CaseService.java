@@ -82,16 +82,16 @@ public class CaseService {
    *
    * @param caseReferenceNumber the unique reference number of the case
    * @param providerId the ID of the provider associated with the case
-   * @param userName the username of the user accessing this case. Dictates what available functions
-   *     are returned alongside the case.
+   * @param userLoginId the login id of the user accessing this case. Dictates what available
+   *     functions are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
    *     an empty {@code Optional} if no details are available
    */
   public Optional<CaseDetail> getCaseDetails(
-      String caseReferenceNumber, Long providerId, String userName) {
+      String caseReferenceNumber, Long providerId, String userLoginId) {
     try {
       CaseInqRsXml caseInqRsXml =
-          caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId, userName);
+          caseDetailRepository.getCaseDetailXml(caseReferenceNumber, providerId, userLoginId);
       validateCaseXmlObject(caseInqRsXml);
       return handleResponseStatus(caseInqRsXml.getCaseDetail().message(), caseInqRsXml);
     } catch (SQLException | JsonProcessingException e) {
