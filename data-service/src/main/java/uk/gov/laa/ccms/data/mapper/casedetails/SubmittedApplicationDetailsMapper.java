@@ -118,6 +118,10 @@ public interface SubmittedApplicationDetailsMapper {
   @Mapping(target = "organisation", source = "otherPartyDetail.organisation")
   OtherParty mapToOtherParty(OtherPartyXml otherParty);
 
+  @Mapping(target = "contactDetails.password", ignore = true)
+  @Mapping(target = "contactDetails.passwordReminder", ignore = true)
+  @Mapping(target = "contactDetails.correspondenceMethod", ignore = true)
+  @Mapping(target = "contactDetails.correspondenceLanguage", ignore = true)
   OtherPartyPerson mapToOtherPartyPerson(PersonXml person);
 
   @Mapping(target = "surnameAtBirth", ignore = true)

@@ -31,6 +31,6 @@ public class NotificationSearchRepository extends BaseEntityManagerRepository<No
    * @param entityManager the {@link EntityManager} instance used to interact with the database.
    */
   public NotificationSearchRepository(EntityManager entityManager) {
-    super(entityManager);
+    super(entityManager, NotificationInfo.class);
   }
 }

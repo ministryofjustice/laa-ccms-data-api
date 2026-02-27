@@ -30,6 +30,6 @@ public class ClientDetailRepository extends BaseEntityManagerRepository<ClientDe
    * @param entityManager the {@link EntityManager} instance used to interact with the database.
    */
   public ClientDetailRepository(EntityManager entityManager) {
-    super(entityManager);
+    super(entityManager, ClientDetail.class);
   }
 }
