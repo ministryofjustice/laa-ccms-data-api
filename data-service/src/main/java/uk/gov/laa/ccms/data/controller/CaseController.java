@@ -77,8 +77,8 @@ public class CaseController implements CasesApi {
    *
    * @param caseReferenceNumber the unique identifier of the case.
    * @param providerId the unique identifier of the provider.
-   * @param userLoginId the login id of the user accessing this case. Dictates what available functions
-   *     are returned alongside the case.
+   * @param userLoginId the login id of the user accessing this case. Dictates what available
+   *     functions are returned alongside the case.
    * @return a {@code ResponseEntity} containing the {@code CaseDetail} if found, or a {@code
    *     ResponseEntity} with a not found status if no case matches the criteria.
    */

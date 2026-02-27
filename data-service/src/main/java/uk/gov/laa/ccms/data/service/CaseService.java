@@ -82,8 +82,8 @@ public class CaseService {
    *
    * @param caseReferenceNumber the unique reference number of the case
    * @param providerId the ID of the provider associated with the case
-   * @param userLoginId the login id of the user accessing this case. Dictates what available functions
-   *     are returned alongside the case.
+   * @param userLoginId the login id of the user accessing this case. Dictates what available
+   *     functions are returned alongside the case.
    * @return an {@code Optional} containing the {@link CaseDetail} if the case details are found, or
    *     an empty {@code Optional} if no details are available
    */
