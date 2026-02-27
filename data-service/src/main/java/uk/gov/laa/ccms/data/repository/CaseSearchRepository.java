@@ -29,6 +29,6 @@ public class CaseSearchRepository extends BaseEntityManagerRepository<CaseSearch
    * @param entityManager the {@link EntityManager} instance used to interact with the database.
    */
   public CaseSearchRepository(EntityManager entityManager) {
-    super(entityManager);
+    super(entityManager, CaseSearch.class);
   }
 }

@@ -1,12 +1,11 @@
 package uk.gov.laa.ccms.data.repository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.data.domain.Page;
@@ -34,11 +33,10 @@ public abstract class BaseEntityManagerRepository<T> {
    *
    * @param entityManager the EntityManager instance used to interact with the persistence context.
    */
-  protected BaseEntityManagerRepository(EntityManager entityManager) {
+  protected BaseEntityManagerRepository(EntityManager entityManager, Class<T> entityClazz) {
     this.entityManager = entityManager;
     this.entityClazz =
-        (Class<T>)
-            ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        entityClazz;
   }
 
   /**
@@ -86,11 +84,10 @@ public abstract class BaseEntityManagerRepository<T> {
     applyWhereClause(mainQuery, specification, criteriaBuilder, mainQueryRoot);
     applySortingClause(mainQuery, pageable, criteriaBuilder, mainQueryRoot);
 
-    Query query = entityManager.createQuery(mainQuery);
+    TypedQuery<T> query = entityManager.createQuery(mainQuery);
     query.setFirstResult((int) pageable.getOffset());
     query.setMaxResults(pageable.getPageSize());
-    List<T> resultList = query.getResultList();
-    return resultList;
+    return query.getResultList();
   }
 
   private void applyWhereClause(
@@ -130,4 +127,5 @@ public abstract class BaseEntityManagerRepository<T> {
             () ->
                 new RuntimeException("No @Id annotation found in class: " + entityClazz.getName()));
   }
+
 }
