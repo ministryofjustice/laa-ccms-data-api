@@ -13,7 +13,7 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a Stage End entity from the "XXCCMS_STAGE_END_V" database table.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  */
 @Entity
 @Data
@@ -23,27 +23,18 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class StageEndLookupValue {
 
-  /**
-   * The compound id for the stage end.
-   */
-  @EmbeddedId
-  private StageEndLookupValueId id;
+  /** The compound id for the stage end. */
+  @EmbeddedId private StageEndLookupValueId id;
 
-  /**
-   * The description of the stage end.
-   */
+  /** The description of the stage end. */
   @Column(name = "STAGE_END_DESCRIPTION")
   private String description;
 
-  /**
-   * The lov for the stage end.
-   */
+  /** The lov for the stage end. */
   @Column(name = "STAGE_END_LOV")
   private String stageEndLov;
 
-  /**
-   * The enabled flag for the stage end.
-   */
+  /** The enabled flag for the stage end. */
   @Column(name = "ENABLED_FLAG")
   private Boolean enabled;
 }

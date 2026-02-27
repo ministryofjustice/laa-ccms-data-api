@@ -9,13 +9,12 @@ import uk.gov.laa.ccms.data.repository.NewCaseReferenceRepository;
 /**
  * Service class for generating and retrieving new case references.
  *
- * <p>This service provides a method which allocates and returns the next
- *    available case reference, mapped using the {@link CaseReferenceSummary}</p>
+ * <p>This service provides a method which allocates and returns the next available case reference,
+ * mapped using the {@link CaseReferenceSummary}
  *
  * @see Service
  * @see CaseReferenceSummary
  * @see NewCaseReferenceRepository
- *
  * @author Jamie Briggs
  */
 @Service

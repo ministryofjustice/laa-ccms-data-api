@@ -12,14 +12,14 @@ import uk.gov.laa.ccms.data.model.BaseClient;
 import uk.gov.laa.ccms.data.model.CaseDetails;
 import uk.gov.laa.ccms.data.model.CaseSummary;
 
-@DisplayName( "Case search mapper implementation test")
+@DisplayName("Case search mapper implementation test")
 class CaseSearchMapperImplTest {
 
   CaseSearchMapper mapper = new CaseSearchMapperImpl();
 
   @Test
   @DisplayName("Should map empty case search")
-  void shouldMapEmptyCaseSearch(){
+  void shouldMapEmptyCaseSearch() {
     // Given
     CaseSearch search = new CaseSearch();
     // When
@@ -30,7 +30,7 @@ class CaseSearchMapperImplTest {
 
   @Test
   @DisplayName("Should map case search details")
-  void shouldMapCaseSearchDetails(){
+  void shouldMapCaseSearchDetails() {
     // Given
     CaseSearch search = getCaseOne();
     // When
@@ -49,7 +49,7 @@ class CaseSearchMapperImplTest {
 
   @Test
   @DisplayName("Should map case search pageable object")
-  void shouldMapCaseSearchPageableObject(){
+  void shouldMapCaseSearchPageableObject() {
     // Given
     CaseSearch search = getCaseOne();
     CaseSearch searchTwo = getCaseTwo();
@@ -103,5 +103,4 @@ class CaseSearchMapperImplTest {
         .displayCaseStatus("Display Status Two")
         .build();
   }
-
 }

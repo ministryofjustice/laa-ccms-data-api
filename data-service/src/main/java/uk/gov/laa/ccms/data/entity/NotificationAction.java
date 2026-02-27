@@ -12,12 +12,12 @@ import org.hibernate.annotations.Immutable;
 
 /**
  * Represents a notification action entity from the <b>XXCCMS_NOTIFICATION_ACTIONS_V</b> database
- *     view.
+ * view.
  *
  * <p>This entity captures details about a notification's action. It provides a single field for
- *     describing the action which needs to be taken.</p>
+ * describing the action which needs to be taken.
  *
- * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>This class is immutable, and its instances can be created using the builder pattern.
  *
  * @author Jamie Briggs
  * @see NotificationInfo
@@ -40,5 +40,4 @@ public class NotificationAction {
 
   @Column(name = "NEXT_ACTION", length = 150)
   private String nextAction;
-
 }

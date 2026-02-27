@@ -16,12 +16,11 @@ import org.hibernate.annotations.Immutable;
  * Represents a Scope Limitation entity within the system.
  *
  * <p>This entity corresponds to a row from the "XXCCMS_SCOPELIMITATIONS_V" table in the database.
- * </p>
  *
- * <p>The JSON representation of this entity uses the snake case naming strategy.
- * A Scope Limitation is uniquely identified by its compound ID.</p>
+ * <p>The JSON representation of this entity uses the snake case naming strategy. A Scope Limitation
+ * is uniquely identified by its compound ID.
  *
- * <p>This entity is marked as immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is marked as immutable, meaning its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -33,8 +32,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 public class ScopeLimitation implements Serializable {
 
-  @EmbeddedId
-  private ScopeLimitationId id;
+  @EmbeddedId private ScopeLimitationId id;
 
   @Column(name = "DESCRIPTION")
   private String description;
@@ -65,6 +63,4 @@ public class ScopeLimitation implements Serializable {
 
   @Column(name = "SCOPE_DEFAULT")
   private Boolean scopeDefault;
-
 }
-

@@ -23,11 +23,9 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus;
 @DisplayName("Transaction Status Repository Integration Test")
 public class TransactionStatusRepositoryIntegrationTest {
 
-  @Autowired
-  private TransactionStatusRepository transactionStatusRepository;
+  @Autowired private TransactionStatusRepository transactionStatusRepository;
 
-  @PersistenceContext
-  private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
   private TransactionStatus createClientTransactionStatus;
   private TransactionStatus updateClientTransactionStatus;
@@ -40,71 +38,78 @@ public class TransactionStatusRepositoryIntegrationTest {
   @BeforeEach
   void setUp() {
     // Insert test data into the in-memory database
-    createClientTransactionStatus = TransactionStatus.builder()
-        .requestId("1")
-        .processName("CreateClient")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 1))
-        .build();
-    updateClientTransactionStatus = TransactionStatus.builder()
-        .requestId("2")
-        .processName("UpdateClient")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 2))
-        .build();
-    createCaseApplicationTransactionStatus = TransactionStatus.builder()
-        .requestId("3")
-        .processName("CreateCaseApplication")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 3))
-        .build();
-    updateCaseApplicationTransactionStatus = TransactionStatus.builder()
-        .requestId("4")
-        .processName("UpdateCaseApplication")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 4))
-        .build();
+    createClientTransactionStatus =
+        TransactionStatus.builder()
+            .requestId("1")
+            .processName("CreateClient")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 1))
+            .build();
+    updateClientTransactionStatus =
+        TransactionStatus.builder()
+            .requestId("2")
+            .processName("UpdateClient")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 2))
+            .build();
+    createCaseApplicationTransactionStatus =
+        TransactionStatus.builder()
+            .requestId("3")
+            .processName("CreateCaseApplication")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 3))
+            .build();
+    updateCaseApplicationTransactionStatus =
+        TransactionStatus.builder()
+            .requestId("4")
+            .processName("UpdateCaseApplication")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 4))
+            .build();
 
     // Both with same request ID, this happens in EBS
-    userFuncOne = TransactionStatus.builder()
-        .requestId("1")
-        .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 3))
-        .build();
-    userFuncTwo = TransactionStatus.builder()
-        .requestId("1")
-        .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Success")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 4))
-        .build();
-    userFuncErr = TransactionStatus.builder()
-        .requestId("500")
-        .processName("USER_FUNC_AUTH")
-        .recordRefKey("CLIENT_REF_NUMBER")
-        .recordRefValue("6505")
-        .status("Error")
-        .errorDescription("Party Successfully Created")
-        .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 5))
-        .build();
+    userFuncOne =
+        TransactionStatus.builder()
+            .requestId("1")
+            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 3))
+            .build();
+    userFuncTwo =
+        TransactionStatus.builder()
+            .requestId("1")
+            .processName("XXCCMS_COMMON_UTIL.USER_FUNC_AUTH")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Success")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 4))
+            .build();
+    userFuncErr =
+        TransactionStatus.builder()
+            .requestId("500")
+            .processName("USER_FUNC_AUTH")
+            .recordRefKey("CLIENT_REF_NUMBER")
+            .recordRefValue("6505")
+            .status("Error")
+            .errorDescription("Party Successfully Created")
+            .transactionOccurrenceDate(LocalDateTime.of(2024, 1, 1, 1, 5))
+            .build();
 
     // Use entityManager as NotificationRepository extends ReadOnlyRepository.
     entityManager.persist(createClientTransactionStatus);
@@ -127,8 +132,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "404";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findClientTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findClientTransactionByTransactionId(requestId);
       // Then
       assertTrue(result.isEmpty());
     }
@@ -140,8 +144,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "1";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findClientTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findClientTransactionByTransactionId(requestId);
       // Then
       assertFalse(result.isEmpty());
       assertEquals(createClientTransactionStatus, result.get());
@@ -154,8 +157,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "2";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findClientTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findClientTransactionByTransactionId(requestId);
       // Then
       assertFalse(result.isEmpty());
       assertEquals(updateClientTransactionStatus, result.get());
@@ -173,8 +175,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "404";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(requestId);
       // Then
       assertTrue(result.isEmpty());
     }
@@ -186,8 +187,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "3";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(requestId);
       // Then
       assertFalse(result.isEmpty());
       assertEquals(createCaseApplicationTransactionStatus, result.get());
@@ -200,8 +200,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "4";
       // When
       Optional<TransactionStatus> result =
-          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(
-              requestId);
+          transactionStatusRepository.findCaseApplicationTransactionByTransactionId(requestId);
       // Then
       assertFalse(result.isEmpty());
       assertEquals(updateCaseApplicationTransactionStatus, result.get());
@@ -219,8 +218,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "1";
       // When
       List<TransactionStatus> result =
-          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
-              requestId);
+          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(requestId);
       // Then
       assertEquals(2, result.size());
       assertTrue(result.contains(userFuncOne));
@@ -234,8 +232,7 @@ public class TransactionStatusRepositoryIntegrationTest {
       String requestId = "500";
       // When
       List<TransactionStatus> result =
-          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(
-              requestId);
+          transactionStatusRepository.findAllUserFunctionTransactionsByTransactionId(requestId);
       // Then
       assertEquals(1, result.size());
       assertTrue(result.contains(userFuncErr));

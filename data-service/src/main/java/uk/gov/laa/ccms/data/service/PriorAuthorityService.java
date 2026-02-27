@@ -16,8 +16,8 @@ import uk.gov.laa.ccms.data.repository.ProviderRepository;
  * Service class responsible for managing {@link uk.gov.laa.ccms.data.entity.PriorAuthorityType}
  * entities.
  *
- * <p>This service provides methods to retrieve and manipulate {@code Provider} entities,
- * primarily through interactions with the {@link ProviderRepository}.</p>
+ * <p>This service provides methods to retrieve and manipulate {@code Provider} entities, primarily
+ * through interactions with the {@link ProviderRepository}.
  *
  * @see Service
  * @see PriorAuthorityType
@@ -41,8 +41,8 @@ public class PriorAuthorityService extends AbstractEbsDataService {
    * @param pageable - the pageable settings
    * @return PriorAuthorityTypeDetails containing a Page of PriorAuthorityType objects.
    */
-  public PriorAuthorityTypeDetails getPriorAuthorityTypes(String code, Boolean valueRequired,
-      Pageable pageable) {
+  public PriorAuthorityTypeDetails getPriorAuthorityTypes(
+      String code, Boolean valueRequired, Pageable pageable) {
     PriorAuthorityType example = new PriorAuthorityType();
     example.setCode(code);
     example.setValueRequired(valueRequired);

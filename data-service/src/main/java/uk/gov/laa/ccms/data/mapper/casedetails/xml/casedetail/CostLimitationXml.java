@@ -22,22 +22,27 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class CostLimitationXml {
 
-  @JacksonXmlProperty(localName = "CostLimitID",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "CostLimitID", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String costLimitId;
-  @JacksonXmlProperty(localName = "BillingProviderID",
+
+  @JacksonXmlProperty(
+      localName = "BillingProviderID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String billingProviderId;
-  @JacksonXmlProperty(localName = "BillingProviderName",
+
+  @JacksonXmlProperty(
+      localName = "BillingProviderName",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String billingProviderName;
-  @JacksonXmlProperty(localName = "CostCategory",
+
+  @JacksonXmlProperty(
+      localName = "CostCategory",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String costCategory;
-  @JacksonXmlProperty(localName = "PaidToDate",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "PaidToDate", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal paidToDate;
-  @JacksonXmlProperty(localName = "Amount",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private BigDecimal amount;
 }

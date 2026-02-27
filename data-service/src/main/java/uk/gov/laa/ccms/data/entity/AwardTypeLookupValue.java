@@ -12,14 +12,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
 /**
  * Represents an award type lookup value entity.
  *
  * <p>This entity corresponds to the "XXCCMS_AWARD_TYPE_V" table in the database and is used for
- * award type lookup values. Each record is uniquely identified by its code.</p>
+ * award type lookup values. Each record is uniquely identified by its code.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -49,4 +48,3 @@ public class AwardTypeLookupValue implements Serializable {
   @Column(name = "ENABLED_FLAG")
   private Boolean enabled;
 }
-

@@ -5,19 +5,18 @@ import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.CaseReference;
 
 /**
- * This interface defines a repository for managing CaseReference entities in a read-only manner.
- *     It extends {@link ReadOnlyRepository} with {@link CaseReference} as the entity type
- *     and String as the primary key type.
+ * This interface defines a repository for managing CaseReference entities in a read-only manner. It
+ * extends {@link ReadOnlyRepository} with {@link CaseReference} as the entity type and String as
+ * the primary key type.
  *
- * <p>The NewCaseReferenceRepository provides a custom
- *     query method to retrieve the next case reference.</p>
+ * <p>The NewCaseReferenceRepository provides a custom query method to retrieve the next case
+ * reference.
  *
  * @author Jamie Briggs
  * @see CaseReference
  */
 @Repository
-public interface NewCaseReferenceRepository
-    extends ReadOnlyRepository<CaseReference, String> {
+public interface NewCaseReferenceRepository extends ReadOnlyRepository<CaseReference, String> {
 
   /**
    * Retrieves the next case reference from the {@link CaseReference} entity.

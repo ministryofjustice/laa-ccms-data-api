@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,21 +29,20 @@ import uk.gov.laa.ccms.data.service.CaseAssessmentService;
 @DisplayName("Case Assessment Controller Test")
 class CaseAssessmentControllerTest {
 
-  @Mock
-  private CaseAssessmentService caseAssessmentService;
+  @Mock private CaseAssessmentService caseAssessmentService;
 
-  @InjectMocks
-  private CaseAssessmentController caseAssessmentController;
+  @InjectMocks private CaseAssessmentController caseAssessmentController;
 
   protected MockMvcTester mockMvc;
 
   @BeforeEach
   void setup() {
-    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new
-        MappingJackson2HttpMessageConverter();
+    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter =
+        new MappingJackson2HttpMessageConverter();
     mappingJackson2HttpMessageConverter.setObjectMapper(new ObjectMapper());
-    mockMvc = MockMvcTester.create(standaloneSetup(caseAssessmentController)
-            .build()).withHttpMessageConverters(singletonList(mappingJackson2HttpMessageConverter));
+    mockMvc =
+        MockMvcTester.create(standaloneSetup(caseAssessmentController).build())
+            .withHttpMessageConverters(singletonList(mappingJackson2HttpMessageConverter));
   }
 
   @Nested
@@ -55,15 +53,21 @@ class CaseAssessmentControllerTest {
     @EnumSource(AssessmentType.class)
     @DisplayName("Should return 200 response")
     void shouldReturn200Response(AssessmentType assessmentType) {
-      CaseAssessmentDetails details = new CaseAssessmentDetails().caseReference("123")
-          .assessmentDetails(singletonList(
-              new CaseAssessmentDetail().attributeName("Attribute").attributeValue("Value")));
+      CaseAssessmentDetails details =
+          new CaseAssessmentDetails()
+              .caseReference("123")
+              .assessmentDetails(
+                  singletonList(
+                      new CaseAssessmentDetail()
+                          .attributeName("Attribute")
+                          .attributeValue("Value")));
       when(caseAssessmentService.getCaseAssessmentDetails("123", assessmentType))
           .thenReturn(Optional.of(details));
       assertThat(
-          mockMvc.perform(get("/cases/assessments")
-              .queryParam("case-reference-number", "123")
-              .queryParam("assessment-type", assessmentType.name())))
+              mockMvc.perform(
+                  get("/cases/assessments")
+                      .queryParam("case-reference-number", "123")
+                      .queryParam("assessment-type", assessmentType.name())))
           .hasStatusOk()
           .bodyJson()
           .convertTo(CaseAssessmentDetails.class)
@@ -75,8 +79,8 @@ class CaseAssessmentControllerTest {
     @DisplayName("Should return 400 response when missing case reference")
     void shouldReturn400ResponseWhenMissingCaseReference(AssessmentType assessmentType) {
       assertThat(
-          mockMvc.perform(get("/cases/assessments")
-              .queryParam("assessment-type", assessmentType.name())))
+              mockMvc.perform(
+                  get("/cases/assessments").queryParam("assessment-type", assessmentType.name())))
           .hasStatus4xxClientError();
     }
 
@@ -84,8 +88,7 @@ class CaseAssessmentControllerTest {
     @DisplayName("Should return 400 response when missing application type")
     void shouldReturn400ResponseWhenMissingApplicationType() {
       assertThat(
-          mockMvc.perform(get("/cases/assessments")
-              .queryParam("case-reference-number", "123")))
+              mockMvc.perform(get("/cases/assessments").queryParam("case-reference-number", "123")))
           .hasStatus4xxClientError();
     }
 
@@ -93,12 +96,11 @@ class CaseAssessmentControllerTest {
     @DisplayName("Should return 400 response when application type incorrect value")
     void shouldReturn400ResponseWhenIncorrectApplicationType() {
       assertThat(
-          mockMvc.perform(get("/cases/assessments")
-              .queryParam("assessment-type", "INVALID")
-              .queryParam("case-reference-number", "123")))
+              mockMvc.perform(
+                  get("/cases/assessments")
+                      .queryParam("assessment-type", "INVALID")
+                      .queryParam("case-reference-number", "123")))
           .hasStatus4xxClientError();
     }
-
   }
-
 }

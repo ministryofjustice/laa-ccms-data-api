@@ -22,22 +22,33 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CostLimitationXml;
 @NoArgsConstructor
 public final class CategoryOfLawXml {
 
-  @JacksonXmlProperty(localName = "CategoryOfLawCode",
+  @JacksonXmlProperty(
+      localName = "CategoryOfLawCode",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String categoryOfLawCode;
-  @JacksonXmlProperty(localName = "CategoryOfLawDescription",
+
+  @JacksonXmlProperty(
+      localName = "CategoryOfLawDescription",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String categoryOfLawDescription;
-  @JacksonXmlProperty(localName = "RequestedAmount",
+
+  @JacksonXmlProperty(
+      localName = "RequestedAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String requestedAmount;
-  @JacksonXmlProperty(localName = "GrantedAmount",
+
+  @JacksonXmlProperty(
+      localName = "GrantedAmount",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String grantedAmount;
-  @JacksonXmlProperty(localName = "TotalPaidToDate",
+
+  @JacksonXmlProperty(
+      localName = "TotalPaidToDate",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String totalPaidToDate;
-  @JacksonXmlProperty(localName = "CostLimitations",
+
+  @JacksonXmlProperty(
+      localName = "CostLimitations",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<CostLimitationXml> costLimitations;
 }

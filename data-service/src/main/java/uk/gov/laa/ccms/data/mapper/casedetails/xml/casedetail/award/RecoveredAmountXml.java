@@ -21,13 +21,12 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class RecoveredAmountXml {
 
-  @JacksonXmlProperty(localName = "Solicitor",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Solicitor", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private AmountXml solicitor;
-  @JacksonXmlProperty(localName = "Court",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Court", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private AmountXml court;
-  @JacksonXmlProperty(localName = "Client",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Client", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private AmountXml client;
 }

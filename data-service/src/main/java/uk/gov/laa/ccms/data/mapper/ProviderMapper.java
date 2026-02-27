@@ -14,9 +14,9 @@ import uk.gov.laa.ccms.data.model.ProviderDetail;
  * Mapper interface for converting between {@link Provider} entities and their detailed DTO
  * representations.
  *
- * <p>This interface provides methods for transforming {@code Provider} entities to detailed
- * data transfer objects(DTOs) like {@code ProviderDetail}. It leverages the MapStruct library, with
- * the Spring component model, for automatic generation of the implementation at compile-time.</p>
+ * <p>This interface provides methods for transforming {@code Provider} entities to detailed data
+ * transfer objects(DTOs) like {@code ProviderDetail}. It leverages the MapStruct library, with the
+ * Spring component model, for automatic generation of the implementation at compile-time.
  *
  * @see Mapper
  * @see uk.gov.laa.ccms.data.entity.Provider

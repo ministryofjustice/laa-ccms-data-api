@@ -21,11 +21,9 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class PriorAuthorityAttributeXml {
 
-  @JacksonXmlProperty(localName = "Name",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Name", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String name;
 
-  @JacksonXmlProperty(localName = "Value",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Value", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String value;
 }

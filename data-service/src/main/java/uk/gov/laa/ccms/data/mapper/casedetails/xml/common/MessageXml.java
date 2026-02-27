@@ -10,9 +10,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * @param text Description of the message.
  */
 public record MessageXml(
-    @JacksonXmlProperty(localName = "Code")
-    String code,
-    @JacksonXmlProperty(localName = "Status")
-    String status,
-    @JacksonXmlProperty(localName = "Text")
-    String text) { }
+    @JacksonXmlProperty(localName = "Code") String code,
+    @JacksonXmlProperty(localName = "Status") String status,
+    @JacksonXmlProperty(localName = "Text") String text) {}

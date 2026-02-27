@@ -22,11 +22,11 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
 @NoArgsConstructor
 public final class ContactUserIdXml {
 
-  @JacksonXmlProperty(localName = "UserLoginID",
+  @JacksonXmlProperty(
+      localName = "UserLoginID",
       namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private Integer userLoginId;
 
-  @JacksonXmlProperty(localName = "UserName",
-      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+  @JacksonXmlProperty(localName = "UserName", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String userName;
 }

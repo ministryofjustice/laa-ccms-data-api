@@ -3,8 +3,8 @@ package uk.gov.laa.ccms.data.service;
 /**
  * Custom exception class used to handle errors specific to the ClientService.
  *
- * <p>This exception is thrown when a client-related operation encounters an error
- * such as a user function transaction error.</p>
+ * <p>This exception is thrown when a client-related operation encounters an error such as a user
+ * function transaction error.
  *
  * @author Jamie Briggs
  */

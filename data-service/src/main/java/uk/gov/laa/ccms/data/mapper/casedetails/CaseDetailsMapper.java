@@ -1,7 +1,5 @@
 package uk.gov.laa.ccms.data.mapper.casedetails;
 
-import java.util.Collections;
-import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,21 +11,27 @@ import uk.gov.laa.ccms.data.model.CaseDetail;
  * Mapper interface for transforming XML case details objects to their associated domain classes.
  * This interface utilizes MapStruct for mapping properties.
  *
- * <p>Also utilizes other mappers to map the complete case detail object such as:</p>
- * <ul>
- *   <li>{@link SubmittedApplicationDetailsMapper}</li>
- *   <li>{@link LinkedCaseMapper}</li>
- *   <li>{@link AwardMapper}</li>
- *   <li>{@link PriorAuthorityMapper}</li>
- *   <li>{@link RecordHistoryMapper}</li>
- * </ul>
+ * <p>Also utilizes other mappers to map the complete case detail object such as:
  *
+ * <ul>
+ *   <li>{@link SubmittedApplicationDetailsMapper}
+ *   <li>{@link LinkedCaseMapper}
+ *   <li>{@link AwardMapper}
+ *   <li>{@link PriorAuthorityMapper}
+ *   <li>{@link RecordHistoryMapper}
+ * </ul>
  *
  * @author Jamie Briggs
  */
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses =
-      {SubmittedApplicationDetailsMapper.class, LinkedCaseMapper.class, AwardMapper.class,
-    PriorAuthorityMapper.class, RecordHistoryMapper.class},
+@Mapper(
+    componentModel = MappingConstants.ComponentModel.SPRING,
+    uses = {
+      SubmittedApplicationDetailsMapper.class,
+      LinkedCaseMapper.class,
+      AwardMapper.class,
+      PriorAuthorityMapper.class,
+      RecordHistoryMapper.class
+    },
     injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface CaseDetailsMapper {
 
@@ -46,7 +50,4 @@ public interface CaseDetailsMapper {
   @Mapping(target = "recordHistory", source = "caseDetails.recordHistory")
   @Mapping(target = "caseDocs", ignore = true)
   CaseDetail mapToCaseDetail(CaseDetailXml caseXml);
-
-
-
 }

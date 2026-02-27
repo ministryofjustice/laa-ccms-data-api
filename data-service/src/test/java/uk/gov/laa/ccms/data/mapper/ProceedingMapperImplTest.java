@@ -16,59 +16,58 @@ import uk.gov.laa.ccms.data.model.ProceedingDetails;
 @ExtendWith(MockitoExtension.class)
 class ProceedingMapperImplTest {
 
-    ProceedingMapperImpl mapper = new ProceedingMapperImpl();
+  ProceedingMapperImpl mapper = new ProceedingMapperImpl();
 
-    // Tests
-    @Test
-    void proceedingPageToProceedingDetails() {
-        Proceeding proceeding = buildProceeding();
-        Page<Proceeding> proceedings = new PageImpl<>(Collections.singletonList(proceeding));
+  // Tests
+  @Test
+  void proceedingPageToProceedingDetails() {
+    Proceeding proceeding = buildProceeding();
+    Page<Proceeding> proceedings = new PageImpl<>(Collections.singletonList(proceeding));
 
-        ProceedingDetails result = mapper.toProceedingDetails(proceedings);
+    ProceedingDetails result = mapper.toProceedingDetails(proceedings);
 
-        assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-        assertEquals(1, result.getTotalPages());
-        assertNotNull(result.getContent());
-        assertEquals(1, result.getContent().size());
-        assertEquals(proceeding.getCode(), result.getContent().getFirst().getCode());
-    }
+    assertNotNull(result);
+    assertEquals(1, result.getTotalElements());
+    assertEquals(1, result.getTotalPages());
+    assertNotNull(result.getContent());
+    assertEquals(1, result.getContent().size());
+    assertEquals(proceeding.getCode(), result.getContent().getFirst().getCode());
+  }
 
-    @Test
-    void proceedingToProceedingDetail() {
-        Proceeding proceeding = buildProceeding();
+  @Test
+  void proceedingToProceedingDetail() {
+    Proceeding proceeding = buildProceeding();
 
-        ProceedingDetail result = mapper.toProceedingDetail(proceeding);
+    ProceedingDetail result = mapper.toProceedingDetail(proceeding);
 
-        assertNotNull(result);
-        assertEquals(proceeding.getCode(), result.getCode());
-        assertEquals(proceeding.getName(), result.getName());
-        assertEquals(proceeding.getDescription(), result.getDescription());
-        assertEquals(proceeding.getEnabled(), result.getEnabled());
-        assertEquals(proceeding.getLarScope(), result.getLarScope());
-        assertEquals(proceeding.getMatterType(), result.getMatterType());
-        assertEquals(proceeding.getStageEndLov(), result.getStageEndLov());
-        assertEquals(proceeding.getAmendmentOnly(), result.getAmendmentOnly());
-        assertEquals(proceeding.getOutcomeResultLov(), result.getOutcomeResultLov());
-        assertEquals(proceeding.getOrderTypeRequired(), result.getOrderTypeRequired());
-        assertEquals(proceeding.getCategoryOfLawCode(), result.getCategoryOfLawCode());
-    }
+    assertNotNull(result);
+    assertEquals(proceeding.getCode(), result.getCode());
+    assertEquals(proceeding.getName(), result.getName());
+    assertEquals(proceeding.getDescription(), result.getDescription());
+    assertEquals(proceeding.getEnabled(), result.getEnabled());
+    assertEquals(proceeding.getLarScope(), result.getLarScope());
+    assertEquals(proceeding.getMatterType(), result.getMatterType());
+    assertEquals(proceeding.getStageEndLov(), result.getStageEndLov());
+    assertEquals(proceeding.getAmendmentOnly(), result.getAmendmentOnly());
+    assertEquals(proceeding.getOutcomeResultLov(), result.getOutcomeResultLov());
+    assertEquals(proceeding.getOrderTypeRequired(), result.getOrderTypeRequired());
+    assertEquals(proceeding.getCategoryOfLawCode(), result.getCategoryOfLawCode());
+  }
 
-    // Helper methods to create objects
-    private Proceeding buildProceeding() {
-        Proceeding proceeding = new Proceeding();
-        proceeding.setCode("thecode");
-        proceeding.setName("aname");
-        proceeding.setDescription("adesc");
-        proceeding.setStageEndLov("stageend");
-        proceeding.setOrderTypeRequired(true);
-        proceeding.setOutcomeResultLov("result");
-        proceeding.setLarScope("thelarscope");
-        proceeding.setCategoryOfLawCode("CAT1");
-        proceeding.setMatterType("MAT1");
-        proceeding.setEnabled(true);
-        proceeding.setAmendmentOnly(Boolean.TRUE);
-        return proceeding;
-    }
-
+  // Helper methods to create objects
+  private Proceeding buildProceeding() {
+    Proceeding proceeding = new Proceeding();
+    proceeding.setCode("thecode");
+    proceeding.setName("aname");
+    proceeding.setDescription("adesc");
+    proceeding.setStageEndLov("stageend");
+    proceeding.setOrderTypeRequired(true);
+    proceeding.setOutcomeResultLov("result");
+    proceeding.setLarScope("thelarscope");
+    proceeding.setCategoryOfLawCode("CAT1");
+    proceeding.setMatterType("MAT1");
+    proceeding.setEnabled(true);
+    proceeding.setAmendmentOnly(Boolean.TRUE);
+    return proceeding;
+  }
 }

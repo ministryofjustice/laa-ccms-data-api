@@ -23,49 +23,50 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class FinancialAwardXml {
 
-  @JacksonXmlProperty(localName = "OrderDate",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "OrderDate", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate orderDate;
 
-  @JacksonXmlProperty(localName = "Amount",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String amount;
 
-  @JacksonXmlProperty(localName = "InterimAward",
+  @JacksonXmlProperty(
+      localName = "InterimAward",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String interimAward;
 
-  @JacksonXmlProperty(localName = "AwardedBy",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardedBy", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardedBy;
 
-  @JacksonXmlProperty(localName = "OtherDetails",
+  @JacksonXmlProperty(
+      localName = "OtherDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherDetails;
 
-  @JacksonXmlProperty(localName = "AwardJustifications",
+  @JacksonXmlProperty(
+      localName = "AwardJustifications",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardJustifications;
 
-  @JacksonXmlProperty(localName = "StatutoryChangeReason",
+  @JacksonXmlProperty(
+      localName = "StatutoryChangeReason",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String statutoryChangeReason;
 
-  @JacksonXmlProperty(localName = "OrderDateServed",
+  @JacksonXmlProperty(
+      localName = "OrderDateServed",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate orderDateServed;
 
-  @JacksonXmlProperty(localName = "LiableParties",
+  @JacksonXmlProperty(
+      localName = "LiableParties",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<LiablePartyXml> liableParties;
 
-  @JacksonXmlProperty(localName = "Recovery",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Recovery", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private RecoveryXml recovery;
 
-  @JacksonXmlProperty(localName = "ServiceAddress",
+  @JacksonXmlProperty(
+      localName = "ServiceAddress",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ServiceAddressXml serviceAddress;
-
 }
-

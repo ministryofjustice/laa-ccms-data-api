@@ -10,9 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-/**
- * Represents a Level Of service lookup value entity.
- */
+/** Represents a Level Of service lookup value entity. */
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,8 +19,7 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LevelOfService {
 
-  @EmbeddedId
-  private LevelOfServiceId id;
+  @EmbeddedId private LevelOfServiceId id;
 
   @Column(name = "DESCRIPTION")
   private String description;

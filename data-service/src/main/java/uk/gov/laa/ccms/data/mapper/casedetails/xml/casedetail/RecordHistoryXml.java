@@ -23,16 +23,21 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.UserXml;
 @NoArgsConstructor
 public final class RecordHistoryXml {
 
-  @JacksonXmlProperty(localName = "CreatedBy",
-      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+  @JacksonXmlProperty(localName = "CreatedBy", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private UserXml createdBy;
-  @JacksonXmlProperty(localName = "DateCreated",
+
+  @JacksonXmlProperty(
+      localName = "DateCreated",
       namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private LocalDateTime dateCreated;
-  @JacksonXmlProperty(localName = "LastUpdatedBy",
+
+  @JacksonXmlProperty(
+      localName = "LastUpdatedBy",
       namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private UserXml lastUpdatedBy;
-  @JacksonXmlProperty(localName = "DateLastUpdated",
+
+  @JacksonXmlProperty(
+      localName = "DateLastUpdated",
       namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private LocalDateTime dateLastUpdated;
 }

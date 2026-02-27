@@ -5,13 +5,12 @@ import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccms.data.entity.ClientDetail;
 
 /**
- * Repository for performing operations on the {@link ClientDetail} entity. This repository
- * is implemented using an {@link EntityManager} for database interaction. It extends
- * the {@link BaseEntityManagerRepository}, which provides custom methods
- * for database interaction.
+ * Repository for performing operations on the {@link ClientDetail} entity. This repository is
+ * implemented using an {@link EntityManager} for database interaction. It extends the {@link
+ * BaseEntityManagerRepository}, which provides custom methods for database interaction.
  *
  * <p>The {@link ClientDetailRepository} is designed to handle {@link ClientDetail} entities, which
- * represents client data from the <b>XXCCMS_GET_CLIENT_DETAILS_V</b> view in the database.</p>
+ * represents client data from the <b>XXCCMS_GET_CLIENT_DETAILS_V</b> view in the database.
  *
  * @see ClientDetail
  * @see EntityManager
@@ -25,13 +24,12 @@ public class ClientDetailRepository extends BaseEntityManagerRepository<ClientDe
 
   /**
    * Constructs a new instance of {@link ClientDetailRepository}, which is responsible for
-   * performing database operations on {@link ClientDetail} entities using the provided
-   * {@link EntityManager}.
+   * performing database operations on {@link ClientDetail} entities using the provided {@link
+   * EntityManager}.
    *
    * @param entityManager the {@link EntityManager} instance used to interact with the database.
    */
   public ClientDetailRepository(EntityManager entityManager) {
     super(entityManager);
   }
-
 }

@@ -17,7 +17,7 @@ import uk.gov.laa.ccms.data.repository.ProceedingRepository;
  * Service class responsible for managing {@link Proceeding} entities.
  *
  * <p>This service provides methods to retrieve and manipulate {@code Proceeding} entities,
- * primarily through interactions with the {@link ProceedingRepository}.</p>
+ * primarily through interactions with the {@link ProceedingRepository}.
  *
  * @see Service
  * @see Proceeding
@@ -32,10 +32,9 @@ public class ProceedingService extends AbstractEbsDataService {
 
   private final ProceedingMapper proceedingMapper;
 
-
   /**
-   * Get Proceedings which match the provided category of law, matter type,
-   * amendment only, and enabled values.
+   * Get Proceedings which match the provided category of law, matter type, amendment only, and
+   * enabled values.
    *
    * @param categoryOfLawCode The code representing the category of law.
    * @param matterType The type of matter.
@@ -43,10 +42,14 @@ public class ProceedingService extends AbstractEbsDataService {
    * @param enabled A flag indicating whether the proceeding is enabled.
    * @param pageable The pagination information.
    * @return A {@link ProceedingDetails} object containing zero or more {@link Proceeding} entities
-   *         that match the criteria.
+   *     that match the criteria.
    */
-  public ProceedingDetails getProceedings(String categoryOfLawCode, String matterType,
-      Boolean amendmentOnly, Boolean enabled, Pageable pageable) {
+  public ProceedingDetails getProceedings(
+      String categoryOfLawCode,
+      String matterType,
+      Boolean amendmentOnly,
+      Boolean enabled,
+      Pageable pageable) {
 
     Proceeding proceeding = new Proceeding();
     proceeding.setCategoryOfLawCode(categoryOfLawCode);
@@ -69,7 +72,7 @@ public class ProceedingService extends AbstractEbsDataService {
    * @param larScopeFlag The scope of the LAR.
    * @param pageable The pagination information.
    * @return A {@link ProceedingDetails} object containing zero or more lead {@link Proceeding}
-   *         entities that match the criteria.
+   *     entities that match the criteria.
    */
   public ProceedingDetails getLeadProceedings(
       String categoryOfLaw,
@@ -94,7 +97,6 @@ public class ProceedingService extends AbstractEbsDataService {
   }
 
   public Optional<ProceedingDetail> getProceeding(String code) {
-    return proceedingRepository.findById(code)
-        .map(proceedingMapper::toProceedingDetail);
+    return proceedingRepository.findById(code).map(proceedingMapper::toProceedingDetail);
   }
 }

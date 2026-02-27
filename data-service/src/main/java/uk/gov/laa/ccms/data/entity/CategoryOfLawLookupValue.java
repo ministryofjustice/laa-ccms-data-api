@@ -13,12 +13,12 @@ import org.springframework.data.annotation.Immutable;
 /**
  * Represents a lookup value for category of law.
  *
- * <p>This entity corresponds to the "XXCCMS_CATEGORY_OF_LAW_V" table in the database.
- * The JSON representation of this entity uses the snake case naming strategy.</p>
+ * <p>This entity corresponds to the "XXCCMS_CATEGORY_OF_LAW_V" table in the database. The JSON
+ * representation of this entity uses the snake case naming strategy.
  *
  * <p>It's an immutable entity, meaning its state cannot be changed once it's created. The primary
  * attributes of this entity include a code, its corresponding matter type description, and an
- * indicator whether copying the cost limit is allowed for this particular category of law.</p>
+ * indicator whether copying the cost limit is allowed for this particular category of law.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */

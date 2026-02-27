@@ -37,23 +37,21 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
 @DisplayName("Clients Controller Test")
 class ClientsControllerTest {
 
-  @Mock
-  private ClientService clientService;
-  
-  @InjectMocks
-  private ClientsController clientsController;
+  @Mock private ClientService clientService;
+
+  @InjectMocks private ClientsController clientsController;
 
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
 
-  @Autowired
-  WebApplicationContext webApplicationContext;
+  @Autowired WebApplicationContext webApplicationContext;
 
   @BeforeEach
-  public void setup(){
-    mockMvc = standaloneSetup(clientsController)
-        .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-        .build();
+  public void setup() {
+    mockMvc =
+        standaloneSetup(clientsController)
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+            .build();
     objectMapper = new ObjectMapper();
   }
 
@@ -65,12 +63,13 @@ class ClientsControllerTest {
     @DisplayName("Should return data")
     void shouldReturnData() throws Exception {
       // Given
-      TransactionStatus status = new TransactionStatus().submissionStatus("status")
-          .referenceNumber("123");
+      TransactionStatus status =
+          new TransactionStatus().submissionStatus("status").referenceNumber("123");
       when(clientService.getTransactionStatus("ABCDEF")).thenReturn(Optional.of(status));
       String jsonContent = objectMapper.writeValueAsString(status);
       // Then
-      mockMvc.perform(get("/clients/status/ABCDEF"))
+      mockMvc
+          .perform(get("/clients/status/ABCDEF"))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().json(jsonContent));
@@ -80,7 +79,8 @@ class ClientsControllerTest {
     @DisplayName("Should return not found")
     void shouldReturnNotFound() throws Exception {
       // Then
-      mockMvc.perform(get("/clients/status/ABCDEF"))
+      mockMvc
+          .perform(get("/clients/status/ABCDEF"))
           .andDo(print())
           .andExpect(status().isNotFound());
     }
@@ -89,33 +89,34 @@ class ClientsControllerTest {
     @DisplayName("Should return 500 error")
     void shouldReturn500Error() throws Exception {
       // When
-      when(clientService.getTransactionStatus("ABCDEF")).thenThrow(
-          new ClientServiceException("error"));
+      when(clientService.getTransactionStatus("ABCDEF"))
+          .thenThrow(new ClientServiceException("error"));
       // Then
-      mockMvc.perform(get("/clients/status/ABCDEF"))
+      mockMvc
+          .perform(get("/clients/status/ABCDEF"))
           .andDo(print())
           .andExpect(status().is5xxServerError());
     }
-
   }
 
   @Nested
   @DisplayName("getClients() Tests")
-  class GetClientsTests{
+  class GetClientsTests {
 
     @Test
     @DisplayName("Should return data")
     void shouldReturnData() throws Exception {
       // Given
-      ClientDetails details = new ClientDetails().addContentItem(new ClientSummary()
-          .clientReferenceNumber("123"));
-      doReturn(Optional.of(details)).when(clientService).getClients(
-          any(), any(), any(), any(),
-          any(), any(), any(), any());
+      ClientDetails details =
+          new ClientDetails().addContentItem(new ClientSummary().clientReferenceNumber("123"));
+      doReturn(Optional.of(details))
+          .when(clientService)
+          .getClients(any(), any(), any(), any(), any(), any(), any(), any());
 
       // Then
       String jsonContent = objectMapper.writeValueAsString(details);
-      mockMvc.perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
+      mockMvc
+          .perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isOk())
           .andExpect(content().json(jsonContent));
@@ -125,17 +126,18 @@ class ClientsControllerTest {
     @DisplayName("Should return not found")
     void shouldReturnNotFound() throws Exception {
       // Then
-      mockMvc.perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
+      mockMvc
+          .perform(get("/clients?first-name=first&surname=last&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isNotFound());
     }
-
 
     @Test
     @DisplayName("Should return bad request when missing first name")
     void shouldReturnBadRequestWhenMissingFirstName() throws Exception {
       // Then
-      mockMvc.perform(get("/clients?surname=last&date-of-birth=2010-01-01"))
+      mockMvc
+          .perform(get("/clients?surname=last&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isBadRequest());
     }
@@ -144,7 +146,8 @@ class ClientsControllerTest {
     @DisplayName("Should return bad request when missing surname")
     void shouldReturnBadRequestWhenMissingSurname() throws Exception {
       // Then
-      mockMvc.perform(get("/clients?first-name=first&date-of-birth=2010-01-01"))
+      mockMvc
+          .perform(get("/clients?first-name=first&date-of-birth=2010-01-01"))
           .andDo(print())
           .andExpect(status().isBadRequest());
     }
@@ -153,7 +156,8 @@ class ClientsControllerTest {
     @DisplayName("Should return bad request when missing date of birth")
     void shouldReturnBadRequestWhenMissingDateOfBirth() throws Exception {
       // Then
-      mockMvc.perform(get("/clients?first-name=firstsurname=last"))
+      mockMvc
+          .perform(get("/clients?first-name=firstsurname=last"))
           .andDo(print())
           .andExpect(status().isBadRequest());
     }

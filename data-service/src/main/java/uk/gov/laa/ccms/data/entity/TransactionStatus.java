@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,11 +18,10 @@ import uk.gov.laa.ccms.data.entity.TransactionStatus.TransactionStatusId;
 /**
  * Represents a transaction status entity from the "XXCCMS_TRANSACTION_STATUS_V" database view.
  *
- * <p>This entity captures details about transaction statuses, such as the request ID,
- *     process name, record reference key, status, error description, and transaction
- *     occurrence date.</p>
+ * <p>This entity captures details about transaction statuses, such as the request ID, process name,
+ * record reference key, status, error description, and transaction occurrence date.
  *
- * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>This class is immutable, and its instances can be created using the builder pattern.
  */
 @Entity
 @Table(name = "XXCCMS_TRANSACTION_STATUS_V", schema = "XXCCMS")
@@ -77,9 +75,9 @@ public class TransactionStatus {
         return false;
       }
       TransactionStatusId that = (TransactionStatusId) o;
-      return Objects.equals(requestId, that.requestId) && Objects.equals(
-          processName, that.processName) && Objects.equals(transactionOccurrenceDate,
-          that.transactionOccurrenceDate);
+      return Objects.equals(requestId, that.requestId)
+          && Objects.equals(processName, that.processName)
+          && Objects.equals(transactionOccurrenceDate, that.transactionOccurrenceDate);
     }
 
     @Override

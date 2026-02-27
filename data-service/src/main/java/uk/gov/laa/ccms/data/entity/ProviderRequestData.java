@@ -13,9 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-/**
- * Entity representing the provider request data.
- */
+/** Entity representing the provider request data. */
 @Entity
 @Table(name = "XXCCMS_PROVIDER_REQUEST_DATA_V", schema = "XXCCMS")
 @Data
@@ -24,8 +22,7 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProviderRequestData implements Serializable {
 
-  @EmbeddedId
-  private ProviderRequestDataId id;
+  @EmbeddedId private ProviderRequestDataId id;
 
   @Column(name = "data_item_label")
   private String dataItemLabel;
@@ -45,7 +42,4 @@ public class ProviderRequestData implements Serializable {
   @ManyToOne
   @JoinColumn(name = "REQUEST_TYPE")
   private ProviderRequestType providerRequestType;
-
-
-
 }

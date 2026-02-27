@@ -23,24 +23,24 @@ import uk.gov.laa.ccms.data.service.ScopeLimitationService;
 @ExtendWith(MockitoExtension.class)
 class ScopeLimitationControllerTest {
 
-    @Mock
-    private ScopeLimitationService scopeLimitationService;
+  @Mock private ScopeLimitationService scopeLimitationService;
 
-    @InjectMocks
-    private ScopeLimitationController scopeLimitationController;
+  @InjectMocks private ScopeLimitationController scopeLimitationController;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @BeforeEach
-    public void setup() {
-        mockMvc = standaloneSetup(scopeLimitationController)
+  @BeforeEach
+  public void setup() {
+    mockMvc =
+        standaloneSetup(scopeLimitationController)
             .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .build();
-    }
+  }
 
-    @Test
-    void getScopeLimitations_returnsData() throws Exception {
-        uk.gov.laa.ccms.data.model.ScopeLimitationDetail scopeLimitationDetail = new uk.gov.laa.ccms.data.model.ScopeLimitationDetail()
+  @Test
+  void getScopeLimitations_returnsData() throws Exception {
+    uk.gov.laa.ccms.data.model.ScopeLimitationDetail scopeLimitationDetail =
+        new uk.gov.laa.ccms.data.model.ScopeLimitationDetail()
             .scopeLimitations("scopeLimitations")
             .categoryOfLaw("categoryOfLaw")
             .matterType("matterType")
@@ -56,12 +56,14 @@ class ScopeLimitationControllerTest {
             .defaultCode(Boolean.TRUE)
             .scopeDefault(Boolean.TRUE);
 
-        Pageable pageable = Pageable.ofSize(20);
+    Pageable pageable = Pageable.ofSize(20);
 
-        when(scopeLimitationService.getScopeLimitations(scopeLimitationDetail, pageable))
-            .thenReturn(new ScopeLimitationDetails());
+    when(scopeLimitationService.getScopeLimitations(scopeLimitationDetail, pageable))
+        .thenReturn(new ScopeLimitationDetails());
 
-        this.mockMvc.perform(get("/scope-limitations")
+    this.mockMvc
+        .perform(
+            get("/scope-limitations")
                 .param("scope-limitations", scopeLimitationDetail.getScopeLimitations())
                 .param("category-of-law", scopeLimitationDetail.getCategoryOfLaw())
                 .param("matter-type", scopeLimitationDetail.getMatterType())
@@ -70,15 +72,21 @@ class ScopeLimitationControllerTest {
                 .param("default-wording", scopeLimitationDetail.getDefaultWording())
                 .param("stage", String.valueOf(scopeLimitationDetail.getStage()))
                 .param("cost-limitation", scopeLimitationDetail.getCostLimitation().toString())
-                .param("emergency-cost-limitation", scopeLimitationDetail.getEmergencyCostLimitation().toString())
-                .param("non-standard-wording", scopeLimitationDetail.getNonStandardWordingRequired().toString())
-                .param("emergency-scope-default", scopeLimitationDetail.getEmergencyScopeDefault().toString())
+                .param(
+                    "emergency-cost-limitation",
+                    scopeLimitationDetail.getEmergencyCostLimitation().toString())
+                .param(
+                    "non-standard-wording",
+                    scopeLimitationDetail.getNonStandardWordingRequired().toString())
+                .param(
+                    "emergency-scope-default",
+                    scopeLimitationDetail.getEmergencyScopeDefault().toString())
                 .param("emergency", scopeLimitationDetail.getEmergency().toString())
                 .param("default-code", scopeLimitationDetail.getDefaultCode().toString())
                 .param("scope-default", scopeLimitationDetail.getScopeDefault().toString()))
-            .andDo(print())
-            .andExpect(status().isOk());
+        .andDo(print())
+        .andExpect(status().isOk());
 
-        verify(scopeLimitationService).getScopeLimitations(scopeLimitationDetail, pageable);
-    }
+    verify(scopeLimitationService).getScopeLimitations(scopeLimitationDetail, pageable);
+  }
 }

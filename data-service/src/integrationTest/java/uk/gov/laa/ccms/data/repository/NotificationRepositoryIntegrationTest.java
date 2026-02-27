@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +23,26 @@ import uk.gov.laa.ccms.data.entity.NotificationNote;
 
 @SpringBootTest
 @SqlMergeMode(SqlMergeMode.MergeMode.MERGE)
-@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_CLASS, scripts = {
-    "/sql/get_notif_info_create_schema.sql",
-    "/sql/get_notif_info_relationships_create_schema.sql"
-})
-@Sql(executionPhase = ExecutionPhase.AFTER_TEST_CLASS, scripts = {
-    "/sql/get_notif_info_drop_schema.sql",
-    "/sql/get_notif_info_relationships_drop_schema.sql",
-})
+@Sql(
+    executionPhase = ExecutionPhase.BEFORE_TEST_CLASS,
+    scripts = {
+      "/sql/get_notif_info_create_schema.sql",
+      "/sql/get_notif_info_relationships_create_schema.sql"
+    })
+@Sql(
+    executionPhase = ExecutionPhase.AFTER_TEST_CLASS,
+    scripts = {
+      "/sql/get_notif_info_drop_schema.sql",
+      "/sql/get_notif_info_relationships_drop_schema.sql",
+    })
 @DisplayName("Notification Repository Integration Tests")
 public class NotificationRepositoryIntegrationTest implements OracleIntegrationTestInterface {
 
-  @Autowired
-  private NotificationRepository repository;
+  @Autowired private NotificationRepository repository;
 
   @Test
   @DisplayName("Should return notification")
-  void shouldReturnNotification(){
+  void shouldReturnNotification() {
     // Given
     long notificationId = 1L;
     // When
@@ -74,36 +76,37 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
     // When
     Optional<NotificationInfo> result = repository.findById(notificationId);
     // Then
-    NotificationNote note1 =  NotificationNote.builder()
+    NotificationNote note1 =
+        NotificationNote.builder()
             .noteId(1)
             .notificationId(1)
-            .noteDate(LocalDateTime.of(2025, 1, 1, 0,0,0,0))
+            .noteDate(LocalDateTime.of(2025, 1, 1, 0, 0, 0, 0))
             .noteBy("Jamie Briggs")
             .noteText("Here is the body of text for this note")
             .build();
-    NotificationNote note2 =  NotificationNote.builder()
+    NotificationNote note2 =
+        NotificationNote.builder()
             .noteId(2)
             .notificationId(1)
-            .noteDate(LocalDateTime.of(2025, 1, 1, 10,0,0,0))
+            .noteDate(LocalDateTime.of(2025, 1, 1, 10, 0, 0, 0))
             .noteBy("Arun Kumar")
             .noteText("Here is the body of text for this note 2")
             .build();
 
     assertThat(result)
-            .isPresent()
-            .hasValueSatisfying(notificationInfo ->
-                    assertThat(notificationInfo
-                            .getNotes())
-                            .hasSize(2)
-                            .usingRecursiveFieldByFieldElementComparator()
-                            .containsExactly(note2, note1));
-
+        .isPresent()
+        .hasValueSatisfying(
+            notificationInfo ->
+                assertThat(notificationInfo.getNotes())
+                    .hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparator()
+                    .containsExactly(note2, note1));
   }
 
   @Test
   @Transactional
   @DisplayName("Should return notification with documents")
-  public void shouldReturnNotificationWithDocuments(){
+  public void shouldReturnNotificationWithDocuments() {
     // Given
     long notificationId = 1L;
     // When
@@ -122,7 +125,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with attachments")
-  public void shouldReturnNotificationWithAttachments(){
+  public void shouldReturnNotificationWithAttachments() {
     // Given
     long notificationId = 1L;
     // When
@@ -138,7 +141,7 @@ public class NotificationRepositoryIntegrationTest implements OracleIntegrationT
   @Test
   @Transactional
   @DisplayName("Should return notification with actions")
-  public void shouldReturnNotificationWithActions(){
+  public void shouldReturnNotificationWithActions() {
     long notificationId = 1L;
     // When
     NotificationInfo result = repository.findById(notificationId).orElse(null);

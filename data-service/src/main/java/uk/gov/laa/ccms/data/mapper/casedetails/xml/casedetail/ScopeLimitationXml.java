@@ -21,17 +21,23 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class ScopeLimitationXml {
 
-  @JacksonXmlProperty(localName = "ScopeLimitationID",
+  @JacksonXmlProperty(
+      localName = "ScopeLimitationID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String scopeLimitationId;
-  @JacksonXmlProperty(localName = "ScopeLimitation",
+
+  @JacksonXmlProperty(
+      localName = "ScopeLimitation",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String scopeLimitation;
-  @JacksonXmlProperty(localName = "ScopeLimitationWording",
+
+  @JacksonXmlProperty(
+      localName = "ScopeLimitationWording",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String scopeLimitationWording;
-  @JacksonXmlProperty(localName = "DelegatedFunctionsApply",
+
+  @JacksonXmlProperty(
+      localName = "DelegatedFunctionsApply",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean delegatedFunctionsApply;
-
 }

@@ -23,29 +23,33 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.common.ContactUserIdXml;
 @NoArgsConstructor
 public final class ProviderDetailsXml {
 
-  @JacksonXmlProperty(localName = "ProviderCaseReferenceNumber",
+  @JacksonXmlProperty(
+      localName = "ProviderCaseReferenceNumber",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String providerCaseReferenceNumber;
 
-  @JacksonXmlProperty(localName = "ProviderFirmID",
+  @JacksonXmlProperty(
+      localName = "ProviderFirmID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Integer providerFirmId;
 
-  @JacksonXmlProperty(localName = "ProviderOfficeID",
+  @JacksonXmlProperty(
+      localName = "ProviderOfficeID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Integer providerOfficeId;
 
-  @JacksonXmlProperty(localName = "ContactUserID",
+  @JacksonXmlProperty(
+      localName = "ContactUserID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ContactUserIdXml contactUserId;
 
-  @JacksonXmlProperty(localName = "FeeEarnerContactID",
+  @JacksonXmlProperty(
+      localName = "FeeEarnerContactID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String feeEarnerContactId;
 
-  @JacksonXmlProperty(localName = "SupervisorContactID",
+  @JacksonXmlProperty(
+      localName = "SupervisorContactID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String supervisorContactId;
-
-
 }

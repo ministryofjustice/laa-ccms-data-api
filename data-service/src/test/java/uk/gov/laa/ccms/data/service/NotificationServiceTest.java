@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -39,27 +38,25 @@ import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
 class NotificationServiceTest {
 
   private NotificationService notificationService;
-  @Mock
-  private NotificationCountRepository notificationCountRepository;
-  @Mock
-  private NotificationSummaryMapper notificationSummaryMapper;
-  @Mock
-  private NotificationSearchRepository notificationSearchRepository;
-  @Mock
-  private NotificationRepository notificationRepository;
-  @Mock
-  private NotificationsMapper notificationsMapper;
-  @Mock
-  private NotificationMapper notificationMapper;
-  @Mock
-  private UserService userService;
-
+  @Mock private NotificationCountRepository notificationCountRepository;
+  @Mock private NotificationSummaryMapper notificationSummaryMapper;
+  @Mock private NotificationSearchRepository notificationSearchRepository;
+  @Mock private NotificationRepository notificationRepository;
+  @Mock private NotificationsMapper notificationsMapper;
+  @Mock private NotificationMapper notificationMapper;
+  @Mock private UserService userService;
 
   @BeforeEach
   void setup() {
-    notificationService = new NotificationService(notificationCountRepository,
-        notificationSearchRepository, notificationRepository,
-        notificationSummaryMapper, notificationsMapper, notificationMapper, userService);
+    notificationService =
+        new NotificationService(
+            notificationCountRepository,
+            notificationSearchRepository,
+            notificationRepository,
+            notificationSummaryMapper,
+            notificationsMapper,
+            notificationMapper,
+            userService);
   }
 
   @Nested
@@ -73,18 +70,16 @@ class NotificationServiceTest {
       String userId = "123456";
       when(userService.existsUserById(userId)).thenReturn(true);
       List<NotificationCount> notificationCounts = List.of(new NotificationCount());
-      when(notificationCountRepository.findAllByIdUserLoginId(userId)).thenReturn(
-          notificationCounts);
+      when(notificationCountRepository.findAllByIdUserLoginId(userId))
+          .thenReturn(notificationCounts);
       NotificationSummary expected = new NotificationSummary();
-      when(notificationSummaryMapper.toNotificationSummary(notificationCounts)).thenReturn(
-          expected);
+      when(notificationSummaryMapper.toNotificationSummary(notificationCounts))
+          .thenReturn(expected);
       // When
       Optional<NotificationSummary> userNotificationSummary =
-          notificationService.getUserNotificationSummary(
-              userId);
+          notificationService.getUserNotificationSummary(userId);
       // Then
       assertThat(userNotificationSummary).isPresent().hasValue(expected);
-
     }
 
     @Test
@@ -94,8 +89,7 @@ class NotificationServiceTest {
       String userId = "123456";
       // When
       Optional<NotificationSummary> userNotificationSummary =
-          notificationService.getUserNotificationSummary(
-              userId);
+          notificationService.getUserNotificationSummary(userId);
       // Then
       assertThat(userNotificationSummary).isNotPresent();
     }
@@ -109,27 +103,26 @@ class NotificationServiceTest {
     @DisplayName("Returns data")
     void getNotifications_returnsData() {
       // Given
-      PageImpl<NotificationInfo> repositoryResult = new PageImpl<>(
-          Collections.singletonList(new NotificationInfo()));
+      PageImpl<NotificationInfo> repositoryResult =
+          new PageImpl<>(Collections.singletonList(new NotificationInfo()));
       when(notificationSearchRepository.findAll(any(), any(Pageable.class)))
-          .thenReturn(
-              repositoryResult);
+          .thenReturn(repositoryResult);
       Notifications expected = new Notifications().size(1);
-      when(notificationsMapper.mapToNotificationsList(repositoryResult)).thenReturn(
-          expected
-      );
+      when(notificationsMapper.mapToNotificationsList(repositoryResult)).thenReturn(expected);
       // When
-      Optional<Notifications> result = notificationService.getNotifications(
-          10L,
-          "Case Ref",
-          "Prov case ref",
-          "Assigned user id",
-          "surname",
-          123,
-          true,
-          "type",
-          LocalDate.of(2000, 1, 1),
-          LocalDate.of(2024, 1, 1), Pageable.ofSize(10).withPage(0));
+      Optional<Notifications> result =
+          notificationService.getNotifications(
+              10L,
+              "Case Ref",
+              "Prov case ref",
+              "Assigned user id",
+              "surname",
+              123,
+              true,
+              "type",
+              LocalDate.of(2000, 1, 1),
+              LocalDate.of(2024, 1, 1),
+              Pageable.ofSize(10).withPage(0));
       // Then
       assertThat(result).isPresent().hasValue(expected);
     }
@@ -139,16 +132,19 @@ class NotificationServiceTest {
     void getNotifications_noDataFound() {
       // Given
       // When
-      Optional<Notifications> result = notificationService.getNotifications(10L,
-          "Case Ref",
-          "Prov case ref",
-          "Assigned user id",
-          "surname",
-          123,
-          true,
-          "type",
-          LocalDate.of(2000, 1, 1),
-          LocalDate.of(2024, 1, 1), Pageable.ofSize(10).withPage(0));
+      Optional<Notifications> result =
+          notificationService.getNotifications(
+              10L,
+              "Case Ref",
+              "Prov case ref",
+              "Assigned user id",
+              "surname",
+              123,
+              true,
+              "type",
+              LocalDate.of(2000, 1, 1),
+              LocalDate.of(2024, 1, 1),
+              Pageable.ofSize(10).withPage(0));
       // Then
       assertThat(result).isNotPresent();
     }
@@ -156,11 +152,11 @@ class NotificationServiceTest {
 
   @Nested
   @DisplayName("getNotification(): Tests")
-  class GetNotificationTests{
+  class GetNotificationTests {
 
     @Test
     @DisplayName("Should return notification")
-    void shouldReturnNotification(){
+    void shouldReturnNotification() {
       // Given
       long notificationId = 1L;
       String userId = "123456";
@@ -170,24 +166,28 @@ class NotificationServiceTest {
           .thenReturn(Optional.of(notificationInfo));
       when(notificationMapper.mapToNotification(notificationInfo)).thenReturn(expected);
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
+      Optional<Notification> result =
+          notificationService.getNotification(notificationId, userId, 1L);
       // Then
       assertThat(result).isPresent().hasValue(expected);
-      verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
+      verify(notificationRepository, times(1))
+          .findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(1)).mapToNotification(notificationInfo);
     }
 
     @Test
     @DisplayName("Should return empty")
-    void shouldReturnEmpty(){
+    void shouldReturnEmpty() {
       // Given
       long notificationId = 1L;
       String userId = "123456";
       // When
-      Optional<Notification> result = notificationService.getNotification(notificationId, userId, 1L);
+      Optional<Notification> result =
+          notificationService.getNotification(notificationId, userId, 1L);
       // Then
       assertThat(result).isEmpty();
-      verify(notificationRepository, times(1)).findByNotificationIdAndUserId(notificationId, userId);
+      verify(notificationRepository, times(1))
+          .findByNotificationIdAndUserId(notificationId, userId);
       verify(notificationMapper, times(0)).mapToNotification(any());
     }
 
@@ -201,7 +201,8 @@ class NotificationServiceTest {
       when(notificationRepository.findByNotificationIdAndUserId(notificationId, userId))
           .thenReturn(Optional.of(notificationInfo));
       // When / Then
-      assertThrows(ResponseStatusException.class,
+      assertThrows(
+          ResponseStatusException.class,
           () -> notificationService.getNotification(notificationId, userId, 500));
     }
   }

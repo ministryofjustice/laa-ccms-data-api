@@ -5,9 +5,7 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * Class to represent the compound primary key for the ScopeLimitation entity.
- */
+/** Class to represent the compound primary key for the ScopeLimitation entity. */
 @Embeddable
 @Data
 public class ScopeLimitationId implements Serializable {

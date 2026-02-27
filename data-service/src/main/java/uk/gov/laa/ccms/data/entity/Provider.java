@@ -16,7 +16,7 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a provider entity from the "XXCCMS_PROVIDERFIRMS_V" database table.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  */
 @Entity
 @Data
@@ -26,31 +26,22 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Provider {
 
-  /**
-   * The unique identifier for the provider firm.
-   */
+  /** The unique identifier for the provider firm. */
   @Id
   @Column(name = "PROVIDERFIRM_ID")
   private Integer id;
 
-  /**
-   * The name of the provider.
-   */
+  /** The name of the provider. */
   @Column(name = "PROVIDERFIRM_NAME")
   private String name;
 
-  /**
-   * The provider's related offices.
-   */
+  /** The provider's related offices. */
   @OneToMany
   @JoinColumn(name = "PROVIDERFIRM_ID")
   private List<Office> offices;
 
-  /**
-   * The provider's related contact names.
-   */
+  /** The provider's related contact names. */
   @OneToMany
   @JoinColumn(name = "PROVIDERFIRM_ID")
   private List<ProviderContact> contactNames;
-
 }

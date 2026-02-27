@@ -18,9 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.Immutable;
 
-/**
- * Represents an assessment summary entity with various display properties.
- */
+/** Represents an assessment summary entity with various display properties. */
 @Getter
 @Setter
 @Entity
@@ -65,5 +63,4 @@ public class AssessmentSummaryEntity {
   @SQLRestriction("SUMMARY_DISPLAY_FLAG = 'Y' ")
   @OrderBy("displaySequence")
   private List<AssessmentSummaryAttribute> attributes;
-
 }

@@ -21,11 +21,11 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class OfferedAmountXml {
 
-  @JacksonXmlProperty(localName = "Amount", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String amount;
 
-  @JacksonXmlProperty(localName = "ConditionsOfOffer",
+  @JacksonXmlProperty(
+      localName = "ConditionsOfOffer",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String conditionsOfOffer;
 }

@@ -12,11 +12,11 @@ import uk.gov.laa.ccms.data.service.UserService;
 /**
  * Controller responsible for user-related operations.
  *
- * <p>This controller serves as an interface to manage user data and actions. It delegates
- * the business logic to the {@link UserService}</p>
+ * <p>This controller serves as an interface to manage user data and actions. It delegates the
+ * business logic to the {@link UserService}
  *
- * <p>It implements the {@link UsersApi} interface, which could be an API definition,
- * presumably from a Swagger or OpenAPI specification or some other contract definition.</p>
+ * <p>It implements the {@link UsersApi} interface, which could be an API definition, presumably
+ * from a Swagger or OpenAPI specification or some other contract definition.
  *
  * @see UserService
  */
@@ -34,7 +34,8 @@ public class UserController implements UsersApi {
    */
   @Override
   public ResponseEntity<UserDetail> getUser(String loginId) {
-    return userService.getUser(loginId)
+    return userService
+        .getUser(loginId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

@@ -16,11 +16,11 @@ import uk.gov.laa.ccms.data.service.NotificationService;
 /**
  * Controller class responsible for handling notification-related requests.
  *
- * <p>This controller serves as an interface to return requested user notification
- * information. It delegates the business logic to the {@link NotificationService}.</p>
+ * <p>This controller serves as an interface to return requested user notification information. It
+ * delegates the business logic to the {@link NotificationService}.
  *
- * <p>This class implements the {@link NotificationsApi} interface and provides
- * endpoints for retrieving notification summaries for users.</p>
+ * <p>This class implements the {@link NotificationsApi} interface and provides endpoints for
+ * retrieving notification summaries for users.
  *
  * @author Jamie Briggs
  * @see NotificationsApi
@@ -33,20 +33,20 @@ public class NotificationsController implements NotificationsApi {
 
   private final NotificationService notificationService;
 
-
   /**
    * Retrieves a notification based on the provided notification ID and provider ID.
    *
    * @param notificationId the unique identifier of the notification to retrieve
    * @param userId the unique identifier of the user assigned to the notification
    * @param providerId the unique identifier of the provider associated with the notification
-   * @return a {@code ResponseEntity} containing the retrieved {@code Notification} if found,
-   *         or a {@code ResponseEntity} with HTTP status 404 if the notification is not found.
+   * @return a {@code ResponseEntity} containing the retrieved {@code Notification} if found, or a
+   *     {@code ResponseEntity} with HTTP status 404 if the notification is not found.
    */
   @Override
-  public ResponseEntity<Notification> getNotification(Long notificationId, String userId,
-      Long providerId) {
-    return notificationService.getNotification(notificationId, userId, providerId)
+  public ResponseEntity<Notification> getNotification(
+      Long notificationId, String userId, Long providerId) {
+    return notificationService
+        .getNotification(notificationId, userId, providerId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -54,41 +54,46 @@ public class NotificationsController implements NotificationsApi {
   /**
    * Retrieves a list of notifications based on various search criteria.
    *
-   * @param providerId            the provider ID to filter notifications
-   * @param caseReferenceNumber   the case reference number to filter notifications
+   * @param providerId the provider ID to filter notifications
+   * @param caseReferenceNumber the case reference number to filter notifications
    * @param providerCaseReference the provider-specific case reference to filter notifications
-   * @param assignedToUserId      the user ID to filter notifications assigned to a specific user
-   * @param clientSurname         the client's surname to filter notifications for a specific
-   *                              client
-   * @param feeEarnerId           the ID of the fee earner to filter notifications associated with
-   *                              them
-   * @param includeClosed         a flag to indicate whether to include closed notifications in the
-   *                              results
-   * @param notificationType      the type of notifications to filter by
-   * @param dateFrom              the starting date to filter notifications by a specific date
-   *                              range
-   * @param dateTo                the ending date to filter notifications by a specific date range
-   * @param pageable              the pagination and sorting information for the result set
+   * @param assignedToUserId the user ID to filter notifications assigned to a specific user
+   * @param clientSurname the client's surname to filter notifications for a specific client
+   * @param feeEarnerId the ID of the fee earner to filter notifications associated with them
+   * @param includeClosed a flag to indicate whether to include closed notifications in the results
+   * @param notificationType the type of notifications to filter by
+   * @param dateFrom the starting date to filter notifications by a specific date range
+   * @param dateTo the ending date to filter notifications by a specific date range
+   * @param pageable the pagination and sorting information for the result set
    * @return a {@code ResponseEntity} containing the retrieved list of notifications if found, or a
    *     {@code ResponseEntity} with HTTP status 404 if no notifications are found
    */
   @Override
-  public ResponseEntity<Notifications> getNotifications(Long providerId,
-      String caseReferenceNumber, String providerCaseReference, String assignedToUserId,
-      String clientSurname, Integer feeEarnerId, Boolean includeClosed,
-      String notificationType, LocalDate dateFrom, LocalDate dateTo, Pageable pageable) {
-    Optional<Notifications> notifications = notificationService.getNotifications(
-        providerId,
-        caseReferenceNumber,
-        providerCaseReference,
-        assignedToUserId,
-        clientSurname,
-        feeEarnerId,
-        Boolean.TRUE.equals(includeClosed),
-        notificationType,
-        dateFrom,
-        dateTo,
-        pageable);
+  public ResponseEntity<Notifications> getNotifications(
+      Long providerId,
+      String caseReferenceNumber,
+      String providerCaseReference,
+      String assignedToUserId,
+      String clientSurname,
+      Integer feeEarnerId,
+      Boolean includeClosed,
+      String notificationType,
+      LocalDate dateFrom,
+      LocalDate dateTo,
+      Pageable pageable) {
+    Optional<Notifications> notifications =
+        notificationService.getNotifications(
+            providerId,
+            caseReferenceNumber,
+            providerCaseReference,
+            assignedToUserId,
+            clientSurname,
+            feeEarnerId,
+            Boolean.TRUE.equals(includeClosed),
+            notificationType,
+            dateFrom,
+            dateTo,
+            pageable);
     return notifications.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
@@ -101,8 +106,9 @@ public class NotificationsController implements NotificationsApi {
    */
   @Override
   public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {
-    return notificationService.getUserNotificationSummary(loginId).map(ResponseEntity::ok)
+    return notificationService
+        .getUserNotificationSummary(loginId)
+        .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 }
-

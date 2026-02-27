@@ -17,11 +17,11 @@ import uk.gov.laa.ccms.data.service.ClientServiceException;
 /**
  * Controller class responsible for handling case related operations.
  *
- * <p>This controller serves as an interface to return requested case information. It
- * delegates the business logic to the {@link CaseSearchService} and {@link CaseService}.</p>
+ * <p>This controller serves as an interface to return requested case information. It delegates the
+ * business logic to the {@link CaseSearchService} and {@link CaseService}.
  *
  * <p>This class implements the {@link CasesApi} interface and provides endpoints for retrieving
- * case information.</p>
+ * case information.
  *
  * @see CaseDetails
  * @see CaseService
@@ -46,17 +46,29 @@ public class CaseController implements CasesApi {
    * @param feeEarnerId the unique identifier for the corresponding fee earner.
    * @param officeId the unique identifier of the office associated with the case.
    * @param pageable the pagination details including page number and page size.
-   * @return a {@code ResponseEntity} containing the {@code CaseDetails} if found,
-   *         or a {@code ResponseEntity} with a not found status if no cases match the criteria.
+   * @return a {@code ResponseEntity} containing the {@code CaseDetails} if found, or a {@code
+   *     ResponseEntity} with a not found status if no cases match the criteria.
    */
   @Override
-  public ResponseEntity<CaseDetails> getCases(Long providerFirmPartyId, String caseReferenceNumber,
-      String providerCaseReference, String caseStatus, String clientSurname, Long feeEarnerId,
-      Long officeId, Pageable pageable) {
+  public ResponseEntity<CaseDetails> getCases(
+      Long providerFirmPartyId,
+      String caseReferenceNumber,
+      String providerCaseReference,
+      String caseStatus,
+      String clientSurname,
+      Long feeEarnerId,
+      Long officeId,
+      Pageable pageable) {
     Optional<CaseDetails> cases =
-        caseSearchService.getCases(providerFirmPartyId, caseReferenceNumber,
-          providerCaseReference, caseStatus, clientSurname, feeEarnerId,
-          officeId, pageable);
+        caseSearchService.getCases(
+            providerFirmPartyId,
+            caseReferenceNumber,
+            providerCaseReference,
+            caseStatus,
+            clientSurname,
+            feeEarnerId,
+            officeId,
+            pageable);
     return cases.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
@@ -65,34 +77,35 @@ public class CaseController implements CasesApi {
    *
    * @param caseReferenceNumber the unique identifier of the case.
    * @param providerId the unique identifier of the provider.
-   * @param userName the username of the user accessing this case. Dictates what available
-   *                 functions are returned alongside the case.
-   * @return a {@code ResponseEntity} containing the {@code CaseDetail} if found,
-   *         or a {@code ResponseEntity} with a not found status if no case matches the criteria.
+   * @param userName the username of the user accessing this case. Dictates what available functions
+   *     are returned alongside the case.
+   * @return a {@code ResponseEntity} containing the {@code CaseDetail} if found, or a {@code
+   *     ResponseEntity} with a not found status if no case matches the criteria.
    */
   @SneakyThrows
   @Override
-  public ResponseEntity<CaseDetail> getCase(String caseReferenceNumber, Long providerId,
-      String userName) {
-    Optional<CaseDetail> caseDetail = caseService.getCaseDetails(caseReferenceNumber, providerId,
-        userName);
+  public ResponseEntity<CaseDetail> getCase(
+      String caseReferenceNumber, Long providerId, String userName) {
+    Optional<CaseDetail> caseDetail =
+        caseService.getCaseDetails(caseReferenceNumber, providerId, userName);
     return caseDetail.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   /**
-   * Retrieves the transaction status for a specific case based on the given transaction
-   *     request identifier.
+   * Retrieves the transaction status for a specific case based on the given transaction request
+   * identifier.
    *
    * @param transactionRequestId the unique identifier of the transaction request.
-   * @return a {@code ResponseEntity} containing the {@code TransactionStatus} if found,
-   *         a {@code ResponseEntity} with a not found status if the transaction is not found,
-   *         or a {@code ResponseEntity} with an internal server error status if an exception
-   *         occurs.
+   * @return a {@code ResponseEntity} containing the {@code TransactionStatus} if found, a {@code
+   *     ResponseEntity} with a not found status if the transaction is not found, or a {@code
+   *     ResponseEntity} with an internal server error status if an exception occurs.
    */
   @Override
   public ResponseEntity<TransactionStatus> getCaseTransactionStatus(String transactionRequestId) {
     try {
-      return caseService.getTransactionStatus(transactionRequestId).map(ResponseEntity::ok)
+      return caseService
+          .getTransactionStatus(transactionRequestId)
+          .map(ResponseEntity::ok)
           .orElse(ResponseEntity.notFound().build());
     } catch (ClientServiceException e) {
       return ResponseEntity.internalServerError().build();

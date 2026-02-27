@@ -13,7 +13,7 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a Proceeding Outcome Result entity from the "XXCCMS_OUTCOME_RESULTS_V" database table.
  *
- * <p>This entity is immutable, meaning its state cannot be changed once it's created.</p>
+ * <p>This entity is immutable, meaning its state cannot be changed once it's created.
  */
 @Entity
 @Data
@@ -23,28 +23,18 @@ import org.hibernate.annotations.Immutable;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OutcomeResultLookupValue {
 
-  /**
-   * The compound id for the outcome result.
-   */
-  @EmbeddedId
-  private OutcomeResultLookupValueId id;
+  /** The compound id for the outcome result. */
+  @EmbeddedId private OutcomeResultLookupValueId id;
 
-  /**
-   * The description of the outcome result.
-   */
+  /** The description of the outcome result. */
   @Column(name = "OUTCOME_RESULT_DESCRIPTION")
   private String outcomeResultDescription;
 
-  /**
-   * The name of the proceeding.
-   */
+  /** The name of the proceeding. */
   @Column(name = "OUTCOME_RESULT_LOV")
   private String outcomeResultLov;
 
-
-  /**
-   * The stage end lov value for the proceeding.
-   */
+  /** The stage end lov value for the proceeding. */
   @Column(name = "ENABLED_FLAG")
   private Boolean enabled;
 }

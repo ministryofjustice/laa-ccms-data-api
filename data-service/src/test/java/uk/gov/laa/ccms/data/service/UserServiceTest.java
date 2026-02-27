@@ -25,79 +25,70 @@ import uk.gov.laa.ccms.data.repository.UserRepository;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    @Mock
-    private UserRepository userRepository;
+  @Mock private UserRepository userRepository;
 
-    @Mock
-    private UserMapper userMapper;
+  @Mock private UserMapper userMapper;
 
-    @InjectMocks
-    private UserService userService;
+  @InjectMocks private UserService userService;
 
-    @Test
-    void getUser_returnsUser() {
-        String userId = "test";
-        User expectedUser = new User();
-        expectedUser.setUserId(12345);
-        expectedUser.setLoginId(userId);
-        expectedUser.setUsername(userId);
+  @Test
+  void getUser_returnsUser() {
+    String userId = "test";
+    User expectedUser = new User();
+    expectedUser.setUserId(12345);
+    expectedUser.setLoginId(userId);
+    expectedUser.setUsername(userId);
 
-        UserDetail expectedResponse = new UserDetail();
+    UserDetail expectedResponse = new UserDetail();
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
-        when(userMapper.toUserDetail(expectedUser)).thenReturn(expectedResponse);
+    when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
+    when(userMapper.toUserDetail(expectedUser)).thenReturn(expectedResponse);
 
-        Optional<UserDetail> actualResponse = userService.getUser(userId);
+    Optional<UserDetail> actualResponse = userService.getUser(userId);
 
-        assertEquals(Optional.of(expectedResponse), actualResponse);
-    }
+    assertEquals(Optional.of(expectedResponse), actualResponse);
+  }
 
-    @Test
-    void getUser_returnsEmptyOptional() {
-        String userId = "test";
+  @Test
+  void getUser_returnsEmptyOptional() {
+    String userId = "test";
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+    when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        Optional<UserDetail> actualUser = userService.getUser(userId);
+    Optional<UserDetail> actualUser = userService.getUser(userId);
 
-        assertEquals(Optional.empty(), actualUser);
-    }
+    assertEquals(Optional.empty(), actualUser);
+  }
 
+  @Test
+  void existsUserById_returnsTrue() {
+    String loginId = "testLoginId";
 
-    @Test
-    void existsUserById_returnsTrue() {
-        String loginId = "testLoginId";
+    when(userRepository.existsUserByLoginId(loginId)).thenReturn(true);
 
-        when(userRepository.existsUserByLoginId(loginId)).thenReturn(true);
+    boolean result = userService.existsUserById(loginId);
 
-        boolean result = userService.existsUserById(loginId);
+    assertTrue(result);
+  }
 
-        assertTrue(result);
-    }
+  @Test
+  void getUsers_returnsPageOfValues() {
+    Firm firm = new Firm();
+    firm.setId(1);
 
-    @Test
-    void getUsers_returnsPageOfValues() {
-        Firm firm = new Firm();
-        firm.setId(1);
+    User user = new User();
+    user.setFirms(new ArrayList<>());
+    user.getFirms().add(firm);
 
-        User user = new User();
-        user.setFirms(new ArrayList<>());
-        user.getFirms().add(firm);
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Page<User> expectedPage = new PageImpl<>(Collections.singletonList(user));
+    UserDetails expectedResponse = new UserDetails();
 
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
-        Page<User> expectedPage = new PageImpl<>(
-            Collections.singletonList(user));
-        UserDetails expectedResponse = new UserDetails();
+    when(userRepository.findByFirmsId(firm.getId(), pageable)).thenReturn(expectedPage);
+    when(userMapper.toUserDetails(expectedPage)).thenReturn(expectedResponse);
 
-        when(userRepository.findByFirmsId(firm.getId(), pageable))
-            .thenReturn(expectedPage);
-        when(userMapper.toUserDetails(expectedPage)).thenReturn(
-            expectedResponse);
+    UserDetails actualResponse = userService.getUsers(firm.getId(), pageable);
 
-        UserDetails actualResponse = userService.getUsers(
-            firm.getId(),
-            pageable);
-
-        assertEquals(expectedResponse, actualResponse);
-    }
+    assertEquals(expectedResponse, actualResponse);
+  }
 }

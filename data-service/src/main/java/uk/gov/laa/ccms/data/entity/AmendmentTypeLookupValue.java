@@ -14,10 +14,10 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a lookup value for amendment types.
  *
- * <p>This entity corresponds to the "XXCCMS_APP_AMEND_TYPES_V" table in the database.
- * The JSON representation of this entity uses the snake case naming strategy.</p>
+ * <p>This entity corresponds to the "XXCCMS_APP_AMEND_TYPES_V" table in the database. The JSON
+ * representation of this entity uses the snake case naming strategy.
  *
- * <p>It's an immutable entity, meaning that its state cannot be changed once it's created.</p>
+ * <p>It's an immutable entity, meaning that its state cannot be changed once it's created.
  *
  * @see PropertyNamingStrategies.SnakeCaseStrategy
  */
@@ -44,6 +44,4 @@ public class AmendmentTypeLookupValue implements Serializable {
 
   @Column(name = "DEFAULT_LAR_SCOPE_FLAG")
   private String defaultLarScopeFlag;
-
-
 }

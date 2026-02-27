@@ -21,13 +21,18 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class CaseStatusXml {
 
-  @JacksonXmlProperty(localName = "ActualCaseStatus",
+  @JacksonXmlProperty(
+      localName = "ActualCaseStatus",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String actualCaseStatus;
-  @JacksonXmlProperty(localName = "DisplayCaseStatus",
+
+  @JacksonXmlProperty(
+      localName = "DisplayCaseStatus",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String displayCaseStatus;
-  @JacksonXmlProperty(localName = "StatusUpdateInd",
+
+  @JacksonXmlProperty(
+      localName = "StatusUpdateInd",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean statusUpdateInd;
 }

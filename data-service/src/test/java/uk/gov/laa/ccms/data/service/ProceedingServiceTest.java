@@ -30,68 +30,67 @@ import uk.gov.laa.ccms.data.repository.ProceedingRepository;
 @ExtendWith(MockitoExtension.class)
 class ProceedingServiceTest {
 
-    @Mock
-    private ProceedingRepository proceedingRepository;
+  @Mock private ProceedingRepository proceedingRepository;
 
-    @Mock
-    private ProceedingMapper proceedingMapper;
+  @Mock private ProceedingMapper proceedingMapper;
 
-    @InjectMocks
-    private ProceedingService proceedingService;
+  @InjectMocks private ProceedingService proceedingService;
 
-    @Test
-    void getProceeding_returnsProceedingDetail() {
-        Proceeding proceeding = buildProceeding();
+  @Test
+  void getProceeding_returnsProceedingDetail() {
+    Proceeding proceeding = buildProceeding();
 
-        ProceedingDetail proceedingDetail = new ProceedingDetail();
+    ProceedingDetail proceedingDetail = new ProceedingDetail();
 
-        when(proceedingRepository.findById(proceeding.getCode()))
-            .thenReturn(Optional.of(proceeding));
-        when(proceedingMapper.toProceedingDetail(proceeding))
-            .thenReturn(proceedingDetail);
+    when(proceedingRepository.findById(proceeding.getCode())).thenReturn(Optional.of(proceeding));
+    when(proceedingMapper.toProceedingDetail(proceeding)).thenReturn(proceedingDetail);
 
-        Optional<ProceedingDetail> result = proceedingService.getProceeding(proceeding.getCode());
+    Optional<ProceedingDetail> result = proceedingService.getProceeding(proceeding.getCode());
 
-        verify(proceedingMapper).toProceedingDetail(proceeding);
+    verify(proceedingMapper).toProceedingDetail(proceeding);
 
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals(proceedingDetail, result.get());
-    }
+    assertNotNull(result);
+    assertTrue(result.isPresent());
+    assertEquals(proceedingDetail, result.get());
+  }
 
-    @Test
-    void getProceeding_handlesNotFound() {
-        when(proceedingRepository.findById("PROC1")).thenReturn(Optional.empty());
+  @Test
+  void getProceeding_handlesNotFound() {
+    when(proceedingRepository.findById("PROC1")).thenReturn(Optional.empty());
 
-        Optional<ProceedingDetail> result = proceedingService.getProceeding("PROC1");
+    Optional<ProceedingDetail> result = proceedingService.getProceeding("PROC1");
 
-        verifyNoInteractions(proceedingMapper);
+    verifyNoInteractions(proceedingMapper);
 
-        assertNotNull(result);
-        assertFalse(result.isPresent());
-    }
+    assertNotNull(result);
+    assertFalse(result.isPresent());
+  }
 
-    @Test
-    void getProceedings_returnsPageOfProceeding() {
-        Proceeding proceeding = buildProceeding();
-        Example<Proceeding> example = Example.of(proceeding);
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
-        Page<Proceeding> expectedPage = new PageImpl<>(
-            Collections.singletonList(proceeding));
-        ProceedingDetails expectedResponse = new ProceedingDetails();
+  @Test
+  void getProceedings_returnsPageOfProceeding() {
+    Proceeding proceeding = buildProceeding();
+    Example<Proceeding> example = Example.of(proceeding);
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Page<Proceeding> expectedPage = new PageImpl<>(Collections.singletonList(proceeding));
+    ProceedingDetails expectedResponse = new ProceedingDetails();
 
-        when(proceedingRepository.findAll(example, pageable)).thenReturn(expectedPage);
-        when(proceedingMapper.toProceedingDetails(expectedPage)).thenReturn(expectedResponse);
+    when(proceedingRepository.findAll(example, pageable)).thenReturn(expectedPage);
+    when(proceedingMapper.toProceedingDetails(expectedPage)).thenReturn(expectedResponse);
 
-        ProceedingDetails actualResponse = proceedingService.getProceedings(
-            proceeding.getCategoryOfLawCode(), proceeding.getMatterType(),
-            proceeding.getAmendmentOnly(), proceeding.getEnabled(), pageable);
+    ProceedingDetails actualResponse =
+        proceedingService.getProceedings(
+            proceeding.getCategoryOfLawCode(),
+            proceeding.getMatterType(),
+            proceeding.getAmendmentOnly(),
+            proceeding.getEnabled(),
+            pageable);
 
-        assertEquals(expectedResponse, actualResponse);
-    }
+    assertEquals(expectedResponse, actualResponse);
+  }
 
-    @ParameterizedTest
-    @CsvSource(value = {
+  @ParameterizedTest
+  @CsvSource(
+      value = {
         "true, Y, true, Y, true, Y",
         "true, Y, false, N, true, Y",
         "false, N, true, Y, false, N",
@@ -101,53 +100,54 @@ class ProceedingServiceTest {
         "true, Y, null, null, true, Y",
         "false, N, null, null, false, N",
         "null, null, null, null, null, null"
-    }, nullValues = "null")
-    void getLeadProceedings_returnsPageOfLeadProceeding(
-        Boolean amendmentOnly,
-        Character expectedAmendmentOnlyString,
-        Boolean enabled,
-        Character expectedEnabledString,
-        Boolean larScope,
-        Character expectedLarScopeString) {
-        String categoryOfLaw = "CAT1";
-        String matterType = "MAT1";
-        String appOrCertType = "APP1";
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
+      },
+      nullValues = "null")
+  void getLeadProceedings_returnsPageOfLeadProceeding(
+      Boolean amendmentOnly,
+      Character expectedAmendmentOnlyString,
+      Boolean enabled,
+      Character expectedEnabledString,
+      Boolean larScope,
+      Character expectedLarScopeString) {
+    String categoryOfLaw = "CAT1";
+    String matterType = "MAT1";
+    String appOrCertType = "APP1";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
 
-        Proceeding proceeding = new Proceeding();
-        proceeding.setCategoryOfLawCode(categoryOfLaw);
-        proceeding.setMatterType(matterType);
-        proceeding.setEnabled(enabled);
-        proceeding.setAmendmentOnly(amendmentOnly);
+    Proceeding proceeding = new Proceeding();
+    proceeding.setCategoryOfLawCode(categoryOfLaw);
+    proceeding.setMatterType(matterType);
+    proceeding.setEnabled(enabled);
+    proceeding.setAmendmentOnly(amendmentOnly);
 
-        Page<Proceeding> expectedPage = new PageImpl<>(
-            Collections.singletonList(proceeding));
-        ProceedingDetails expectedResponse = new ProceedingDetails();
+    Page<Proceeding> expectedPage = new PageImpl<>(Collections.singletonList(proceeding));
+    ProceedingDetails expectedResponse = new ProceedingDetails();
 
-        when(proceedingRepository.findAllLeadProceedings(
+    when(proceedingRepository.findAllLeadProceedings(
             categoryOfLaw,
             matterType,
             expectedAmendmentOnlyString,
             expectedEnabledString,
             expectedLarScopeString,
             appOrCertType,
-            pageable)).thenReturn(expectedPage);
-        when(proceedingMapper.toProceedingDetails(expectedPage)).thenReturn(expectedResponse);
+            pageable))
+        .thenReturn(expectedPage);
+    when(proceedingMapper.toProceedingDetails(expectedPage)).thenReturn(expectedResponse);
 
-        ProceedingDetails actualResponse = proceedingService.getLeadProceedings(
+    ProceedingDetails actualResponse =
+        proceedingService.getLeadProceedings(
             categoryOfLaw, matterType, amendmentOnly, enabled, appOrCertType, larScope, pageable);
 
-        assertEquals(expectedResponse, actualResponse);
-    }
+    assertEquals(expectedResponse, actualResponse);
+  }
 
-
-    // Helper methods to create objects
-    private Proceeding buildProceeding() {
-        Proceeding proceeding = new Proceeding();
-        proceeding.setCategoryOfLawCode("CAT1");
-        proceeding.setMatterType("MAT1");
-        proceeding.setEnabled(true);
-        proceeding.setAmendmentOnly(Boolean.TRUE);
-        return proceeding;
-    }
+  // Helper methods to create objects
+  private Proceeding buildProceeding() {
+    Proceeding proceeding = new Proceeding();
+    proceeding.setCategoryOfLawCode("CAT1");
+    proceeding.setMatterType("MAT1");
+    proceeding.setEnabled(true);
+    proceeding.setAmendmentOnly(Boolean.TRUE);
+    return proceeding;
+  }
 }

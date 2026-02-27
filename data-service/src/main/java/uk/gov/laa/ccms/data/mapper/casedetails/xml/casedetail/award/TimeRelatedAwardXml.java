@@ -21,29 +21,25 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class TimeRelatedAwardXml {
 
-
-  @JacksonXmlProperty(localName = "AwardType",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardType", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardType;
 
-  @JacksonXmlProperty(localName = "Description",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Description", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String description;
 
-  @JacksonXmlProperty(localName = "Amount",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Amount", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String amount;
 
-  @JacksonXmlProperty(localName = "AwardTriggeringEvent",
+  @JacksonXmlProperty(
+      localName = "AwardTriggeringEvent",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardTriggeringEvent;
 
-  @JacksonXmlProperty(localName = "AwardDate",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardDate", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate awardDate;
 
-  @JacksonXmlProperty(localName = "OtherDetails",
+  @JacksonXmlProperty(
+      localName = "OtherDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherDetails;
-
 }

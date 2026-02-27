@@ -10,11 +10,11 @@ import uk.gov.laa.ccms.data.service.ProviderService;
 /**
  * Controller responsible for provider-related operations.
  *
- * <p>This controller serves as an interface to manage provider data and actions. It delegates
- * the business logic to the {@link ProviderService}</p>
+ * <p>This controller serves as an interface to manage provider data and actions. It delegates the
+ * business logic to the {@link ProviderService}
  *
- * <p>It implements the {@link ProvidersApi} interface, which could be an API definition,
- * presumably from a Swagger or OpenAPI specification or some other contract definition.</p>
+ * <p>It implements the {@link ProvidersApi} interface, which could be an API definition, presumably
+ * from a Swagger or OpenAPI specification or some other contract definition.
  *
  * @see ProviderService
  */
@@ -28,12 +28,13 @@ public class ProviderController implements ProvidersApi {
    * Retrieves a provider by provider ID.
    *
    * @param providerId the ID of the Provider
-   * @return ResponseEntity with the ProviderDetails if found,
-   *     or ResponseEntity.notFound() if not found
+   * @return ResponseEntity with the ProviderDetails if found, or ResponseEntity.notFound() if not
+   *     found
    */
   @Override
   public ResponseEntity<ProviderDetail> getProvider(Integer providerId) {
-    return providerService.getProvider(providerId)
+    return providerService
+        .getProvider(providerId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

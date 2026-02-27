@@ -21,15 +21,16 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class DischargeStatusXml {
 
-  @JacksonXmlProperty(localName = "Reason",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Reason", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String reason;
 
-  @JacksonXmlProperty(localName = "ClientContinuePvtInd",
+  @JacksonXmlProperty(
+      localName = "ClientContinuePvtInd",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean clientContinuePvtInd;
 
-  @JacksonXmlProperty(localName = "OtherDetails",
+  @JacksonXmlProperty(
+      localName = "OtherDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherDetails;
 }

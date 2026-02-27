@@ -22,18 +22,16 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
 @NoArgsConstructor
 public final class OtherPartyXml {
 
-  @JacksonXmlProperty(localName = "OtherPartyID",
+  @JacksonXmlProperty(
+      localName = "OtherPartyID",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String otherPartyId;
 
-  @JacksonXmlProperty(localName = "SharedInd",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "SharedInd", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean sharedIndicator;
 
-  @JacksonXmlProperty(localName = "OtherPartyDetail",
+  @JacksonXmlProperty(
+      localName = "OtherPartyDetail",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private OtherPartyDetailXml otherPartyDetail;
-
-
-
 }

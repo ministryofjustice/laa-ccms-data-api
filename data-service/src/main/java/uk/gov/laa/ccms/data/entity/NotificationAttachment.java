@@ -12,12 +12,12 @@ import org.hibernate.annotations.Immutable;
 
 /**
  * Represents a notification attachment entity from the <b>XXCCMS_NOTIFICATION_ATTMNTS_V</b>
- *     database view.
+ * database view.
  *
- * <p>This entity captures details about a notification's attachment. It provides fields
- *     relating to the attachment including it's title, and a description of the attachment.</p>
+ * <p>This entity captures details about a notification's attachment. It provides fields relating to
+ * the attachment including it's title, and a description of the attachment.
  *
- * <p>This class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>This class is immutable, and its instances can be created using the builder pattern.
  */
 @Entity
 @Table(name = "XXCCMS_NOTIFICATION_ATTMNTS_V", schema = "XXCCMS")
@@ -40,5 +40,4 @@ public class NotificationAttachment {
 
   @Column(name = "ATTACHMENT_DESCRIPTION", length = 255)
   private String attachmentDescription;
-
 }

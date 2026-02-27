@@ -18,9 +18,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.SQLRestriction;
 
-/**
- * Represents a user entity.
- */
+/** Represents a user entity. */
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,57 +27,43 @@ import org.hibernate.annotations.SQLRestriction;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
 
-  /**
-   * The user ID.
-   */
+  /** The user ID. */
   @Column(name = "USER_ID")
   private Integer userId;
 
-  /**
-   * The login ID of the user.
-   */
+  /** The login ID of the user. */
   @Id
   @Column(name = "USER_LOGIN_ID")
   private String loginId;
 
-  /**
-   * The party ID of the user.
-   */
+  /** The party ID of the user. */
   @Column(name = "USER_PARTY_ID")
   private Integer partyId;
 
-  /**
-   * The username of the user.
-   */
+  /** The username of the user. */
   @Column(name = "USER_NAME")
   private String username;
 
-  /**
-   * The type of the user.
-   */
+  /** The type of the user. */
   @Column(name = "USER_TYPE")
   private String userType;
 
-  /**
-   * The firms associated with the user.
-   */
+  /** The firms associated with the user. */
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_LOGIN_ID")
   @SQLRestriction("user_end_date IS NULL OR user_end_date > TRUNC(CURRENT_DATE)")
   private List<Firm> firms;
 
-  /**
-   * The functions assigned to the user.
-   */
+  /** The functions assigned to the user. */
   @ElementCollection(fetch = FetchType.LAZY)
-  @CollectionTable(name = "XXCCMS_USER_ROLES_V", schema = "XXCCMS",
+  @CollectionTable(
+      name = "XXCCMS_USER_ROLES_V",
+      schema = "XXCCMS",
       joinColumns = @JoinColumn(name = "USER_LOGIN_ID"))
   @Column(name = "FUNCTION")
   private List<String> functions;
 
-  /**
-   * The provider of the user.
-   */
+  /** The provider of the user. */
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PROVIDERFIRM_ID", referencedColumnName = "PROVIDERFIRM_ID")
   private Provider provider;

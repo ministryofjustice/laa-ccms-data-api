@@ -20,42 +20,49 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class AddressXml {
 
-  @JacksonXmlProperty(localName = "AddressID",
-      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+  @JacksonXmlProperty(localName = "AddressID", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressId;
-  @JacksonXmlProperty(localName = "House",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "House", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String house;
-  @JacksonXmlProperty(localName = "AddressLine1",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(
+      localName = "AddressLine1",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressLine1;
-  @JacksonXmlProperty(localName = "AddressLine2",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(
+      localName = "AddressLine2",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressLine2;
-  @JacksonXmlProperty(localName = "AddressLine3",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(
+      localName = "AddressLine3",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressLine3;
-  @JacksonXmlProperty(localName = "AddressLine4",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(
+      localName = "AddressLine4",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String addressLine4;
-  
-  @JacksonXmlProperty(localName = "City",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "City", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String city;
-  @JacksonXmlProperty(localName = "Country",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Country", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String country;
-  @JacksonXmlProperty(localName = "County",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "County", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String county;
-  @JacksonXmlProperty(localName = "State",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "State", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String state;
-  @JacksonXmlProperty(localName = "Province",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "Province", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String province;
-  @JacksonXmlProperty(localName = "PostalCode",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(
+      localName = "PostalCode",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String postalCode;
-  
 }

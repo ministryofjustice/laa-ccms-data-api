@@ -13,12 +13,11 @@ import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.model.UserDetails;
 import uk.gov.laa.ccms.data.repository.UserRepository;
 
-
 /**
  * Service class for managing user-related operations.
  *
- * <p>This service provides methods to interact with user-related data and encapsulates
- * the logic required to access the underlying {@link UserRepository}.</p>
+ * <p>This service provides methods to interact with user-related data and encapsulates the logic
+ * required to access the underlying {@link UserRepository}.
  *
  * @see User
  * @see UserRepository
@@ -38,12 +37,10 @@ public class UserService extends AbstractEbsDataService {
    * @param id = the id of the User.
    * @return Optional UserDetail.
    */
-
   @Transactional(readOnly = true)
   public Optional<UserDetail> getUser(String id) {
 
-    return userRepository.findById(id)
-        .map(userMapper::toUserDetail);
+    return userRepository.findById(id).map(userMapper::toUserDetail);
   }
 
   /**
@@ -57,8 +54,7 @@ public class UserService extends AbstractEbsDataService {
   }
 
   /**
-   * Get a UserDetails containing a page of BaseUser objects, based on the supplied
-   * search criteria.
+   * Get a UserDetails containing a page of BaseUser objects, based on the supplied search criteria.
    *
    * @param providerId - the related providerId for the User.
    * @param pageable - the pageable settings.

@@ -20,15 +20,14 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class UserXml {
 
-  @JacksonXmlProperty(localName = "UserLoginID",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+  @JacksonXmlProperty(
+      localName = "UserLoginID",
+      namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private Integer userLoginId;
-  @JacksonXmlProperty(localName = "UserName",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "UserName", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String userName;
-  @JacksonXmlProperty(localName = "UserType",
-      namespace =  CaseDetailXmlNamespaces.COMMON_NAMESPACE)
+
+  @JacksonXmlProperty(localName = "UserType", namespace = CaseDetailXmlNamespaces.COMMON_NAMESPACE)
   private String userType;
-
-
 }

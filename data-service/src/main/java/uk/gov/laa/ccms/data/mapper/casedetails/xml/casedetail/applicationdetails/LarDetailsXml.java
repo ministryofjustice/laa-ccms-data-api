@@ -20,7 +20,8 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @AllArgsConstructor
 public final class LarDetailsXml {
 
-  @JacksonXmlProperty(localName = "LARScopeFlag",
+  @JacksonXmlProperty(
+      localName = "LARScopeFlag",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean larScopeFlag;
 }

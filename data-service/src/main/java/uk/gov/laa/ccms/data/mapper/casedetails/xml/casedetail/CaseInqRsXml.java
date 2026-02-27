@@ -20,9 +20,6 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class CaseInqRsXml {
 
-  @JacksonXmlProperty(localName = "Case",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Case", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private CaseDetailXml caseDetail;
-
-
 }

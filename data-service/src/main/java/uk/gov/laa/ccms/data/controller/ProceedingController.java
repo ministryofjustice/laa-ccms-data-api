@@ -12,11 +12,11 @@ import uk.gov.laa.ccms.data.service.ProceedingService;
 /**
  * Controller responsible for proceeding-related operations.
  *
- * <p>This controller serves as an interface to manage proceeding data and actions. It delegates
- * the business logic to the {@link ProceedingService}</p>
+ * <p>This controller serves as an interface to manage proceeding data and actions. It delegates the
+ * business logic to the {@link ProceedingService}
  *
  * <p>It implements the {@link ProceedingsApi} interface, which could be an API definition,
- * presumably from a Swagger or OpenAPI specification or some other contract definition.</p>
+ * presumably from a Swagger or OpenAPI specification or some other contract definition.
  *
  * @see ProceedingService
  */
@@ -27,8 +27,8 @@ public class ProceedingController implements ProceedingsApi {
   private final ProceedingService proceedingService;
 
   /**
-   * GET Proceedings by category of law, matter type, whether they are enabled,
-   * and whether they are amendment-only proceedings.
+   * GET Proceedings by category of law, matter type, whether they are enabled, and whether they are
+   * amendment-only proceedings.
    *
    * @param categoryOfLaw - the category of law code
    * @param matterType - the matter type
@@ -48,39 +48,35 @@ public class ProceedingController implements ProceedingsApi {
       final Boolean larScopeFlag,
       final Pageable pageable) {
 
-
     if (Boolean.TRUE.equals(lead)) {
-      return ResponseEntity.ok(proceedingService.getLeadProceedings(
-          categoryOfLaw,
-          matterType,
-          amendmentOnly,
-          enabled,
-          applicationType,
-          larScopeFlag,
-          pageable));
+      return ResponseEntity.ok(
+          proceedingService.getLeadProceedings(
+              categoryOfLaw,
+              matterType,
+              amendmentOnly,
+              enabled,
+              applicationType,
+              larScopeFlag,
+              pageable));
     } else {
-      return ResponseEntity.ok(proceedingService.getProceedings(
-          categoryOfLaw,
-          matterType,
-          amendmentOnly,
-          enabled,
-          pageable));
+      return ResponseEntity.ok(
+          proceedingService.getProceedings(
+              categoryOfLaw, matterType, amendmentOnly, enabled, pageable));
     }
   }
-
 
   /**
    * Retrieves a proceeding by its code.
    *
    * @param code the code for the Proceeding
-   * @return ResponseEntity with the ProceedingDetail if found,
-   *     or ResponseEntity.notFound() if not found
+   * @return ResponseEntity with the ProceedingDetail if found, or ResponseEntity.notFound() if not
+   *     found
    */
   @Override
   public ResponseEntity<ProceedingDetail> getProceeding(String code) {
-    return proceedingService.getProceeding(code)
+    return proceedingService
+        .getProceeding(code)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
-
 }

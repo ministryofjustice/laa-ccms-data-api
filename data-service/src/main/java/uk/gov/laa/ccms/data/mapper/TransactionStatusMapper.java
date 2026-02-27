@@ -21,8 +21,8 @@ public interface TransactionStatusMapper {
    * object.
    *
    * @param entity the source {@link uk.gov.laa.ccms.data.entity.TransactionStatus} object.
-   * @return a {@link TransactionStatus} object mapped from the source
-   *     {@link uk.gov.laa.ccms.data.entity.TransactionStatus} object.
+   * @return a {@link TransactionStatus} object mapped from the source {@link
+   *     uk.gov.laa.ccms.data.entity.TransactionStatus} object.
    */
   @Mapping(target = "submissionStatus", source = "status", qualifiedByName = "toUpperCase")
   @Mapping(target = "referenceNumber", source = "recordRefValue")

@@ -24,17 +24,18 @@ import uk.gov.laa.ccms.data.model.ProceedingDetails;
 @Sql(executionPhase = AFTER_TEST_METHOD, scripts = "/sql/proceedings_drop_schema.sql")
 public class ProceedingServiceIntegrationTest implements OracleIntegrationTestInterface {
 
-  @Autowired
-  private ProceedingService proceedingService;
+  @Autowired private ProceedingService proceedingService;
 
   @Test
-  @Sql(statements = {
-      "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
-          + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
-          "VALUES ('PROC1', 'Proceeding 1', 'The first proceeding', 'CAT1', 'stageendlov1', 'outcomeresultlov1', 'MAT1', 'Y', 'Y', 'Y', 'proclarscope1');",
-      "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
-          + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
-          "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"})
+  @Sql(
+      statements = {
+        "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
+            + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) "
+            + "VALUES ('PROC1', 'Proceeding 1', 'The first proceeding', 'CAT1', 'stageendlov1', 'outcomeresultlov1', 'MAT1', 'Y', 'Y', 'Y', 'proclarscope1');",
+        "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
+            + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) "
+            + "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"
+      })
   public void testGetProceeding() {
     String code = "PROC1";
 
@@ -59,19 +60,22 @@ public class ProceedingServiceIntegrationTest implements OracleIntegrationTestIn
   }
 
   @Test
-  @Sql(statements = {
-      "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
-          + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
-          "VALUES ('PROC1', 'Proceeding 1', 'The first proceeding', 'CAT1', 'stageendlov1', 'outcomeresultlov1', 'MAT1', 'Y', 'Y', 'Y', 'proclarscope1');",
-      "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
-          + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) " +
-          "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"})
+  @Sql(
+      statements = {
+        "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
+            + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) "
+            + "VALUES ('PROC1', 'Proceeding 1', 'The first proceeding', 'CAT1', 'stageendlov1', 'outcomeresultlov1', 'MAT1', 'Y', 'Y', 'Y', 'proclarscope1');",
+        "INSERT INTO XXCCMS.XXCCMS_PROCEEDING_V (PROCEEDING_CODE, PROCEEDING_NAME, DESCRIPTION, CATEGORY_OF_LAW_CODE, "
+            + "STAGE_END_LOV, OUTCOME_RESULT_LOV, MATTER_TYPE, AMENDMENT_ONLY, ENABLED_FLAG, ORDER_TYPE_REQUIRED, PROC_LAR_SCOPE) "
+            + "VALUES ('PROC2', 'Proceeding 2', 'The first proceeding', 'CAT2', 'stageendlov2', 'outcomeresultlov2', 'MAT2', 'N', 'Y', 'Y', 'proclarscope2');"
+      })
   public void testGetProceedings() {
     String categoryOfLawCode = "CAT2";
 
     // Call the service method
-    ProceedingDetails result = proceedingService.getProceedings(
-        categoryOfLawCode, null, null, null, Pageable.ofSize(10).withPage(0));
+    ProceedingDetails result =
+        proceedingService.getProceedings(
+            categoryOfLawCode, null, null, null, Pageable.ofSize(10).withPage(0));
 
     // Assert the proceeding
     assertNotNull(result);

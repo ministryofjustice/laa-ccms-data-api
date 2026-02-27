@@ -22,24 +22,24 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.CaseDetailsXml;
 @AllArgsConstructor
 public final class AwardXml {
 
-  @JacksonXmlProperty(localName = "AwardID",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardID", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardId;
 
-  @JacksonXmlProperty(localName = "AwardType",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardType", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardType;
 
-  @JacksonXmlProperty(localName = "DeleteAllowed",
+  @JacksonXmlProperty(
+      localName = "DeleteAllowed",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean deleteAllowed;
 
-  @JacksonXmlProperty(localName = "UpdateAllowed",
+  @JacksonXmlProperty(
+      localName = "UpdateAllowed",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private Boolean updateAllowed;
 
-  @JacksonXmlProperty(localName = "AwardDetails",
+  @JacksonXmlProperty(
+      localName = "AwardDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private AwardDetailsXml awardDetails;
-
 }

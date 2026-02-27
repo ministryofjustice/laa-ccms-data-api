@@ -86,7 +86,6 @@ public interface SubmittedApplicationDetailsMapper {
    * Converts an integer into a list with one value relating to the office ID.
    *
    * @param providerOfficeId the provider office ID.
-   *
    * @return a list containing one office detail including the provided office ID.
    */
   @Named("mapOfficeDetail")
@@ -100,7 +99,6 @@ public interface SubmittedApplicationDetailsMapper {
    * Maps a single {@link ContactUserIdXml} to a list containing a singular {@link ContactDetail}.
    *
    * @param contactUserId the contact user ID to map.
-   *
    * @return a list containing one contact detail relating to the provider contacter user details.
    */
   @Named("mapContactDetail")
@@ -127,7 +125,6 @@ public interface SubmittedApplicationDetailsMapper {
 
   @Mapping(target = "contactDetails", ignore = true)
   OtherPartyOrganisation mapToOtherPartyOrganisation(OrganisationXml organisation);
-
 
   @Mapping(target = "proceedingType", source = "proceedingDetails.proceedingType")
   @Mapping(target = "proceedingDescription", source = "proceedingDetails.proceedingDescription")

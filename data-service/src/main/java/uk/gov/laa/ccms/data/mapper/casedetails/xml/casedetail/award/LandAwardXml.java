@@ -24,72 +24,74 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.casedetail.otherparty.OtherPa
 @AllArgsConstructor
 public final class LandAwardXml {
 
-  @JacksonXmlProperty(localName = "OrderDate", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "OrderDate", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private LocalDate orderDate;
 
-  @JacksonXmlProperty(localName = "Description", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Description", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String description;
 
-  @JacksonXmlProperty(localName = "TitleNo",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "TitleNo", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String titleNo;
 
-  @JacksonXmlProperty(localName = "PropertyAddress",
+  @JacksonXmlProperty(
+      localName = "PropertyAddress",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ServiceAddressXml propertyAddress;
 
-  @JacksonXmlProperty(localName = "Valuation",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Valuation", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private ValuationXml valuation;
 
-  @JacksonXmlProperty(localName = "DisputedPercentage",
+  @JacksonXmlProperty(
+      localName = "DisputedPercentage",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String disputedPercentage;
 
-  @JacksonXmlProperty(localName = "AwardedPercentage", 
+  @JacksonXmlProperty(
+      localName = "AwardedPercentage",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardedPercentage;
 
-  @JacksonXmlProperty(localName = "MortgageAmountDue",
+  @JacksonXmlProperty(
+      localName = "MortgageAmountDue",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String mortgageAmountDue;
 
-  @JacksonXmlProperty(localName = "Equity", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Equity", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String equity;
 
-  @JacksonXmlProperty(localName = "AwardedBy", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AwardedBy", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String awardedBy;
 
-  @JacksonXmlProperty(localName = "Recovery", 
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "Recovery", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String recovery;
 
-  @JacksonXmlProperty(localName = "NoRecoveryDetails",
+  @JacksonXmlProperty(
+      localName = "NoRecoveryDetails",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String noRecoveryDetails;
 
-  @JacksonXmlProperty(localName = "StatChargeExemptReason",
+  @JacksonXmlProperty(
+      localName = "StatChargeExemptReason",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String statChargeExemptReason;
 
-  @JacksonXmlProperty(localName = "LandChargeRegistration",
+  @JacksonXmlProperty(
+      localName = "LandChargeRegistration",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String landChargeRegistration;
 
-  @JacksonXmlProperty(localName = "RegistrationRef",
+  @JacksonXmlProperty(
+      localName = "RegistrationRef",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String registrationRef;
 
-  @JacksonXmlProperty(localName = "OtherProprietors",
+  @JacksonXmlProperty(
+      localName = "OtherProprietors",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private List<OtherPartyXml> otherProprietors;
 
-  @JacksonXmlProperty(localName = "TimeRelatedAward",
+  @JacksonXmlProperty(
+      localName = "TimeRelatedAward",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private TimeRelatedAwardXml timeRelatedAward;
-
 }

@@ -23,41 +23,36 @@ import uk.gov.laa.ccms.data.repository.ScopeLimitationRepository;
 @ExtendWith(MockitoExtension.class)
 class ScopeLimitationServiceTest {
 
-    @Mock
-    private ScopeLimitationRepository scopeLimitationRepository;
+  @Mock private ScopeLimitationRepository scopeLimitationRepository;
 
-    @Mock
-    private ScopeLimitationMapper scopeLimitationMapper;
+  @Mock private ScopeLimitationMapper scopeLimitationMapper;
 
-    @InjectMocks
-    private ScopeLimitationService scopeLimitationService;
+  @InjectMocks private ScopeLimitationService scopeLimitationService;
 
-    @Test
-    void getScopeLimitations_returnsData() {
-        ScopeLimitationDetail scopeLimitationDetail = new ScopeLimitationDetail();
-        scopeLimitationDetail.setScopeLimitations("scopelims");
-        scopeLimitationDetail.setCategoryOfLaw("cat1");
+  @Test
+  void getScopeLimitations_returnsData() {
+    ScopeLimitationDetail scopeLimitationDetail = new ScopeLimitationDetail();
+    scopeLimitationDetail.setScopeLimitations("scopelims");
+    scopeLimitationDetail.setCategoryOfLaw("cat1");
 
-        ScopeLimitation scopeLimitation = new ScopeLimitation();
-        scopeLimitation.setId(new ScopeLimitationId());
-        scopeLimitation.getId().setScopeLimitations(scopeLimitationDetail.getScopeLimitations());
-        scopeLimitation.getId().setCategoryOfLawCode(scopeLimitationDetail.getCategoryOfLaw());
+    ScopeLimitation scopeLimitation = new ScopeLimitation();
+    scopeLimitation.setId(new ScopeLimitationId());
+    scopeLimitation.getId().setScopeLimitations(scopeLimitationDetail.getScopeLimitations());
+    scopeLimitation.getId().setCategoryOfLawCode(scopeLimitationDetail.getCategoryOfLaw());
 
-        Example<ScopeLimitation> example = Example.of(scopeLimitation);
-        Pageable pageable = Pageable.ofSize(10).withPage(0);
-        Page<ScopeLimitation> expectedPage = new PageImpl<>(
-            Collections.singletonList(scopeLimitation));
-        ScopeLimitationDetails expectedResponse = new ScopeLimitationDetails();
+    Example<ScopeLimitation> example = Example.of(scopeLimitation);
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Page<ScopeLimitation> expectedPage = new PageImpl<>(Collections.singletonList(scopeLimitation));
+    ScopeLimitationDetails expectedResponse = new ScopeLimitationDetails();
 
-        when(scopeLimitationMapper.toScopeLimitation(scopeLimitationDetail))
-            .thenReturn(scopeLimitation);
-        when(scopeLimitationRepository.findAll(example, pageable)).thenReturn(expectedPage);
-        when(scopeLimitationMapper.toScopeLimitationDetails(expectedPage))
-            .thenReturn(expectedResponse);
+    when(scopeLimitationMapper.toScopeLimitation(scopeLimitationDetail))
+        .thenReturn(scopeLimitation);
+    when(scopeLimitationRepository.findAll(example, pageable)).thenReturn(expectedPage);
+    when(scopeLimitationMapper.toScopeLimitationDetails(expectedPage)).thenReturn(expectedResponse);
 
-        ScopeLimitationDetails actualResponse = scopeLimitationService.getScopeLimitations(
-            scopeLimitationDetail, pageable);
+    ScopeLimitationDetails actualResponse =
+        scopeLimitationService.getScopeLimitations(scopeLimitationDetail, pageable);
 
-        assertEquals(expectedResponse, actualResponse);
-    }
+    assertEquals(expectedResponse, actualResponse);
+  }
 }

@@ -12,7 +12,7 @@ import uk.gov.laa.ccms.data.service.NewCaseReferenceService;
  * REST Controller responsible for allocating and returning the next case reference number.
  *
  * <p>The controller implements the {@link CaseReferenceApi} interface, which defines the API
- * contract for working with case references.</p>
+ * contract for working with case references.
  *
  * @author Jamie Briggs
  * @see NewCaseReferenceService
@@ -25,7 +25,7 @@ public class CaseReferenceController implements CaseReferenceApi {
 
   @Override
   public ResponseEntity<CaseReferenceSummary> postCaseReference() {
-    return new ResponseEntity<>((newCaseReferenceService.getNextAvailableCaseReference()),
-        HttpStatus.CREATED);
+    return new ResponseEntity<>(
+        (newCaseReferenceService.getNextAvailableCaseReference()), HttpStatus.CREATED);
   }
 }

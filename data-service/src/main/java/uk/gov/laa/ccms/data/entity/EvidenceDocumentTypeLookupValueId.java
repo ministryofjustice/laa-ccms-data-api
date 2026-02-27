@@ -7,16 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-
 /**
  * Represents the composite primary key for the {@link EvidenceDocumentTypeLookupValue} entity.
  *
- * <p>This class is used to uniquely identify each record in the associated evidence
- * document type lookup value entity. The combination of the lookup value type and its code
- * forms the composite key.</p>
+ * <p>This class is used to uniquely identify each record in the associated evidence document type
+ * lookup value entity. The combination of the lookup value type and its code forms the composite
+ * key.
  *
  * <p>The class is marked as immutable, ensuring the integrity and consistency of the identifier
- * once it's created.</p>
+ * once it's created.
  *
  * @see EvidenceDocumentTypeLookupValue
  */
@@ -31,5 +30,4 @@ public class EvidenceDocumentTypeLookupValueId implements Serializable {
 
   @Column(name = "CODE")
   private String code;
-
 }

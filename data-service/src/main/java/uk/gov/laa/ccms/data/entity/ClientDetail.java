@@ -15,9 +15,9 @@ import org.hibernate.annotations.Immutable;
 /**
  * Represents a client detail entity from the <b>XXCCMS_GET_CLIENT_DETAILS_V</b> database view.
  *
- * <p>This entity captures personal information about a client.</p>
+ * <p>This entity captures personal information about a client.
  *
- * <p>The class is immutable, and its instances can be created using the builder pattern.</p>
+ * <p>The class is immutable, and its instances can be created using the builder pattern.
  *
  * @author Jamie Briggs
  */
@@ -82,5 +82,4 @@ public class ClientDetail {
 
   @Column(name = "HOME_OFFICE_NUMBER", length = 150)
   private String homeOfficeNumber;
-
 }

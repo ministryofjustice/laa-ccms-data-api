@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.FileReader;
 import java.io.StringReader;
 import java.sql.Array;
 import java.sql.Clob;
@@ -29,11 +28,9 @@ import uk.gov.laa.ccms.data.model.CaseAssessmentDetail;
 @DisplayName("Case assessment repository test")
 class CaseAssessmentRepositoryTest {
 
-  @Mock
-  private JdbcTemplate jdbcTemplate;
+  @Mock private JdbcTemplate jdbcTemplate;
 
-  @InjectMocks
-  private CaseAssessmentRepository repository;
+  @InjectMocks private CaseAssessmentRepository repository;
 
   @Test
   @DisplayName("Should return details")
@@ -42,19 +39,20 @@ class CaseAssessmentRepositoryTest {
     Struct structMock = mock(Struct.class);
     Array arrayMock = mock(Array.class);
     Clob clobMock = mock(Clob.class);
-    Object[] structAttributes = new Object[] {
-        "EntityName", "InstanceLabel", "AttributeName", clobMock, "AttributeType", "true"
-    };
+    Object[] structAttributes =
+        new Object[] {
+          "EntityName", "InstanceLabel", "AttributeName", clobMock, "AttributeType", "true"
+        };
     when(structMock.getAttributes()).thenReturn(structAttributes);
-    Object[] arrayData = new Object[] { structMock };
+    Object[] arrayData = new Object[] {structMock};
     when(arrayMock.getArray()).thenReturn(arrayData);
     when(clobMock.getCharacterStream()).thenReturn(new StringReader("Value"));
     when(jdbcTemplate.queryForObject(anyString(), eq(Array.class), anyString(), anyString()))
         .thenReturn(arrayMock);
 
     // When
-    List<CaseAssessmentDetail> result = repository.getCaseAssessmentDetails(
-        "CASE123", AssessmentType.MEANS);
+    List<CaseAssessmentDetail> result =
+        repository.getCaseAssessmentDetails("CASE123", AssessmentType.MEANS);
 
     // Then
     assertThat(result).isNotNull();
@@ -78,9 +76,8 @@ class CaseAssessmentRepositoryTest {
         .thenReturn(arrayMock);
 
     // When/Then
-    assertThrows(EbsApiRuntimeException.class, () ->
-        repository.getCaseAssessmentDetails("CASE123", AssessmentType.MEANS));
+    assertThrows(
+        EbsApiRuntimeException.class,
+        () -> repository.getCaseAssessmentDetails("CASE123", AssessmentType.MEANS));
   }
-
-
 }
