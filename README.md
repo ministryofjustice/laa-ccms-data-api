@@ -1,4 +1,4 @@
-To add the compliance badge to your README file, you can use the following markdown snippet: [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/laa-ccms-data-api/badge)](https://github-community.service.justice.gov.uk/repository-standards/laa-ccms-data-api)
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/laa-ccms-data-api/badge)](https://github-community.service.justice.gov.uk/repository-standards/laa-ccms-data-api)
 
 # laa-ccms-data-api
 
@@ -38,8 +38,6 @@ Scans will be triggered in two ways:
   vulnerabilites (compared to the main branch). If new vulnerabilites have been raised. A code
   scan will also run to identify known security issues within the source code. If any issues are
   found, the build will fail.
-
-
 
 ## Contributing
 Follow the [contribution guide](./CONTRIBUTING.md) to make code changes.
