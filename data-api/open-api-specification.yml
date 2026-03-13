@@ -1364,6 +1364,57 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
+
+  /lookup/counsels:
+    get:
+      tags:
+        - lookup
+      summary: 'Gets lookup values of counsel'
+      operationId: 'getCounselLookupValues'
+      x-spring-paginated: true
+      parameters:
+        - name: 'name'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'company'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'legal-aid-supp-number'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+        - name: 'category'
+          in: 'query'
+          schema:
+            type: 'string'
+            example: 'ABC'
+      responses:
+        '200':
+          description: 'List of Counsel'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/counselLookupDetail"
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiError"
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1371,6 +1422,40 @@ components:
       in: header
       name: Authorization
   schemas:
+
+    counselLookupDetail:
+      allOf:
+        - $ref: "#/components/schemas/page"
+      type: 'object'
+      properties:
+        content:
+          type: 'array'
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/counselLookupValueDetail'
+    counselLookupValueDetail:
+      type: object
+      properties:
+        name:
+          type: string
+        company:
+          type: string
+        legal_aid_supplier_number:
+          type: string
+        category:
+          type: string
+        county:
+          type: string
+    apiError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Too many rows"
+
     transactionStatus:
       type: 'object'
       properties:
