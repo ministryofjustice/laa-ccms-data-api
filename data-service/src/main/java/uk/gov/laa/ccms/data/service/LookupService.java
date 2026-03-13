@@ -43,6 +43,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CounselLookupDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
@@ -57,6 +58,7 @@ import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.CounselLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.DeclarationRepository;
 import uk.gov.laa.ccms.data.repository.EvidenceDocumentTypeLookupValueRepository;
@@ -68,6 +70,7 @@ import uk.gov.laa.ccms.data.repository.PersonRelationshipToCaseLookupValueReposi
 import uk.gov.laa.ccms.data.repository.ProceedingClientInvolvementTypeRepository;
 import uk.gov.laa.ccms.data.repository.ProviderRequestTypeRepository;
 import uk.gov.laa.ccms.data.repository.StageEndLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.specification.CounselLookupValueSpecification;
 
 /** Service class for managing common values. */
 @Service
@@ -112,6 +115,8 @@ public class LookupService extends AbstractEbsDataService {
   private final DeclarationRepository declarationRepository;
 
   private final ProviderRequestTypeRepository providerRequestTypeRepository;
+
+  private final CounselLookupValueRepository counselLookupValueRepository;
 
   /**
    * Retrieves a page of common values based on the provided type, code, description and pagination
@@ -378,6 +383,29 @@ public class LookupService extends AbstractEbsDataService {
 
     return lookupMapper.toCategoryOfLawLookupDetail(
         categoryOfLawLookupValueRepository.findAll(Example.of(example), pageable));
+  }
+
+  /**
+   * Returns a page of counsel's list that matches the search criteria.
+   *
+   * @param name name of counsel
+   * @param company company value
+   * @param legalAidSuppNumber laaCounselReference value
+   * @param category category value
+   * @param pageable pagination information
+   * @return a CounselLookupDetail containing a page details and counsel data.
+   * @author Ashutosh Gautam
+   */
+  public CounselLookupDetail getCounselLookupValues(
+      String name, String company, String legalAidSuppNumber, String category, Pageable pageable) {
+
+    CounselLookupDetail counselLookupDetail =
+        lookupMapper.toCounselLookupDetail(
+            counselLookupValueRepository.findAll(
+                CounselLookupValueSpecification.filter(name, category, company, legalAidSuppNumber),
+                pageable));
+
+    return counselLookupDetail;
   }
 
   /**

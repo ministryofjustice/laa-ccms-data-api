@@ -1,10 +1,14 @@
 package uk.gov.laa.ccms.data.controller;
 
+import io.micrometer.common.util.StringUtils;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
+import uk.gov.laa.ccms.data.exception.BadRequestException;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
@@ -12,6 +16,7 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
+import uk.gov.laa.ccms.data.model.CounselLookupDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
@@ -20,6 +25,7 @@ import uk.gov.laa.ccms.data.model.OutcomeResultLookupDetail;
 import uk.gov.laa.ccms.data.model.ProviderRequestTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.RelationshipToCaseLookupDetail;
 import uk.gov.laa.ccms.data.model.StageEndLookupDetail;
+import uk.gov.laa.ccms.data.service.ClientServiceException;
 import uk.gov.laa.ccms.data.service.LookupService;
 
 /**
@@ -38,6 +44,12 @@ import uk.gov.laa.ccms.data.service.LookupService;
 public class LookupController implements LookupApi {
 
   private final LookupService lookupService;
+
+  private static final String ALL_PARAMS_EMPTY =
+      "Invalid request. Please input at least one parameter for your search criteria.";
+  private static final String TOO_MANY_RESULTS =
+      "Too many results. Please refine your search criteria.";
+  private static final int COUNSEL_MAX_RESULTS = 500;
 
   /**
    * GET common lookup values by type and code.
@@ -326,5 +338,44 @@ public class LookupController implements LookupApi {
       String type, String code, Pageable pageable) {
     return ResponseEntity.ok(
         lookupService.getEvidenceDocumentTypeLookupValues(type, code, pageable));
+  }
+
+  /**
+   * GET paginated counsel lookup values by available at-least one of the below parameters.
+   *
+   * @param name name of counsel
+   * @param company company value
+   * @param legalAidSuppNumber laaCounselReference value
+   * @param category category value
+   * @param pageable pagination information
+   * @return the response CounselLookupDetail for non-bad request, else returns ApiError
+   * @author Ashutosh Gautam
+   */
+  @Override
+  public ResponseEntity<CounselLookupDetail> getCounselLookupValues(
+      String name,
+      String company,
+      String legalAidSuppNumber,
+      String category,
+      @PageableDefault(page = 0, size = 10) Pageable pageable)
+      throws ClientServiceException {
+
+    CounselLookupDetail counselLookupDetail;
+
+    if (Stream.of(name, company, legalAidSuppNumber, category).allMatch(StringUtils::isEmpty)) {
+
+      throw new BadRequestException(ALL_PARAMS_EMPTY);
+    }
+
+    counselLookupDetail =
+        lookupService.getCounselLookupValues(name, company, legalAidSuppNumber, category, pageable);
+
+    int rowcount = counselLookupDetail.getTotalElements();
+
+    if (rowcount > COUNSEL_MAX_RESULTS) {
+      throw new BadRequestException(TOO_MANY_RESULTS);
+    }
+
+    return ResponseEntity.ok(counselLookupDetail);
   }
 }
