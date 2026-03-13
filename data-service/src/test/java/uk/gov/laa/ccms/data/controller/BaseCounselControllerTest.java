@@ -1,7 +1,6 @@
 package uk.gov.laa.ccms.data.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +22,6 @@ public sealed class BaseCounselControllerTest permits CounselControllerTest {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  protected static int RECORDS_NOT_FOUND = 0;
   protected static String ALL_PARAMS_EMPTY =
       "Invalid request. Please input at least one parameter for your search criteria.";
   protected static String TOO_MANY_RESULTS =
@@ -49,15 +47,6 @@ public sealed class BaseCounselControllerTest permits CounselControllerTest {
     LookupMapper lookupMapper = new LookupMapperImpl();
 
     return lookupMapper.toCounselLookupDetail(counselLookupValues);
-  }
-
-  protected static JsonNode getJson(String jsonString) throws JsonProcessingException {
-    return OBJECT_MAPPER.readTree(jsonString);
-  }
-
-  protected static <T> T getRealObject(String jsonString, Class<T> classType)
-      throws JsonProcessingException {
-    return OBJECT_MAPPER.readValue(jsonString, classType);
   }
 
   protected static String getJsonString(Object object) throws JsonProcessingException {

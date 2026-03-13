@@ -10,9 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,9 +19,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import uk.gov.laa.ccms.data.advice.GlobalExceptionHandler;
 import uk.gov.laa.ccms.data.model.ApiError;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
@@ -65,16 +63,15 @@ final class CounselControllerTest extends BaseCounselControllerTest {
 
       String expected = getJsonString(serviceReturnedCounselLookupDetail);
 
-      ResultActions resultActions =
-          mockMvc
-              .perform(
-                  get("/lookup/counsels")
-                      .param("page", "0")
-                      .param("size", "10")
-                      .param("sort", "name,desc")
-                      .param("name", "SHAUN S DODDS"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected));
+      mockMvc
+          .perform(
+              get("/lookup/counsels")
+                  .param("page", "0")
+                  .param("size", "10")
+                  .param("sort", "name,desc")
+                  .param("name", "SHAUN S DODDS"))
+          .andExpect(status().isOk())
+          .andExpect(content().json(expected));
     }
 
     @Test
@@ -89,24 +86,16 @@ final class CounselControllerTest extends BaseCounselControllerTest {
 
       String expected = getJsonString(noRowResponse);
 
-      String json =
-          mockMvc
-              .perform(
-                  get("/lookup/counsels")
-                      .param("page", "0")
-                      .param("size", "10")
-                      .param("sort", "name,desc")
-                      .param("name", "ASHU"))
-              .andExpect(status().isOk()) // Response 200 OK
-              .andExpect(
-                  content().string(not(emptyString()))) // // Paginated response with empty array
-              .andExpect(content().json(expected)) // Expected no content response
-              .andReturn()
-              .getResponse()
-              .getContentAsString();
-
-      JsonNode content = getJson(json).get("content");
-      Assertions.assertEquals(RECORDS_NOT_FOUND, content.size()); // Empty array
+      mockMvc
+          .perform(
+              get("/lookup/counsels")
+                  .param("page", "0")
+                  .param("size", "10")
+                  .param("sort", "name,desc")
+                  .param("name", "ASHU"))
+          .andExpect(status().isOk()) // Response 200 OK
+          .andExpect(content().string(not(emptyString()))) // // Paginated response with empty array
+          .andExpect(content().json(expected)); // Expected no content response
     }
 
     @Test
@@ -117,25 +106,22 @@ final class CounselControllerTest extends BaseCounselControllerTest {
       CounselLookupDetail response501Rows = getAllCounselLookupValues();
       response501Rows.setTotalElements(501);
 
+      String expectedError =
+          getJsonString(
+              new ApiError().message(TOO_MANY_RESULTS).code(HttpStatus.BAD_REQUEST.value()));
+
       when(lookupService.getCounselLookupValues(eq("ASHU"), any(), any(), any(), any()))
           .thenReturn(response501Rows);
 
-      ApiError apiErrorResponse =
-          getRealObject(
-              mockMvc
-                  .perform(
-                      get("/lookup/counsels")
-                          .param("page", "0")
-                          .param("size", "10")
-                          .param("sort", "name,asc")
-                          .param("name", "ASHU"))
-                  .andExpect(status().isBadRequest()) // Response 400 Bad Request
-                  .andReturn()
-                  .getResponse()
-                  .getContentAsString(),
-              ApiError.class);
-
-      Assertions.assertEquals(TOO_MANY_RESULTS, apiErrorResponse.getMessage());
+      mockMvc
+          .perform(
+              get("/lookup/counsels")
+                  .param("page", "0")
+                  .param("size", "10")
+                  .param("sort", "name,asc")
+                  .param("name", "ASHU"))
+          .andExpect(status().isBadRequest()) // Response 400 Bad Request
+          .andExpect(content().json(expectedError));
     }
 
     @Test
@@ -143,20 +129,18 @@ final class CounselControllerTest extends BaseCounselControllerTest {
         "WHEN -> All params empty: THEN -> Return 400 Bad-Request with required at least one param message.")
     void shouldReturnBadRequestForAllEmptyParams() throws Exception {
 
-      String json =
-          mockMvc
-              .perform(
-                  get("/lookup/counsels")
-                      .param("page", "0")
-                      .param("size", "1")
-                      .param("sort", "name, asc"))
-              .andExpect(status().isBadRequest())
-              .andReturn()
-              .getResponse()
-              .getContentAsString();
+      String expectedError =
+          getJsonString(
+              new ApiError().message(ALL_PARAMS_EMPTY).code(HttpStatus.BAD_REQUEST.value()));
 
-      ApiError apiErrorResponse = getRealObject(json, ApiError.class);
-      Assertions.assertEquals(ALL_PARAMS_EMPTY, apiErrorResponse.getMessage());
+      mockMvc
+          .perform(
+              get("/lookup/counsels")
+                  .param("page", "0")
+                  .param("size", "1")
+                  .param("sort", "name, asc"))
+          .andExpect(status().isBadRequest())
+          .andExpect(content().json(expectedError));
     }
   }
 }

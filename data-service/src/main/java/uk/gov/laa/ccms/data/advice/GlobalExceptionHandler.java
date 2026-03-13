@@ -23,10 +23,7 @@ public class GlobalExceptionHandler {
    * @return the response with ApiError with code 400 and respective error message
    */
   @ExceptionHandler(BadRequestException.class)
-  public ResponseEntity<ApiError> handleBadRequestException(
-      //          Model model,
-      //          HttpSession session,
-      BadRequestException brException) {
+  public ResponseEntity<ApiError> handleBadRequestException(BadRequestException brException) {
 
     log.error(
         "Bad request exception caught by GlobalExceptionHandler: {}", brException.getMessage());
