@@ -29,6 +29,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     // Make Spring Boot test and integration test dependencies available to the integrationTest source set
     integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
