@@ -1383,7 +1383,7 @@ paths:
           schema:
             type: 'string'
             example: 'ABC'
-        - name: 'legal-aid-supp-number'
+        - name: 'legal_aid_supplier_number'
           in: 'query'
           schema:
             type: 'string'
