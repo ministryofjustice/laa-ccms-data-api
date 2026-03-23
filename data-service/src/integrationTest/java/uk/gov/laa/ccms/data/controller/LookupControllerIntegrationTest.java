@@ -5,25 +5,20 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
 import uk.gov.laa.ccms.data.model.CounselLookupValueDetail;
 
 public class LookupControllerIntegrationTest extends BaseLookupControllerIntegrationTest {
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {"null, null, null, null"},
-      nullValues = "null")
+  @Test
   @DisplayName("WHEN: No parameters -> THEN: Return bad request with all params empty message.")
-  public void get400BadRequestForAllEmptyParams(
-      String name, String company, String legalAidSuppNumber, String category) throws Exception {
+  public void get400BadRequestForAllEmptyParams() throws Exception {
 
     restTestClient
         .get()
-        .uri(getUriBuilder(name, company, legalAidSuppNumber, category))
+        .uri(getUriBuilder(null, null, null, null))
         .exchange()
         .expectStatus()
         .isBadRequest()
@@ -34,17 +29,13 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
         .isEqualTo(ALL_PARAMS_EMPTY);
   }
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {"null, null, ASHU, null"},
-      nullValues = "null")
+  @Test
   @DisplayName("WHEN: NO data found -> THEN: Return 200 OK with empty results array.")
-  public void get200OKForNonNullOneOfParameter(
-      String name, String company, String legalAidSuppNumber, String category) throws Exception {
+  public void get200OKForNonNullOneOfParameter() throws Exception {
 
     restTestClient
         .get()
-        .uri(getUriBuilder(name, category, company, legalAidSuppNumber))
+        .uri(getUriBuilder(null, null, "ASHU", null))
         .exchange()
         .expectStatus()
         .isOk()
@@ -52,13 +43,9 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
         .isEqualTo(expectedResponse(0, 0, 0, 10, List.of()));
   }
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {"XYZ198, null, null, null"},
-      nullValues = "null")
+  @Test
   @DisplayName("WHEN: Data found -> THEN: Return 200 OK with array of one element.")
-  public void get200OKForDataFoundExactlyOneElement(
-      String name, String company, String legalAidSuppNumber, String category) throws Exception {
+  public void get200OKForDataFoundExactlyOneElement() throws Exception {
 
     List<CounselLookupValueDetail> content =
         List.of(
@@ -73,7 +60,7 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
 
     restTestClient
         .get()
-        .uri(getUriBuilder(name, category, company, legalAidSuppNumber))
+        .uri(getUriBuilder("XYZ198", null, null, null))
         .exchange()
         .expectStatus()
         .isOk()
@@ -81,13 +68,9 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
         .isEqualTo(expectedResponse(1, 1, 0, 10, content));
   }
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {"XYZ19, null, null, null"},
-      nullValues = "null")
+  @Test
   @DisplayName("WHEN: Data found -> THEN: Return 200 OK with array of more than 1 elements.")
-  public void get200OKForDataFoundMoreThanOneElement(
-      String name, String company, String legalAidSuppNumber, String category) {
+  public void get200OKForDataFoundMoreThanOneElement() {
 
     List<CounselLookupValueDetail> content =
         IntStream.range(0, 10)
@@ -106,7 +89,7 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
     CounselLookupDetail responseBody =
         restTestClient
             .get()
-            .uri(getUriBuilder(name, category, company, legalAidSuppNumber))
+            .uri(getUriBuilder("XYZ19", null, null, null))
             .exchange()
             .expectStatus()
             .isOk()
@@ -120,17 +103,13 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
         .isEqualTo(expectedBody);
   }
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {"null, null, null, Junior"},
-      nullValues = "null")
+  @Test
   @DisplayName("WHEN: No parameters -> THEN: Return bad request with all params empty message.")
-  public void get400BadRequestForTooManyResult(
-      String name, String company, String legalAidSuppNumber, String category) throws Exception {
+  public void get400BadRequestForTooManyResult() throws Exception {
 
     restTestClient
         .get()
-        .uri(getUriBuilder(name, company, legalAidSuppNumber, category))
+        .uri(getUriBuilder(null, null, null, "Junior"))
         .exchange()
         .expectStatus()
         .isBadRequest()
