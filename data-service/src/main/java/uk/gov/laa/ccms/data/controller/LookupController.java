@@ -345,7 +345,7 @@ public class LookupController implements LookupApi {
    *
    * @param name name of counsel
    * @param company company value
-   * @param legalAidSuppNumber laaCounselReference value
+   * @param legalAidSupplierNumber laaCounselReference value
    * @param category category value
    * @param pageable pagination information
    * @return the response CounselLookupDetail for non-bad request, else returns ApiError
@@ -355,20 +355,21 @@ public class LookupController implements LookupApi {
   public ResponseEntity<CounselLookupDetail> getCounselLookupValues(
       String name,
       String company,
-      String legalAidSuppNumber,
+      String legalAidSupplierNumber,
       String category,
       @PageableDefault(page = 0, size = 10) Pageable pageable)
       throws ClientServiceException {
 
     CounselLookupDetail counselLookupDetail;
 
-    if (Stream.of(name, company, legalAidSuppNumber, category).allMatch(StringUtils::isEmpty)) {
+    if (Stream.of(name, company, legalAidSupplierNumber, category).allMatch(StringUtils::isEmpty)) {
 
       throw new BadRequestException(ALL_PARAMS_EMPTY);
     }
 
     counselLookupDetail =
-        lookupService.getCounselLookupValues(name, company, legalAidSuppNumber, category, pageable);
+        lookupService.getCounselLookupValues(
+            name, company, legalAidSupplierNumber, category, pageable);
 
     int rowcount = counselLookupDetail.getTotalElements();
 

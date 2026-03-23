@@ -32,13 +32,13 @@ public class CounselLookupValueSpecification {
    *
    * @param name name of counsel
    * @param company company value
-   * @param legalAidSuppNumber laaCounselReference value
+   * @param legalAidSupplierNumber laaCounselReference value
    * @param category category value
    * @return returns the CounselLookupValue specification
    * @author Ashutosh Gautam
    */
   public static Specification<CounselLookupValue> filter(
-      String name, String category, String company, String legalAidSuppNumber) {
+      String name, String category, String company, String legalAidSupplierNumber) {
 
     return (Root<CounselLookupValue> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
       Predicate predicate = cb.conjunction();
@@ -55,13 +55,13 @@ public class CounselLookupValueSpecification {
                 cb.like(cb.upper(root.get("company")), "%" + company.toUpperCase() + "%"));
       }
 
-      if (legalAidSuppNumber != null && !legalAidSuppNumber.isEmpty()) {
+      if (legalAidSupplierNumber != null && !legalAidSupplierNumber.isEmpty()) {
         predicate =
             cb.and(
                 predicate,
                 cb.like(
-                    cb.upper(root.get("legalAidSuppNumber")),
-                    "%" + legalAidSuppNumber.toUpperCase() + "%"));
+                    cb.upper(root.get("legalAidSupplierNumber")),
+                    "%" + legalAidSupplierNumber.toUpperCase() + "%"));
       }
 
       if (category != null && !category.isEmpty()) {
