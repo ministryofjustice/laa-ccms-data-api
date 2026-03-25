@@ -1,14 +1,18 @@
 package uk.gov.laa.ccms.data.controller;
 
 import io.micrometer.common.util.StringUtils;
+import java.util.List;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
+import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.exception.BadRequestException;
+import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
@@ -17,6 +21,7 @@ import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
+import uk.gov.laa.ccms.data.model.CounselLookupValueDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
@@ -50,6 +55,8 @@ public class LookupController implements LookupApi {
   private static final String TOO_MANY_RESULTS =
       "Too many results. Please refine your search criteria.";
   private static final int COUNSEL_MAX_RESULTS = 500;
+
+  private final LookupMapper lookupMapper;
 
   /**
    * GET common lookup values by type and code.
@@ -347,36 +354,34 @@ public class LookupController implements LookupApi {
    * @param company company value
    * @param legalAidSupplierNumber laaCounselReference value
    * @param category category value
-   * @param pageable pagination information
    * @return the response CounselLookupDetail for non-bad request, else returns ApiError
    * @author Ashutosh Gautam
    */
   @Override
   public ResponseEntity<CounselLookupDetail> getCounselLookupValues(
-      String name,
-      String company,
-      String legalAidSupplierNumber,
-      String category,
-      @PageableDefault(page = 0, size = 10) Pageable pageable)
+      String name, String company, String legalAidSupplierNumber, String category)
       throws ClientServiceException {
 
-    CounselLookupDetail counselLookupDetail;
-
     if (Stream.of(name, company, legalAidSupplierNumber, category).allMatch(StringUtils::isEmpty)) {
-
       throw new BadRequestException(ALL_PARAMS_EMPTY);
     }
 
-    counselLookupDetail =
-        lookupService.getCounselLookupValues(
-            name, company, legalAidSupplierNumber, category, pageable);
+    List<CounselLookupValue> counselLookupValues =
+        lookupService.getCounselLookupValues(name, company, legalAidSupplierNumber, category);
 
-    int rowcount = counselLookupDetail.getTotalElements();
-
-    if (rowcount > COUNSEL_MAX_RESULTS) {
+    if (counselLookupValues.size() > COUNSEL_MAX_RESULTS) {
       throw new BadRequestException(TOO_MANY_RESULTS);
     }
 
-    return ResponseEntity.ok(counselLookupDetail);
+    List<CounselLookupValueDetail> counselLookupValueDetails =
+        lookupMapper.toCounselLookupValueDetail(counselLookupValues);
+
+    Page<CounselLookupValueDetail> counselLookupValueDetailsPage =
+        new PageImpl<>(
+            counselLookupValueDetails,
+            Pageable.ofSize(10).withPage(0),
+            counselLookupValueDetails.size());
+
+    return ResponseEntity.ok(lookupMapper.toCounselLookupDetail(counselLookupValueDetailsPage));
   }
 }

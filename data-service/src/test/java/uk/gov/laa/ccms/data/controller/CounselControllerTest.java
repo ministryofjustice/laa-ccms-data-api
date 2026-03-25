@@ -8,45 +8,38 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import uk.gov.laa.ccms.data.advice.GlobalExceptionHandler;
+import uk.gov.laa.ccms.data.entity.CounselLookupValue;
+import uk.gov.laa.ccms.data.mapper.LookupMapperImpl;
 import uk.gov.laa.ccms.data.model.ApiError;
-import uk.gov.laa.ccms.data.model.CounselLookupDetail;
 import uk.gov.laa.ccms.data.service.LookupService;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = LookupController.class)
+@Import(LookupMapperImpl.class)
 @DisplayName("Counsel Controller Test")
 final class CounselControllerTest extends BaseCounselControllerTest {
 
   @MockitoBean private LookupService lookupService;
 
-  private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
   @BeforeEach
   void setUp() {}
-
-  @BeforeEach
-  public void setup() {
-    mockMvc =
-        standaloneSetup(new LookupController(lookupService))
-            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-            .setControllerAdvice(new GlobalExceptionHandler())
-            .build();
-  }
 
   @Nested
   @DisplayName("Get counsel test cases")
@@ -56,12 +49,12 @@ final class CounselControllerTest extends BaseCounselControllerTest {
     @DisplayName("WHEN -> Data found for criteria, THEN -> Return 200 OK with array.")
     void shouldReturnData() throws Exception {
 
-      CounselLookupDetail serviceReturnedCounselLookupDetail = getAllCounselLookupValues();
+      List<CounselLookupValue> counselLookupValues = getAllCounselLookupValues();
 
-      when(lookupService.getCounselLookupValues(eq("SHAUN S DODDS"), any(), any(), any(), any()))
-          .thenReturn(serviceReturnedCounselLookupDetail);
+      when(lookupService.getCounselLookupValues(eq("SHAUN S DODDS"), any(), any(), any()))
+          .thenReturn(counselLookupValues);
 
-      String expected = getJsonString(serviceReturnedCounselLookupDetail);
+      String expected = getJsonString(getCounselLookupDetail(counselLookupValues));
 
       mockMvc
           .perform(
@@ -78,13 +71,12 @@ final class CounselControllerTest extends BaseCounselControllerTest {
     @DisplayName("WHEN -> No rows found, THEN -> Return 200 OK with empty results array.")
     void shouldReturnNotFound() throws Exception {
 
-      CounselLookupDetail noRowResponse = getAllCounselLookupValues();
-      noRowResponse.setContent(new ArrayList<>());
+      List<CounselLookupValue> emptyContent = new ArrayList<>();
 
-      when(lookupService.getCounselLookupValues(eq("ASHU"), any(), any(), any(), any()))
-          .thenReturn(noRowResponse);
+      when(lookupService.getCounselLookupValues(eq("ASHU"), any(), any(), any()))
+          .thenReturn(emptyContent);
 
-      String expected = getJsonString(noRowResponse);
+      String expected = getJsonString(getCounselLookupDetail(emptyContent));
 
       mockMvc
           .perform(
@@ -103,15 +95,14 @@ final class CounselControllerTest extends BaseCounselControllerTest {
         "WHEN -> Rows more than 500, THEN -> Return 400 Bad-Request with too many rows message.")
     void shouldReturnBadRequestForToManyRows() throws Exception {
 
-      CounselLookupDetail response501Rows = getAllCounselLookupValues();
-      response501Rows.setTotalElements(501);
-
       String expectedError =
           getJsonString(
               new ApiError().message(TOO_MANY_RESULTS).code(HttpStatus.BAD_REQUEST.value()));
 
-      when(lookupService.getCounselLookupValues(eq("ASHU"), any(), any(), any(), any()))
-          .thenReturn(response501Rows);
+      List<CounselLookupValue> lookup501Values = get501CounselLookupValues();
+
+      when(lookupService.getCounselLookupValues(eq("ASHU"), any(), any(), any()))
+          .thenReturn(lookup501Values);
 
       mockMvc
           .perform(

@@ -73,15 +73,8 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
   public void get200OKForDataFoundMoreThanOneElement() {
 
     List<CounselLookupValueDetail> content =
-        IntStream.range(0, 10)
-            .mapToObj(
-                x ->
-                    new CounselLookupValueDetail()
-                        .name("XYZ19" + x)
-                        .company("XYZ19" + x)
-                        .legalAidSupplierNumber("993WF")
-                        .category("Junior")
-                        .county(null))
+        IntStream.range(0, 11)
+            .mapToObj(x -> x == 0 ? getElements("XYZ19") : getElements("XYZ19" + (x - 1)))
             .toList();
 
     CounselLookupDetail expectedBody = expectedResponse(2, 11, 0, 10, content);

@@ -1371,7 +1371,7 @@ paths:
         - lookup
       summary: 'Gets lookup values of counsel'
       operationId: 'getCounselLookupValues'
-      x-spring-paginated: true
+      x-spring-paginated: false
       parameters:
         - name: 'name'
           in: 'query'

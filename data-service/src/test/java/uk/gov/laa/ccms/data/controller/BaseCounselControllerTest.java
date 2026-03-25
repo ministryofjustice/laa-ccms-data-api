@@ -2,17 +2,16 @@ package uk.gov.laa.ccms.data.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.mapper.LookupMapperImpl;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
+import uk.gov.laa.ccms.data.model.CounselLookupValueDetail;
 
 /**
  * Base class for CounselControllerTest class and contains basic test supporting member variables
@@ -22,12 +21,28 @@ public sealed class BaseCounselControllerTest permits CounselControllerTest {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+  private static final LookupMapper lookupMapper = new LookupMapperImpl();
+
   protected static String ALL_PARAMS_EMPTY =
       "Invalid request. Please input at least one parameter for your search criteria.";
   protected static String TOO_MANY_RESULTS =
       "Too many results. Please refine your search criteria.";
 
-  static CounselLookupDetail getAllCounselLookupValues() {
+  protected static CounselLookupDetail getCounselLookupDetail(List<CounselLookupValue> values) {
+
+    List<CounselLookupValueDetail> counselLookupValueDetails =
+        lookupMapper.toCounselLookupValueDetail(values);
+
+    Page<CounselLookupValueDetail> counselLookupValueDetailsPage =
+        new PageImpl<>(
+            counselLookupValueDetails,
+            Pageable.ofSize(10).withPage(0),
+            counselLookupValueDetails.size());
+
+    return lookupMapper.toCounselLookupDetail(counselLookupValueDetailsPage);
+  }
+
+  protected static List<CounselLookupValue> getAllCounselLookupValues() {
     CounselLookupValue counselLookupValue = new CounselLookupValue();
     counselLookupValue.setCounselId("18392");
     counselLookupValue.setName("SHAUN S DODDS");
@@ -37,16 +52,20 @@ public sealed class BaseCounselControllerTest permits CounselControllerTest {
     counselLookupValue.setOutwardPostCode("LS11 ");
     counselLookupValue.setCounty(null);
 
-    List<CounselLookupValue> counselLookupValueList = List.of(counselLookupValue);
+    return List.of(counselLookupValue);
+  }
 
-    Pageable pageable = PageRequest.of(0, 10, Sort.by("name").descending());
+  protected static List<CounselLookupValue> get501CounselLookupValues() {
+    CounselLookupValue counselLookupValue = new CounselLookupValue();
+    counselLookupValue.setCounselId("18392");
+    counselLookupValue.setName("SHAUN S DODDS");
+    counselLookupValue.setCompany("SHAUN S DODDS");
+    counselLookupValue.setLegalAidSupplierNumber("1099V");
+    counselLookupValue.setCategory("Junior");
+    counselLookupValue.setOutwardPostCode("LS11 ");
+    counselLookupValue.setCounty(null);
 
-    Page<@NotNull CounselLookupValue> counselLookupValues =
-        new PageImpl<>(counselLookupValueList, pageable, counselLookupValueList.size());
-
-    LookupMapper lookupMapper = new LookupMapperImpl();
-
-    return lookupMapper.toCounselLookupDetail(counselLookupValues);
+    return Collections.nCopies(505, counselLookupValue);
   }
 
   protected static String getJsonString(Object object) throws JsonProcessingException {

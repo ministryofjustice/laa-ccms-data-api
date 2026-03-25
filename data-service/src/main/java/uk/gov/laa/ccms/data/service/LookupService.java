@@ -19,6 +19,7 @@ import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.Declaration;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
@@ -43,7 +44,6 @@ import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
 import uk.gov.laa.ccms.data.model.CategoryOfLawLookupDetail;
 import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
-import uk.gov.laa.ccms.data.model.CounselLookupDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.LevelOfServiceLookupDetail;
@@ -392,20 +392,17 @@ public class LookupService extends AbstractEbsDataService {
    * @param company company value
    * @param legalAidSuppNumber laaCounselReference value
    * @param category category value
-   * @param pageable pagination information
    * @return a CounselLookupDetail containing a page details and counsel data.
    * @author Ashutosh Gautam
    */
-  public CounselLookupDetail getCounselLookupValues(
-      String name, String company, String legalAidSuppNumber, String category, Pageable pageable) {
+  public List<CounselLookupValue> getCounselLookupValues(
+      String name, String company, String legalAidSuppNumber, String category) {
 
-    CounselLookupDetail counselLookupDetail =
-        lookupMapper.toCounselLookupDetail(
-            counselLookupValueRepository.findAll(
-                CounselLookupValueSpecification.filter(name, category, company, legalAidSuppNumber),
-                pageable));
+    List<CounselLookupValue> counselLookupValues =
+        counselLookupValueRepository.findAll(
+            CounselLookupValueSpecification.filter(name, category, company, legalAidSuppNumber));
 
-    return counselLookupDetail;
+    return counselLookupValues;
   }
 
   /**

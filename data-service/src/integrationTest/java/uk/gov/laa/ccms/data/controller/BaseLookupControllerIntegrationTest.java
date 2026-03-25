@@ -57,6 +57,15 @@ public class BaseLookupControllerIntegrationTest implements OracleIntegrationTes
             .build();
   }
 
+  protected CounselLookupValueDetail getElements(String x) {
+    return new CounselLookupValueDetail()
+        .name(x)
+        .company(x)
+        .legalAidSupplierNumber("993WF")
+        .category("Junior")
+        .county(null);
+  }
+
   protected Function<UriBuilder, URI> getUriBuilder(
       String name, String company, String legalAidSuppNumber, String category) {
 
