@@ -398,9 +398,13 @@ public class LookupService extends AbstractEbsDataService {
   public List<CounselLookupValue> getCounselLookupValues(
       String name, String company, String legalAidSuppNumber, String category) {
 
+    String asc = "asc";
+    log.info("Query asc order = {}", asc);
+
     List<CounselLookupValue> counselLookupValues =
         counselLookupValueRepository.findAll(
-            CounselLookupValueSpecification.filter(name, category, company, legalAidSuppNumber));
+            CounselLookupValueSpecification.filter(
+                name, category, company, legalAidSuppNumber, asc));
 
     return counselLookupValues;
   }
