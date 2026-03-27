@@ -44,28 +44,25 @@ public class CounselLookupValueSpecification {
       Predicate predicate = cb.conjunction();
 
       if (name != null && !name.isEmpty()) {
-        predicate =
-            cb.and(predicate, cb.like(cb.upper(root.get("name")), "%" + name.toUpperCase() + "%"));
+        predicate = cb.and(predicate, cb.equal(cb.upper(root.get("name")), name.toUpperCase()));
       }
 
       if (company != null && !company.isEmpty()) {
         predicate =
-            cb.and(
-                predicate,
-                cb.like(cb.upper(root.get("company")), "%" + company.toUpperCase() + "%"));
+            cb.and(predicate, cb.equal(cb.upper(root.get("company")), company.toUpperCase()));
       }
 
       if (legalAidSupplierNumber != null && !legalAidSupplierNumber.isEmpty()) {
         predicate =
             cb.and(
                 predicate,
-                cb.like(
+                cb.equal(
                     cb.upper(root.get("legalAidSupplierNumber")),
-                    "%" + legalAidSupplierNumber.toUpperCase() + "%"));
+                    legalAidSupplierNumber.toUpperCase()));
       }
 
       if (category != null && !category.isEmpty()) {
-        predicate = cb.and(predicate, cb.like(root.get("category"), "%" + category + "%"));
+        predicate = cb.and(predicate, cb.equal(root.get("category"), category));
       }
 
       query.orderBy(asc.equals("asc") ? cb.asc(root.get("name")) : cb.desc(root.get("name")));
