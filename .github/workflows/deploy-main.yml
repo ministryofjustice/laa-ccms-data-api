@@ -39,6 +39,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      security-events: write
     with:
       image_version: ${{ format('{0}-{1}', vars.IMAGE_PREFIX, needs.assemble-and-publish.outputs.published_artifact_version) }}
       jar_subproject: 'data-service'
@@ -47,6 +48,7 @@ jobs:
       ecr_repository: ${{ vars.ECR_REPOSITORY }}
       ecr_region: ${{ vars.ECR_REGION }}
       ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+      snyk_token: ${{ secrets.snyk_token }}
 
   update-helm-chart:
     needs: [ ecr-publish-image ]
