@@ -44,7 +44,7 @@ jobs:
             type=ref,event=branch
 
   scan-image:
-    needs: [ get-branch-ref, build-and-publish-snapshot ]
+    needs: [ get-branch-ref ]
     uses: ministryofjustice/laa-ccms-common-workflows/.github/workflows/ecr-publish-image.yml@v2
     permissions:
       contents: read
