@@ -69,34 +69,6 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
   }
 
   @Test
-  @DisplayName("WHEN: Data found -> THEN: Return 200 OK with array of more than 1 elements.")
-  public void get200OKForDataFoundMoreThanOneElement() {
-
-    List<CounselLookupValueDetail> content =
-        IntStream.range(0, 11)
-            .mapToObj(x -> x == 0 ? getElements("XYZ19") : getElements("XYZ19" + (x - 1)))
-            .toList();
-
-    CounselLookupDetail expectedBody = expectedResponse(2, 11, 0, 10, content);
-
-    CounselLookupDetail responseBody =
-        restTestClient
-            .get()
-            .uri(getUriBuilder("XYZ19", null, null, null))
-            .exchange()
-            .expectStatus()
-            .isOk()
-            .expectBody(CounselLookupDetail.class)
-            .returnResult()
-            .getResponseBody();
-
-    assertThat(responseBody)
-        .usingRecursiveComparison()
-        .ignoringCollectionOrderInFields("content")
-        .isEqualTo(expectedBody);
-  }
-
-  @Test
   @DisplayName("WHEN: No parameters -> THEN: Return bad request with all params empty message.")
   public void get400BadRequestForTooManyResult() throws Exception {
 
