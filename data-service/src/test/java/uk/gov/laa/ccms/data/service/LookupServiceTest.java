@@ -31,6 +31,7 @@ import uk.gov.laa.ccms.data.entity.AwardTypeLookupValue;
 import uk.gov.laa.ccms.data.entity.CaseStatusLookupValue;
 import uk.gov.laa.ccms.data.entity.CategoryOfLawLookupValue;
 import uk.gov.laa.ccms.data.entity.CommonLookupValue;
+import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.entity.CountryLookupValue;
 import uk.gov.laa.ccms.data.entity.Declaration;
 import uk.gov.laa.ccms.data.entity.EvidenceDocumentTypeLookupValue;
@@ -69,6 +70,7 @@ import uk.gov.laa.ccms.data.repository.AwardTypeLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CaseStatusLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CategoryOfLawLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CommonLookupValueRepository;
+import uk.gov.laa.ccms.data.repository.CounselLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.CountryLookupValueRepository;
 import uk.gov.laa.ccms.data.repository.DeclarationRepository;
 import uk.gov.laa.ccms.data.repository.EvidenceDocumentTypeLookupValueRepository;
@@ -91,6 +93,8 @@ class LookupServiceTest {
   @Mock private AmendmentTypeLookupValueRepository amendmentTypeLookupValueRepository;
 
   @Mock private CountryLookupValueRepository countryLookupValueRepository;
+
+  @Mock private CounselLookupValueRepository counselLookupValueRepository;
 
   @Mock private OutcomeResultLookupValueRepository outcomeResultLookupValueRepository;
 
@@ -715,5 +719,24 @@ class LookupServiceTest {
         lookupService.getProviderRequestTypeLookupValues(isCaseRelated, type, pageable);
 
     assertEquals(expectedResponse, actualResponse);
+  }
+
+  @Test
+  void getCounselLookupValues_returnsPageOfCounselLookupValues() {
+    String name = "name";
+    String company = "company";
+    String legalAidSuppNumber = "123";
+    String category = "Junior";
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+
+    Page<CounselLookupValue> expectedPage = new PageImpl<>(Collections.emptyList());
+
+    when(counselLookupValueRepository.findAll(any(Specification.class), any(Pageable.class)))
+        .thenReturn(expectedPage);
+
+    Page<CounselLookupValue> actualPage =
+        lookupService.getCounselLookupValues(name, company, legalAidSuppNumber, category, pageable);
+
+    assertEquals(expectedPage, actualPage);
   }
 }
