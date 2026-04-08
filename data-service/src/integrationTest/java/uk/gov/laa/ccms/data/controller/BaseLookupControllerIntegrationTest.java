@@ -35,8 +35,6 @@ public class BaseLookupControllerIntegrationTest implements OracleIntegrationTes
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   protected static final String ALL_PARAMS_EMPTY =
       "Invalid request. Please input at least one parameter for your search criteria.";
-  protected static final String TOO_MANY_RESULTS =
-      "Too many results. Please refine your search criteria.";
 
   @Autowired protected WebApplicationContext webApplicationContext;
 

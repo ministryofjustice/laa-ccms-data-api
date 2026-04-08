@@ -11,7 +11,6 @@ import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.mapper.LookupMapperImpl;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
-import uk.gov.laa.ccms.data.model.CounselLookupValueDetail;
 
 /**
  * Base class for CounselControllerTest class and contains basic test supporting member variables
@@ -30,16 +29,10 @@ public sealed class BaseCounselControllerTest permits CounselControllerTest {
 
   protected static CounselLookupDetail getCounselLookupDetail(List<CounselLookupValue> values) {
 
-    List<CounselLookupValueDetail> counselLookupValueDetails =
-        lookupMapper.toCounselLookupValueDetail(values);
+    Page<CounselLookupValue> counselLookupValuesPage =
+        new PageImpl<>(values, Pageable.ofSize(10).withPage(0), values.size());
 
-    Page<CounselLookupValueDetail> counselLookupValueDetailsPage =
-        new PageImpl<>(
-            counselLookupValueDetails,
-            Pageable.ofSize(10).withPage(0),
-            counselLookupValueDetails.size());
-
-    return lookupMapper.toCounselLookupDetail(counselLookupValueDetailsPage);
+    return lookupMapper.toCounselLookupDetail(counselLookupValuesPage);
   }
 
   protected static List<CounselLookupValue> getAllCounselLookupValues() {

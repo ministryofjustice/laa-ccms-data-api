@@ -1,6 +1,5 @@
 package uk.gov.laa.ccms.data.mapper;
 
-import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
@@ -39,7 +38,6 @@ import uk.gov.laa.ccms.data.model.ClientInvolvementTypeLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupDetail;
 import uk.gov.laa.ccms.data.model.CommonLookupValueDetail;
 import uk.gov.laa.ccms.data.model.CounselLookupDetail;
-import uk.gov.laa.ccms.data.model.CounselLookupValueDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupDetail;
 import uk.gov.laa.ccms.data.model.DeclarationLookupValueDetail;
 import uk.gov.laa.ccms.data.model.EvidenceDocumentTypeLookupDetail;
@@ -147,11 +145,7 @@ public interface LookupMapper {
   CategoryOfLawLookupValueDetail toCategoryOfLawLookupValueDetail(
       CategoryOfLawLookupValue categoryOfLawLookupValue);
 
-  List<CounselLookupValueDetail> toCounselLookupValueDetail(
-      List<CounselLookupValue> counselLookupValues);
-
-  CounselLookupDetail toCounselLookupDetail(
-      Page<CounselLookupValueDetail> counselLookupValueDetails);
+  CounselLookupDetail toCounselLookupDetail(Page<CounselLookupValue> counselLookupValues);
 
   EvidenceDocumentTypeLookupDetail toEvidenceDocumentTypeLookupDetail(
       Page<EvidenceDocumentTypeLookupValue> evidenceDocumentTypeLookupValues);

@@ -64,21 +64,4 @@ public class LookupControllerIntegrationTest extends BaseLookupControllerIntegra
         .expectBody(CounselLookupDetail.class)
         .isEqualTo(expectedResponse(1, 1, 0, 10, content));
   }
-
-  @Test
-  @DisplayName("WHEN: No parameters -> THEN: Return bad request with all params empty message.")
-  public void get400BadRequestForTooManyResult() throws Exception {
-
-    restTestClient
-        .get()
-        .uri(getUriBuilder(null, null, null, "Junior"))
-        .exchange()
-        .expectStatus()
-        .isBadRequest()
-        .expectBody()
-        .jsonPath("$.code")
-        .isEqualTo(HttpStatus.BAD_REQUEST.value())
-        .jsonPath("$.message")
-        .isEqualTo(TOO_MANY_RESULTS);
-  }
 }

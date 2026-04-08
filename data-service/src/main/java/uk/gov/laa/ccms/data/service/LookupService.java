@@ -395,18 +395,12 @@ public class LookupService extends AbstractEbsDataService {
    * @return a CounselLookupDetail containing a page details and counsel data.
    * @author Ashutosh Gautam
    */
-  public List<CounselLookupValue> getCounselLookupValues(
-      String name, String company, String legalAidSuppNumber, String category) {
+  public Page<CounselLookupValue> getCounselLookupValues(
+      String name, String company, String legalAidSuppNumber, String category, Pageable pageable) {
 
-    String asc = "asc";
-    log.info("Query asc order = {}", asc);
-
-    List<CounselLookupValue> counselLookupValues =
-        counselLookupValueRepository.findAll(
-            CounselLookupValueSpecification.filter(
-                name, category, company, legalAidSuppNumber, asc));
-
-    return counselLookupValues;
+    return counselLookupValueRepository.findAll(
+        CounselLookupValueSpecification.filter(name, category, company, legalAidSuppNumber),
+        pageable);
   }
 
   /**

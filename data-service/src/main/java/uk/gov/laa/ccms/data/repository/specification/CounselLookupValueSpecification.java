@@ -38,7 +38,7 @@ public class CounselLookupValueSpecification {
    * @author Ashutosh Gautam
    */
   public static Specification<CounselLookupValue> filter(
-      String name, String category, String company, String legalAidSupplierNumber, String asc) {
+      String name, String category, String company, String legalAidSupplierNumber) {
 
     return (Root<CounselLookupValue> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
       Predicate predicate = cb.conjunction();
@@ -65,7 +65,7 @@ public class CounselLookupValueSpecification {
         predicate = cb.and(predicate, cb.equal(root.get("category"), category));
       }
 
-      query.orderBy(asc.equals("asc") ? cb.asc(root.get("name")) : cb.desc(root.get("name")));
+      query.orderBy(cb.asc(root.get("name")));
 
       return predicate;
     };
