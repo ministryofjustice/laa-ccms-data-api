@@ -10,11 +10,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlMergeMode;
 import uk.gov.laa.ccms.data.OracleIntegrationTestInterface;
+import uk.gov.laa.ccms.data.entity.CounselLookupValue;
 import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.CaseStatusLookupDetail;
@@ -405,5 +407,32 @@ public class LookupServiceIntegrationTest implements OracleIntegrationTestInterf
     assertNotNull(result);
     assertEquals(1, result.getTotalElements());
     assertEquals(expectedName, result.getContent().getFirst().getName());
+  }
+
+  @ParameterizedTest
+  @Sql(scripts = "/sql/insert_counsel_lookup_bulk_data.sql")
+  @CsvSource(
+      value = {
+        "XYZ1, null, null, null, 111",
+        "XYZ500, null, null, null, 1",
+        "NONEXISTENT, null, null, null, 0",
+        "null, null, null, Junior, 501",
+        "null, null, 993WF, null, 501",
+        "XYZ*, null, null, null, 501",
+        "*1, null, null, null, 51",
+        "*Y*, null, null, null, 501",
+        "XYZ, null, null, null, 501" // Default contains search
+      },
+      nullValues = {"null"})
+  void testGetCounselLookupValues(
+      String name,
+      String company,
+      String supplierNumber,
+      String category,
+      Integer expectedElements) {
+    Page<CounselLookupValue> results =
+        lookupService.getCounselLookupValues(
+            name, company, supplierNumber, category, Pageable.unpaged());
+    assertEquals(expectedElements, results.getNumberOfElements());
   }
 }

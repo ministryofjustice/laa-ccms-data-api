@@ -23,6 +23,8 @@ import uk.gov.laa.ccms.data.entity.CounselLookupValue;
  */
 public class CounselLookupValueSpecification {
 
+  private static final String QUERY_PARAM_WILDCARD = "*";
+
   /**
    * Builds a specification to filter {@link CounselLookupValue} entities based on multiple optional
    * criteria.
@@ -44,31 +46,37 @@ public class CounselLookupValueSpecification {
       Predicate predicate = cb.conjunction();
 
       if (name != null && !name.isEmpty()) {
-        predicate =
-            cb.and(predicate, cb.like(cb.upper(root.get("name")), "%" + name.toUpperCase() + "%"));
+        predicate = cb.and(predicate, buildLikePredicate(cb, root.get("name"), name));
       }
 
       if (company != null && !company.isEmpty()) {
-        predicate =
-            cb.and(
-                predicate,
-                cb.like(cb.upper(root.get("company")), "%" + company.toUpperCase() + "%"));
+        predicate = cb.and(predicate, buildLikePredicate(cb, root.get("company"), company));
       }
 
       if (legalAidSupplierNumber != null && !legalAidSupplierNumber.isEmpty()) {
         predicate =
             cb.and(
                 predicate,
-                cb.like(
-                    cb.upper(root.get("legalAidSupplierNumber")),
-                    "%" + legalAidSupplierNumber.toUpperCase() + "%"));
+                buildLikePredicate(cb, root.get("legalAidSupplierNumber"), legalAidSupplierNumber));
       }
 
       if (category != null && !category.isEmpty()) {
-        predicate = cb.and(predicate, cb.like(root.get("category"), "%" + category + "%"));
+        predicate = cb.and(predicate, cb.equal(root.get("category"), category));
       }
 
       return predicate;
     };
+  }
+
+  private static Predicate buildLikePredicate(
+      CriteriaBuilder cb, jakarta.persistence.criteria.Path<String> path, String value) {
+    String searchTerm = value.toUpperCase();
+    if (searchTerm.contains(QUERY_PARAM_WILDCARD)) {
+      String likePattern = searchTerm.replace(QUERY_PARAM_WILDCARD, "%");
+      return cb.like(cb.upper(path), likePattern);
+    } else {
+      // Default to "contains" search for backward compatibility, as requested by user.
+      return cb.like(cb.upper(path), "%" + searchTerm + "%");
+    }
   }
 }

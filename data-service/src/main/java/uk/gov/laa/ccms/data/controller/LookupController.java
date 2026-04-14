@@ -4,11 +4,11 @@ import io.micrometer.common.util.StringUtils;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccms.data.api.LookupApi;
 import uk.gov.laa.ccms.data.exception.BadRequestException;
+import uk.gov.laa.ccms.data.mapper.LookupMapper;
 import uk.gov.laa.ccms.data.model.AmendmentTypeLookupDetail;
 import uk.gov.laa.ccms.data.model.AssessmentSummaryEntityLookupDetail;
 import uk.gov.laa.ccms.data.model.AwardTypeLookupDetail;
@@ -47,9 +47,11 @@ public class LookupController implements LookupApi {
 
   private static final String ALL_PARAMS_EMPTY =
       "Invalid request. Please input at least one parameter for your search criteria.";
+
+  private final LookupMapper lookupMapper;
+
   private static final String TOO_MANY_RESULTS =
       "Too many results. Please refine your search criteria.";
-  private static final int COUNSEL_MAX_RESULTS = 500;
 
   /**
    * GET common lookup values by type and code.
@@ -347,7 +349,6 @@ public class LookupController implements LookupApi {
    * @param company company value
    * @param legalAidSupplierNumber laaCounselReference value
    * @param category category value
-   * @param pageable pagination information
    * @return the response CounselLookupDetail for non-bad request, else returns ApiError
    * @author Ashutosh Gautam
    */
@@ -357,26 +358,21 @@ public class LookupController implements LookupApi {
       String company,
       String legalAidSupplierNumber,
       String category,
-      @PageableDefault(page = 0, size = 10) Pageable pageable)
+      Pageable pageable)
       throws ClientServiceException {
 
-    CounselLookupDetail counselLookupDetail;
-
     if (Stream.of(name, company, legalAidSupplierNumber, category).allMatch(StringUtils::isEmpty)) {
-
       throw new BadRequestException(ALL_PARAMS_EMPTY);
     }
 
-    counselLookupDetail =
+    var resultsPage =
         lookupService.getCounselLookupValues(
             name, company, legalAidSupplierNumber, category, pageable);
 
-    int rowcount = counselLookupDetail.getTotalElements();
-
-    if (rowcount > COUNSEL_MAX_RESULTS) {
+    if (resultsPage.getTotalElements() > 500) {
       throw new BadRequestException(TOO_MANY_RESULTS);
     }
 
-    return ResponseEntity.ok(counselLookupDetail);
+    return ResponseEntity.ok(lookupMapper.toCounselLookupDetail(resultsPage));
   }
 }
