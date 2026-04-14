@@ -3,19 +3,19 @@ info:
   title: 'laa-ccms-data-api'
   version: '1.0.0'
 paths:
-  /users/{login-id}:
+  /users/{user-id}:
     get:
       tags:
         - users
       summary: 'Get User'
       operationId: 'getUser'
       parameters:
-        - name: 'login-id'
+        - name: 'user-id'
           in: 'path'
           required: true
           schema:
-            type: 'string'
-            example: 'abc123'
+            type: 'integer'
+            example: '123456789'
       responses:
         '200':
           description: 'Successful operation'
@@ -64,19 +64,19 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /users/{login-id}/notifications/summary:
+  /users/{user-id}/notifications/summary:
     get:
       tags:
         - notifications
       summary: 'Get User Notification Summary'
       operationId: 'getUserNotificationSummary'
       parameters:
-        - name: 'login-id'
+        - name: 'user-id'
           in: 'path'
           required: true
           schema:
-            type: 'string'
-            example: 'abc123'
+            type: 'integer'
+            example: '12345678'
       responses:
         '200':
           description: 'Successful operation'

@@ -38,28 +38,24 @@ class UserControllerTest {
 
   @Test
   public void getUser_isOk() throws Exception {
-    String loginId = "test";
+    Integer userId = 12345;
 
     UserDetail userDetail = new UserDetail();
-    userDetail.setUserId(12345);
-    userDetail.setLoginId(loginId);
+    userDetail.setUserId(userId);
 
-    when(userService.getUser(loginId)).thenReturn(Optional.of(userDetail));
+    when(userService.getByUserId(userId)).thenReturn(Optional.of(userDetail));
 
-    this.mockMvc
-        .perform(get("/users/{loginId}", loginId))
-        .andDo(print())
-        .andExpect(status().isOk());
+    this.mockMvc.perform(get("/users/{userId}", userId)).andDo(print()).andExpect(status().isOk());
   }
 
   @Test
   public void getUser_notFound() throws Exception {
-    String loginId = "test";
+    Integer userId = 12346;
 
-    when(userService.getUser(loginId)).thenReturn(Optional.empty());
+    when(userService.getByUserId(userId)).thenReturn(Optional.empty());
 
     this.mockMvc
-        .perform(get("/users/{loginId}", loginId))
+        .perform(get("/users/{userId}", userId))
         .andDo(print())
         .andExpect(status().isNotFound());
   }

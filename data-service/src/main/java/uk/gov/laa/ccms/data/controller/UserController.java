@@ -29,13 +29,13 @@ public class UserController implements UsersApi {
   /**
    * Retrieves a user by their login ID.
    *
-   * @param loginId the login ID of the user
+   * @param userId the user ID of the user
    * @return ResponseEntity with the UserDetails if found, or ResponseEntity.notFound() if not found
    */
   @Override
-  public ResponseEntity<UserDetail> getUser(String loginId) {
+  public ResponseEntity<UserDetail> getUser(Integer userId) {
     return userService
-        .getUser(loginId)
+        .getByUserId(userId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

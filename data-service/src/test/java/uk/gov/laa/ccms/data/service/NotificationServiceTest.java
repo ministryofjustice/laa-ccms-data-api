@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,6 +30,7 @@ import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
+import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
@@ -67,10 +69,11 @@ class NotificationServiceTest {
     @DisplayName("Returns notification summary")
     void getUserNotificationSummary_returnsNotificationSummary() {
       // Given
-      String userId = "123456";
-      when(userService.existsUserById(userId)).thenReturn(true);
+      Integer userId = 123456;
+      String loginId = "foo@bar.com";
+      when(userService.getByUserId(userId)).thenReturn(Optional.of(create(userId, loginId)));
       List<NotificationCount> notificationCounts = List.of(new NotificationCount());
-      when(notificationCountRepository.findAllByIdUserLoginId(userId))
+      when(notificationCountRepository.findAllByIdUserLoginId(loginId))
           .thenReturn(notificationCounts);
       NotificationSummary expected = new NotificationSummary();
       when(notificationSummaryMapper.toNotificationSummary(notificationCounts))
@@ -86,13 +89,20 @@ class NotificationServiceTest {
     @DisplayName("User not found")
     void getUserNotificationSummary_userNotFound() {
       // Given
-      String userId = "123456";
+      Integer userId = 123456;
       // When
       Optional<NotificationSummary> userNotificationSummary =
           notificationService.getUserNotificationSummary(userId);
       // Then
       assertThat(userNotificationSummary).isNotPresent();
     }
+  }
+
+  private static @NonNull UserDetail create(Integer userId, String loginId) {
+    UserDetail userDetail = new UserDetail();
+    userDetail.setUserId(userId);
+    userDetail.setLoginId(loginId);
+    return userDetail;
   }
 
   @Nested

@@ -51,14 +51,14 @@ class NotificationsControllerTest {
   @DisplayName("getUserNotificationSummary: Returns data")
   void getUserNotificationSummary_returnsData() throws Exception {
     // Given
-    String loginId = "123";
+    Integer userId = 123;
     NotificationSummary expected =
         new NotificationSummary().notifications(1).standardActions(1).overdueActions(1);
-    when(notificationService.getUserNotificationSummary(loginId)).thenReturn(Optional.of(expected));
+    when(notificationService.getUserNotificationSummary(userId)).thenReturn(Optional.of(expected));
     // Then
     String jsonContent = objectMapper.writeValueAsString(expected);
     this.mockMvc
-        .perform(get("/users/{loginId}/notifications/summary", loginId))
+        .perform(get("/users/{userId}/notifications/summary", userId))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().json(jsonContent));

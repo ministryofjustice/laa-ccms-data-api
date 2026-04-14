@@ -32,6 +32,18 @@ public class UserService extends AbstractEbsDataService {
   private final UserMapper userMapper;
 
   /**
+   * Get a single User based on its user id.
+   *
+   * @param userId = the id of the User.
+   * @return Optional UserDetail.
+   */
+  @Transactional(readOnly = true)
+  public Optional<UserDetail> getByUserId(Integer userId) {
+
+    return userRepository.findByUserId(userId).map(userMapper::toUserDetail);
+  }
+
+  /**
    * Get a single User based on its id.
    *
    * @param id = the id of the User.
@@ -51,6 +63,16 @@ public class UserService extends AbstractEbsDataService {
    */
   public boolean existsUserById(String loginId) {
     return userRepository.existsUserByLoginId(loginId);
+  }
+
+  /**
+   * Returns true If user exists.
+   *
+   * @param userId = the id of the User.
+   * @return boolean
+   */
+  public boolean existsUserByUserId(Integer userId) {
+    return userRepository.existsUserByUserId(userId);
   }
 
   /**
