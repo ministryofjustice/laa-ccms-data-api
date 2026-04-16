@@ -6,7 +6,7 @@ paths:
   /user-lookup:
     get:
       tags:
-        - userLookup
+        - users
       summary: 'Lookup Users'
       operationId: 'lookupUsers'
       parameters:
