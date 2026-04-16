@@ -63,13 +63,15 @@ class UserControllerTest {
   @Test
   void getUsers_returnsData() {
     Integer providerId = 123;
+    String loginId = "test-login";
     Pageable pageable = Pageable.ofSize(10).withPage(0);
 
     UserDetails expectedResponse = new UserDetails();
 
-    when(userService.getUsers(providerId, pageable)).thenReturn(expectedResponse);
+    when(userService.getUsers(providerId, loginId, pageable)).thenReturn(expectedResponse);
 
-    ResponseEntity<UserDetails> responseEntity = userController.getUsers(providerId, pageable);
+    ResponseEntity<UserDetails> responseEntity =
+        userController.getUsers(providerId, loginId, pageable);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponse, responseEntity.getBody());
