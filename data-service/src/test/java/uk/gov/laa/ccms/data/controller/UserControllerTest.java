@@ -76,4 +76,31 @@ class UserControllerTest {
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponse, responseEntity.getBody());
   }
+
+  @Test
+  public void getUserByLoginId_isOk() throws Exception {
+    String loginId = "12345";
+
+    UserDetail userDetail = new UserDetail();
+    userDetail.setLoginId(loginId);
+
+    when(userService.getUserByLoginId(loginId)).thenReturn(Optional.of(userDetail));
+
+    this.mockMvc
+        .perform(get("/users/lookup").param("login-id", loginId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void getUserByLoginId_notFound() throws Exception {
+    String loginId = "12346";
+
+    when(userService.getUserByLoginId(loginId)).thenReturn(Optional.empty());
+
+    this.mockMvc
+        .perform(get("/users/lookup").param("login-id", loginId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
 }

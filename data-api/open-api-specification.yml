@@ -3,7 +3,7 @@ info:
   title: 'laa-ccms-data-api'
   version: '1.0.0'
 paths:
-  /user-lookup:
+  /users/lookup:
     get:
       tags:
         - users
