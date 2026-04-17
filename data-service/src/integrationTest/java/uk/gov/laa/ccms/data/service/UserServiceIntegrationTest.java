@@ -83,7 +83,7 @@ public class UserServiceIntegrationTest implements OracleIntegrationTestInterfac
       })
   @CsvSource(value = {"10, 2", "11, 1", "12, 0"})
   public void testGetUsers_returnsData(Integer providerId, int expectedElements) {
-    UserDetails userDetails = userService.getUsers(providerId, Pageable.ofSize(10).withPage(0));
+    UserDetails userDetails = userService.getUsers(providerId, null, Pageable.ofSize(10).withPage(0));
     assertNotNull(userDetails);
     assertEquals(expectedElements, userDetails.getTotalElements());
   }
