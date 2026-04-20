@@ -38,28 +38,24 @@ class UserControllerTest {
 
   @Test
   public void getUser_isOk() throws Exception {
-    String loginId = "test";
+    Integer userId = 12345;
 
     UserDetail userDetail = new UserDetail();
-    userDetail.setUserId(12345);
-    userDetail.setLoginId(loginId);
+    userDetail.setUserId(userId);
 
-    when(userService.getUser(loginId)).thenReturn(Optional.of(userDetail));
+    when(userService.getByUserId(userId)).thenReturn(Optional.of(userDetail));
 
-    this.mockMvc
-        .perform(get("/users/{loginId}", loginId))
-        .andDo(print())
-        .andExpect(status().isOk());
+    this.mockMvc.perform(get("/users/{userId}", userId)).andDo(print()).andExpect(status().isOk());
   }
 
   @Test
   public void getUser_notFound() throws Exception {
-    String loginId = "test";
+    Integer userId = 12346;
 
-    when(userService.getUser(loginId)).thenReturn(Optional.empty());
+    when(userService.getByUserId(userId)).thenReturn(Optional.empty());
 
     this.mockMvc
-        .perform(get("/users/{loginId}", loginId))
+        .perform(get("/users/{userId}", userId))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
@@ -67,15 +63,44 @@ class UserControllerTest {
   @Test
   void getUsers_returnsData() {
     Integer providerId = 123;
+    String loginId = "test-login";
     Pageable pageable = Pageable.ofSize(10).withPage(0);
 
     UserDetails expectedResponse = new UserDetails();
 
-    when(userService.getUsers(providerId, pageable)).thenReturn(expectedResponse);
+    when(userService.getUsers(providerId, loginId, pageable)).thenReturn(expectedResponse);
 
-    ResponseEntity<UserDetails> responseEntity = userController.getUsers(providerId, pageable);
+    ResponseEntity<UserDetails> responseEntity =
+        userController.getUsers(providerId, loginId, pageable);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     assertEquals(expectedResponse, responseEntity.getBody());
+  }
+
+  @Test
+  public void getUserByLoginId_isOk() throws Exception {
+    String loginId = "12345";
+
+    UserDetail userDetail = new UserDetail();
+    userDetail.setLoginId(loginId);
+
+    when(userService.getUserByLoginId(loginId)).thenReturn(Optional.of(userDetail));
+
+    this.mockMvc
+        .perform(get("/users/lookup").param("login-id", loginId))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void getUserByLoginId_notFound() throws Exception {
+    String loginId = "12346";
+
+    when(userService.getUserByLoginId(loginId)).thenReturn(Optional.empty());
+
+    this.mockMvc
+        .perform(get("/users/lookup").param("login-id", loginId))
+        .andDo(print())
+        .andExpect(status().isNotFound());
   }
 }

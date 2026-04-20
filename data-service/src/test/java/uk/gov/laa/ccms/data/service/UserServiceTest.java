@@ -2,6 +2,7 @@ package uk.gov.laa.ccms.data.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -87,8 +88,32 @@ class UserServiceTest {
     when(userRepository.findByFirmsId(firm.getId(), pageable)).thenReturn(expectedPage);
     when(userMapper.toUserDetails(expectedPage)).thenReturn(expectedResponse);
 
-    UserDetails actualResponse = userService.getUsers(firm.getId(), pageable);
+    UserDetails actualResponse = userService.getUsers(firm.getId(), null, pageable);
 
     assertEquals(expectedResponse, actualResponse);
+  }
+
+  @Test
+  void getUsers_filtersByLoginIdWhenSupplied() {
+    Firm firm = new Firm();
+    firm.setId(1);
+
+    User user = new User();
+    user.setLoginId("test-login");
+    user.setFirms(new ArrayList<>());
+    user.getFirms().add(firm);
+
+    Pageable pageable = Pageable.ofSize(10).withPage(0);
+    Page<User> expectedPage = new PageImpl<>(Collections.singletonList(user));
+    UserDetails expectedResponse = new UserDetails();
+
+    when(userRepository.findByFirmsIdAndLoginId(firm.getId(), user.getLoginId(), pageable))
+        .thenReturn(expectedPage);
+    when(userMapper.toUserDetails(expectedPage)).thenReturn(expectedResponse);
+
+    UserDetails actualResponse = userService.getUsers(firm.getId(), user.getLoginId(), pageable);
+
+    assertEquals(expectedResponse, actualResponse);
+    verify(userRepository).findByFirmsIdAndLoginId(firm.getId(), user.getLoginId(), pageable);
   }
 }

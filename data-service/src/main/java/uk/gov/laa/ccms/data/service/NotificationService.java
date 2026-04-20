@@ -19,6 +19,7 @@ import uk.gov.laa.ccms.data.mapper.NotificationsMapper;
 import uk.gov.laa.ccms.data.model.Notification;
 import uk.gov.laa.ccms.data.model.NotificationSummary;
 import uk.gov.laa.ccms.data.model.Notifications;
+import uk.gov.laa.ccms.data.model.UserDetail;
 import uk.gov.laa.ccms.data.repository.NotificationCountRepository;
 import uk.gov.laa.ccms.data.repository.NotificationRepository;
 import uk.gov.laa.ccms.data.repository.NotificationSearchRepository;
@@ -49,15 +50,17 @@ public class NotificationService {
   /**
    * Retrieves the summary of notifications for a specific user.
    *
-   * @param loginId the unique identifier of the user for whom to retrieve the notification summary
+   * @param userId the unique identifier of the user for whom to retrieve the notification summary
    * @return a NotificationSummary object representing the summary of notifications for the
    *     specified user
    */
-  public Optional<NotificationSummary> getUserNotificationSummary(String loginId) {
-    // Check if user exists
-    if (userService.existsUserById(loginId)) {
+  public Optional<NotificationSummary> getUserNotificationSummary(Integer userId) {
+    // Load user
+    Optional<UserDetail> byUserId = userService.getByUserId(userId);
+
+    if (byUserId.isPresent()) {
       List<NotificationCount> allByIdUserLoginId =
-          notificationCountRepository.findAllByIdUserLoginId(loginId);
+          notificationCountRepository.findAllByIdUserLoginId(byUserId.get().getLoginId());
       return Optional.ofNullable(
           notificationSummaryMapper.toNotificationSummary(allByIdUserLoginId));
     }

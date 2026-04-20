@@ -100,14 +100,14 @@ public class NotificationsController implements NotificationsApi {
   /**
    * Retrieves a summary of user notifications for the specified login ID.
    *
-   * @param loginId the login ID of the user for whom the notification summary is to be retrieved
+   * @param userId the user ID of the user for whom the notification summary is to be retrieved
    * @return a {@code ResponseEntity} containing the {@code NotificationSummary} if found, or a
    *     {@code ResponseEntity} with HTTP status 404 if no summary is available
    */
   @Override
-  public ResponseEntity<NotificationSummary> getUserNotificationSummary(String loginId) {
+  public ResponseEntity<NotificationSummary> getUserNotificationSummary(Integer userId) {
     return notificationService
-        .getUserNotificationSummary(loginId)
+        .getUserNotificationSummary(userId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

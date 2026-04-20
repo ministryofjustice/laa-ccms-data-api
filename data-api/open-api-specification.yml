@@ -3,19 +3,49 @@ info:
   title: 'laa-ccms-data-api'
   version: '1.0.0'
 paths:
-  /users/{login-id}:
+  /users/lookup:
+    get:
+      tags:
+        - users
+      summary: 'Lookup Users'
+      operationId: 'lookupUsers'
+      parameters:
+        - name: 'login-id'
+          in: 'query'
+          required: true
+          schema:
+            type: 'string'
+            example: 'foo@bar.com'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userDetail"
+        '400':
+          description: 'Bad request'
+        '401':
+          description: 'Unauthorized'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'Not found'
+        '500':
+          description: 'Internal server error'
+  /users/{user-id}:
     get:
       tags:
         - users
       summary: 'Get User'
       operationId: 'getUser'
       parameters:
-        - name: 'login-id'
+        - name: 'user-id'
           in: 'path'
           required: true
           schema:
-            type: 'string'
-            example: 'abc123'
+            type: 'integer'
+            example: '123456789'
       responses:
         '200':
           description: 'Successful operation'
@@ -47,6 +77,12 @@ paths:
           schema:
             type: 'integer'
             example: '123'
+        - name: 'login-id'
+          in: 'query'
+          required: false
+          schema:
+            type: 'string'
+            example: 'AUSER'
       responses:
         '200':
           description: 'Successful operation'
@@ -64,19 +100,19 @@ paths:
           description: 'Not found'
         '500':
           description: 'Internal server error'
-  /users/{login-id}/notifications/summary:
+  /users/{user-id}/notifications/summary:
     get:
       tags:
         - notifications
       summary: 'Get User Notification Summary'
       operationId: 'getUserNotificationSummary'
       parameters:
-        - name: 'login-id'
+        - name: 'user-id'
           in: 'path'
           required: true
           schema:
-            type: 'string'
-            example: 'abc123'
+            type: 'integer'
+            example: '12345678'
       responses:
         '200':
           description: 'Successful operation'

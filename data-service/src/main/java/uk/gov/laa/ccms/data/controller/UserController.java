@@ -33,9 +33,23 @@ public class UserController implements UsersApi {
    * @return ResponseEntity with the UserDetails if found, or ResponseEntity.notFound() if not found
    */
   @Override
-  public ResponseEntity<UserDetail> getUser(String loginId) {
+  public ResponseEntity<UserDetail> lookupUsers(String loginId) {
     return userService
-        .getUser(loginId)
+        .getUserByLoginId(loginId)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  /**
+   * Retrieves a user by their login ID.
+   *
+   * @param userId the user ID of the user
+   * @return ResponseEntity with the UserDetails if found, or ResponseEntity.notFound() if not found
+   */
+  @Override
+  public ResponseEntity<UserDetail> getUser(Integer userId) {
+    return userService
+        .getByUserId(userId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -44,10 +58,12 @@ public class UserController implements UsersApi {
    * Retrieves a Page of Users by their related providerId.
    *
    * @param providerId the related provider ID of the user
+   * @param loginId the optional login ID of the user
    * @return ResponseEntity containing a UserDetails.
    */
   @Override
-  public ResponseEntity<UserDetails> getUsers(Integer providerId, Pageable pageable) {
-    return ResponseEntity.ok(userService.getUsers(providerId, pageable));
+  public ResponseEntity<UserDetails> getUsers(
+      Integer providerId, String loginId, Pageable pageable) {
+    return ResponseEntity.ok(userService.getUsers(providerId, loginId, pageable));
   }
 }

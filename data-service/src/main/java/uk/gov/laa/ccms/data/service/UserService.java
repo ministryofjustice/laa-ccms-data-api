@@ -1,5 +1,6 @@
 package uk.gov.laa.ccms.data.service;
 
+import io.micrometer.common.util.StringUtils;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,18 @@ public class UserService extends AbstractEbsDataService {
   private final UserMapper userMapper;
 
   /**
+   * Get a single User based on its user id.
+   *
+   * @param userId = the id of the User.
+   * @return Optional UserDetail.
+   */
+  @Transactional(readOnly = true)
+  public Optional<UserDetail> getByUserId(Integer userId) {
+
+    return userRepository.findByUserId(userId).map(userMapper::toUserDetail);
+  }
+
+  /**
    * Get a single User based on its id.
    *
    * @param id = the id of the User.
@@ -41,6 +54,18 @@ public class UserService extends AbstractEbsDataService {
   public Optional<UserDetail> getUser(String id) {
 
     return userRepository.findById(id).map(userMapper::toUserDetail);
+  }
+
+  /**
+   * Get a single User based on its id.
+   *
+   * @param loginId = the id of the User.
+   * @return Optional UserDetail.
+   */
+  @Transactional(readOnly = true)
+  public Optional<UserDetail> getUserByLoginId(String loginId) {
+
+    return userRepository.findByLoginId(loginId).map(userMapper::toUserDetail);
   }
 
   /**
@@ -54,14 +79,28 @@ public class UserService extends AbstractEbsDataService {
   }
 
   /**
+   * Returns true If user exists.
+   *
+   * @param userId = the id of the User.
+   * @return boolean
+   */
+  public boolean existsUserByUserId(Integer userId) {
+    return userRepository.existsUserByUserId(userId);
+  }
+
+  /**
    * Get a UserDetails containing a page of BaseUser objects, based on the supplied search criteria.
    *
    * @param providerId - the related providerId for the User.
+   * @param loginId - optional login id filter.
    * @param pageable - the pageable settings.
    * @return UserDetails containing a page of BaseUser.
    */
-  public UserDetails getUsers(Integer providerId, Pageable pageable) {
-    Page<User> users = userRepository.findByFirmsId(providerId, pageable);
+  public UserDetails getUsers(Integer providerId, String loginId, Pageable pageable) {
+    Page<User> users =
+        StringUtils.isBlank(loginId)
+            ? userRepository.findByFirmsId(providerId, pageable)
+            : userRepository.findByFirmsIdAndLoginId(providerId, loginId, pageable);
     return userMapper.toUserDetails(users);
   }
 }
