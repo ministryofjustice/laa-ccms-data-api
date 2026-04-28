@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Immutable;
 
 /**
@@ -59,7 +60,7 @@ public class ClientDetail {
   private String maritalStatus;
 
   @Lob
-  @Column(name = "ADDRESS", columnDefinition = "CLOB")
+  @Formula("XmlType.getClobVal(ADDRESS)")
   private String address;
 
   @Column(name = "CORRESPONDENCE_METHOD", length = 150)

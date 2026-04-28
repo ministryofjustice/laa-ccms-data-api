@@ -26,16 +26,20 @@ public interface ClientDetailsMapper {
    * @return a {@link ClientSummary} object with mapped properties
    */
   @Mapping(
-      target = "postalCode",
-      expression =
-          "java(clientDetail.getAddress() != null ? "
-              + "clientDetail.getAddress().replaceAll(\".*<PostalCode>(.*?)</PostalCode>"
-              + ".*\", \"$1\") : \"\")")
+      target = "postalCode", expression = "java(extractPostalCode(clientDetail.getAddress()))")
   @Mapping(target = "homeOfficeReference", source = "homeOfficeNumber")
   @Mapping(
       target = "fullName",
       expression = "java(clientDetail.getFirstName() + ' ' + clientDetail.getSurname())")
   ClientSummary mapToClientSummary(ClientDetail clientDetail);
+
+  default String extractPostalCode(String addressXml) {
+    if (addressXml == null || addressXml.isBlank()) {
+      return "";
+    }
+
+    return addressXml.replaceAll("(?s).*<PostalCode>(.*?)</PostalCode>.*", "$1");
+  }
 
   /**
    * Maps the given pageable search results of {@link ClientDetail} entities into a {@link
