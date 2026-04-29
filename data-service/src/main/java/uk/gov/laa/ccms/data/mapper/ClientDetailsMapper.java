@@ -25,17 +25,26 @@ public interface ClientDetailsMapper {
    * @param clientDetail the {@link ClientDetail} instance to be mapped
    * @return a {@link ClientSummary} object with mapped properties
    */
-  @Mapping(
-      target = "postalCode",
-      expression =
-          "java(clientDetail.getAddress() != null ? "
-              + "clientDetail.getAddress().replaceAll(\".*<PostalCode>(.*?)</PostalCode>"
-              + ".*\", \"$1\") : \"\")")
+  @Mapping(target = "postalCode", expression = "java(extractPostalCode(clientDetail.getAddress()))")
   @Mapping(target = "homeOfficeReference", source = "homeOfficeNumber")
   @Mapping(
       target = "fullName",
       expression = "java(clientDetail.getFirstName() + ' ' + clientDetail.getSurname())")
   ClientSummary mapToClientSummary(ClientDetail clientDetail);
+
+  /**
+   * Extracts the postal address from the client address XML.
+   *
+   * @param addressXml the address XML from EBS
+   * @return the postal code from the address provided.
+   */
+  default String extractPostalCode(String addressXml) {
+    if (addressXml == null || addressXml.isBlank()) {
+      return "";
+    }
+
+    return addressXml.replaceAll("(?s).*<PostalCode>(.*?)</PostalCode>.*", "$1");
+  }
 
   /**
    * Maps the given pageable search results of {@link ClientDetail} entities into a {@link
