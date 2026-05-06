@@ -28,20 +28,8 @@ import org.hibernate.annotations.Immutable;
 public class CaseSearch {
 
   @Id
-  @Column(name = "CASE_PARTY_ID", nullable = false, precision = 15, scale = 0)
-  private long casePartyId;
-
-  @Column(name = "APP_OR_CERT_SR_ID")
-  private Long appOrCertSrId;
-
   @Column(name = "LSC_CASE_REFERENCE", nullable = false, length = 360)
   private String lscCaseReference;
-
-  @Column(name = "CIS_CASE_REFERENCE", length = 150)
-  private String cisCaseReference;
-
-  @Column(name = "CLIENT_PARTY_ID", precision = 15, scale = 0)
-  private Long clientPartyId;
 
   @Column(name = "PERSON_FIRST_NAME", length = 150)
   private String personFirstName;

@@ -30,7 +30,7 @@ public interface CaseSearchMapper {
   @Mapping(target = "feeEarnerName", source = "feeEarner")
   @Mapping(target = "caseStatusDisplay", source = "displayCaseStatus")
   @Mapping(target = "categoryOfLaw", source = "categoryOfLawDescription")
-  @Mapping(target = "client.clientReferenceNumber", source = "clientPartyId")
+  @Mapping(target = "client.clientReferenceNumber", ignore = true)
   @Mapping(target = "client.firstName", source = "personFirstName")
   @Mapping(target = "client.surname", source = "personLastName")
   CaseSummary toCaseSummary(CaseSearch search);
