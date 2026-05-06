@@ -66,11 +66,7 @@ class CaseSearchMapperImplTest {
 
   private static CaseSearch getCaseOne() {
     return CaseSearch.builder()
-        .casePartyId(1L)
-        .appOrCertSrId(2L)
         .lscCaseReference("3")
-        .cisCaseReference("4")
-        .clientPartyId(5L)
         .personFirstName("First")
         .personLastName("Last")
         .providerCaseReference("provCaseRef")
@@ -86,11 +82,7 @@ class CaseSearchMapperImplTest {
 
   private static CaseSearch getCaseTwo() {
     return CaseSearch.builder()
-        .casePartyId(10L)
-        .appOrCertSrId(20L)
         .lscCaseReference("30")
-        .cisCaseReference("40")
-        .clientPartyId(50L)
         .personFirstName("First Two")
         .personLastName("Last Two")
         .providerCaseReference("provCaseRef Two")
