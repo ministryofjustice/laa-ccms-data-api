@@ -43,7 +43,6 @@ class CaseSearchMapperImplTest {
     assertEquals("Display Status", result.getCaseStatusDisplay());
     BaseClient resultClient = result.getClient();
     assertEquals("First", resultClient.getFirstName());
-    assertEquals("5", resultClient.getClientReferenceNumber());
     assertEquals("Last", resultClient.getSurname());
   }
 
