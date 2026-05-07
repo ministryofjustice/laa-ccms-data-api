@@ -40,22 +40,19 @@ public class CaseSearch {
   @Column(name = "PROVIDER_CASE_REFERENCE", length = 150)
   private String providerCaseReference;
 
-  @Column(name = "PROVIDER_FIRM_PARTY_ID", precision = 15, scale = 0)
+  @Column(name = "FIRM_PARTY_ID", precision = 15, scale = 0)
   private Long providerFirmPartyId;
 
-  @Column(name = "PROVIDER_OFFICE_PARTY_ID", precision = 15, scale = 0)
+  @Column(name = "FIRM_OFFICE_ID", precision = 15, scale = 0)
   private Long providerOfficePartyId;
 
-  @Column(name = "FEE_EARNER_PARTY_ID", precision = 15, scale = 0)
+  @Column(name = "FEE_EARNER_ID", precision = 15, scale = 0)
   private Long feeEarnerPartyId;
 
-  @Column(name = "FEE_EARNER", length = 360)
+  @Column(name = "FEE_EARNER_NAME", length = 360)
   private String feeEarner;
 
-  @Column(name = "CATEGORY_OF_LAW", length = 150)
-  private String categoryOfLaw;
-
-  @Column(name = "CATEGORY_OF_LAW_DESC", length = 80)
+  @Column(name = "CATEGORY_OF_LAW_DESCRIPTION", length = 80)
   private String categoryOfLawDescription;
 
   @Column(name = "ACTUAL_CASE_STATUS", length = 30)
