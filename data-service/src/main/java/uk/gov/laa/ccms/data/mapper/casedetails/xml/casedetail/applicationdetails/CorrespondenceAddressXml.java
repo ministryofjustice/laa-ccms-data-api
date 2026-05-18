@@ -20,34 +20,32 @@ import uk.gov.laa.ccms.data.mapper.casedetails.xml.CaseDetailXmlNamespaces;
 @NoArgsConstructor
 public final class CorrespondenceAddressXml {
 
-  @JacksonXmlProperty(localName = "AddressId", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "AddressID", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressId;
 
-  @JacksonXmlProperty(
-      localName = "HouseOrTitle",
-      namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
+  @JacksonXmlProperty(localName = "House", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String houseOrTitle;
 
   @JacksonXmlProperty(localName = "CareOfName", namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String careOfName;
 
   @JacksonXmlProperty(
-      localName = "AddressLineOne",
+      localName = "AddressLine1",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLineOne;
 
   @JacksonXmlProperty(
-      localName = "AddressLineTwo",
+      localName = "AddressLine2",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLineTwo;
 
   @JacksonXmlProperty(
-      localName = "AddressLineThree",
+      localName = "AddressLine3",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLineThree;
 
   @JacksonXmlProperty(
-      localName = "AddressLineFour",
+      localName = "AddressLine4",
       namespace = CaseDetailXmlNamespaces.CASE_NAMESPACE)
   private String addressLineFour;
 
